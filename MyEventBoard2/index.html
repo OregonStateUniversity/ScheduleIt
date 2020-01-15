@@ -16,18 +16,8 @@
   <!-- Your custom styles (optional) -->
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="indexStyles.css">
-  
-  <!-- jQuery -->
-  <script type="text/javascript" src="js/jquery.min.js"></script>
-  <!-- Bootstrap tooltips -->
-  <script type="text/javascript" src="js/popper.min.js"></script>
-  <!-- Bootstrap core JavaScript -->
-  <script type="text/javascript" src="js/bootstrap.min.js"></script>
-  <!-- MDB core JavaScript -->
-  <script type="text/javascript" src="js/mdb.min.js"></script>
-  <!-- Your custom scripts (optional) -->
-  <script type="text/javascript"></script>
-  
+ 
+
 </head>
 
 
@@ -38,11 +28,10 @@
 
 <!-- Website Header -------------------------------------->
 <div class="header">
+  <img src="beaver-logo.png" width="75px" height="75px"></img>
   <a href="#default" class="logo">MyEventBoard</a>
   <div class="header-right">
     <a class="active" href="#home">Home</a>
-    <a href="#contact">Contact</a>
-    <a href="#about">About</a>
   </div>
 </div>
 
@@ -106,36 +95,32 @@
  
 <div class="container objectSpace">
  
+
  
  <div class="container entryField1">
- 
- 
+
 		<text class="requiredSign"> * </text>
-		<input type="text" " class="form-control mb-4"   placeholder="Event Name">
+		<input type="text" class="form-control mb-4"   placeholder="Event Name">
 		<div class="form-group">
   <label for="exampleFormControlTextarea2">Event Description</label>
   <textarea class="form-control rounded-0" id="exampleFormControlTextarea2" rows="3"></textarea>
 </div>
 		<text class="requiredSign"> * </text>
-		<input type="text" " class="form-control mb-4"   placeholder="Location">
-		<input type="number" " class="form-control mb-4" placeholder="Capacity Per Timeslot (default: 1)">
+		<input type="text" class="form-control mb-4"   placeholder="Location">
+		<input type="number" class="form-control mb-4" placeholder="Capacity Per Timeslot (default: 1)">
  
  
- 
-	<div class="calendar calendar-first" id="calendar_first">
-    <div class="calendar_header">
-        <button class="switch-month switch-left"> <i class="fa fa-chevron-left"></i></button>
-         <h2></h2>
-        <button class="switch-month switch-right"> <i class="fa fa-chevron-right"></i></button>
-    </div>
-    <div class="calendar_weekdays"></div>
-    <div class="calendar_content"></div>
-</div>
-
 <button type="button" class="btn btn-primary" id="field1to2">Next</button>
 </div>
 
 <div class="container entryField2">
+
+
+<!-- Date Picker   Source: https://jsfiddle.net/christianklemp_imt/b20paum2/ -->
+<div class="input-group date form-group" id="datepicker">
+    <input type="text" class="form-control" id="Dates" name="Dates" placeholder="Select days" required />
+    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i><span class="count"></span></span>
+</div>
 
  <select class="browser-default custom-select">
   <option selected>Enter Slot Duration</option>
@@ -143,6 +128,8 @@
   <option value="2">30 Minutes</option>
   <option value="3">1 Hour</option>
 </select>
+
+<button type="button" class="btn btn-primary" id="addColumn">Add</button>
 
 <table class="table-sm table-bordered timeSelector table-hover" id="timeSelector">
   <thead>
@@ -379,6 +366,22 @@
  </div>
  
 
+ 
+   <!-- jQuery -->
+  <script type="text/javascript" src="js/jquery.min.js"></script>
+  <!-- Bootstrap tooltips -->
+  <script type="text/javascript" src="js/popper.min.js"></script>
+  <!-- Bootstrap core JavaScript -->
+  <script type="text/javascript" src="js/bootstrap.min.js"></script>
+  <!-- MDB core JavaScript -->
+  <script type="text/javascript" src="js/mdb.min.js"></script>
+  <!-- Your custom scripts (optional) -->
+  <script type="text/javascript"></script>
+  <!-- Include Date Range Picker -->
+  
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
+ 
   <!-- End your project here-->
 
 </body>
@@ -430,403 +433,32 @@ window.onload = function(){
     });
  </script>
  
- <script>
-$(document).ready(function () {
-    function c(passed_month, passed_year, calNum) {
-        var calendar = calNum == 0 ? calendars.cal1 : calendars.cal2;
-        makeWeek(calendar.weekline);
-        calendar.datesBody.empty();
-        var calMonthArray = makeMonthArray(passed_month, passed_year);
-        var r = 0;
-        var u = false;
-        while (!u) {
-            if (daysArray[r] == calMonthArray[0].weekday) {
-                u = true
-            } else {
-                calendar.datesBody.append('<div class="blank"></div>');
-                r++;
-            }
-        }
-        for (var cell = 0; cell < 42 - r; cell++) { // 42 date-cells in calendar
-            if (cell >= calMonthArray.length) {
-                calendar.datesBody.append('<div class="blank"></div>');
-            } else {
-                var shownDate = calMonthArray[cell].day;
-                var iter_date = new Date(passed_year, passed_month, shownDate);
-                if (
-                (
-                (shownDate != today.getDate() && passed_month == today.getMonth()) || passed_month != today.getMonth()) && iter_date < today) {
-                    var m = '<div class="past-date">';
-                } else {
-                    var m = checkToday(iter_date) ? '<div class="today">' : "<div>";
-                }
-                calendar.datesBody.append(m + shownDate + "</div>");
-            }
-        }
 
-        var color = "#444444";
-        calendar.calHeader.find("h2").text(i[passed_month] + " " + passed_year);
-        calendar.weekline.find("div").css("color", color);
-        calendar.datesBody.find(".today").css("color", "#87b633");
-
-        // find elements (dates) to be clicked on each time
-        // the calendar is generated
-        var clicked = false;
-        selectDates(selected);
-
-        clickedElement = calendar.datesBody.find('div');
-        clickedElement.on("click", function () {
-            clicked = $(this);
-            var whichCalendar = calendar.name;
-
-            if (firstClick && secondClick) {
-                thirdClicked = getClickedInfo(clicked, calendar);
-                var firstClickDateObj = new Date(firstClicked.year,
-                firstClicked.month,
-                firstClicked.date);
-                var secondClickDateObj = new Date(secondClicked.year,
-                secondClicked.month,
-                secondClicked.date);
-                var thirdClickDateObj = new Date(thirdClicked.year,
-                thirdClicked.month,
-                thirdClicked.date);
-                if (secondClickDateObj > thirdClickDateObj && thirdClickDateObj > firstClickDateObj) {
-                    secondClicked = thirdClicked;
-                    // then choose dates again from the start :)
-                    bothCals.find(".calendar_content").find("div").each(function () {
-                        $(this).removeClass("selected");
-                    });
-                    selected = {};
-                    selected[firstClicked.year] = {};
-                    selected[firstClicked.year][firstClicked.month] = [firstClicked.date];
-                    selected = addChosenDates(firstClicked, secondClicked, selected);
-                } else { // reset clicks
-                    selected = {};
-                    firstClicked = [];
-                    secondClicked = [];
-                    firstClick = false;
-                    secondClick = false;
-                    bothCals.find(".calendar_content").find("div").each(function () {
-                        $(this).removeClass("selected");
-                    });
-                }
-            }
-            if (!firstClick) {
-                firstClick = true;
-                firstClicked = getClickedInfo(clicked, calendar);
-                selected[firstClicked.year] = {};
-                selected[firstClicked.year][firstClicked.month] = [firstClicked.date];
-            } else {
-                secondClick = true;
-                secondClicked = getClickedInfo(clicked, calendar);
-
-                // what if second clicked date is before the first clicked?
-                var firstClickDateObj = new Date(firstClicked.year,
-                firstClicked.month,
-                firstClicked.date);
-                var secondClickDateObj = new Date(secondClicked.year,
-                secondClicked.month,
-                secondClicked.date);
-
-                if (firstClickDateObj > secondClickDateObj) {
-
-                    var cachedClickedInfo = secondClicked;
-                    secondClicked = firstClicked;
-                    firstClicked = cachedClickedInfo;
-                    selected = {};
-                    selected[firstClicked.year] = {};
-                    selected[firstClicked.year][firstClicked.month] = [firstClicked.date];
-
-                } else if (firstClickDateObj.getTime() == secondClickDateObj.getTime()) {
-                    selected = {};
-                    firstClicked = [];
-                    secondClicked = [];
-                    firstClick = false;
-                    secondClick = false;
-                    $(this).removeClass("selected");
-                }
-
-
-                // add between dates to [selected]
-                selected = addChosenDates(firstClicked, secondClicked, selected);
-            }
-            selectDates(selected);
-        });
-
-    }
-
-    function selectDates(selected) {
-        if (!$.isEmptyObject(selected)) {
-            var dateElements1 = datesBody1.find('div');
-            var dateElements2 = datesBody2.find('div');
-
-            function highlightDates(passed_year, passed_month, dateElements) {
-                if (passed_year in selected && passed_month in selected[passed_year]) {
-                    var daysToCompare = selected[passed_year][passed_month];
-                    for (var d in daysToCompare) {
-                        dateElements.each(function (index) {
-                            if (parseInt($(this).text()) == daysToCompare[d]) {
-                                $(this).addClass('selected');
-                            }
-                        });
-                    }
-
-                }
-            }
-
-            highlightDates(year, month, dateElements1);
-            highlightDates(nextYear, nextMonth, dateElements2);
-        }
-    }
-
-    function makeMonthArray(passed_month, passed_year) { // creates Array specifying dates and weekdays
-        var e = [];
-        for (var r = 1; r < getDaysInMonth(passed_year, passed_month) + 1; r++) {
-            e.push({
-                day: r,
-                // Later refactor -- weekday needed only for first week
-                weekday: daysArray[getWeekdayNum(passed_year, passed_month, r)]
-            });
-        }
-        return e;
-    }
-
-    function makeWeek(week) {
-        week.empty();
-        for (var e = 0; e < 7; e++) {
-            week.append("<div>" + daysArray[e].substring(0, 3) + "</div>")
-        }
-    }
-
-    function getDaysInMonth(currentYear, currentMon) {
-        return (new Date(currentYear, currentMon + 1, 0)).getDate();
-    }
-
-    function getWeekdayNum(e, t, n) {
-        return (new Date(e, t, n)).getDay();
-    }
-
-    function checkToday(e) {
-        var todayDate = today.getFullYear() + '/' + (today.getMonth() + 1) + '/' + today.getDate();
-        var checkingDate = e.getFullYear() + '/' + (e.getMonth() + 1) + '/' + e.getDate();
-        return todayDate == checkingDate;
-
-    }
-
-    function getAdjacentMonth(curr_month, curr_year, direction) {
-        var theNextMonth;
-        var theNextYear;
-        if (direction == "next") {
-            theNextMonth = (curr_month + 1) % 12;
-            theNextYear = (curr_month == 11) ? curr_year + 1 : curr_year;
-        } else {
-            theNextMonth = (curr_month == 0) ? 11 : curr_month - 1;
-            theNextYear = (curr_month == 0) ? curr_year - 1 : curr_year;
-        }
-        return [theNextMonth, theNextYear];
-    }
-
-    function b() {
-        today = new Date;
-        year = today.getFullYear();
-        month = today.getMonth();
-        var nextDates = getAdjacentMonth(month, year, "next");
-        nextMonth = nextDates[0];
-        nextYear = nextDates[1];
-    }
-
-    var e = 480;
-
-    var today;
-    var year,
-    month,
-    nextMonth,
-    nextYear;
-
-    var r = [];
-    var i = [
-        "JANUARY",
-        "FEBRUARY",
-        "MARCH",
-        "APRIL",
-        "MAY",
-        "JUNE",
-        "JULY",
-        "AUGUST",
-        "SEPTEMBER",
-        "OCTOBER",
-        "NOVEMBER",
-        "DECEMBER"];
-    var daysArray = [
-        "Sunday",
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday",
-        "Saturday"];
-
-    var cal1 = $("#calendar_first");
-    var calHeader1 = cal1.find(".calendar_header");
-    var weekline1 = cal1.find(".calendar_weekdays");
-    var datesBody1 = cal1.find(".calendar_content");
-
-    var cal2 = $("#calendar_second");
-    var calHeader2 = cal2.find(".calendar_header");
-    var weekline2 = cal2.find(".calendar_weekdays");
-    var datesBody2 = cal2.find(".calendar_content");
-
-    var bothCals = $(".calendar");
-
-    var switchButton = bothCals.find(".calendar_header").find('.switch-month');
-
-    var calendars = {
-        "cal1": {
-            "name": "first",
-                "calHeader": calHeader1,
-                "weekline": weekline1,
-                "datesBody": datesBody1
-        },
-            "cal2": {
-            "name": "second",
-                "calHeader": calHeader2,
-                "weekline": weekline2,
-                "datesBody": datesBody2
-        }
-    }
-
-
-    var clickedElement;
-    var firstClicked,
-    secondClicked,
-    thirdClicked;
-    var firstClick = false;
-    var secondClick = false;
-    var selected = {};
-
-    b();
-    c(month, year, 0);
-    c(nextMonth, nextYear, 1);
-    switchButton.on("click", function () {
-        var clicked = $(this);
-        var generateCalendars = function (e) {
-            var nextDatesFirst = getAdjacentMonth(month, year, e);
-            var nextDatesSecond = getAdjacentMonth(nextMonth, nextYear, e);
-            month = nextDatesFirst[0];
-            year = nextDatesFirst[1];
-            nextMonth = nextDatesSecond[0];
-            nextYear = nextDatesSecond[1];
-
-            c(month, year, 0);
-            c(nextMonth, nextYear, 1);
-        };
-        if (clicked.attr("class").indexOf("left") != -1) {
-            generateCalendars("previous");
-        } else {
-            generateCalendars("next");
-        }
-        clickedElement = bothCals.find(".calendar_content").find("div");
+<script>
+// Source: https://jsfiddle.net/christianklemp_imt/b20paum2/
+$(document).ready(function() {
+    $('#datepicker').datepicker({
+        startDate: new Date(),
+        multidate: true,
+        format: "dd/mm/yyyy",
+        daysOfWeekHighlighted: "5,6",
+        datesDisabled: ['31/08/2017'],
+        language: 'en'
+    }).on('changeDate', function(e) {
+        // `e` here contains the extra attributes
+        $(this).find('.input-group-addon .count').text(' ' + e.dates.length);
     });
-
-
-    //  Click picking stuff
-    function getClickedInfo(element, calendar) {
-        var clickedInfo = {};
-        var clickedCalendar,
-        clickedMonth,
-        clickedYear;
-        clickedCalendar = calendar.name;
-        clickedMonth = clickedCalendar == "first" ? month : nextMonth;
-        clickedYear = clickedCalendar == "first" ? year : nextYear;
-        clickedInfo = {
-            "calNum": clickedCalendar,
-                "date": parseInt(element.text()),
-                "month": clickedMonth,
-                "year": clickedYear
-        }
-        return clickedInfo;
-    }
-
-
-    // Finding between dates MADNESS. Needs refactoring and smartening up :)
-    function addChosenDates(firstClicked, secondClicked, selected) {
-        if (secondClicked.date > firstClicked.date || secondClicked.month > firstClicked.month || secondClicked.year > firstClicked.year) {
-
-            var added_year = secondClicked.year;
-            var added_month = secondClicked.month;
-            var added_date = secondClicked.date;
-
-            if (added_year > firstClicked.year) {
-                // first add all dates from all months of Second-Clicked-Year
-                selected[added_year] = {};
-                selected[added_year][added_month] = [];
-                for (var i = 1;
-                i <= secondClicked.date;
-                i++) {
-                    selected[added_year][added_month].push(i);
-                }
-
-                added_month = added_month - 1;
-                while (added_month >= 0) {
-                    selected[added_year][added_month] = [];
-                    for (var i = 1;
-                    i <= getDaysInMonth(added_year, added_month);
-                    i++) {
-                        selected[added_year][added_month].push(i);
-                    }
-                    added_month = added_month - 1;
-                }
-
-                added_year = added_year - 1;
-                added_month = 11; // reset month to Dec because we decreased year
-                added_date = getDaysInMonth(added_year, added_month); // reset date as well
-
-                // Now add all dates from all months of inbetween years
-                while (added_year > firstClicked.year) {
-                    selected[added_year] = {};
-                    for (var i = 0; i < 12; i++) {
-                        selected[added_year][i] = [];
-                        for (var d = 1; d <= getDaysInMonth(added_year, i); d++) {
-                            selected[added_year][i].push(d);
-                        }
-                    }
-                    added_year = added_year - 1;
-                }
-            }
-
-            if (added_month > firstClicked.month) {
-                if (firstClicked.year == secondClicked.year) {
-                    selected[added_year][added_month] = [];
-                    for (var i = 1;
-                    i <= secondClicked.date;
-                    i++) {
-                        selected[added_year][added_month].push(i);
-                    }
-                    added_month = added_month - 1;
-                }
-                while (added_month > firstClicked.month) {
-                    selected[added_year][added_month] = [];
-                    for (var i = 1;
-                    i <= getDaysInMonth(added_year, added_month);
-                    i++) {
-                        selected[added_year][added_month].push(i);
-                    }
-                    added_month = added_month - 1;
-                }
-                added_date = getDaysInMonth(added_year, added_month);
-            }
-
-            for (var i = firstClicked.date + 1;
-            i <= added_date;
-            i++) {
-                selected[added_year][added_month].push(i);
-            }
-        }
-        return selected;
-    }
 });
- </script>
- 
+</script>
+
+<script>
+$("#addColumn").click(function () {
+	$("tr:first").append("<th>Dummy Date</th>");
+	$("tr:not(:first)").append("<td></td>");
+    //$("tr:not(:first)").append("<td><input type='checkbox' />Sample Element</td>");
+});
+</script>
+
  <script>
 // Source: http://jsfiddle.net/few5E/
 $(function () {
