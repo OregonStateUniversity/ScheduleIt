@@ -101,6 +101,11 @@ body {
 	cursor: pointer;
 }
 
+.timeSelector tr
+{
+}
+
+
 .table-nonfluid {
    width: auto !important;
    height: auto !important;

@@ -118,214 +118,164 @@
 
 <!-- Date Picker   Source: https://jsfiddle.net/christianklemp_imt/b20paum2/ -->
 <div class="input-group date form-group" id="datepicker">
-    <input type="text" class="form-control" id="Dates" name="Dates" placeholder="Select days" required />
+    <input readonly type="text" class="form-control" id="Dates" name="Dates" placeholder="Select days" required />
     <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i><span class="count"></span></span>
 </div>
 
- <select class="browser-default custom-select">
-  <option selected>Enter Slot Duration</option>
-  <option value="1">15 Minutes</option>
-  <option value="2">30 Minutes</option>
-  <option value="3">1 Hour</option>
-</select>
 
-<button type="button" class="btn btn-primary" id="addColumn">Add</button>
+ <select class="browser-default custom-select">
+  <option selected>15 Minutes</option>
+  <option value="1">30 Minutes</option>
+  <option value="2">1 Hour </option>
+</select>
 
 <table class="table-sm table-bordered timeSelector table-hover" id="timeSelector">
   <thead>
     <tr>
       <th scope="col">7:00 AM</th>
-      <th scope="col">Duration</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <th scope="row"></th>
-      <td>0</td>
     </tr>
     <tr>
       <th scope="row"></th>
-      <td>15</td>
     </tr>
 	<tr>
       <th scope="row"></th>
-      <td>30</td>
     </tr>
 	<tr>
       <th scope="row">8:00 AM</th>
-      <td>45</td>
     </tr>
     <tr>
       <th scope="row"></th>
-      <td>60</td>
     </tr>
 	<tr>
       <th scope="row"></th>
-      <td>75</td>
     </tr>
 		<tr>
       <th scope="row"></th>
-      <td>90</td>
     </tr>
 	<tr>
       <th scope="row">9:00 AM</th>
-      <td>105</td>
     </tr>
     <tr>
       <th scope="row"></th>
-      <td>120</td>
     </tr>
 	<tr>
       <th scope="row"></th>
-      <td>135</td>
     </tr>
 	<tr>
       <th scope="row"></th>
-      <td>150</td>
     </tr>
 	<tr>
       <th scope="row">10:00 AM</th>
-      <td>165</td>
     </tr>
 	<tr>
       <th scope="row"></th>
-      <td>180</td>
     </tr>
 	<tr>
       <th scope="row"></th>
-      <td>195</td>
     </tr>
 	<tr>
       <th scope="row"></th>
-      <td>210</td>
     </tr>
 	<tr>
       <th scope="row">11:00 AM</th>
-      <td>225</td>
     </tr>
 	<tr>
       <th scope="row"></th>
-      <td>240</td>
     </tr>
 	<tr>
       <th scope="row"></th>
-      <td>255</td>
     </tr>
 	<tr>
       <th scope="row"></th>
-      <td>270</td>
     </tr>
 	<tr>
       <th scope="row">12:00 PM</th>
-      <td>285</td>
     </tr>
 	<tr>
       <th scope="row"></th>
-      <td>300</td>
     </tr>
 	<tr>
       <th scope="row"></th>
-      <td>315</td>
     </tr>
 	<tr>
       <th scope="row"></th>
-      <td>330</td>
     </tr>
 	<tr>
       <th scope="row">1:00 PM</th>
-      <td>345</td>
     </tr>
 	<tr>
       <th scope="row"></th>
-      <td>360</td>
     </tr>
 		<tr>
       <th scope="row"></th>
-      <td>375</td>
     </tr>
 	<tr>
       <th scope="row"></th>
-      <td>390</td>
     </tr>
 	<tr>
       <th scope="row">2:00 PM</th>
-      <td>405</td>
     </tr>
 	<tr>
       <th scope="row"></th>
-      <td>420</td>
     </tr>
 		<tr>
       <th scope="row"></th>
-      <td>435</td>
     </tr>
 	<tr>
       <th scope="row"></th>
-      <td>450</td>
     </tr>
 	<tr>
       <th scope="row">3:00 PM</th>
-      <td>465</td>
     </tr>
 	<tr>
       <th scope="row"></th>
-      <td>480</td>
     </tr>
 		<tr>
       <th scope="row"></th>
-      <td>495</td>
     </tr>
 	<tr>
       <th scope="row"></th>
-      <td>510</td>
     </tr>
 	<tr>
       <th scope="row">4:00 PM</th>
-      <td>525</td>
     </tr>
 	<tr>
       <th scope="row"></th>
-      <td>540</td>
     </tr>
 		<tr>
       <th scope="row"></th>
-      <td>555</td>
     </tr>
 	<tr>
       <th scope="row"></th>
-      <td>560</td>
     </tr>
 	<tr>
       <th scope="row">5:00 PM</th>
-      <td>575</td>
     </tr>
 	<tr>
       <th scope="row"></th>
-      <td>600</td>
     </tr>
 		<tr>
       <th scope="row"></th>
-      <td>615</td>
     </tr>
 	<tr>
       <th scope="row"></th>
-      <td>630</td>
     </tr>
 	<tr>
       <th scope="row">6:00 PM</th>
-      <td>645</td>
     </tr>
 	<tr>
       <th scope="row"></th>
-      <td>660</td>
     </tr>
 		<tr>
       <th scope="row"></th>
-      <td>675</td>
     </tr>
 	<tr>
       <th scope="row"></th>
-      <td>690</td>
     </tr>
 	<tr>
       <th scope="row">7:00 PM</th>
@@ -387,6 +337,7 @@
 </body>
 </html>
 
+
 <script>
 window.onload = function(){
 
@@ -440,26 +391,65 @@ $(document).ready(function() {
     $('#datepicker').datepicker({
         startDate: new Date(),
         multidate: true,
-        format: "dd/mm/yyyy",
+        format: "mm/dd/yyyy",
         daysOfWeekHighlighted: "5,6",
         datesDisabled: ['31/08/2017'],
         language: 'en'
+
     }).on('changeDate', function(e) {
         // `e` here contains the extra attributes
         $(this).find('.input-group-addon .count').text(' ' + e.dates.length);
+		addNewCol(e);
     });
+	
+
+	
 });
+
 </script>
 
 <script>
-$("#addColumn").click(function () {
-	$("tr:first").append("<th>Dummy Date</th>");
-	$("tr:not(:first)").append("<td></td>");
+function addNewCol(e)
+{
+	var dateName = e.format();
+	var newDateHeader = $('<td></td>');
+	newDateHeader.text(e.format());
+	
+	$("tr:first").append(newDateHeader);
+	
+	var newDateColumn = $('<td></td>').on('mousedown mouseover mouseup', function () 
+	{
+			var isMouseDown = false;
+		    $("#timeSelector td")
+			.mousedown(function () {
+			  isMouseDown = true;
+			  $(this).toggleClass("selected");
+			  return false; // prevent text selection
+			})
+			.mouseover(function () {
+			  if (isMouseDown) {
+				$(this).toggleClass("selected");
+			  }
+			});
+		  
+		    $(document)
+			.mouseup(function () {
+			  isMouseDown = false;
+			});
+	}
+	);
+	
+	$("tr:not(:first)").append(newDateColumn);
     //$("tr:not(:first)").append("<td><input type='checkbox' />Sample Element</td>");
-});
+}
+
+
 </script>
 
- <script>
+
+
+<script>
+ 
 // Source: http://jsfiddle.net/few5E/
 $(function () {
   var isMouseDown = false;
@@ -479,5 +469,8 @@ $(function () {
     .mouseup(function () {
       isMouseDown = false;
     });
+	
 });
+
+
 </script>
