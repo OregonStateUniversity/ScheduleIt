@@ -412,15 +412,27 @@ $(document).ready(function() {
 function addNewCol(e)
 {
 	var dateName = e.format();
-	var newDateHeader = $('<td></td>');
+	var newDateHeader = $('<th></th>');
 	newDateHeader.text(e.format());
-	
 	$("tr:first").append(newDateHeader);
 	
-	var newDateColumn = $('<td></td>').on('mousedown mouseover mouseup', function () 
-	{
-			var isMouseDown = false;
-		    $("#timeSelector td")
+	var newDateColumn = $('<td></td>');
+	$("tr:not(:first)").append(newDateColumn);
+	
+}
+</script>
+
+
+
+
+<script>
+ 
+$(function () {
+$('#timeSelector').on('mousedown', 'td', function() {
+		
+		// Source: http://jsfiddle.net/few5E/	
+		  var isMouseDown = false;
+		  $("#timeSelector td")
 			.mousedown(function () {
 			  isMouseDown = true;
 			  $(this).toggleClass("selected");
@@ -431,46 +443,12 @@ function addNewCol(e)
 				$(this).toggleClass("selected");
 			  }
 			});
-		  
-		    $(document)
+		  $(document)
 			.mouseup(function () {
 			  isMouseDown = false;
-			});
-	}
-	);
-	
-	$("tr:not(:first)").append(newDateColumn);
-    //$("tr:not(:first)").append("<td><input type='checkbox' />Sample Element</td>");
-}
-
-
-</script>
-
-
-
-<script>
- 
-// Source: http://jsfiddle.net/few5E/
-$(function () {
-  var isMouseDown = false;
-  $("#timeSelector td")
-    .mousedown(function () {
-      isMouseDown = true;
-      $(this).toggleClass("selected");
-      return false; // prevent text selection
-    })
-    .mouseover(function () {
-      if (isMouseDown) {
-        $(this).toggleClass("selected");
-      }
-    });
-  
-  $(document)
-    .mouseup(function () {
-      isMouseDown = false;
-    });
-	
+			});		
+		
+	});
 });
-
 
 </script>
