@@ -251,13 +251,11 @@
     </tr>
 	<tr>
       <th scope="row">7:00 PM</th>
-      
     </tr>
 	
-    <tr>
-    </tr>
   </tbody>
 </table>
+
 <div class="nextBackField">
 <button type="button" class="btn btn-primary nextBackField" id="field2to3">Next</button>
 <button type="button" class="btn btn-primary nextBackField" id="field2to1">Go Back</button>
@@ -362,10 +360,11 @@ window.onload = function(){
     });
  </script>
  
-
+ 
 <script>
 // Source: https://jsfiddle.net/christianklemp_imt/b20paum2/
 $(document).ready(function() {
+		
     $('#datepicker').datepicker({
         startDate: new Date(),
         multidate: true,
@@ -376,41 +375,29 @@ $(document).ready(function() {
 
     }).on('changeDate', function(e) {
         // `e` here contains the extra attributes
-
-		console.log("selected date: " + e.format());
 		
-        $(this).find('.input-group-addon .count').text(' ' + e.dates.length);
+        //$(this).find('.input-group-addon .count').text(' ' + e.dates.length);
 		
+		//Check if date exists in table
 		var hasColumn = $('#timeSelector thead th').filter(function() {
 			return this.textContent === e.format();
 		}).length > 0;
 		
 		
-		//-- check if column date exists. Add if it is. Otherwise remove it.
+		//-- check if column date exists. 
 		if (hasColumn === false && e.format() != "")
 		{
-			addNewCol(e);
+			addNewCol(e); // Add if it is. Otherwise remove it.
 		}
-		else if (hasColumn === true && e.format() != "")
+		else if (hasColumn === false && e.format() == "") // First column remove edge case
+		{
+			removeColumn();
+		}
+		else if (hasColumn === true && e.format() != "") // Remove columns
 		{	
-			
-			$( "#timeSelector thead tr th" ).each(function( index ) {
-				if (index != 0)
-				{
-					if( $(this).text() == e.format())
-					{
-						console.log("THIS: " + $(this).text());
-						console.log("EFORMAT: " + e.format());
-						console.log("INDEX: " + index);
-						//$("#timeSelector").find("th:eq(1), td:eq(1)").remove();\
-						
-						// Delete Column Here. Work In Progress
-						
-						return;
-					}					
-				}
-			});
+			removeColumn();
 		}
+
     });
 	
 
@@ -420,15 +407,58 @@ $(document).ready(function() {
 </script>
 
 <script>
+function removeColumn(){  
+			
+		var removedDate;
+		var inputString = document.getElementById('Dates').value;
+		
+			$( "#timeSelector thead tr th" ).each(function( index ) {
+				if (index != 0)
+				{
+					if (inputString.indexOf($(this).text()) >= 0)
+					{
+						// Date is still selected. Keep searching.
+					}
+					else
+					{
+
+						removedDate = $(this).text();
+						
+						index++;
+						
+						$('#timeSelector tr td:nth-child('+index+')').each(function(){
+							$(this).text("");
+							$(this).removeClass("selected");
+							$(this).remove();
+						});
+						
+						$(this).remove();
+						
+						return;
+						
+					}
+				}
+			});
+
+}
+
+</script>
+
+
+
+
+
+
+<script>
 function addNewCol(e)
 {
 		var dateName = e.format();
 		var newDateHeader = $('<th></th>');
 		newDateHeader.text(e.format());
-		$("tr:first").append(newDateHeader);
+		$("#timeSelector tr:first").append(newDateHeader);
 	
 		var newDateColumn = $('<td></td>');
-		$("tr:not(:first)").append('<td></td>');
+		$("#timeSelector tr:not(:first)").append('<td></td>');
 }
 </script>
 
@@ -443,7 +473,7 @@ $("#timeSelector").on('click mousemove mouseover mousedown', 'td', function(e) {
 					e.target.innerHTML = $(date).text() + ", " + $(time).text();
 				else
 					e.target.innerHTML = "";
-				});
+				});   
 </script>
 
 <script>
@@ -459,6 +489,7 @@ function dragTable() {
 			.mousedown(function () {
 			  isMouseDown = true;
 			  $(this).toggleClass("selected");
+			  
 			  return false; // prevent text selection
 			})
 			.mouseover(function () {
