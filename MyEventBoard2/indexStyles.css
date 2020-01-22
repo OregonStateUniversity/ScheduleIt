@@ -67,7 +67,7 @@
 
 @import url(https://fonts.googleapis.com/css?family=Muli:400, 300);
 body {
-	margin-top: 3%; 
+	margin: 0; 
 	background-color: grey;
 	padding: 0;
 	
@@ -80,14 +80,32 @@ body {
 	background-color: white;
 }
 
+.requiredSign
+{
+	color: red;
+}
+
+.entryField1
+{
+	padding: 10px;
+}
+
 .entryField2
 {
+	padding: 10px;
 	display: none;
+	
 }
 
 .entryField3
 {
+	padding: 10px;
 	display: none;
+}
+
+.nextBackField
+{
+	float: right;
 }
 
 .timeSelector
@@ -105,6 +123,11 @@ body {
 {
 }
 
+.side-bar
+{
+	margin-top: 3%;
+	padding: 10px;
+}
 
 .table-nonfluid {
    width: auto !important;
