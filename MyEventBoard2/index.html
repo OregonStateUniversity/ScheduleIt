@@ -57,6 +57,8 @@
       <div class="list-group list-group-flush">
         <a href="#" class="list-group-item list-group-item-action bg-light">My Events</a>
         <a href="#" class="list-group-item list-group-item-action bg-light">My Invites</a>
+		<a href="#" class="list-group-item list-group-item-action bg-light">Create an Event</a>
+		
       </div>
  </div>
 
@@ -67,234 +69,164 @@
 <div class="container objectSpace">
  
 <h2> Create an Event </h2>
- 
- <div class="container entryField1">
 
-		<text class="requiredSign"> * </text>
-		<input type="text" class="form-control mb-4"   placeholder="Event Name">
+
+ 
+<div class="container entryField1">
+
+	<form>
 		<div class="form-group">
-  <label for="exampleFormControlTextarea2">Event Description</label>
-  <textarea class="form-control rounded-0" id="exampleFormControlTextarea2" rows="3"></textarea>
-</div>
-		<text class="requiredSign"> * </text>
-		<input type="text" class="form-control mb-4"   placeholder="Location">
-		<input type="number" class="form-control mb-4" placeholder="Capacity Per Timeslot (default: 1)">
- 
-<div class="nextBackField">
-<button type="button" class="btn btn-primary nextBackField" id="field1to2">Next</button>
-</div>
+			<text class="requiredSign">*</text>
+			<input type="text" class="form-control mb-4" placeholder="Event Name">
+		</div>
+		
+		<div class="form-group">
+			<label for="exampleFormControlTextarea2">Event Description</label>
+			<textarea class="form-control rounded-0" id="exampleFormControlTextarea2" rows="3"></textarea>
+		</div>
+		
+		<div class="form-group">
+			<text class="requiredSign"> * </text>
+			<input type="text" class="form-control mb-4"   placeholder="Location">
+		</div>
+		
+		<div class="form-group">
+			<input type="number" class="form-control mb-4" placeholder="Capacity Per Timeslot (default: 1)">
+		</div>
+		
+		<div class="form-group">
+		<label>User Notification Dump File</label>
+		<div class="input-group">
+		<div class="input-group-prepend">
+		<span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
+		</div>
+		<div class="custom-file">
+		<input type="file" class="custom-file-input" id="inputGroupFile01"
+		aria-describedby="inputGroupFileAddon01">
+		<label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+		</div>
+		</div>
+		</div>
+		
+		<!-- Default unchecked -->
+		<div class="form-group">
+		<div class="custom-control custom-checkbox">
+		<input type="checkbox" class="custom-control-input" id="defaultUnchecked">
+		<label class="custom-control-label" for="defaultUnchecked">Enable User File Upload</label>
+		</div>
+		</div>
+		
+	</form>
+	
+	<div class="nextBackField">
+		<button type="button" class="btn btn-primary nextBackField" id="field1to2">Next</button>
+	</div>
 </div>
 
-<div class="container entryField2">
 
 
+<div class="container form-group entryField2">
+
+<form>
+<div class="form-group">
+<label>Event Dates</label>
+<text class="requiredSign">*</text>
 <!-- Date Picker   Source: https://jsfiddle.net/christianklemp_imt/b20paum2/ -->
 <div class="input-group date form-group" id="datepicker">
     <input readonly type="text" class="form-control" id="Dates" name="Dates" placeholder="Select days" required />
     <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i><span class="count"></span></span>
 </div>
+</div>
 
-
- <select class="browser-default custom-select">
-  <option selected>15 Minutes</option>
-  <option value="1">30 Minutes</option>
-  <option value="2">1 Hour </option>
+<div class="form-group">
+<label>Slot Duration</label>
+<select class="browser-default custom-select" id="durationSelector">
+  <option>15 Minutes</option>
+  <option>30 Minutes</option>
+  <option selected>1 Hour </option>
 </select>
+</div>
 
-<div class ="container timeSelectionField">
-<table class="table-sm table-bordered timeSelector table-hover" id="timeSelector">
+</form>
+
+<form class ="timeSelectionField">
+<table class="table-sm timeSelector" id="timeSelector">
   <thead>
     <tr>
       <th scope="col">Time</th>
     </tr>
   </thead>
   <tbody>
+  
 	<tr>
-	  <th scope="row"> 7:00 AM</th>
+	  <th scope="row">7:00 AM</th>
 	</tr>
-    <tr>
-      <th scope="row"> 7:15 AM</th>
-    </tr>
-    <tr>
-      <th scope="row"> 7:30 AM</th>
-    </tr>
-	<tr>
-      <th scope="row">7:45 AM</th>
-    </tr>
+
 	<tr>
       <th scope="row">8:00 AM</th>
     </tr>
-    <tr>
-      <th scope="row">8:15 AM</th>
-    </tr>
-	<tr>
-      <th scope="row">8:30 AM</th>
-    </tr>
-		<tr>
-      <th scope="row">8:45 AM</th>
-    </tr>
+
 	<tr>
       <th scope="row">9:00 AM</th>
     </tr>
-    <tr>
-      <th scope="row">9:15 AM</th>
-    </tr>
-	<tr>
-      <th scope="row">9:30 AM</th>
-    </tr>
-	<tr>
-      <th scope="row">9:45 AM</th>
-    </tr>
+
 	<tr>
       <th scope="row">10:00 AM</th>
     </tr>
-	<tr>
-      <th scope="row">10:15 AM</th>
-    </tr>
-	<tr>
-      <th scope="row">10:30 AM</th>
-    </tr>
-	<tr>
-      <th scope="row">10:45 AM</th>
-    </tr>
+
 	<tr>
       <th scope="row">11:00 AM</th>
     </tr>
-	<tr>
-      <th scope="row">11:15 AM</th>
-    </tr>
-	<tr>
-      <th scope="row">11:30 AM</th>
-    </tr>
-	<tr>
-      <th scope="row">11:45 AM</th>
-    </tr>
+
 	<tr>
       <th scope="row">12:00 PM</th>
     </tr>
-	<tr>
-      <th scope="row">12:15 PM</th>
-    </tr>
-	<tr>
-      <th scope="row">12:30 PM</th>
-    </tr>
-	<tr>
-      <th scope="row">12:45 PM</th>
-    </tr>
+
 	<tr>
       <th scope="row">1:00 PM</th>
     </tr>
-	<tr>
-      <th scope="row">1:15 PM</th>
-    </tr>
-		<tr>
-      <th scope="row">1:30 PM</th>
-    </tr>
-	<tr>
-      <th scope="row">1:45 PM</th>
-    </tr>
+	
 	<tr>
       <th scope="row">2:00 PM</th>
     </tr>
-	<tr>
-      <th scope="row">2:15 PM</th>
-    </tr>
-		<tr>
-      <th scope="row">2:30 PM</th>
-    </tr>
-	<tr>
-      <th scope="row">2:45 PM</th>
-    </tr>
+
 	<tr>
       <th scope="row">3:00 PM</th>
     </tr>
-	<tr>
-      <th scope="row">3:15 PM</th>
-    </tr>
-		<tr>
-      <th scope="row">3:30 PM</th>
-    </tr>
-	<tr>
-      <th scope="row">3:45 PM</th>
-    </tr>
+
 	<tr>
       <th scope="row">4:00 PM</th>
     </tr>
-	<tr>
-      <th scope="row">4:15 PM</th>
-    </tr>
-		<tr>
-      <th scope="row">4:30 PM</th>
-    </tr>
-	<tr>
-      <th scope="row">4:45 PM</th>
-    </tr>
+
 	<tr>
       <th scope="row">5:00 PM</th>
     </tr>
-	<tr>
-      <th scope="row">5:15 PM</th>
-    </tr>
-		<tr>
-      <th scope="row">5:30 PM</th>
-    </tr>
-	<tr>
-      <th scope="row">5:45 PM</th>
-    </tr>
+
 	<tr>
       <th scope="row">6:00 PM</th>
     </tr>
-	<tr>
-      <th scope="row">6:15 PM</th>
-    </tr>
-		<tr>
-      <th scope="row">6:30 PM</th>
-    </tr>
-	<tr>
-      <th scope="row">6:45 PM</th>
-    </tr>
+
 	<tr> 
       <th scope="row">7:00 PM</th>
     </tr>
 	
   </tbody>
 </table>
-</div>
+</form>
 
 <div class="nextBackField">
-<button type="button" class="btn btn-primary nextBackField" id="field2to3">Next</button>
+<button type="button" class="btn btn-primary nextBackField" id="field2toSubmit">Submit</button>
 <button type="button" class="btn btn-primary nextBackField" id="field2to1">Go Back</button>
 </div>
-</div>
-
-<div class="container entryField3">
-
-<div class="input-group">
-  <div class="input-group-prepend">
-    <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
-  </div>
-  <div class="custom-file">
-    <input type="file" class="custom-file-input" id="inputGroupFile01"
-      aria-describedby="inputGroupFileAddon01">
-    <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
-  </div>
-</div>
-
-<!-- Default unchecked -->
-<div class="custom-control custom-checkbox">
-    <input type="checkbox" class="custom-control-input" id="defaultUnchecked">
-    <label class="custom-control-label" for="defaultUnchecked">Enable User File Upload</label>
-</div>
-
-<div class="nextBackField">
-<button type="button" class="btn btn-primary" id="field3to2">Go Back</button>
-<button type="button" class="btn btn-primary" id="field3toSubmit">Submit</button>
-</div>
 
 </div>
 
+<div class="container form-group submitField">
+<text>Your Event has Been Created</text> 
+</div>
 
- </div>
+
+</div>
  
 
  
@@ -318,7 +250,6 @@
 </body>
 </html>
 
-
 <script>
 window.onload = function(){
 
@@ -328,10 +259,10 @@ window.onload = function(){
 		document.querySelector(".entryField2").style.display = "block";
 	})
 	
-	document.getElementById("field2to3").addEventListener("click", function()
+	document.getElementById("field2toSubmit").addEventListener("click", function()
 	{
 		document.querySelector(".entryField2").style.display = "none";
-		document.querySelector(".entryField3").style.display = "block";
+		document.querySelector(".submitField").style.display = "block";
 	})
 	
 	document.getElementById("field2to1").addEventListener("click", function()
@@ -340,22 +271,93 @@ window.onload = function(){
 		document.querySelector(".entryField2").style.display = "none";
 	})
 	
-	document.getElementById("field3toSubmit").addEventListener("click", function()
-	{
-		document.querySelector(".entryField3").style.display = "none";
-		document.querySelector(".eventCreatedPrompt").style.display = "block";
-	})
-	
-	document.getElementById("field3to2").addEventListener("click", function()
-	{
-		document.querySelector(".entryField3").style.display = "none";
-		document.querySelector(".entryField2").style.display = "block";
-	})
-	
 }
 
 </script>
 
+<script>
+function minutesToFormat(totalMinutes)
+{
+		
+	if (totalMinutes.search("AM") != -1 || totalMinutes.search("PM") != -1)
+	{
+		console.log(totalMinutes);
+		return totalMinutes;
+	}
+	var timeString;
+	var startHour = 7;
+	var formatChange = 12 - startHour;
+	
+	var hours = startHour + Math.floor(totalMinutes/60);
+	var minutes = totalMinutes%60;
+	var format;
+	
+	if (Math.floor(totalMinutes/60) >= formatChange)
+	{	
+		if (hours != 12)
+			hours = hours - 12;
+		format = "PM";
+	}
+	else	
+		format = "AM";
+	
+	
+	timeString = hours + ":" + minutes + " " + format;
+	console.log(timeString);
+	return timeString;
+}
+</script>
+
+<script>
+$('#durationSelector').on('change', function()
+{
+	$('.removeOnClear').remove(); //Clear all cells
+	$('#datepicker').datepicker('update',''); // clear all dates
+	
+	var selectedDuration = $("#durationSelector").val();
+	
+	var offset = 0;
+	var minutes = 0;
+	var hourInMinutes = 60;
+	var totalHours = 12;	
+	
+	
+	switch(selectedDuration)
+	{
+		case "15 Minutes":
+	
+			var durationOffset = 4;
+			var durationSlots = 3;
+			var minutesIncrement = 15;
+			break;
+	
+		case "30 Minutes":
+	
+			var durationOffset = 2;
+			var durationSlots = 1;
+			var minutesIncrement = 30;
+			break;
+			
+		case "1 Hour":
+			return;
+			break;
+	}
+	
+	for (i = 0; i < totalHours; i++)
+	{
+		for (j = 0; j < durationSlots; j++)
+		{
+			minutes = minutes + minutesIncrement;
+			var newRow = $('<tr><th><div>'+minutes+'</div></th></tr>');
+			newRow.addClass("removeOnClear");
+			newRow.children().children().addClass("doNotDisplay");
+			$('#timeSelector tr').eq(offset+j+1).after(newRow);
+		}
+		minutes = (hourInMinutes * (i+1));
+		offset = offset + durationOffset;
+	}
+});
+</script>
 
  <!-- Menu Toggle Script -->
  <script>
@@ -438,8 +440,8 @@ function removeColumn(){
 						index++;
 						
 						$('#timeSelector tr td:nth-child('+index+')').each(function(){
-							$(this).text("");
-							$(this).removeClass("selected");
+							//$(this).text("");
+							//$(this).removeClass("selected");
 							$(this).remove();
 						});
 						
@@ -461,6 +463,7 @@ function addNewCol(e)
 		var dateName = e.format();
 		var newDateHeader = $('<th></th>');
 		newDateHeader.text(e.format());
+		newDateHeader.addClass("removeOnClear");
 		$("#timeSelector tr:first").append(newDateHeader);
 	
 		var newDateColumn = $('<td></td>');
@@ -470,7 +473,7 @@ function addNewCol(e)
 		timeDialogue.addClass('doNotDisplay');
 		
 		newDateColumn.append(timeDialogue);
-		
+		newDateColumn.addClass("removeOnClear");
 		$("#timeSelector tr").not(':first').not(':last').append(newDateColumn);
 		
 }
@@ -489,7 +492,7 @@ function dragTable() {
 			  
 			  if ($(this).hasClass("selected"))
 			  {
-				 $(this).children().text($(this).closest('tr').find('th').text());
+				 $(this).children().text(minutesToFormat($(this).closest('tr').find('th').text()));
 			  }
 			  else
 			     $(this).children().text("");
@@ -503,7 +506,7 @@ function dragTable() {
 				
 				if ($(this).hasClass("selected"))
 			    {
-				  $(this).children().text($(this).closest('tr').find('th').text());
+				  $(this).children().text($(this).children().text(minutesToFormat($(this).closest('tr').find('th').text())));
 			    }
 			    else
 			      $(this).children().text("");

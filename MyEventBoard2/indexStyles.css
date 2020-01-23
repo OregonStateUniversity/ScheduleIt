@@ -74,7 +74,7 @@ body {
 	overflow-x: scroll;
 }
 
-.entryField3
+.submitField
 {
 	padding: 10px;
 	display: none;
@@ -91,14 +91,24 @@ body {
 	
 }
 
+.timeSelector table
+{
+	border: none;
+}
+
 .timeSelector td
 {
 	cursor: pointer;
+	border: 1px solid black;
 }
 
-.timeSelector tr
+.timeSelector th
 {
+	font-size: 10px;
+	padding-top:0 !important;
+	border: none;
 }
+
 
 .side-bar
 {
@@ -106,12 +116,10 @@ body {
 	padding: 10px;
 }
 
-.table-nonfluid {
-   width: auto !important;
-   height: auto !important;
+#timeSelector td.selected 
+{
+	background-color:#ccc;
 }
-
-#timeSelector td.selected { background-color:#ccc;  }
 
 .doNotDisplay
 {
