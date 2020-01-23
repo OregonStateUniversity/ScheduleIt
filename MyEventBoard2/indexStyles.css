@@ -36,6 +36,11 @@
 }
 
 
+body, html 
+{
+	overflow-x: hidden;
+}
+
 @import url(https://fonts.googleapis.com/css?family=Muli:400, 300);
 body {
 	margin: 0; 
@@ -44,6 +49,16 @@ body {
 	width: 100%;
 	padding: 0;
 	
+}
+
+.form-group
+{
+	padding: 10px;
+}
+
+label
+{
+	font-weight: bold;
 }
 
 .objectSpace
@@ -66,18 +81,16 @@ body {
 .entryField2
 {
 	padding: 10px;
-	display: none;
 	
 }
 .timeSelectionField
 {
-	overflow-x: scroll;
+	overflow-x: auto;
 }
 
 .submitField
 {
 	padding: 10px;
-	display: none;
 }
 
 .nextBackField
@@ -94,6 +107,7 @@ body {
 .timeSelector table
 {
 	border: none;
+	display: block;
 }
 
 .timeSelector td
@@ -108,7 +122,6 @@ body {
 	padding-top:0 !important;
 	border: none;
 }
-
 
 .side-bar
 {

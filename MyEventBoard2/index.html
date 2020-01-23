@@ -71,157 +71,160 @@
 <h2> Create an Event </h2>
 
 
- 
 <div class="container entryField1">
 
-	<form>
+	<form class="form-horizatonal needs-validation" novalidate>
+
 		<div class="form-group">
-			<text class="requiredSign">*</text>
-			<input type="text" class="form-control mb-4" placeholder="Event Name">
+			<label for="eventNameInput">Event Name</label>
+			<span class="requiredSign"> * </span>
+			<input type="text" class="form-control" id="eventNameInput" placeholder="Enter a name">
 		</div>
 		
 		<div class="form-group">
-			<label for="exampleFormControlTextarea2">Event Description</label>
-			<textarea class="form-control rounded-0" id="exampleFormControlTextarea2" rows="3"></textarea>
+			<label for="locationInput">Location</label>
+			<span class="requiredSign"> * </span>
+			<input type="text" class="form-control" id="locationInput" placeholder="Enter location">
 		</div>
 		
 		<div class="form-group">
-			<text class="requiredSign"> * </text>
-			<input type="text" class="form-control mb-4"   placeholder="Location">
+			<label for="eventDescriptTextArea">Event Description</label>
+			<textarea class="form-control rounded-0" id="eventDescriptTextArea" rows="3"></textarea>
 		</div>
 		
 		<div class="form-group">
-			<input type="number" class="form-control mb-4" placeholder="Capacity Per Timeslot (default: 1)">
+			<label for="timeslotCapInput">Capacity per Timeslot</label>
+			<span style="padding-left:10px" class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="The number of people that can sign up for each specific timeslot for this event. Defaults to 1"></span>
+			<input type="number" class="form-control mb-4" id="timeslotCapInput" placeholder="Enter a capacity (default: 1)">
 		</div>
 		
 		<div class="form-group">
-		<label>User Notification Dump File</label>
-		<div class="input-group">
-		<div class="input-group-prepend">
-		<span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
-		</div>
-		<div class="custom-file">
-		<input type="file" class="custom-file-input" id="inputGroupFile01"
-		aria-describedby="inputGroupFileAddon01">
-		<label class="custom-file-label" for="inputGroupFile01">Choose file</label>
-		</div>
-		</div>
+			<label for="dumpFileInput">User Notification Dump File</label>
+			<span style="padding-left:10px" class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Required Format: Email List in Text File. Sends a notification of Event to all listed Oregon State University Emails"></span>
+			<input type="file" class="form-control-file" id="exampleFormControlFile1">
 		</div>
 		
 		<!-- Default unchecked -->
 		<div class="form-group">
-		<div class="custom-control custom-checkbox">
-		<input type="checkbox" class="custom-control-input" id="defaultUnchecked">
-		<label class="custom-control-label" for="defaultUnchecked">Enable User File Upload</label>
-		</div>
+			<div class="custom-control custom-checkbox">
+			<input type="checkbox" class="custom-control-input" id="defaultUnchecked">
+			<label class="custom-control-label" for="defaultUnchecked">Enable User File Upload</label>
+			<span style="padding-left:10px" class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Allows users to upload a PDF when registering for this event"></span>
+			</div>
 		</div>
 		
 	</form>
 	
-	<div class="nextBackField">
+	<div class="nextBackField form-group">
 		<button type="button" class="btn btn-primary nextBackField" id="field1to2">Next</button>
 	</div>
 </div>
 
 
 
-<div class="container form-group entryField2">
+<div class="container collapse entryField2">
 
-<form>
-<div class="form-group">
-<label>Event Dates</label>
-<text class="requiredSign">*</text>
-<!-- Date Picker   Source: https://jsfiddle.net/christianklemp_imt/b20paum2/ -->
-<div class="input-group date form-group" id="datepicker">
-    <input readonly type="text" class="form-control" id="Dates" name="Dates" placeholder="Select days" required />
-    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i><span class="count"></span></span>
-</div>
-</div>
+	<form>
 
-<div class="form-group">
-<label>Slot Duration</label>
-<select class="browser-default custom-select" id="durationSelector">
-  <option>15 Minutes</option>
-  <option>30 Minutes</option>
-  <option selected>1 Hour </option>
-</select>
-</div>
-
-</form>
-
-<form class ="timeSelectionField">
-<table class="table-sm timeSelector" id="timeSelector">
-  <thead>
-    <tr>
-      <th scope="col">Time</th>
-    </tr>
-  </thead>
-  <tbody>
-  
-	<tr>
-	  <th scope="row">7:00 AM</th>
-	</tr>
-
-	<tr>
-      <th scope="row">8:00 AM</th>
-    </tr>
-
-	<tr>
-      <th scope="row">9:00 AM</th>
-    </tr>
-
-	<tr>
-      <th scope="row">10:00 AM</th>
-    </tr>
-
-	<tr>
-      <th scope="row">11:00 AM</th>
-    </tr>
-
-	<tr>
-      <th scope="row">12:00 PM</th>
-    </tr>
-
-	<tr>
-      <th scope="row">1:00 PM</th>
-    </tr>
+		<div class="form-group">
+			<label for="eventSlotDurationInput">Slot Duration</label>
+			<select class="browser-default custom-select" id="durationSelector">
+			  <option>15 Minutes</option>
+			  <option>30 Minutes</option>
+			  <option selected>1 Hour </option>
+			</select>
+		</div>
+		
+		<div class="form-group">
+			<label for="eventDateInput">Event Dates</label>
+			<text class="requiredSign">*</text>
+			<!-- Date Picker   Source: https://jsfiddle.net/christianklemp_imt/b20paum2/ -->
+			<div class="input-group date form-group" id="datepicker">
+				<input readonly type="text" class="form-control" id="Dates" name="Dates" placeholder="Select days" required />
+			<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i><span class="count"></span></span>
+			</div>
+		</div>
+	</form>
 	
-	<tr>
-      <th scope="row">2:00 PM</th>
-    </tr>
+	<form class ="timeSelectionField">
+	<div class="table-responsive">
+	<table class="table-sm timeSelector" id="timeSelector">
+	  <thead>
+		<tr>
+		  <th scope="col">Time</th>
+		</tr>
+	  </thead>
+	  <tbody>
+	  
+		<tr>
+		  <th scope="row">7:00 AM</th>
+		</tr>
 
-	<tr>
-      <th scope="row">3:00 PM</th>
-    </tr>
+		<tr>
+		  <th scope="row">8:00 AM</th>
+		</tr>
 
-	<tr>
-      <th scope="row">4:00 PM</th>
-    </tr>
+		<tr>
+		  <th scope="row">9:00 AM</th>
+		</tr>
 
-	<tr>
-      <th scope="row">5:00 PM</th>
-    </tr>
+		<tr>
+		  <th scope="row">10:00 AM</th>
+		</tr>
 
-	<tr>
-      <th scope="row">6:00 PM</th>
-    </tr>
+		<tr>
+		  <th scope="row">11:00 AM</th>
+		</tr>
 
-	<tr> 
-      <th scope="row">7:00 PM</th>
-    </tr>
-	
-  </tbody>
-</table>
-</form>
+		<tr>
+		  <th scope="row">12:00 PM</th>
+		</tr>
 
-<div class="nextBackField">
-<button type="button" class="btn btn-primary nextBackField" id="field2toSubmit">Submit</button>
-<button type="button" class="btn btn-primary nextBackField" id="field2to1">Go Back</button>
+		<tr>
+		  <th scope="row">1:00 PM</th>
+		</tr>
+		
+		<tr>
+		  <th scope="row">2:00 PM</th>
+		</tr>
+
+		<tr>
+		  <th scope="row">3:00 PM</th>
+		</tr>
+
+		<tr>
+		  <th scope="row">4:00 PM</th>
+		</tr>
+
+		<tr>
+		  <th scope="row">5:00 PM</th>
+		</tr>
+
+		<tr>
+		  <th scope="row">6:00 PM</th>
+		</tr>
+
+		<tr> 
+		  <th scope="row">7:00 PM</th>
+		</tr>
+		
+	  </tbody>
+	</table>
+	</div>
+	</form>
+
+<div class="row nextBackField form-group">
+	<div class="col-xs-6">
+		<button type="button" class="btn btn-primary nextBackField" id="field2to1">Go Back</button>
+	</div>
+	<div class="col-xs-6">
+		<button type="button" class="btn btn-primary nextBackField" id="field2toSubmit">Submit</button>
+	</div>
 </div>
 
 </div>
 
-<div class="container form-group submitField">
+<div class="container collapse submitField">
 <text>Your Event has Been Created</text> 
 </div>
 
@@ -251,24 +254,30 @@
 </html>
 
 <script>
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+</script>
+
+<script>
 window.onload = function(){
 
 	document.getElementById("field1to2").addEventListener("click", function()
 	{
-		document.querySelector(".entryField1").style.display = "none";
-		document.querySelector(".entryField2").style.display = "block";
+		$('.entryField1').addClass('collapse');
+		$('.entryField2').removeClass('collapse');
 	})
 	
 	document.getElementById("field2toSubmit").addEventListener("click", function()
 	{
-		document.querySelector(".entryField2").style.display = "none";
-		document.querySelector(".submitField").style.display = "block";
+		$('.entryField2').addClass('collapse');
+		$('.submitField').removeClass('collapse')
 	})
 	
 	document.getElementById("field2to1").addEventListener("click", function()
 	{
-		document.querySelector(".entryField1").style.display = "block";
-		document.querySelector(".entryField2").style.display = "none";
+		$('.entryField2').addClass('collapse');
+		$('.entryField1').removeClass('collapse');
 	})
 	
 }
