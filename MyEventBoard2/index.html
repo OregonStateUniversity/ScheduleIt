@@ -101,13 +101,17 @@
   <option value="2">1 Hour </option>
 </select>
 
+<div class ="container timeSelectionField">
 <table class="table-sm table-bordered timeSelector table-hover" id="timeSelector">
   <thead>
     <tr>
-      <th scope="col">7:00 AM</th>
+      <th scope="col">Time</th>
     </tr>
   </thead>
   <tbody>
+	<tr>
+	  <th scope="row"> 7:00 AM</th>
+	</tr>
     <tr>
       <th scope="row"> 7:15 AM</th>
     </tr>
@@ -249,12 +253,13 @@
 	<tr>
       <th scope="row">6:45 PM</th>
     </tr>
-	<tr>
+	<tr> 
       <th scope="row">7:00 PM</th>
     </tr>
 	
   </tbody>
 </table>
+</div>
 
 <div class="nextBackField">
 <button type="button" class="btn btn-primary nextBackField" id="field2to3">Next</button>
@@ -374,7 +379,10 @@ $(document).ready(function() {
         language: 'en'
 
     }).on('changeDate', function(e) {
-        // `e` here contains the extra attributes
+        
+		dragTable(); // Add event handler
+		
+		// `e` here contains the extra attributes
 		
         //$(this).find('.input-group-addon .count').text(' ' + e.dates.length);
 		
@@ -388,14 +396,17 @@ $(document).ready(function() {
 		if (hasColumn === false && e.format() != "")
 		{
 			addNewCol(e); // Add if it is. Otherwise remove it.
+			dragTable(); // Add event handler
 		}
 		else if (hasColumn === false && e.format() == "") // First column remove edge case
 		{
 			removeColumn();
+			dragTable(); // Add event handler
 		}
 		else if (hasColumn === true && e.format() != "") // Remove columns
 		{	
 			removeColumn();
+			dragTable(); // Add event handler
 		}
 
     });
@@ -444,11 +455,6 @@ function removeColumn(){
 
 </script>
 
-
-
-
-
-
 <script>
 function addNewCol(e)
 {
@@ -465,49 +471,44 @@ function addNewCol(e)
 		
 		newDateColumn.append(timeDialogue);
 		
-		$("#timeSelector tr:not(:first)").append(newDateColumn);
+		$("#timeSelector tr").not(':first').not(':last').append(newDateColumn);
 		
 }
 </script>
 
-
 <script>
-
-$("#timeSelector").on('click mousemove mouseover mousedown', 'td', function(e) {  
-				var date = e.delegateTarget.tHead.rows[0].cells[this.cellIndex],
-				time  = this.parentNode.cells[0];
-				var timeText = $(date).text() + ", " + $(time).text();
-				
-				if ($(e.target).hasClass("selected"))
-				{
-					$(e.target).children().text(timeText);
-				}
-				else
-					$(e.target).children().text("");
-					
-				});   
-</script>
-
-<script>
-$("#timeSelector").on('click', 'td', function() {  
-					dragTable();
-				});
-
-
 function dragTable() {
 		// Source: http://jsfiddle.net/few5E/	
 		  var isMouseDown = false;
+		  var textHolder;
+		  
 		  $("#timeSelector td")
 			.mousedown(function () {
 			  isMouseDown = true;
 			  $(this).toggleClass("selected");
+			  
+			  if ($(this).hasClass("selected"))
+			  {
+				 $(this).children().text($(this).closest('tr').find('th').text());
+			  }
+			  else
+			     $(this).children().text("");
 			  
 			  return false; // prevent text selection
 			})
 			.mouseover(function () {
 			  if (isMouseDown) {
 				$(this).toggleClass("selected");
-			  }
+				
+				
+				if ($(this).hasClass("selected"))
+			    {
+				  $(this).children().text($(this).closest('tr').find('th').text());
+			    }
+			    else
+			      $(this).children().text("");
+				  
+			    }
 			});
 		  $(document)
 			.mouseup(function () {
