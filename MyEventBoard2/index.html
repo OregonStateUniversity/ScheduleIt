@@ -458,7 +458,15 @@ function addNewCol(e)
 		$("#timeSelector tr:first").append(newDateHeader);
 	
 		var newDateColumn = $('<td></td>');
-		$("#timeSelector tr:not(:first)").append('<td></td>');
+		var timeDialogue = $('<div></div>');
+
+		
+		timeDialogue.addClass('doNotDisplay');
+		
+		newDateColumn.append(timeDialogue);
+		
+		$("#timeSelector tr:not(:first)").append(newDateColumn);
+		
 }
 </script>
 
@@ -468,11 +476,15 @@ function addNewCol(e)
 $("#timeSelector").on('click mousemove mouseover mousedown', 'td', function(e) {  
 				var date = e.delegateTarget.tHead.rows[0].cells[this.cellIndex],
 				time  = this.parentNode.cells[0];
+				var timeText = $(date).text() + ", " + $(time).text();
 				
 				if ($(e.target).hasClass("selected"))
-					e.target.innerHTML = $(date).text() + ", " + $(time).text();
+				{
+					$(e.target).children().text(timeText);
+				}
 				else
-					e.target.innerHTML = "";
+					$(e.target).children().text("");
+					
 				});   
 </script>
 
