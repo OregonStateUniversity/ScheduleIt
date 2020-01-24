@@ -1,140 +1,204 @@
 /* Style the header with a grey background and some padding */
 .header {
-	overflow: hidden;
-	background-color: orange;
-	padding: 20px 10px;
-  }
-  
-  /* Style the header links */
+  overflow: hidden;
+  background-color: orange;
+  padding: 20px 10px;
+}
+
+/* Style the header links */
+.header a {
+  float: left;
+  color: black;
+  text-align: center;
+  padding: 12px;
+  text-decoration: none;
+  font-size: 18px;
+  line-height: 25px;
+  border-radius: 4px;
+}
+
+/* Style the logo link (notice that we set the same value of line-height and font-size to prevent the header to increase when the font gets bigger */
+.header a.logo {
+  font-size: 25px;
+  font-weight: bold;
+}
+
+/* Add media queries for responsiveness - when the screen is 500px wide or less, stack the links on top of each other */
+@media screen and (max-width: 500px) {
   .header a {
-	float: left;
-	color: black;
-	text-align: center;
-	padding: 12px;
-	text-decoration: none;
-	font-size: 18px;
-	line-height: 25px;
-	border-radius: 4px;
+    float: none;
+    display: block;
+    text-align: left;
   }
-  
-  /* Style the logo link (notice that we set the same value of line-height and font-size to prevent the header to increase when the font gets bigger */
-  .header a.logo {
-	font-size: 25px;
+  .header-right {
+    float: none;
+  }
+}
+
+
+body, html 
+{
+	overflow-x: hidden;
+}
+
+@import url(https://fonts.googleapis.com/css?family=Muli:400, 300);
+body {
+	margin: 0; 
+	background-color: grey;
+	height: 100%;
+	width: 100%;
+	padding: 0;
+	
+}
+
+.form-group
+{
+	padding: 10px;
+}
+
+label
+{
 	font-weight: bold;
-  }
-  
-  /* Add media queries for responsiveness - when the screen is 500px wide or less, stack the links on top of each other */
-  @media screen and (max-width: 500px) {
-	.header a {
-	  float: none;
-	  display: block;
-	  text-align: left;
-	}
-	.header-right {
-	  float: none;
-	}
-  }
-  
-  
-  body, html 
-  {
-	  overflow-x: hidden;
-  }
-  
-  @import url(https://fonts.googleapis.com/css?family=Muli:400, 300);
-  body {
-	  margin: 0; 
-	  background-color: grey;
-	  height: 100%;
-	  width: 100%;
-	  padding: 0;
-	  
-  }
-  
-  .form-group
-  {
-	  padding: 10px;
-  }
-  
-  label
-  {
-	  font-weight: bold;
-  }
-  
-  .objectSpace
-  {
-	  align-items: center;
-	  padding: 40px;
-	  background-color: white;
-  }
-  
-  .requiredSign
-  {
-	  color: red;
-  }
-  
-  .entryField1
-  {
-	  padding: 10px;
-  }
-  
-  .entryField2
-  {
-	  padding: 10px;
-	  
-  }
-  .timeSelectionField
-  {
-	  overflow-x: auto;
-  }
-  
-  .submitField
-  {
-	  padding: 10px;
-  }
-  
-  .nextBackField
-  {
-	  float: right;
-  }
-  
-  .timeSelector
-  {
-	  background-color: white;
-	  
-  }
-  
-  .timeSelector table
-  {
-	  border: none;
-	  display: block;
-  }
-  
-  .timeSelector td
-  {
-	  cursor: pointer;
-	  border: 1px solid black;
-  }
-  
-  .timeSelector th
-  {
-	  font-size: 10px;
-	  padding-top:0 !important;
-	  border: none;
-  }
-  
-  .side-bar
-  {
-	  margin-top: 3%;
-	  padding: 10px;
-  }
-  
-  #timeSelector td.selected 
-  {
-	  background-color:#ccc;
-  }
-  
-  .doNotDisplay
-  {
-	  display: none;
-  }
+}
+
+.objectSpace
+{
+	align-items: center;
+	padding: 40px;
+	background-color: white;
+	overflow-x: hidden;
+}
+
+.requiredSign
+{
+	color: red;
+}
+
+.entryField1
+{
+	padding: 10px;
+}
+
+.entryField2
+{
+	padding: 10px;
+	
+}
+.timeSelectionField
+{
+	overflow-x: auto;
+}
+
+.submitField
+{
+	padding: 10px;
+}
+
+.nextBackField
+{
+	float: right;
+}
+
+.timeSelector
+{
+	background-color: white;
+	
+}
+
+.timeSelector table
+{
+	table-layout: fixed;
+	border: none;
+}
+
+.timeSelector td
+{
+	cursor: pointer;
+	border: 1px solid black;
+}
+
+.timeSelector th
+{
+	font-size: 10px;
+	padding-top:0 !important;
+	border: none;
+}
+
+.side-bar
+{
+	margin-top: 3%;
+	padding: 10px;
+}
+
+#timeSelector td.selected 
+{
+	background-color:#ccc;
+}
+
+.doNotDisplay
+{
+	display: none;
+}
+
+.wrapper {
+    display: flex;
+    width: 100%;
+    align-items: stretch;
+}
+
+#sidebar {
+    min-width: 170px;
+    max-width: 170px;
+	min-height: 100vh;
+}
+
+#sidebar.active {
+    margin-left: -250px;
+}
+
+#sidebar {
+    /* don't forget to add all the previously mentioned styles here too */
+    background: #7386D5;
+    color: white;
+    transition: all 0.3s;
+}
+
+#sidebar .sidebar-header {
+    padding: 20px;
+    background: #6d7fcc;
+}
+
+#sidebar ul.components {
+    padding: 20px 0;
+    border-bottom: 1px solid #47748b;
+}
+
+#sidebar ul li a {
+    padding: 10px;
+    font-size: 1.1em;
+    display: block;
+	color: black;
+}
+#sidebar ul li a:hover {
+    color: #7386D5;
+    background: #fff;
+}
+
+ul ul a {
+    font-size: 0.9em !important;
+    padding-left: 30px !important;
+    background: #6d7fcc;
+}
+
+
+@media (max-width: 768px) {
+    /* 80px and its content aligned to centre. Pushing it off the screen with the
+       negative left margin
+    */
+    #sidebar.active {
+        min-width: 80px;
+        max-width: 80px;
+        text-align: center;
+        margin-left: -80px !important;
+    }
+}
