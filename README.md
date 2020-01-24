@@ -4,7 +4,7 @@ MyEventBoard is a scheduling web application currently being developed by Tommy 
 
 ## Accessing the Application
 
-While MyEventBoard is currently in development, it can be accessed at
+While MyEventBoard is currently in development, it can be accessed at  
 http://web.engr.oregonstate.edu/~louiesi/MyEventBoard/
 
 ## Setting Up the Repository for Development
