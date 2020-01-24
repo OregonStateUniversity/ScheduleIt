@@ -1,0 +1,208 @@
+{% extends "layout/layout.twig" %}
+
+{% block page_content %}
+
+<div class="container objectSpace">
+
+	<h2> Create an Event </h2>
+
+	<div class="container entryField1">
+
+		<form class="form-horizatonal needs-validation" novalidate>
+
+			<div class="form-group">
+				<label for="eventNameInput">Event Name</label>
+				<span class="requiredSign"> * </span>
+				<input type="text" class="form-control" id="eventNameInput" placeholder="Enter a name">
+			</div>
+
+			<div class="form-group">
+				<label for="locationInput">Location</label>
+				<span class="requiredSign"> * </span>
+				<input type="text" class="form-control" id="locationInput" placeholder="Enter location">
+			</div>
+
+			<div class="form-group">
+				<label for="eventDescriptTextArea">Event Description</label>
+				<textarea class="form-control rounded-0" id="eventDescriptTextArea" rows="3"></textarea>
+			</div>
+
+			<div class="form-group">
+				<label for="timeslotCapInput">Capacity per Timeslot</label>
+				<span style="padding-left:10px" class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip"
+					data-placement="top"
+					title="The number of people that can sign up for each specific timeslot for this event. Defaults to 1"></span>
+				<input type="number" class="form-control mb-4" id="timeslotCapInput"
+					placeholder="Enter a capacity (default: 1)">
+			</div>
+
+			<div class="form-group">
+				<label for="dumpFileInput">User Notification Dump File</label>
+				<span style="padding-left:10px" class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip"
+					data-placement="top"
+					title="Required Format: Email List in Text File. Sends a notification of Event to all listed Oregon State University Emails"></span>
+				<input type="file" class="form-control-file" id="exampleFormControlFile1">
+			</div>
+
+			<!-- Default unchecked -->
+			<div class="form-group">
+				<div class="custom-control custom-checkbox">
+					<input type="checkbox" class="custom-control-input" id="defaultUnchecked">
+					<label class="custom-control-label" for="defaultUnchecked">Enable User File Upload</label>
+					<span style="padding-left:10px" class="fa fa-question-circle" aria-hidden="true"
+						data-toggle="tooltip" data-placement="top"
+						title="Allows users to upload a PDF when registering for this event"></span>
+				</div>
+			</div>
+
+		</form>
+
+		<div class="nextBackField form-group">
+			<button type="button" class="btn btn-primary nextBackField" id="field1to2">Next</button>
+		</div>
+
+	</div>
+
+	<div class="container collapse entryField2">
+
+		<form>
+
+			<div class="form-group">
+				<label for="eventSlotDurationInput">Slot Duration</label>
+				<select class="browser-default custom-select" id="durationSelector">
+					<option>15 Minutes</option>
+					<option>30 Minutes</option>
+					<option selected>1 Hour </option>
+				</select>
+			</div>
+
+			<div class="form-group">
+				<label for="eventDateInput">Event Dates</label>
+				<text class="requiredSign">*</text>
+				<!-- Date Picker   Source: https://jsfiddle.net/christianklemp_imt/b20paum2/ -->
+				<div class="input-group date" id="datepicker">
+					<input readonly type="text" class="form-control" id="Dates" name="Dates" placeholder="Select days"
+						required />
+					<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i><span
+							class="count"></span></span>
+				</div>
+			</div>
+
+		</form>
+
+		<form class="timeSelectionField">
+			<div class="table-responsive">
+				<table class="table-sm timeSelector" id="timeSelector">
+
+					<thead>
+						<tr>
+							<th scope="col">Time</th>
+						</tr>
+					</thead>
+
+					<tbody>
+
+						<tr>
+							<th scope="row">7:00 AM</th>
+						</tr>
+
+						<tr>
+							<th scope="row">8:00 AM</th>
+						</tr>
+
+						<tr>
+							<th scope="row">9:00 AM</th>
+						</tr>
+
+						<tr>
+							<th scope="row">10:00 AM</th>
+						</tr>
+
+						<tr>
+							<th scope="row">11:00 AM</th>
+						</tr>
+
+						<tr>
+							<th scope="row">12:00 PM</th>
+						</tr>
+
+						<tr>
+							<th scope="row">1:00 PM</th>
+						</tr>
+
+						<tr>
+							<th scope="row">2:00 PM</th>
+						</tr>
+
+						<tr>
+							<th scope="row">3:00 PM</th>
+						</tr>
+
+						<tr>
+							<th scope="row">4:00 PM</th>
+						</tr>
+
+						<tr>
+							<th scope="row">5:00 PM</th>
+						</tr>
+
+						<tr>
+							<th scope="row">6:00 PM</th>
+						</tr>
+
+						<tr>
+							<th scope="row">7:00 PM</th>
+						</tr>
+
+					</tbody>
+
+				</table>
+			</div>
+		</form>
+
+		<div class="row nextBackField form-group">
+
+			<div class="col-xs-6">
+				<button type="button" class="btn btn-primary nextBackField" id="field2to1">Go Back</button>
+			</div>
+
+			<div class="col-xs-6">
+				<button type="button" class="btn btn-primary nextBackField" id="field2toSubmit">Submit</button>
+			</div>
+
+		</div>
+
+	</div>
+
+	<div class="container collapse submitField">
+		<text>Your Event has Been Created</text>
+	</div>
+
+</div>
+
+<!-- jQuery -->
+<script type="text/javascript" src="js/jquery.min.js"></script>
+
+<!-- Bootstrap tooltips -->
+<script type="text/javascript" src="js/popper.min.js"></script>
+
+<!-- Bootstrap core JavaScript -->
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+
+<!-- MDB core JavaScript -->
+<script type="text/javascript" src="js/mdb.min.js"></script>
+
+<!-- Your custom scripts (optional) -->
+<script type="text/javascript"></script>
+
+<!-- Date Range Picker -->
+
+<script type="text/javascript"
+	src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
+
+<!-- JavaScript specific to this page -->
+<script type="text/javascript" src="view_js/index.js"></script>
+
+{% endblock %}
