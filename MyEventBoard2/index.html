@@ -139,7 +139,7 @@
 			<label for="eventDateInput">Event Dates</label>
 			<text class="requiredSign">*</text>
 			<!-- Date Picker   Source: https://jsfiddle.net/christianklemp_imt/b20paum2/ -->
-			<div class="input-group date form-group" id="datepicker">
+			<div class="input-group date" id="datepicker">
 				<input readonly type="text" class="form-control" id="Dates" name="Dates" placeholder="Select days" required />
 			<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i><span class="count"></span></span>
 			</div>
@@ -525,28 +525,12 @@ function dragTable() {
 			  isMouseDown = true;
 			  $(this).toggleClass("selected");
 
-			  // if ($(this).hasClass("selected"))
-			  // {
-				//  $(this).children().text(minutesToFormat($(this).closest('tr').find('th').text()));
-			  // }
-			  // else
-			  //    $(this).children().text("");
-
 			  return false; // prevent text selection
 			})
 			.mouseover(function () {
 			  if (isMouseDown) {
 				$(this).toggleClass("selected");
-
-
-				// if ($(this).hasClass("selected"))
-			  //   {
-				//     $(this).children().text($(this).children().text(minutesToFormat($(this).closest('tr').find('th').text())));
-			  //   }
-			  //   else
-			  //     $(this).children().text("");
-        //
-		}
+			}
   });
 		  $(document)
 			.mouseup(function () {
