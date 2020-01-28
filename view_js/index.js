@@ -10,7 +10,8 @@ window.onload = function () {
 	})
 
 	document.getElementById("field2toSubmit").addEventListener("click", function () {
-		cellCount();
+		var slots = submitEvent();
+		
 		$('.entryField2').addClass('collapse');
 		$('.submitField').removeClass('collapse')
 	})
@@ -24,9 +25,9 @@ window.onload = function () {
 
 
 function minutesToFormat(totalMinutes) {
-
+	totalMinutes = totalMinutes + "";
 	if (totalMinutes.search("AM") != -1 || totalMinutes.search("PM") != -1) {
-		console.log(totalMinutes);
+		//console.log(totalMinutes);
 		return totalMinutes;
 	}
 
@@ -47,7 +48,7 @@ function minutesToFormat(totalMinutes) {
 	}
 
 	timeString = hours + ":" + minutes + " " + format;
-	console.log(timeString);
+	//console.log(timeString);
 	return timeString;
 
 }
@@ -93,8 +94,8 @@ $('#durationSelector').on('change', function () {
 	for (i = 0; i < totalHours; i++) {
 
 		for (j = 0; j < durationSlots; j++) {
-
 			minutes = minutes + minutesIncrement;
+			//var min = minutesToFormat(minutes);
 			var newRow = $('<tr><th><div>' + minutes + '</div></th></tr>');
 			newRow.addClass("removeOnClear");
 			newRow.children().children().addClass("doNotDisplay");
@@ -222,13 +223,53 @@ function addNewCol(e) {
 
 }
 
+function formatDate(currDate) {
+	var year = currDate.substr(-4);
+	var month = currDate.slice(0,2);
+	var day = currDate.slice(3,5);
+	var newDate = year + "-" + month + "-" + day;
+	return newDate;
+}
 
-function cellCount() {
+
+
+function formatTime(temp) {
+	var totalMinutes = parseInt(temp, 10);
+	var startHour = 7;
+	var hours = startHour + Math.floor(totalMinutes / 60);
+	var minutes = totalMinutes % 60;
+	if (minutes == 0) {
+		return hours + ":" + minutes + "0";
+	}
+	return hours + ":" + minutes;
+}
+
+function formatEndTime(temp) {
+	var tempS = document.getElementById("durationSelector").value;
+	var totalMinutes = parseInt(temp, 10);
+	var duration;
+	switch(tempS) {
+		case "15 Minutes":
+			duration = 15;
+			break;
+
+		case "30 Minutes":
+			duration = 30;
+			break;
+
+		case "1 Hour":
+			duration = 60;
+			break;
+	}
+	var newTime = totalMinutes + duration;
+	return formatTime(newTime);
+}
+
+function submitEvent() {
 
 	var num = 0;
-	var slot = { startDate: "", endDate: "" };
-	var slotArray = [];
 
+	var slotArray = [];
 	$("#timeSelector thead tr th").each(function (index) {
 
 		if (index != 0) {
@@ -239,16 +280,25 @@ function cellCount() {
 			$('#timeSelector tr td:nth-child(' + index + ')').each(function () {
 
 				if ($(this).hasClass("selected")) {
-					var currTime = $(this).closest('tr').find('th').text();
-					console.log(currTime);
-					console.log(currDate);
+					var date = formatDate(currDate);
+					var currTime = $(this).closest('tr').find('th').children().text();
+					var slot = { startDate: date + " " + formatTime(currTime),
+											endDate: date + " " + formatEndTime(currTime) };
+					console.log(slot.startDate);
+					console.log(slot.endDate);
+					slotArray.push(slot);
 				}
 
 			});
 
 		}
 	});
-
+	if (slotArray.length == 0) {
+		return false;
+	}
+	else {
+		return slotArray;
+	}
 }
 
 
@@ -277,5 +327,5 @@ function dragTable() {
 	$(document).mouseup(function () {
 		isMouseDown = false;
 	});
-	
+
 }

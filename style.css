@@ -36,19 +36,19 @@
 }
 
 
-body, html 
+body, html
 {
 	overflow-x: hidden;
 }
 
 @import url(https://fonts.googleapis.com/css?family=Muli:400, 300);
 body {
-	margin: 0; 
+	margin: 0;
 	background-color: grey;
 	height: 100%;
 	width: 100%;
 	padding: 0;
-	
+
 }
 
 .form-group
@@ -82,7 +82,7 @@ label
 .entryField2
 {
 	padding: 10px;
-	
+
 }
 .timeSelectionField
 {
@@ -102,7 +102,7 @@ label
 .timeSelector
 {
 	background-color: white;
-	
+
 }
 
 .timeSelector table
@@ -130,7 +130,7 @@ label
 	padding: 10px;
 }
 
-#timeSelector td.selected 
+#timeSelector td.selected
 {
 	background-color:#ccc;
 }
