@@ -11,9 +11,37 @@ window.onload = function () {
 
 	document.getElementById("field2toSubmit").addEventListener("click", function () {
 		var slots = submitEvent();
-		
-		$('.entryField2').addClass('collapse');
-		$('.submitField').removeClass('collapse')
+		if (slots == false) {
+			alert("Please select slots");
+		}
+		else {
+			var url = "index.php";
+			$.ajax({
+    		type: 'POST',
+    		url: url,
+    		dataType: 'json',
+    		data: {
+					eventName: document.getElementById("eventNameInput").value,
+					eventLocation: document.getElementById("locationInput").value,
+					eventDescription: document.getElementById("eventDescriptTextArea").value,
+        	slotArray: slots
+    		},
+    		beforeSend: function () {
+        // alert("before send");
+    		},
+    		success: function (result) {
+        	if(result.status == 'success'){
+         		alert('Success')
+          }
+					else{
+        		alert(result.message);
+      		}
+    		}
+			});
+			$('.entryField2').addClass('collapse');
+			$('.submitField').removeClass('collapse');
+		}
+
 	})
 
 	document.getElementById("field2to1").addEventListener("click", function () {
