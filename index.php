@@ -1,9 +1,14 @@
 <?php
 
-    require 'vendor/autoload.php';
+    // set up twig 
 
-    $loader = new Twig_Loader_Filesystem('templates');
-    $twig = new Twig_Environment($loader);
+    include 'php/twig.php';
+
+    // set up connection to database via MySQLi
+
+    include 'php/database.php';
+
+    // render page using twig
 
     echo $twig -> render('views/index.twig'); 
 
