@@ -1,3 +1,9 @@
+$(document).ready(function () {
+    $('#sidebarCollapse, #sidebarCollapseIcon').on('click', function () {
+        $('#sidebar').toggleClass('hidden');
+    });
+});
+
 $(function () {
 	$('[data-toggle="tooltip"]').tooltip()
 })
