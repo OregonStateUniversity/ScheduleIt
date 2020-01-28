@@ -3,8 +3,8 @@
     // information for connecting to database
 
     $host = 'classmysql.engr.oregonstate.edu';
-    $userName = 'takushib_capstone2019';
-    $database = 'takushib_capstone2019';
+    $userName = 'capstone_2019_takushib';
+    $database = 'capstone_2019_takushib';
 
     $passwordFile = fopen('text_file', 'r'); // account password should be in file
     $password = fgets($passwordFile);
