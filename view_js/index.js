@@ -8,16 +8,54 @@ $(function () {
 	$('[data-toggle="tooltip"]').tooltip()
 })
 
+function checkInput(obj) {
+	
+	if (obj.val().length === 0)
+	{
+		
+		if (obj.hasClass("requiredInput") === true)
+		{
+			return false;
+		}
+		else
+		{
+			obj.addClass("requiredInput");
+			return false;
+		}
+	}
+	else
+	{	
+		obj.removeClass("requiredInput");
+		return true;
+	}
+}
+
 window.onload = function () {
 
 	document.getElementById("field1to2").addEventListener("click", function () {
-		$('.entryField1').addClass('collapse');
-		$('.entryField2').removeClass('collapse');
+		var eventNameObj = $('#eventNameInput');
+		var eventLocationObj = $('#locationInput');
+		var eventNameCheck = checkInput(eventNameObj);
+		var eventLocationCheck = checkInput(eventLocationObj);
+		
+		if ( eventNameCheck === true && eventLocationCheck === true)
+		{
+			$('.entryField1').addClass('collapse');
+			$('.entryField2').removeClass('collapse');
+		}
 	})
 
 	document.getElementById("field2toSubmit").addEventListener("click", function () {
 		var slots = submitEvent();
-		if (slots == false) {
+		var eventDateInputObj = $('#Dates');
+		
+		var eventDateCheck = checkInput(eventDateInputObj);
+		
+		if (eventDateCheck === false)  // Must have a date selected
+		{
+			return;
+		}
+		else if (slots == false) {
 			alert("Please select slots");
 		}
 		else {
