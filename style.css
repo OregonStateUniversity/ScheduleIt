@@ -74,6 +74,11 @@ label
 	color: red;
 }
 
+.requiredInput
+{
+	border-color: red;
+}
+
 .entryField1
 {
 	padding: 10px;
