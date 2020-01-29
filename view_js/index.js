@@ -340,17 +340,21 @@ function formatEndTime(temp) {
 function submitEvent() {
 
 	var num = 0;
-
+	
 	var slotArray = [];
+	var hasSelected;
+	
 	$("#timeSelector thead tr th").each(function (index) {
 
 		if (index != 0) {
 
 			var currDate = $(this).text();
 			index++;
-
+			
+			hasSelected = false;
+			
 			$('#timeSelector tr td:nth-child(' + index + ')').each(function () {
-
+	
 				if ($(this).hasClass("selected")) {
 					var date = formatDate(currDate);
 					var currTime = $(this).closest('tr').find('th').children().text();
@@ -359,17 +363,21 @@ function submitEvent() {
 					console.log(slot.startDate);
 					console.log(slot.endDate);
 					slotArray.push(slot);
+					hasSelected = true;
 				}
-
+				
 			});
-
+			
+			if (hasSelected === false)	//break out of statement
+				return false;
+			
 		}
 	});
-	if (slotArray.length == 0) {
-		return false;
-	}
+	
+	if (hasSelected === false)  // return false if not all column have a selected time
+			return false;
 	else {
-		return slotArray;
+			return slotArray;
 	}
 }
 
