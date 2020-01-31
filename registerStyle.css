@@ -1,0 +1,31 @@
+span.ui-datepicker {
+    font-size:10px;
+}
+
+.table-condensed th
+{
+	font-size: 25px;
+	padding: 10px;
+	font-weight: bold;
+}
+
+.table-condensed td
+{
+	font-size: 20px;
+	padding: 50px;
+}
+
+.table-condensed tbody tr
+{
+	border: 1px solid red;
+}
+
+.entryFieldRegister
+{
+	text-align: center;
+}
+
+.selected
+{
+	background-color: green;
+}
