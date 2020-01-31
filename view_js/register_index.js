@@ -24,7 +24,6 @@ $(document).ready(function () {
 		//popup.style.display = "block";
 		$('#timeSelectionField h2').text(e.format());
 		createFields();
-		selectASlot();
 	});
 });
 
@@ -53,44 +52,40 @@ function createFields() {
 			break;
 	}
 
+
 	
 	while (temp < endTime)
 	{
-		var newRow = $('<tr><th> '+ minutesToFormat(temp) +' </th></tr>');
+		var newRow = $('<tr><th><div>' + minutesToFormat(temp) + '</div></th><td></td></tr>');
 		newRow.addClass("removeOnClear");
-		newRow.css('vertical-align', "top");
+		newRow.attr("scope", "row");
 		
 		var minutesVal = $('<span>'+temp+'</span>');
 		minutesVal.addClass('doNotDisplay');
 		newRow.append(minutesVal);
 		
 		temp = temp + minutesIncrement
-		newRow.attr('height', 45);
-		$('#timeSelector tbody').append(newRow);
+		$('#slotPicker tbody').append(newRow);
 
 	}
 	
-
-	var newDateHeader = $('<th></th>');
-	newDateHeader.addClass("removeOnClear");
-	newDateHeader.attr('width', 45);
-	$("#timeSelector tr:first").append(newDateHeader);
-
-	var newDateColumn = $('<td></td>');
-
-	newDateColumn.addClass("removeOnClear");
-	$("#timeSelector tr").not(':first').not(':last').append(newDateColumn);
-
+	selectASlot();
+	
 
 
 }
 
 function selectASlot()
 {
-	$("#timeSelector td").click(function () {
-
+	$("#slotPicker td").click(function () {	
+		var check = false;
 		
-			$(this).toggleClass("selected");
+		$("#slotPicker tr td:nth-child(2)").each(function () {
+			if(($(this).hasClass("slotSelected")) === true)
+				$(this).toggleClass("slotSelected");
+		});
+		
+		$(this).toggleClass("slotSelected");
 
 	});
 }

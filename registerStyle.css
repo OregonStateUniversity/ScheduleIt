@@ -1,19 +1,25 @@
-span.ui-datepicker {
-    font-size:10px;
+.datepicker-switch
+{
+	 pointer-events: none;
 }
+
+.datepicker{
+	display:inline-block;
+	text-align: center;
+}
+
+
 
 .table-condensed th
 {
-	font-size: 25px;
-	padding: 10px;
-	font-weight: bold;
+	font-size: 20px;
 }
 
 .table-condensed td
 {
 	font-size: 20px;
-	padding: 50px;
 }
+
 
 .table-condensed tbody tr
 {
@@ -25,7 +31,22 @@ span.ui-datepicker {
 	text-align: center;
 }
 
-.selected
+.calendarField
 {
-	background-color: green;
+   display: inline-block;
+}
+
+#slotPicker td:hover
+{
+	cursor: pointer;
+}
+
+.slotSelected
+{
+	background-color: #d3d3d3;
+}
+
+#myModal
+{
+	overflow-y: auto;
 }
