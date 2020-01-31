@@ -15,29 +15,20 @@ window.onload = function () {
 			alert("Please select slots");
 		}
 		else {
-			var url = "index.php";
+			var newArr = JSON.stringify(slots);
 			$.ajax({
-    		type: 'POST',
-    		url: url,
-    		dataType: 'json',
+    		type: "POST",
+    		url: "event.php",
     		data: {
-					eventName: document.getElementById("eventNameInput").value,
-					eventLocation: document.getElementById("locationInput").value,
-					eventDescription: document.getElementById("eventDescriptTextArea").value,
-        	slotArray: slots
-    		},
-    		beforeSend: function () {
-        // alert("before send");
-    		},
-    		success: function (result) {
-        	if(result.status == 'success'){
-         		alert('Success')
-          }
-					else{
-        		alert(result.message);
-      		}
-    		}
+				 	eventName: $('#eventNameInput').val(),
+				 	eventLocation: $('#locationInput').val(),
+				 	eventDescription: $('#eventDescriptTextArea').val(),
+	        slotArray: newArr
+	    	 }
+			}).done(function(response) {
+    		alert(response);
 			});
+
 			$('.entryField2').addClass('collapse');
 			$('.submitField').removeClass('collapse');
 		}
@@ -272,6 +263,25 @@ function formatTime(temp) {
 	return hours + ":" + minutes;
 }
 
+function getDuration() {
+	var tempS = document.getElementById("durationSelector").value;
+	var duration;
+	switch(tempS) {
+		case "15 Minutes":
+			duration = 15;
+			break;
+
+		case "30 Minutes":
+			duration = 30;
+			break;
+
+		case "1 Hour":
+			duration = 60;
+			break;
+	}
+
+	return duration;
+}
 function formatEndTime(temp) {
 	var tempS = document.getElementById("durationSelector").value;
 	var totalMinutes = parseInt(temp, 10);
@@ -322,6 +332,7 @@ function submitEvent() {
 		}
 	});
 	if (slotArray.length == 0) {
+
 		return false;
 	}
 	else {
