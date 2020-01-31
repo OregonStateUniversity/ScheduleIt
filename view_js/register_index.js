@@ -22,7 +22,7 @@ $(document).ready(function () {
 
 		//var popup = document.getElementById("myModal");
 		//popup.style.display = "block";
-		$('#timeSelectionField h2').text(e.format());
+		$('.modal-body h2').text(e.format());
 		createFields();
 	});
 });
