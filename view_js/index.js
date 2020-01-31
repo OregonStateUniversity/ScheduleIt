@@ -368,8 +368,10 @@ function submitEvent() {
 				if ($(this).hasClass("selected")) {
 					var date = formatDate(currDate);
 					var currTime = $(this).closest('tr').find('th').children().text();
-					var slot = { startDate: date + " " + formatTime(currTime),
-											endDate: date + " " + formatEndTime(currTime) };
+					var slot = { 
+						startDate: date + " " + formatTime(currTime),
+						endDate: date + " " + formatEndTime(currTime) 
+					};
 					console.log(slot.startDate);
 					console.log(slot.endDate);
 					slotArray.push(slot);
@@ -384,11 +386,11 @@ function submitEvent() {
 		}
 	});
 
-	if (hasSelected === false)  
-			return false; // return false if not all column have a selected time
-  }
+	if (hasSelected === false) {
+		return false; // return false if not all column have a selected time
+ 	}
 	else {
-			return slotArray;
+		return slotArray;
 	}
 
 }
