@@ -1,0 +1,14 @@
+RewriteEngine On
+RewriteBase /
+
+<files "secret1">
+Require all denied
+</files>
+
+<files "secret2">
+Require all denied
+</files>
+
+<files "text_file">
+Require all denied
+</files>

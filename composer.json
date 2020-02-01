@@ -1,5 +1,7 @@
 {
     "require": {
-        "twig/twig": "^1.0"
+        "twig/twig": "^1.0",
+        "jasig/phpcas": "^1.3",
+        "ralouphie/mimey": "^2.1"
     }
 }

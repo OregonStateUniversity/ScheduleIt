@@ -1,4 +1,12 @@
 <div class="header">
-	<img src="img/beaver-logo.png" width="75px" height="75px"></img>
-	<a href="#default" class="logo">MyEventBoard</a>
+	<img id="headerLogo" src="MyEventBoardLogos/MEB_logo-02.png"></img>
 </div>
+
+<script>
+	
+	var header = document.getElementById("headerLogo");
+	header.addEventListener("click", function() {
+		window.location = "./";
+	});
+	
+</script>

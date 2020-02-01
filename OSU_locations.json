@@ -1,0 +1,3352 @@
+[
+    {
+        "name": "A.A Red Emmerson Advanced Wood Products Laboratory",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": "44.562533",
+        "longitude": "-123.287551",
+        "summary": null
+    },
+    {
+        "name": "AB 6 Small Sheds - Berry Creek",
+        "address": "27280 TAMPICO RD",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "AB Adair Hay Storage & Loafing Shed",
+        "address": "27280 TAMPICO RD",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "AB Adair Residence - Berry Creek",
+        "address": "27280 TAMPICO RD",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "AB Adair Shed - Berry Creek",
+        "address": "27280 TAMPICO RD",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "AB Machine Shed - Berry Creek",
+        "address": "27280 TAMPICO RD",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "AB Shed - Berry Creek",
+        "address": "27280 TAMPICO RD",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "AS 4 Feeding Silo",
+        "address": "28120 BEEF BARN RD",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "AS Adair Barn #1 - Soap Creek",
+        "address": "28120 BEEF BARN RD",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "AS Adair Barn #2 - Soap Creek",
+        "address": "28120 BEEF BARN RD",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "AS Adair Calving Barn & Office",
+        "address": "28120 BEEF BARN RD",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "AS Adair Scale House",
+        "address": "28120 BEEF BARN RD",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "AS Adair Shed #2 - Soap Creek",
+        "address": "28120 BEEF BARN RD",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "AS Adair Shed - Soap Creek",
+        "address": null,
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "AS Horizontal Silo",
+        "address": "28120 BEEF BARN RD",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "AS Utility Storage",
+        "address": "28120 BEEF BARN RD",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "ATAMI, HP Building 11",
+        "address": "1110 NE CIRCLE BLVD\nBUILDING 11",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "Adams Hall",
+        "address": "606 SW 15th Street",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/adams.jpg"
+        ],
+        "latitude": "44.561448",
+        "longitude": "-123.274672",
+        "summary": null
+    },
+    {
+        "name": "Aero Engineering Lab",
+        "address": "852 SW 30th Street",
+        "thumbnail": [],
+        "latitude": "44.55881",
+        "longitude": "-123.285722",
+        "summary": null
+    },
+    {
+        "name": "Agricultural & Life Sciences Bldg",
+        "address": "2750 SW Campus Way",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/als.jpg"
+        ],
+        "latitude": "44.566415",
+        "longitude": "-123.28203",
+        "summary": null
+    },
+    {
+        "name": "Anderson and Keeling Memorial Target Range",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": "44.563016",
+        "longitude": "-123.275314",
+        "summary": null
+    },
+    {
+        "name": "Animal Physiology Lab",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": "44.566335",
+        "longitude": "-123.292235",
+        "summary": null
+    },
+    {
+        "name": "Apiary (Bee) Building",
+        "address": "844 SW 35th Street",
+        "thumbnail": [],
+        "latitude": "44.559591",
+        "longitude": "-123.288954",
+        "summary": null
+    },
+    {
+        "name": "Arnold Dining Center",
+        "address": "681 SW 26th Street",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/2_0.jpg"
+        ],
+        "latitude": "44.56062",
+        "longitude": "-123.27775",
+        "summary": null
+    },
+    {
+        "name": "Asian & Pacific Cultural Center",
+        "address": "2695 SW Jefferson Way",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/asian_and_pacific_cultural_center.jpg"
+        ],
+        "latitude": "44.564883",
+        "longitude": "-123.281062",
+        "summary": null
+    },
+    {
+        "name": "Austin Hall",
+        "address": "2751 SW Jefferson Way",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/austin.jpg"
+        ],
+        "latitude": "44.564934",
+        "longitude": "-123.282011",
+        "summary": null
+    },
+    {
+        "name": "Autzen House",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": "44.564086",
+        "longitude": "-123.26749",
+        "summary": null
+    },
+    {
+        "name": "Azalea House",
+        "address": "1050 SW Madison Way",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/azalea_house.jpg"
+        ],
+        "latitude": "44.565158",
+        "longitude": "-123.269598",
+        "summary": null
+    },
+    {
+        "name": "BF Botany Plant Path Screenhouse",
+        "address": "34016 NE ELECTRIC RD",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "BF Field Lab Pole Shed",
+        "address": "34016 NE ELECTRIC RD",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "BF Machine Shed",
+        "address": "34016 NE ELECTRIC RD",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "BF Plant Pathology Office",
+        "address": "34016 NE ELECTRIC RD",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "BF Screen House",
+        "address": "34016 NE ELECTRIC RD",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "Ballard Extension Hall",
+        "address": "2591 SW Campus Way",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/ballard_extension_hall.jpg"
+        ],
+        "latitude": "44.567186",
+        "longitude": "-123.279705",
+        "summary": null
+    },
+    {
+        "name": "Batcheller Hall",
+        "address": "1791 Campus Way",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/batcheller_hall.jpg"
+        ],
+        "latitude": "44.567031",
+        "longitude": "-123.275295",
+        "summary": null
+    },
+    {
+        "name": "Bates Hall",
+        "address": "110 SW 26th Street",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/bates_hall.jpg"
+        ],
+        "latitude": "44.567383",
+        "longitude": "-123.280347",
+        "summary": null
+    },
+    {
+        "name": "Beach Barn",
+        "address": "28255 HWY 34",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "Beef Pole Barn",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "Beth Ray Center For Academic Support",
+        "address": "671 SW 26th Street",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/7.jpg"
+        ],
+        "latitude": "44.560589",
+        "longitude": "-123.27865",
+        "summary": null
+    },
+    {
+        "name": "Bexell Hall",
+        "address": "2251 SW Campus Way",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/bexell_hall.jpg"
+        ],
+        "latitude": "44.56705",
+        "longitude": "-123.27739",
+        "summary": null
+    },
+    {
+        "name": "Biological Curation",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": "44.562481",
+        "longitude": "-123.291111",
+        "summary": null
+    },
+    {
+        "name": "Bloss Hall",
+        "address": "2001 SW Western Boulevard",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/8_0.jpg"
+        ],
+        "latitude": "44.560136",
+        "longitude": "-123.277579",
+        "summary": null
+    },
+    {
+        "name": "Burt Hall",
+        "address": "2651 SW Orchard Avenue",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/burt_hall.jpg"
+        ],
+        "latitude": "44.56825",
+        "longitude": "-123.281015",
+        "summary": null
+    },
+    {
+        "name": "Buxton Hall",
+        "address": "310 SW Weatherford Place",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/buxton.jpg"
+        ],
+        "latitude": "44.56439",
+        "longitude": "-123.281876",
+        "summary": null
+    },
+    {
+        "name": "CEOAS Machine and Technical Development",
+        "address": "891 SW 30th Street",
+        "thumbnail": [],
+        "latitude": "44.557691",
+        "longitude": "-123.284187",
+        "summary": null
+    },
+    {
+        "name": "CFD - Station #2",
+        "address": "365 SW 35TH STREET",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "CH2M Hill Alumni Center",
+        "address": "725 SW 26th Street",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/12.jpg"
+        ],
+        "latitude": "44.559893",
+        "longitude": "-123.279028",
+        "summary": null
+    },
+    {
+        "name": "CW Hay Bedding ",
+        "address": "3565 SW Campus Way",
+        "thumbnail": [],
+        "latitude": "44.567253",
+        "longitude": "-123.293142",
+        "summary": null
+    },
+    {
+        "name": "Callahan Hall",
+        "address": "1420 SW Jefferson Avenue",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/callahan.jpg"
+        ],
+        "latitude": "44.564045",
+        "longitude": "-123.273435",
+        "summary": null
+    },
+    {
+        "name": "Carrie Halsell Residence Hall",
+        "address": "644 SW 17th Street",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/20.jpg"
+        ],
+        "latitude": "44.561176",
+        "longitude": "-123.27687",
+        "summary": null
+    },
+    {
+        "name": "Cascade Hall",
+        "address": "601 SW 17th Street",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/9.jpg"
+        ],
+        "latitude": "44.561501",
+        "longitude": "-123.27538",
+        "summary": null
+    },
+    {
+        "name": "Cauthorn Hall",
+        "address": "361 SW Sackett Place",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/10.jpg"
+        ],
+        "latitude": "44.563688",
+        "longitude": "-123.282567",
+        "summary": null
+    },
+    {
+        "name": "Centro Cultural Cesar Chavez",
+        "address": "691 SW 26th Street",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/11.jpg"
+        ],
+        "latitude": "44.560525",
+        "longitude": "-123.279336",
+        "summary": null
+    },
+    {
+        "name": "Champinefu Lodge",
+        "address": "1030 SW Madison Avenue",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/avery_lodge.jpg"
+        ],
+        "latitude": "44.565067",
+        "longitude": "-123.269059",
+        "summary": null
+    },
+    {
+        "name": "Chemical Storage",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": "44.566508",
+        "longitude": "-123.293412",
+        "summary": null
+    },
+    {
+        "name": "Child Care Center",
+        "address": "1262 SW Adams Avenue",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/13.jpg"
+        ],
+        "latitude": "44.563085",
+        "longitude": "-123.27175",
+        "summary": null
+    },
+    {
+        "name": "Clark Laboratory",
+        "address": "3260 SW Campus Way",
+        "thumbnail": [],
+        "latitude": "44.565912",
+        "longitude": "-123.287359",
+        "summary": null
+    },
+    {
+        "name": "Coastal Oceanography Lab",
+        "address": "891 SW 30th Street",
+        "thumbnail": [],
+        "latitude": "44.557298",
+        "longitude": "-123.284148",
+        "summary": null
+    },
+    {
+        "name": "Commodity Storage Facility",
+        "address": "35th and Campus Way",
+        "thumbnail": [],
+        "latitude": "44.567371",
+        "longitude": "-123.292873",
+        "summary": null
+    },
+    {
+        "name": "Community Hall",
+        "address": "1650 SW Pioneer Place",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/benton-hall.jpg"
+        ],
+        "latitude": "44.566202",
+        "longitude": "-123.274346",
+        "summary": null
+    },
+    {
+        "name": "Cordley Hall",
+        "address": "2701 SW Campus Way",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/cordley.jpg"
+        ],
+        "latitude": "44.567015",
+        "longitude": "-123.281397",
+        "summary": null
+    },
+    {
+        "name": "Covell Hall",
+        "address": "1691 SW Campus Way",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/covell_hall.jpg"
+        ],
+        "latitude": "44.567174",
+        "longitude": "-123.274909",
+        "summary": null
+    },
+    {
+        "name": "Crew Facility",
+        "address": "28255 HWY 34",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "Crop Science Building",
+        "address": "3050 SW Campus Way",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/crop_sciences.jpg"
+        ],
+        "latitude": "44.566406",
+        "longitude": "-123.285323",
+        "summary": null
+    },
+    {
+        "name": "Custodial Garage",
+        "address": "621 SW 17TH ST",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "Custodial Services Bldg",
+        "address": "621 SW 17TH ST",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "DC Dairy Barn",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": "44.569772",
+        "longitude": "-123.300577",
+        "summary": null
+    },
+    {
+        "name": "DC Dry Cow Barn",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": "44.570204",
+        "longitude": "-123.300528",
+        "summary": null
+    },
+    {
+        "name": "DC Feed Storage",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": "44.569887",
+        "longitude": "-123.29965",
+        "summary": null
+    },
+    {
+        "name": "DC-Farm House (Residence)",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": "44.571547",
+        "longitude": "-123.300405",
+        "summary": null
+    },
+    {
+        "name": "Dairy Barn Milking Parlor",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": "44.570245",
+        "longitude": "-123.300844",
+        "summary": null
+    },
+    {
+        "name": "Dawes House",
+        "address": "2550 SW Monroe Avenue",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/dawes_house.jpg"
+        ],
+        "latitude": "44.568736",
+        "longitude": "-123.279691",
+        "summary": null
+    },
+    {
+        "name": "Dearborn Hall",
+        "address": "1891 SW Campus Way",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/dearborn_hall.jpg"
+        ],
+        "latitude": "44.567223",
+        "longitude": "-123.275637",
+        "summary": null
+    },
+    {
+        "name": "Dixon Lodge",
+        "address": "265 SW 11th Street",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/dixon_lodge.jpg"
+        ],
+        "latitude": "44.564714",
+        "longitude": "-123.269923",
+        "summary": null
+    },
+    {
+        "name": "Dixon Recreation Center",
+        "address": "425 SW 26th Street",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/14.jpg"
+        ],
+        "latitude": "44.563137",
+        "longitude": "-123.278729",
+        "summary": null
+    },
+    {
+        "name": "Dryden Hall",
+        "address": "450 SW 30th Street",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/dryden.jpg"
+        ],
+        "latitude": "44.56305",
+        "longitude": "-123.285155",
+        "summary": null
+    },
+    {
+        "name": "Dust Mixing Machine Storage",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": "44.55946",
+        "longitude": "-123.28863",
+        "summary": null
+    },
+    {
+        "name": "EF NORTH PUMPHOUSE (IRRIG)",
+        "address": "NE ELECTRIC RD",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "EF OIL STORAGE SHED",
+        "address": "NE ELECTRIC RD",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "EF SOUTH PUMPHOUSE (IRRIG)",
+        "address": "NE ELECTRIC RD",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "EF South Pumphouse (Irrig.)",
+        "address": "NE ELECTRIC RD",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "EOA Sciences Admin Bldg",
+        "address": "101 SW 26th Street",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/earth_ocean_and_atmospheric_science_building.jpg"
+        ],
+        "latitude": "44.568511",
+        "longitude": "-123.279843",
+        "summary": null
+    },
+    {
+        "name": "EPA - 102",
+        "address": null,
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "EPA - 147",
+        "address": null,
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "EPA Environmental Research Labs",
+        "address": "200 SW 35th Street",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/epa.jpg"
+        ],
+        "latitude": "44.56561",
+        "longitude": "-123.290504",
+        "summary": null
+    },
+    {
+        "name": "East Greenhouse",
+        "address": "2801 SW Campus Way",
+        "thumbnail": [],
+        "latitude": "44.567106",
+        "longitude": "-123.282784",
+        "summary": null
+    },
+    {
+        "name": "East Greenhouse Work Shed",
+        "address": "2801 SW CAMPUS WAY",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "Einerson House",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": "44.569572",
+        "longitude": "-123.281189",
+        "summary": null
+    },
+    {
+        "name": "Energy Center",
+        "address": "3452 SW Jefferson Way",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/15.jpg"
+        ],
+        "latitude": "44.564134",
+        "longitude": "-123.28922",
+        "summary": null
+    },
+    {
+        "name": "Entomology Machine Storage",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": "44.559531",
+        "longitude": "-123.288241",
+        "summary": null
+    },
+    {
+        "name": "Environmental Health & Safety Annex",
+        "address": "190 SW 35th Street",
+        "thumbnail": [],
+        "latitude": "44.565855",
+        "longitude": "-123.289145",
+        "summary": null
+    },
+    {
+        "name": "Equipment Storage Shed",
+        "address": "3455 NE GRANGER",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "F R L Garage & Warehouse",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": "44.558434",
+        "longitude": "-123.285079",
+        "summary": null
+    },
+    {
+        "name": "F R L Greenhouse",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": "44.557676",
+        "longitude": "-123.286071",
+        "summary": null
+    },
+    {
+        "name": "F R L Insectary",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": "44.558242",
+        "longitude": "-123.286546",
+        "summary": null
+    },
+    {
+        "name": "F R L Lumber Storage",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": "44.55823",
+        "longitude": "-123.285411",
+        "summary": null
+    },
+    {
+        "name": "F R L Solvent Shed",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": "44.558189",
+        "longitude": "-123.285572",
+        "summary": null
+    },
+    {
+        "name": "F R L Warehouse",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": "44.558179",
+        "longitude": "-123.28623",
+        "summary": null
+    },
+    {
+        "name": "FED - USDA Horticultural Crops Research Lab",
+        "address": "3420 NW Orchard Avenue",
+        "thumbnail": [],
+        "latitude": "44.567554",
+        "longitude": "-123.28905",
+        "summary": null
+    },
+    {
+        "name": "FED - USDA National Forage Seed Production Research Center",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": "44.5665",
+        "longitude": "-123.289063",
+        "summary": null
+    },
+    {
+        "name": "FP High Barn",
+        "address": "3720 NE HWY 20",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "FP Lab 566",
+        "address": "3720 NE HWY 20",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "FP Low Barn",
+        "address": "3720 NE HWY 20",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "FP Office - Lab",
+        "address": "3720 NE HWY 20",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "FP Pump House",
+        "address": "3720 NE HWY 20",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "FP Residence Garage",
+        "address": "3720 NE HWY 20",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "FP Storage Bldg",
+        "address": "FAIRPLAY FARM - 3720 NE HWY 20",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "FP Storage Shed",
+        "address": "3720 NE HWY 20",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "FSL - 376",
+        "address": null,
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "FSL - 377",
+        "address": null,
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "Fairbanks Annex",
+        "address": "2651 SW Jefferson Way",
+        "thumbnail": [],
+        "latitude": "44.56517",
+        "longitude": "-123.280867",
+        "summary": null
+    },
+    {
+        "name": "Fairbanks Hall",
+        "address": "220 SW 26th Street",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/16.jpg"
+        ],
+        "latitude": "44.565065",
+        "longitude": "-123.280458",
+        "summary": null
+    },
+    {
+        "name": "Fairplay West Lab",
+        "address": "3720 NE HIGHWAY 20",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "Farm Service",
+        "address": "3564 Campus Way",
+        "thumbnail": [],
+        "latitude": "44.566451",
+        "longitude": "-123.293201",
+        "summary": null
+    },
+    {
+        "name": "Farm Service Equip Shed 1",
+        "address": null,
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "Farm Service Equip Shed 2",
+        "address": null,
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "Farm Service Equip Storage 2",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": "44.566401",
+        "longitude": "-123.293892",
+        "summary": null
+    },
+    {
+        "name": "Farm Service Quonset",
+        "address": "CAMPUS WAY AND 35TH",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "Feed Barn",
+        "address": null,
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "Feed Center",
+        "address": "3550 Campus Way",
+        "thumbnail": [],
+        "latitude": "44.56662",
+        "longitude": "-123.292422",
+        "summary": null
+    },
+    {
+        "name": "Feeding Shelter 1",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": "44.567138",
+        "longitude": "-123.293616",
+        "summary": null
+    },
+    {
+        "name": "Feeding Shelter 2",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": "44.566978",
+        "longitude": "-123.293592",
+        "summary": null
+    },
+    {
+        "name": "Filtering Plant",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": "44.564074",
+        "longitude": "-123.277856",
+        "summary": null
+    },
+    {
+        "name": "Finley Hall",
+        "address": "2100 SW May Way",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/17.jpg"
+        ],
+        "latitude": "44.561092",
+        "longitude": "-123.277795",
+        "summary": null
+    },
+    {
+        "name": "Fish Egg Incubation Building",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "Fisheries and Wildlife Office",
+        "address": "34349 ELECTRIC RD NORTH",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "Forest Club Cabin",
+        "address": "500 RD, MACDONALD FOREST",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "Fumigatorium & Shop",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": "44.559589",
+        "longitude": "-123.288627",
+        "summary": null
+    },
+    {
+        "name": "Genetics Research B",
+        "address": null,
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "Genetics Research D",
+        "address": null,
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "George W. Peavy Forest Science Center",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": "44.564283",
+        "longitude": "-123.285704",
+        "summary": null
+    },
+    {
+        "name": "Gilbert Hall",
+        "address": "2100 SW Campus Way",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/gilbert_hall.jpg"
+        ],
+        "latitude": "44.568005",
+        "longitude": "-123.276426",
+        "summary": null
+    },
+    {
+        "name": "Gilbert Hall Addition",
+        "address": "2101 SW Campus Way",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/gilbert_addition.jpg"
+        ],
+        "latitude": "44.567462",
+        "longitude": "-123.276312",
+        "summary": null
+    },
+    {
+        "name": "Gilkey Hall",
+        "address": "122 SW Waldo Place",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/gilmore_hall_0.jpg"
+        ],
+        "latitude": "44.566483",
+        "longitude": "-123.27729",
+        "summary": null
+    },
+    {
+        "name": "Gill Coliseum",
+        "address": "660 SW 26th Street",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/18.jpg"
+        ],
+        "latitude": "44.561269",
+        "longitude": "-123.280631",
+        "summary": null
+    },
+    {
+        "name": "Gilmore Annex",
+        "address": "2650 SW Campus Way",
+        "thumbnail": [],
+        "latitude": "44.566634",
+        "longitude": "-123.280942",
+        "summary": null
+    },
+    {
+        "name": "Gilmore Hall",
+        "address": "124 SW 26th Street",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/gilmore-hall.jpg"
+        ],
+        "latitude": "44.566424",
+        "longitude": "-123.280573",
+        "summary": null
+    },
+    {
+        "name": "Gladys Valley Gymnastics Center",
+        "address": "1701 SW Jefferson Avenue",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/gladys_valley_gymnastics_center.jpg"
+        ],
+        "latitude": "44.564929",
+        "longitude": "-123.275294",
+        "summary": null
+    },
+    {
+        "name": "Gleeson Hall",
+        "address": "2115 SW Campus Way",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/gleeson_hall.jpg"
+        ],
+        "latitude": "44.567175",
+        "longitude": "-123.276695",
+        "summary": null
+    },
+    {
+        "name": "Goss Maintenance Bldg",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": "44.563388",
+        "longitude": "-123.276436",
+        "summary": null
+    },
+    {
+        "name": "Goss Stadium",
+        "address": "430 SW Langton Place",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/goss_stadium.jpg"
+        ],
+        "latitude": "44.563154",
+        "longitude": "-123.277589",
+        "summary": null
+    },
+    {
+        "name": "Graf Hall",
+        "address": "1680 SW Monroe Avenue",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/graf_hall.jpg"
+        ],
+        "latitude": "44.567652",
+        "longitude": "-123.27493",
+        "summary": null
+    },
+    {
+        "name": "HCRL - 157",
+        "address": null,
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "HCRL - 158",
+        "address": null,
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "HCRL - 159",
+        "address": null,
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "HCRL - 160",
+        "address": null,
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "HCRL - 161",
+        "address": null,
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "HCRL - 162",
+        "address": null,
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "HCRL - 422",
+        "address": null,
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "HCRL - 427",
+        "address": null,
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "HCRL - 428",
+        "address": null,
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "Hallie E. Ford Center",
+        "address": "2631 SW Campus Way",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/19.jpg"
+        ],
+        "latitude": "44.567028",
+        "longitude": "-123.280423",
+        "summary": null
+    },
+    {
+        "name": "Harris Black Cultural Center",
+        "address": "2320 SW Monroe Avenue",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/lonnie_b_harris_black_cultural_center.jpg"
+        ],
+        "latitude": "44.568353",
+        "longitude": "-123.278163",
+        "summary": null
+    },
+    {
+        "name": "Hattie Redmond Women and Gender Center",
+        "address": "1700 SW Pioneer Place",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/womens_center.jpg"
+        ],
+        "latitude": "44.565836",
+        "longitude": "-123.274788",
+        "summary": null
+    },
+    {
+        "name": "Hawley Hall",
+        "address": "311 SW Sackett Place",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/hawley.jpg"
+        ],
+        "latitude": "44.564395",
+        "longitude": "-123.282577",
+        "summary": null
+    },
+    {
+        "name": "Hay Storage Facility",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": "44.575478",
+        "longitude": "-123.313126",
+        "summary": null
+    },
+    {
+        "name": "Heckart Lodge",
+        "address": "2900 SW Jefferson Way",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/heckartlodge.jpg"
+        ],
+        "latitude": "44.56431",
+        "longitude": "-123.283436",
+        "summary": null
+    },
+    {
+        "name": "Heifer Barn",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": "44.56946",
+        "longitude": "-123.300293",
+        "summary": null
+    },
+    {
+        "name": "Hilton Garden Inn",
+        "address": "2500 SW Western Boulevard",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/21.jpg"
+        ],
+        "latitude": "44.557707",
+        "longitude": "-123.278382",
+        "summary": null
+    },
+    {
+        "name": "Hinsdale Wave Research Lab",
+        "address": "3550 SW Jefferson Way",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/wavelab.jpg"
+        ],
+        "latitude": "44.563818",
+        "longitude": "-123.291286",
+        "summary": null
+    },
+    {
+        "name": "Hogg Animal Metabolism Laboratory",
+        "address": "3547 SW Campus Way",
+        "thumbnail": [],
+        "latitude": "44.567372",
+        "longitude": "-123.292121",
+        "summary": null
+    },
+    {
+        "name": "Horse Barn 1",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": "44.575591",
+        "longitude": "-123.312357",
+        "summary": null
+    },
+    {
+        "name": "Horse Barn 2",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": "44.575696",
+        "longitude": "-123.313012",
+        "summary": null
+    },
+    {
+        "name": "Horse Center Mobile Home",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": "44.575349",
+        "longitude": "-123.311976",
+        "summary": null
+    },
+    {
+        "name": "Hovland Hall",
+        "address": "2700 SW Campus Way",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/hovland.jpg"
+        ],
+        "latitude": "44.566419",
+        "longitude": "-123.281349",
+        "summary": null
+    },
+    {
+        "name": "Hyslop Farm Bundle Shed",
+        "address": "3455 NE GRANGER",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "Hyslop Farm Car Port",
+        "address": "3455 NE GRANGER",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "Hyslop Farm Cereals Storage Shed",
+        "address": "3455 NE GRANGER",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "Hyslop Farm Chem Storage",
+        "address": "3455 NE GRANGER",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "Hyslop Farm Chemical Storage",
+        "address": "3455 NE GRANGER",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "Hyslop Farm Field Research Lab",
+        "address": "3455 NE GRANGER",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "Hyslop Farm Foundation Seed Warehouse",
+        "address": "3455 NE GRANGER",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "Hyslop Farm Fumigator",
+        "address": "3455 NE GRANGER",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "Hyslop Farm Machine Shed #1",
+        "address": "3455 NE GRANGER",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "Hyslop Farm Machine Shop",
+        "address": "3455 NE GRANGER",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "Hyslop Farm Machine Storage",
+        "address": "3455 NE GRANGER",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "Hyslop Farm Machine Storage Shed",
+        "address": "3455 NE GRANGER",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "Hyslop Farm Oil Shed",
+        "address": "3455 NE GRANGER",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "Hyslop Farm Pole Barn",
+        "address": "3455 NE GRANGER AVE.",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "Hyslop Farm Potato Greenhouse",
+        "address": "3455 NE GRANGER",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "Hyslop Farm Pump House",
+        "address": "3455 NE GRANGER",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "Hyslop Farm Residence Modular Home",
+        "address": "3455 NE GRANGER",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "Hyslop Farm Shed",
+        "address": "3455 NE GRANGER",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "Hyslop Farm Threshing Facility",
+        "address": "3455 NE GRANGER",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "Hyslop Farm USDA/OSU Machine Shed",
+        "address": "3455 NE GRANGER",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "Industrial Building Annex",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": "44.561387",
+        "longitude": "-123.276005",
+        "summary": null
+    },
+    {
+        "name": "International Living Learning Center",
+        "address": "1701 SW Western Boulevard",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/22.jpg"
+        ],
+        "latitude": "44.560194",
+        "longitude": "-123.276195",
+        "summary": null
+    },
+    {
+        "name": "Jackson Place Residence",
+        "address": "3505 NW JACKSON CREEK RD",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "James E. Oldfield Animal Teaching Facility",
+        "address": "[]",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/oatf.jpg"
+        ],
+        "latitude": "44.567285",
+        "longitude": "-123.290336",
+        "summary": null
+    },
+    {
+        "name": "Jefferson Street Building",
+        "address": "3731 SW Jefferson",
+        "thumbnail": [],
+        "latitude": "44.564995",
+        "longitude": "-123.293229",
+        "summary": null
+    },
+    {
+        "name": "John L. Fryer Aquatic Animal Health Laboratory",
+        "address": "34347 NE ELECTRIC RD",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "Johnson Hall",
+        "address": "105 SW 26th Street",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/johnson.jpg"
+        ],
+        "latitude": "44.567783",
+        "longitude": "-123.279253",
+        "summary": null
+    },
+    {
+        "name": "Joyce Collin Furman Hall",
+        "address": "200 SW 15th Street",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/furman_hall.jpg"
+        ],
+        "latitude": "44.565158",
+        "longitude": "-123.27419",
+        "summary": null
+    },
+    {
+        "name": "Kearney Hall",
+        "address": "1491 SW Campus Way",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/kearney_hall.jpg"
+        ],
+        "latitude": "44.567052",
+        "longitude": "-123.273254",
+        "summary": null
+    },
+    {
+        "name": "Kelley Engineering Center",
+        "address": "110 SW Park Terrace",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/24.jpg"
+        ],
+        "latitude": "44.567164",
+        "longitude": "-123.278692",
+        "summary": null
+    },
+    {
+        "name": "Kerr Administration Bldg",
+        "address": "1500 SW Jefferson Ave",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/kerr.jpg"
+        ],
+        "latitude": "44.563919",
+        "longitude": "-123.274592",
+        "summary": null
+    },
+    {
+        "name": "Kidder Hall",
+        "address": "2000 SW Campus Way",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/kidder_hall.jpg"
+        ],
+        "latitude": "44.5665",
+        "longitude": "-123.276158",
+        "summary": null
+    },
+    {
+        "name": "LB Irrigation Storage",
+        "address": "33321 PEORIA RD",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "LaSells Stewart Center",
+        "address": "875 SW 26th Street",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/27.jpg"
+        ],
+        "latitude": "44.559161",
+        "longitude": "-123.27852",
+        "summary": null
+    },
+    {
+        "name": "Lab Animal Resources Center",
+        "address": "3151 SW Washington Way",
+        "thumbnail": [],
+        "latitude": "44.562455",
+        "longitude": "-123.286255",
+        "summary": null
+    },
+    {
+        "name": "Langton Hall",
+        "address": "2450 SW Jefferson Way",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/langton.jpg"
+        ],
+        "latitude": "44.564116",
+        "longitude": "-123.278447",
+        "summary": null
+    },
+    {
+        "name": "Learning Innovation Center",
+        "address": "165 SW Sackett Place",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/28.jpg"
+        ],
+        "latitude": "44.565762",
+        "longitude": "-123.281717",
+        "summary": null
+    },
+    {
+        "name": "Lewis Brown Chem Storage",
+        "address": "33321 PEORIA RD",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "Lewis Brown Garage",
+        "address": "33321 PEORIA RD",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "Lewis Brown Pole Frame Shed",
+        "address": "33321 PEORIA RD",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "Lewis Brown Storage Shed",
+        "address": "33321 PEORIA RD",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "Lewis Brown Trailer Storage Shed",
+        "address": "33321 PEORIA RD",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "Lewis Brown Utility Bldgs",
+        "address": null,
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "Linus Pauling Science Center",
+        "address": "2900 SW Campus Way",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/29.jpg"
+        ],
+        "latitude": "44.566532",
+        "longitude": "-123.283691",
+        "summary": null
+    },
+    {
+        "name": "Loafing Shed & Trench Silo",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": "44.566967",
+        "longitude": "-123.310341",
+        "summary": null
+    },
+    {
+        "name": "Magruder Hall",
+        "address": "700 SW 30th Street",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/magruder.jpg"
+        ],
+        "latitude": "44.560597",
+        "longitude": "-123.285644",
+        "summary": null
+    },
+    {
+        "name": "Magruder Lecture Hall",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": "44.560296",
+        "longitude": "-123.285114",
+        "summary": null
+    },
+    {
+        "name": "Manchester Riding Arena",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": "44.576182",
+        "longitude": "-123.311631",
+        "summary": null
+    },
+    {
+        "name": "Manure Shed",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": "44.562171",
+        "longitude": "-123.287229",
+        "summary": null
+    },
+    {
+        "name": "Marine Geology Repository",
+        "address": "891 SW 30th Street",
+        "thumbnail": [],
+        "latitude": "44.557598",
+        "longitude": "-123.284389",
+        "summary": null
+    },
+    {
+        "name": "Marine Technician Building",
+        "address": "891 SW 30th Street",
+        "thumbnail": [],
+        "latitude": "44.557227",
+        "longitude": "-123.284403",
+        "summary": null
+    },
+    {
+        "name": "Marketplace West Dining Center",
+        "address": "351 SW 30th Street",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/marketplacewest.jpg"
+        ],
+        "latitude": "44.563964",
+        "longitude": "-123.283588",
+        "summary": null
+    },
+    {
+        "name": "McAlexander Fieldhouse",
+        "address": "1800 SW Jefferson Way",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/mcalexander.jpg"
+        ],
+        "latitude": "44.563598",
+        "longitude": "-123.275452",
+        "summary": null
+    },
+    {
+        "name": "McNary Dining Center",
+        "address": "1300 SW Jefferson Ave",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/31.jpg"
+        ],
+        "latitude": "44.564078",
+        "longitude": "-123.272167",
+        "summary": null
+    },
+    {
+        "name": "McNary Hall",
+        "address": "1220 SW Jefferson Way",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/32.jpg"
+        ],
+        "latitude": "44.564379",
+        "longitude": "-123.271925",
+        "summary": null
+    },
+    {
+        "name": "Memorial Union",
+        "address": "2501 SW Jefferson Way",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/memorial_union.jpg"
+        ],
+        "latitude": "44.564917",
+        "longitude": "-123.278976",
+        "summary": null
+    },
+    {
+        "name": "Merritt Truax Indoor Center",
+        "address": "661 SW 30th Street",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/truax.jpg"
+        ],
+        "latitude": "44.561164",
+        "longitude": "-123.284013",
+        "summary": null
+    },
+    {
+        "name": "Merryfield Hall",
+        "address": "1600 SW Monroe Ave",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/merryfield_hall.jpg"
+        ],
+        "latitude": "44.567457",
+        "longitude": "-123.273996",
+        "summary": null
+    },
+    {
+        "name": "Milam Hall",
+        "address": "2520 SW Campus Way",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/milam_hall.jpg"
+        ],
+        "latitude": "44.56647",
+        "longitude": "-123.279005",
+        "summary": null
+    },
+    {
+        "name": "Mill Race Center",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "Milne Computer Center",
+        "address": "1800 SW Campus Way",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/milne_computer_center.jpg"
+        ],
+        "latitude": "44.566383",
+        "longitude": "-123.275367",
+        "summary": null
+    },
+    {
+        "name": "Mink Farm",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": "44.550491",
+        "longitude": "-123.28185",
+        "summary": null
+    },
+    {
+        "name": "Moreland Hall",
+        "address": "2550 SW Jefferson Way",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/35.jpg"
+        ],
+        "latitude": "44.564259",
+        "longitude": "-123.279448",
+        "summary": null
+    },
+    {
+        "name": "Motor Pool",
+        "address": "3200 SW Campus Way",
+        "thumbnail": [],
+        "latitude": "44.566495",
+        "longitude": "-123.286633",
+        "summary": null
+    },
+    {
+        "name": "Motor Pool Annex",
+        "address": "3220 SW Campus Way",
+        "thumbnail": [],
+        "latitude": "44.566239",
+        "longitude": "-123.286901",
+        "summary": null
+    },
+    {
+        "name": "Motor Scale House",
+        "address": "4490 HARRISON BLVD",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "Nash Hall",
+        "address": "2820 SW Campus Way",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/nash.jpg"
+        ],
+        "latitude": "44.566216",
+        "longitude": "-123.282747",
+        "summary": null
+    },
+    {
+        "name": "Native American Longhouse Eena Haws",
+        "address": "311 SW 26th Street",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/36.jpg"
+        ],
+        "latitude": "44.564043",
+        "longitude": "-123.279611",
+        "summary": null
+    },
+    {
+        "name": "Navy ROTC Armory",
+        "address": "2201 SW Washington Way",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/37.jpg"
+        ],
+        "latitude": "44.562164",
+        "longitude": "-123.278053",
+        "summary": null
+    },
+    {
+        "name": "Nursery Storage",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": "44.559556",
+        "longitude": "-123.28927",
+        "summary": null
+    },
+    {
+        "name": "OSU Beaver Store",
+        "address": "663 SW 26th Street",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/6.jpg"
+        ],
+        "latitude": "44.56121",
+        "longitude": "-123.279358",
+        "summary": null
+    },
+    {
+        "name": "OSU Bell Tower",
+        "address": "[]",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/bell_tower.jpg"
+        ],
+        "latitude": "44.565623",
+        "longitude": "-123.275314",
+        "summary": null
+    },
+    {
+        "name": "OSU Foundation Call Center",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": "44.557544",
+        "longitude": "-123.290164",
+        "summary": null
+    },
+    {
+        "name": "OSU Foundation Storage Shed 1",
+        "address": "850 SW 35TH ST",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "OSU Foundation Storage Shed 2",
+        "address": "850 SW 35TH STREET",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "OSU Parking Structure",
+        "address": "661 SW 26th Street",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/38.jpg"
+        ],
+        "latitude": "44.561273",
+        "longitude": "-123.278909",
+        "summary": null
+    },
+    {
+        "name": "Oak Creek Artificial Stream Lab  2",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "Oak Creek Blockhouse",
+        "address": "8840 NW OAK CREEK DRIVE",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "Oak Creek Building",
+        "address": "3015 SW Western Blvd",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/oakcreek.jpg"
+        ],
+        "latitude": "44.55742",
+        "longitude": "-123.285611",
+        "summary": null
+    },
+    {
+        "name": "Oak Creek Caretakers Quarters",
+        "address": "8840 NW OAK CREEK DRIVE",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "Oak Creek Chem Laboratory",
+        "address": "8840 NW OAK CREEK DRIVE",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "Oak Creek Const Temp Bldg",
+        "address": "8840 NW OAK CREEK DRIVE",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "Oak Creek Feeding Shelter",
+        "address": null,
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "Oak Creek Greenhouse Storage Shed",
+        "address": null,
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "Oak Creek Hazmat Storage",
+        "address": null,
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "Oak Creek Lab",
+        "address": "8840 NW OAK CREEK DRIVE",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "Oak Creek/Forestry Greenhouse",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": "44.55767",
+        "longitude": "-123.286573",
+        "summary": null
+    },
+    {
+        "name": "Ocean Mixing Lab",
+        "address": "891 SW 30th Street",
+        "thumbnail": [],
+        "latitude": "44.557821",
+        "longitude": "-123.284408",
+        "summary": null
+    },
+    {
+        "name": "Ocean Observing Center",
+        "address": "126 SW McKenzie Avenue",
+        "thumbnail": [],
+        "latitude": "44.528483",
+        "longitude": "-123.268362",
+        "summary": null
+    },
+    {
+        "name": "Oceanography Buoy Lab",
+        "address": "891 SW 30th Street",
+        "thumbnail": [],
+        "latitude": "44.55793",
+        "longitude": "-123.284084",
+        "summary": null
+    },
+    {
+        "name": "Oceanography Instrumentation Lab",
+        "address": "891 SW 30th Street",
+        "thumbnail": [],
+        "latitude": "44.557115",
+        "longitude": "-123.28414",
+        "summary": null
+    },
+    {
+        "name": "Oceanography Staging Bldg-Cyclotron",
+        "address": "850 SW 30th Street",
+        "thumbnail": [],
+        "latitude": "44.559056",
+        "longitude": "-123.285853",
+        "summary": null
+    },
+    {
+        "name": "Orchard Court Apartments",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": "44.568566",
+        "longitude": "-123.288831",
+        "summary": null
+    },
+    {
+        "name": "Outdoor Rec Maintenance Pavilion",
+        "address": "2781 SW Washington Way",
+        "thumbnail": [],
+        "latitude": "44.562623",
+        "longitude": "-123.28206",
+        "summary": null
+    },
+    {
+        "name": "Owen Hall",
+        "address": "1501 SW Campus Way",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/owen_hall.jpg"
+        ],
+        "latitude": "44.567061",
+        "longitude": "-123.273858",
+        "summary": null
+    },
+    {
+        "name": "Oxford House",
+        "address": "957 SW Jefferson Ave",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/oxford_house.jpg"
+        ],
+        "latitude": "44.564453",
+        "longitude": "-123.268935",
+        "summary": null
+    },
+    {
+        "name": "P. Wayne Valley Sports Performance Center",
+        "address": "2737 SW Ralph Miller Lane",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/43.jpg"
+        ],
+        "latitude": "44.561267",
+        "longitude": "-123.281731",
+        "summary": null
+    },
+    {
+        "name": "Peavy Arboretum Fuel Shed",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "Peavy Arboretum Machine Barn",
+        "address": "8840 NW OAK CREEK DRIVE",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "Peavy Arboretum Operations",
+        "address": "8840 NW OAK CREEK DRIVE",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "Peavy Arboretum Research Forest Office Bldg",
+        "address": "8692 NW PEAVY ARBORETUM RD",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "Peavy Arboretum Residence",
+        "address": "8399 NW PEAVY ARBORETUM RD",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "Peavy Arboretum Shop",
+        "address": "8840 NW OAK CREEK DRIVE",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "Peavy Lodge",
+        "address": null,
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "Pharmacy",
+        "address": "1601 SW Jefferson Ave",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/pharmacy.jpg"
+        ],
+        "latitude": "44.565287",
+        "longitude": "-123.274883",
+        "summary": null
+    },
+    {
+        "name": "Physical Plant - Lube Bldg",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": "44.563036",
+        "longitude": "-123.274621",
+        "summary": null
+    },
+    {
+        "name": "Physical Plant - Paint Shop",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": "44.562387",
+        "longitude": "-123.275043",
+        "summary": null
+    },
+    {
+        "name": "Physical Plant - Vehicle Shed A",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": "44.563011",
+        "longitude": "-123.274342",
+        "summary": null
+    },
+    {
+        "name": "Physical Plant - Vehicle Shed B",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": "44.56268",
+        "longitude": "-123.27445",
+        "summary": null
+    },
+    {
+        "name": "Physical Plant Heating Plant",
+        "address": "501 Benton Place",
+        "thumbnail": [],
+        "latitude": "44.562792",
+        "longitude": "-123.275595",
+        "summary": null
+    },
+    {
+        "name": "Physical Plant Material Shed",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": "44.562375",
+        "longitude": "-123.274785",
+        "summary": null
+    },
+    {
+        "name": "Physical Plant Shops",
+        "address": "572 SW 15th Street",
+        "thumbnail": [],
+        "latitude": "44.563003",
+        "longitude": "-123.274875",
+        "summary": null
+    },
+    {
+        "name": "Physical Plant Vehicle Shed",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": "44.562685",
+        "longitude": "-123.274854",
+        "summary": null
+    },
+    {
+        "name": "Physical Plant Whse 1",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": "44.563178",
+        "longitude": "-123.291892",
+        "summary": null
+    },
+    {
+        "name": "Physical Plant Whse 2",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": "44.562613",
+        "longitude": "-123.291388",
+        "summary": null
+    },
+    {
+        "name": "Plageman Student Health Center",
+        "address": "108 SW Memorial Place",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/plageman_hall.jpg"
+        ],
+        "latitude": "44.567746",
+        "longitude": "-123.278356",
+        "summary": null
+    },
+    {
+        "name": "Pole Barn",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": "44.560992",
+        "longitude": "-123.286923",
+        "summary": null
+    },
+    {
+        "name": "Poling Hall",
+        "address": "260 SW Weatherford Place",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/poling.jpg"
+        ],
+        "latitude": "44.563687",
+        "longitude": "-123.281824",
+        "summary": null
+    },
+    {
+        "name": "Poultry Research Facility",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": "44.572811",
+        "longitude": "-123.304001",
+        "summary": null
+    },
+    {
+        "name": "Precision Agricultural Systems Ctr",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": "44.567199",
+        "longitude": "-123.291378",
+        "summary": null
+    },
+    {
+        "name": "President's Residence",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "Pride Center",
+        "address": "1553 SW A Avenue",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/pridecenter.jpg"
+        ],
+        "latitude": "44.560979",
+        "longitude": "-123.274853",
+        "summary": null
+    },
+    {
+        "name": "Pride Center Garage",
+        "address": "1553 SW A AVE",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "Pride Center Storage",
+        "address": "1553 SW A AVE",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "Property Services",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": "44.561305",
+        "longitude": "-123.272651",
+        "summary": null
+    },
+    {
+        "name": "RAIL Animal Isolation Lab",
+        "address": "53RD & CAMPUS WAY SE",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "RAIL Class 1 Isolation A",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": "44.564834",
+        "longitude": "-123.309991",
+        "summary": null
+    },
+    {
+        "name": "RAIL Class 1 Isolation B",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": "44.564713",
+        "longitude": "-123.309676",
+        "summary": null
+    },
+    {
+        "name": "RAIL Class 1 Isolation C",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": "44.564714",
+        "longitude": "-123.309319",
+        "summary": null
+    },
+    {
+        "name": "RAIL Class I Isolation D",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": "44.564463",
+        "longitude": "-123.309317",
+        "summary": null
+    },
+    {
+        "name": "RAIL Class II Isolation",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": "44.564703",
+        "longitude": "-123.308997",
+        "summary": null
+    },
+    {
+        "name": "RAIL Class III Isolation",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": "44.564874",
+        "longitude": "-123.308276",
+        "summary": null
+    },
+    {
+        "name": "RAIL Decontamination Building",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": "44.564938",
+        "longitude": "-123.309626",
+        "summary": null
+    },
+    {
+        "name": "RAIL Hay Shed",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": "44.564051",
+        "longitude": "-123.308297",
+        "summary": null
+    },
+    {
+        "name": "RAIL Lab Bldg",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": "44.56497",
+        "longitude": "-123.309074",
+        "summary": null
+    },
+    {
+        "name": "RAIL Storage/Dog Run Building",
+        "address": "53RD & CAMPUS WAY SE",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "Rabbit Research Lab I",
+        "address": "3620 Campus Way",
+        "thumbnail": [],
+        "latitude": "44.566485",
+        "longitude": "-123.294355",
+        "summary": null
+    },
+    {
+        "name": "Rabbit Research Lab II",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": "44.566564",
+        "longitude": "-123.294715",
+        "summary": null
+    },
+    {
+        "name": "Radiation Center",
+        "address": "3451 SW Jefferson Way",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/radiationcenter.jpg"
+        ],
+        "latitude": "44.565114",
+        "longitude": "-123.28908",
+        "summary": null
+    },
+    {
+        "name": "Radiation Center Greenhouse",
+        "address": "35th Street",
+        "thumbnail": [],
+        "latitude": "44.565327",
+        "longitude": "-123.289605",
+        "summary": null
+    },
+    {
+        "name": "Radiation Center Office Building",
+        "address": "3451 SW JEFFERSON WAY",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "Reed Lodge",
+        "address": "2950 SW Jefferson Way",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/39.jpg"
+        ],
+        "latitude": "44.564351",
+        "longitude": "-123.284071",
+        "summary": null
+    },
+    {
+        "name": "Research Way Building",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": "44.550936",
+        "longitude": "-123.304041",
+        "summary": null
+    },
+    {
+        "name": "Research Way Laboratory",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": "44.552374",
+        "longitude": "-123.303482",
+        "summary": null
+    },
+    {
+        "name": "Reser Stadium",
+        "address": "700 SW 26th Street",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/40.jpg"
+        ],
+        "latitude": "44.559566",
+        "longitude": "-123.281263",
+        "summary": null
+    },
+    {
+        "name": "Richardson Hall",
+        "address": "3180 SW Jefferson Way",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/richardson.jpg"
+        ],
+        "latitude": "44.563602",
+        "longitude": "-123.286021",
+        "summary": null
+    },
+    {
+        "name": "Rogers Hall",
+        "address": "2000 SW Monroe Avenue",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/rogers_hall.jpg"
+        ],
+        "latitude": "44.567643",
+        "longitude": "-123.275765",
+        "summary": null
+    },
+    {
+        "name": "Rosenfeld Laboratory",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": "44.574923",
+        "longitude": "-123.313416",
+        "summary": null
+    },
+    {
+        "name": "SD Combine Shed",
+        "address": "2000 NE GRANGER AVE",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "SD Garage",
+        "address": "2000 NE GRANGER AVE",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "SD Garage",
+        "address": "2000 NE GRANGER AVE",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "SD Storage Building",
+        "address": "2000 NE GRANGER AVE",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "SD Utility",
+        "address": "2000 NE GRANGER AVE",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "SF Poultry Brooder",
+        "address": "1498 SW Brooklane Drive",
+        "thumbnail": [],
+        "latitude": "44.553775",
+        "longitude": "-123.28187",
+        "summary": null
+    },
+    {
+        "name": "SF Poultry Cage-Layer House",
+        "address": "1498 SW Brooklane Drive",
+        "thumbnail": [],
+        "latitude": "44.553719",
+        "longitude": "-123.282191",
+        "summary": null
+    },
+    {
+        "name": "SF Poultry Farm Storage Shed",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": "44.554045",
+        "longitude": "-123.282032",
+        "summary": null
+    },
+    {
+        "name": "SM Entomology",
+        "address": null,
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "SM Smith Farm Equip Bldg",
+        "address": "34349 ELECTRIC RD NORTH",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "SM Smith Farm Residence",
+        "address": "34351 NE ELECTRIC RD",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "SM Smith Farm Storage",
+        "address": "34349 ELECTRIC RD NORTH",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "Sackett Hall",
+        "address": "2901 SW Jefferson Way",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/41.jpg"
+        ],
+        "latitude": "44.565234",
+        "longitude": "-123.283567",
+        "summary": null
+    },
+    {
+        "name": "Samaritan Athletic Sports Medicine Center",
+        "address": "845 SW 30th Street",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/sam.jpg"
+        ],
+        "latitude": "44.559341",
+        "longitude": "-123.28435",
+        "summary": null
+    },
+    {
+        "name": "Seed Laboratory",
+        "address": "3291 SW Campus Way",
+        "thumbnail": [],
+        "latitude": "44.567069",
+        "longitude": "-123.287748",
+        "summary": null
+    },
+    {
+        "name": "Seismological Station",
+        "address": "NW WITHAM HILL DR",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "Shepard Hall",
+        "address": "2001 SW Campus Way",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/shepard_hall.jpg"
+        ],
+        "latitude": "44.567151",
+        "longitude": "-123.276063",
+        "summary": null
+    },
+    {
+        "name": "Sinnhuber Aquatic Research Lab",
+        "address": "28645 E. HWY 34",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "Snell Hall",
+        "address": "2150 SW Jefferson Way",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/snell.jpg"
+        ],
+        "latitude": "44.56369",
+        "longitude": "-123.276442",
+        "summary": null
+    },
+    {
+        "name": "Softball Field Restrooms",
+        "address": "2200 Western Boulevard",
+        "thumbnail": [],
+        "latitude": "44.558806",
+        "longitude": "-123.277114",
+        "summary": null
+    },
+    {
+        "name": "Softball Stadium",
+        "address": "2200 Western Boulevard",
+        "thumbnail": [],
+        "latitude": "44.558697",
+        "longitude": "-123.277332",
+        "summary": null
+    },
+    {
+        "name": "Stocking Judging Pavilion",
+        "address": "3524 Campus Way",
+        "thumbnail": [],
+        "latitude": "44.566547",
+        "longitude": "-123.290911",
+        "summary": null
+    },
+    {
+        "name": "Storage Depot",
+        "address": "1520 SW 3RD STREET",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "Strand Agriculture Hall",
+        "address": "170 SW Waldo Place",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/44.jpg"
+        ],
+        "latitude": "44.565645",
+        "longitude": "-123.27729",
+        "summary": null
+    },
+    {
+        "name": "Strawberry Lane Mobile Home",
+        "address": "2325 STRAWBERRY LANE",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "Student Experience Center",
+        "address": "2251 SW Jefferson Way",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/student_experience_center.jpg"
+        ],
+        "latitude": "44.564887",
+        "longitude": "-123.277417",
+        "summary": null
+    },
+    {
+        "name": "Swine Center",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": "44.564701",
+        "longitude": "-123.302385",
+        "summary": null
+    },
+    {
+        "name": "TF Residence",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": "44.571975",
+        "longitude": "-123.304021",
+        "summary": null
+    },
+    {
+        "name": "TF Turkey Brooder",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": "44.573067",
+        "longitude": "-123.304319",
+        "summary": null
+    },
+    {
+        "name": "TF Turkey Cage Layer House",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": "44.57351",
+        "longitude": "-123.306436",
+        "summary": null
+    },
+    {
+        "name": "TF Turkey Incubation",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": "44.57359",
+        "longitude": "-123.305621",
+        "summary": null
+    },
+    {
+        "name": "TF Turkey Pole Breeder",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": "44.5735",
+        "longitude": "-123.306667",
+        "summary": null
+    },
+    {
+        "name": "Team Oregon Building",
+        "address": "3550 SW Deschutes Street",
+        "thumbnail": [],
+        "latitude": "44.528768",
+        "longitude": "-123.270333",
+        "summary": null
+    },
+    {
+        "name": "Team Oregon Storage Building",
+        "address": "3550 SW DESCHUTES ST",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "Tebeau Hall",
+        "address": "1351 SW Washington Avenue",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/46.jpg"
+        ],
+        "latitude": "44.563073",
+        "longitude": "-123.272469",
+        "summary": null
+    },
+    {
+        "name": "Tennis Pavilion",
+        "address": "2801 SW Washington Way",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/tennis_pavilion.jpg"
+        ],
+        "latitude": "44.562309",
+        "longitude": "-123.282872",
+        "summary": null
+    },
+    {
+        "name": "The Access Lock and Key Shop",
+        "address": "572 SW 15th Street",
+        "thumbnail": [],
+        "latitude": "44.563342",
+        "longitude": "-123.274887",
+        "summary": null
+    },
+    {
+        "name": "The Gem",
+        "address": "155 NW Kings Boulevard",
+        "thumbnail": [],
+        "latitude": "44.568689",
+        "longitude": "-123.274741",
+        "summary": null
+    },
+    {
+        "name": "The Pest and Pot Building",
+        "address": null,
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "The Valley Library",
+        "address": "201 SW Waldo Place",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/valley-library.jpg"
+        ],
+        "latitude": "44.565066",
+        "longitude": "-123.276147",
+        "summary": null
+    },
+    {
+        "name": "Transmitter Shed (N Oak Cr)",
+        "address": null,
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "UHDS Maintenance Center",
+        "address": "601 SW 35th Street",
+        "thumbnail": [],
+        "latitude": "44.561517",
+        "longitude": "-123.28922",
+        "summary": null
+    },
+    {
+        "name": "USDA Forestry Sciences Lab",
+        "address": "3200 SW Jefferson Way",
+        "thumbnail": [],
+        "latitude": "44.564086",
+        "longitude": "-123.287745",
+        "summary": null
+    },
+    {
+        "name": "University Plaza ",
+        "address": "1600 SW Western Boulevard",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/univplaza.jpg"
+        ],
+        "latitude": "44.559457",
+        "longitude": "-123.274733",
+        "summary": null
+    },
+    {
+        "name": "VF Little Greenhouse",
+        "address": "34346 NE ELECTRIC RD",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "VF Lower Barn",
+        "address": "34016 NE ELECTRIC RD",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "VF Upper Barn",
+        "address": "34016 NE ELECTRIC RD",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "VF Vegetable Farm Residence",
+        "address": "34016 NE ELECTRIC RD",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "VF Vegetable Lab Building",
+        "address": "34016 NE ELECTRIC RD",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "Valley Football Center",
+        "address": "725 SW 30th Street",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/valley-football.jpg"
+        ],
+        "latitude": "44.560136",
+        "longitude": "-123.282338",
+        "summary": null
+    },
+    {
+        "name": "Vet Dairy Barn",
+        "address": "3201 SW Washington Way",
+        "thumbnail": [],
+        "latitude": "44.562384",
+        "longitude": "-123.286845",
+        "summary": null
+    },
+    {
+        "name": "Vet Horse Barn (Pole Bldg)",
+        "address": "3250 SW Washington Way",
+        "thumbnail": [],
+        "latitude": "44.561195",
+        "longitude": "-123.287044",
+        "summary": null
+    },
+    {
+        "name": "Vet Research Lab",
+        "address": "3101 SW Washington Way",
+        "thumbnail": [],
+        "latitude": "44.562584",
+        "longitude": "-123.285598",
+        "summary": null
+    },
+    {
+        "name": "Vet Sheep Barn",
+        "address": "700 SW 30th Street",
+        "thumbnail": [],
+        "latitude": "44.561467",
+        "longitude": "-123.287255",
+        "summary": null
+    },
+    {
+        "name": "WF Sheep Research Facility",
+        "address": "7565 NW OAK CREED DR",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "WF Wilson Barn",
+        "address": "7565 NW OAK CREEK DR",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "WF Wilson Residence",
+        "address": "7860 NW OAK CREEK DR",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "Waldo Hall",
+        "address": "2250 SW Jefferson Way",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/waldo.jpg"
+        ],
+        "latitude": "44.564087",
+        "longitude": "-123.277278",
+        "summary": null
+    },
+    {
+        "name": "Weatherford Hall",
+        "address": "300 SW 26th Street",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/weatherford.jpg"
+        ],
+        "latitude": "44.564067",
+        "longitude": "-123.280644",
+        "summary": null
+    },
+    {
+        "name": "Weniger Hall",
+        "address": "103 SW Memorial Place",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/weniger_hall.jpg"
+        ],
+        "latitude": "44.567877",
+        "longitude": "-123.27751",
+        "summary": null
+    },
+    {
+        "name": "West Greenhouse (W10)",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": "44.567426",
+        "longitude": "-123.287436",
+        "summary": null
+    },
+    {
+        "name": "West Greenhouse (W11&12) Hort/GC",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": "44.567592",
+        "longitude": "-123.28717",
+        "summary": null
+    },
+    {
+        "name": "West Greenhouse (W13-16)",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": "44.567509",
+        "longitude": "-123.286651",
+        "summary": null
+    },
+    {
+        "name": "West Greenhouse (W17-20)",
+        "address": "3201 SW Campus Way",
+        "thumbnail": [],
+        "latitude": "44.567078",
+        "longitude": "-123.286728",
+        "summary": null
+    },
+    {
+        "name": "West Greenhouse (W21)",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": "44.567072",
+        "longitude": "-123.286047",
+        "summary": null
+    },
+    {
+        "name": "West Greenhouse (W5)",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": "44.567085",
+        "longitude": "-123.288193",
+        "summary": null
+    },
+    {
+        "name": "West Greenhouse (W6&7)",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": "44.567565",
+        "longitude": "-123.288321",
+        "summary": null
+    },
+    {
+        "name": "West Greenhouse (W8&9)",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": "44.567589",
+        "longitude": "-123.287704",
+        "summary": null
+    },
+    {
+        "name": "West Greenhouse Glass",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": "44.567542",
+        "longitude": "-123.287436",
+        "summary": null
+    },
+    {
+        "name": "West Hall",
+        "address": "391 SW 30th Street",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/west-hall.jpg"
+        ],
+        "latitude": "44.563548",
+        "longitude": "-123.283886",
+        "summary": null
+    },
+    {
+        "name": "Western Building",
+        "address": "850 SW 35th Street",
+        "thumbnail": [],
+        "latitude": "44.55751",
+        "longitude": "-123.290794",
+        "summary": null
+    },
+    {
+        "name": "Whyte Track & Field Center",
+        "address": "[]",
+        "thumbnail": [],
+        "latitude": null,
+        "longitude": null,
+        "summary": null
+    },
+    {
+        "name": "Wiegand Hall",
+        "address": "3051 SW Campus Way",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/wiegandhall.jpg"
+        ],
+        "latitude": "44.567166",
+        "longitude": "-123.285413",
+        "summary": null
+    },
+    {
+        "name": "Wilkinson Hall",
+        "address": "2601 SW Orchard Avenue",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/wilkinson_hall_0.jpg"
+        ],
+        "latitude": "44.568231",
+        "longitude": "-123.280393",
+        "summary": null
+    },
+    {
+        "name": "Wilson Hall",
+        "address": "1351 SW Adams Avenue",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/wilson_hall.jpg"
+        ],
+        "latitude": "44.563783",
+        "longitude": "-123.272397",
+        "summary": null
+    },
+    {
+        "name": "Withycombe Hall",
+        "address": "2921 SW Campus Way",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/withycombe_hall.jpg"
+        ],
+        "latitude": "44.567201",
+        "longitude": "-123.283374",
+        "summary": null
+    },
+    {
+        "name": "Women's Building",
+        "address": "160 SW 26th Street",
+        "thumbnail": [
+            "https://map.oregonstate.edu/sites/map.oregonstate.edu/files/styles/thumbnail/public/locations/resized.jpg"
+        ],
+        "latitude": "44.565766",
+        "longitude": "-123.280602",
+        "summary": null
+    }
+]

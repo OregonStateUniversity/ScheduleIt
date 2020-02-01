@@ -1,0 +1,102 @@
+{% extends "layout/layout.twig" %}
+
+{% block page_head %} <link rel="stylesheet" href="css/eventStyle.css"> {% endblock %}
+
+
+{% block page_content %}
+
+<div class="container objectSpace">
+
+
+	<h2> Your Events </h2>
+
+
+	<div class="container entryField1">
+
+		{{include('partials/search.twig') }}
+
+		<div class="yourEvents table-responsive">
+
+			<table class="table table-striped eventsTable text-center" id="eventsTable">
+
+				<thead>
+					<tr scope="row" class="eventHeader">
+
+						<th class="d-none" scope="col">{{ table_headers|first }}</th>
+
+						<th class="eventNameColumn" scope="col">{{ table_headers|slice(1,1)|first }}</th>
+						
+						<th class="slotsColumn" scope="col">{{ table_headers|slice(2,2)|first }}</th>
+					
+
+						<th scope="col">Registration Link</th>
+
+					</tr>
+				</thead>
+
+				<tbody class="tableBody">
+
+					{% for table_row in table_rows %}
+					<tr scope="row">
+
+						{% set event_key = table_row|first %}
+
+						<td class="d-none" scope="col">{{ event_key }}</td>
+
+						<td scope="col">
+							<a class="linkToEvent" href="./manage.php?key={{ event_key }}">{{ table_row|slice(1,1)|first }}</a>
+						</td>
+						
+						{% for column in table_row|slice(2) %}
+						
+						<td scope="col">{{ column }} </td>
+
+						
+						{% endfor %}
+
+						<td class="linkColumn" scope="col">
+							<button class="copy btn btn-sm btn-dark"> <i class="fas fa-clipboard"></i> Copy </button>
+						</td>
+					
+					</tr>
+					{% endfor %}
+
+				</tbody>
+			</table>
+
+		</div>
+
+	</div>
+
+</div>
+
+
+<!-- jQuery -->
+<script type="text/javascript" src="js/jquery.min.js"></script>
+
+<!-- Bootstrap tooltips -->
+<script type="text/javascript" src="js/popper.min.js"></script>
+
+<!-- Bootstrap core JavaScript -->
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+
+<!-- MDB core JavaScript -->
+<script type="text/javascript" src="js/mdb.min.js"></script>
+
+<!-- Your custom scripts (optional) -->
+<script type="text/javascript"></script>
+
+<!-- Date Range Picker -->
+
+<script type="text/javascript"
+	src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css" />
+
+<!-- UI specific javascripts -->
+<script type="text/javascript" src="view_js/ui.js"></script>
+
+<!-- JavaScript specific to this page -->
+<script type="text/javascript" src="view_js/events.js"></script>
+
+{% endblock %}

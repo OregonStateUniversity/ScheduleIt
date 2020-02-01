@@ -11,8 +11,7 @@
 	{# page title can be redefined by view #}
 	<title> {% block page_title %} MyEventBoard {% endblock %} </title>
 
-	<!-- MDB icon -->
-	<link rel="icon" href="img/mdb-favicon.ico" type="image/x-icon">
+	<link rel="icon" href="./MyEventBoardLogos/MEB-favicon.ico" />
 
 	<!-- Font Awesome -->
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
@@ -25,8 +24,9 @@
 
 	<!-- Your custom styles (optional) -->
 	<link rel="stylesheet" href="css/style.css">
-	<link rel="stylesheet" href="style.css">
-	<link rel="stylesheet" href="sidebarStyle.css">
+	<link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="css/sidebarStyle.css">
+	<link rel="stylesheet" href="css/main.css">
 
 	{% block page_head %} {% endblock %} {# for page specific resources #}
 
@@ -42,7 +42,6 @@
 
 	{{ include('partials/nav.twig') }}
 
-	<div class="wrapper">   <!-- wraps content and side bar -->
 
 		<!-- Side Bar -->
 
@@ -52,8 +51,9 @@
 		
 		{% block page_content %} {% endblock %} {# content should be defined by view #}
 
-	</div>
 
+	{{ include('partials/footer.twig') }}
+	
 </body>
 
 </html>

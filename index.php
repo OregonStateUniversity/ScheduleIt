@@ -1,18 +1,19 @@
 <?php
 
-    // set up twig
+    // set up session
 
-    include 'php/twig.php';
+    require_once 'php/session.php';
 
     // set up connection to database via MySQLi
 
-    include 'php/database.php';
+    require_once 'php/database.php';
+
+    // set up twig
+
+    require_once 'php/twig.php';
 
     // render page using twig
 
-
-
-    echo $twig -> render('views/index.twig');
-
+    echo $twig -> render('views/main.twig');
 
 ?>
