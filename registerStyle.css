@@ -1,0 +1,56 @@
+.datepicker-switch
+{
+	 pointer-events: none;
+}
+
+.datepicker{
+	display:inline-block;
+	text-align: center;
+}
+
+
+
+.table-condensed th
+{
+	font-size: 20px;
+}
+
+.table-condensed td
+{
+	font-size: 20px;
+}
+
+
+.table-condensed tbody tr
+{
+	border: 1px solid red;
+}
+
+.entryFieldRegister
+{
+	text-align: center;
+}
+
+.calendarField
+{
+   display: inline-block;
+}
+
+#slotPicker td:hover
+{
+	cursor: pointer;
+}
+
+.slotSelected
+{
+	background-color: #d3d3d3;
+}
+
+#myModal
+{
+	overflow-y: auto;
+}
+
+tr {
+  padding: 0;
+}

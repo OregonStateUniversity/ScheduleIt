@@ -1,0 +1,89 @@
+{% extends "layout/layout.twig" %}
+
+{% block page_content %}
+
+<div class="container entryFieldRegister objectSpace">
+
+<h2 id="eventName"></h2>
+
+
+
+	<div class="calendarField container">
+		<div id="datepicker2"></div>
+	</div>
+	
+	<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Select Time Slot</button>
+	
+	<!-- Modal -->
+    <div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+		<h4 class="modal-title">Pick a timeslot</h4>
+		<button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+    
+  	<div class="modal-body">
+    
+	<h2></h2>
+	
+	<div class="container timeContainer">
+	
+		<table class="table table-bordered align-top slotPicker table-sm" id="slotPicker">
+		  <thead>
+			<tr>
+			  <th scope="col">Time</th>
+			  <th scope="col">Slots</th>
+			</tr>
+		  </thead>
+		  <tbody>
+		  </tbody>
+		</table>
+		
+	</div>
+			
+    </div>
+      
+	  <div class="modal-footer">
+	    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	    <button type="submit" class="btn btn-default" data-dismiss="modal">Submit</button>
+      </div> 
+      </div>
+
+	
+	</div>
+	
+
+</div>
+
+<!-- jQuery -->
+<script type="text/javascript" src="js/jquery.min.js"></script>
+
+<!-- Bootstrap tooltips -->
+<script type="text/javascript" src="js/popper.min.js"></script>
+
+<!-- Bootstrap core JavaScript -->
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+
+<!-- MDB core JavaScript -->
+<script type="text/javascript" src="js/mdb.min.js"></script>
+
+<!-- Your custom scripts (optional) -->
+<script type="text/javascript"></script>
+
+<!-- Date Range Picker -->
+
+<script type="text/javascript"
+	src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
+
+<!-- UI specific javascripts -->
+<script type="text/javascript" src="view_js/UI_index.js"></script>
+
+<!-- JavaScript specific to this page -->
+<script type="text/javascript" src="view_js/register_index.js"></script>
+
+{% endblock %}
