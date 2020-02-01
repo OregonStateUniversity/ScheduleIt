@@ -7,9 +7,15 @@
     $database = 'capstone_2019_takushib';
 
     $passwordFile = fopen('text_file', 'r'); // account password should be in file
-    $password = fgets($passwordFile);
-    fclose($passwordFile);
 
+    if ($passwordFile === false) {
+        $password = getenv('SECRET'); // if file does not exist, look for environment variable
+    }
+    else {
+        $password = fgets($passwordFile); 
+        fclose($passwordFile);
+    }
+   
     // create connection to database
 
     $database = new mysqli($host, $userName, $password, $database);
