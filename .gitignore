@@ -1,7 +1,25 @@
 .DS_Store
-/vendor/
-/uploads/
+
+# Editors
+.idea
+.viminfo
+.vscode
+
+# Environment variables
+.env
+
+# Composer
 composer.phar
-text_file
+bin/composer
+
+# Node
+node_modules
+
+uploads/*
+!uploads/.gitkeep
+vendor/*
+!vendor/.gitkeep
+
 secret1
 secret2
+text_file

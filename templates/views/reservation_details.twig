@@ -1,178 +1,182 @@
-{% extends "layout/layout.twig" %}
+{% extends 'layout/layout.twig' %}
 
 {% block page_head %}
-
-<link rel="stylesheet" href="css/reservationDetailsStyle.css">
-
+  <link rel="stylesheet" href="static/css/reservationDetailsStyle.css">
 {% endblock %}
 
-
 {% block page_content %}
+  <div class="container objectSpace">
+    <div class="eventNameOnViewer container">
+      <h2 class="d-inline" id="eventName">
+        {{ event_name }}
+      </h2>
+    </div>
 
-<div class="container objectSpace">
+    <div class="container entryField1">
+      <div class="containerForActionsAndInformation">
+        <div class="toolbarContainer">
+          <h4>
+            Toolbar
+          </h4>
+          <div class="buttonsContainer">
+            <div class="mx-1 goToEvent">
+              <Button type="button"
+                class="btn btn-sm btn-dark visitEventButton">
+                <a class="text-info" href="./register.php?key={{ event_key }}">
+                  <i class="fas fa-external-link-alt"></i>
+                </a>
+                Go to Event Registration
+              </Button>
+            </div>
 
-	<div class="eventNameOnViewer container">
-		<h2 class="d-inline" id="eventName">{{ event_name }}</h2>
-	</div>
+            <div class="mx-1 deleteEvent">
+              <Button type="button"
+                class="btn btn-sm btn-danger deleteEventButton"
+                id="deleteEventButton">
+                <i class="fas fa-trash"></i>
+                Delete This Reservation
+              </Button>
+            </div>
 
-	<div class="container entryField1">
-	
-		<div class="containerForActionsAndInformation">
-			<div class="toolbarContainer">
-				<h4> Toolbar </h4>
-				<div class="buttonsContainer">
-					<div class="mx-1 goToEvent">
-						<Button type="button" class="btn btn-sm btn-dark visitEventButton">
-							<a class="text-info" href="./register.php?key={{ event_key }}">
-								<i class="fas fa-external-link-alt"></i>
-							</a>
-							Go to Event Registration
-						</Button>
-					</div>
-					
-					<div class="mx-1 deleteEvent">
-						<Button type="button" class="btn btn-sm btn-danger deleteEventButton" id="deleteEventButton">
-							<i class="fas fa-trash"></i>
-							Delete This Reservation
-						</Button>
-					</div>
+            <br>
+            <div class="mx-1 returnEvent">
+              <Button type="button"
+                class="btn btn-sm btn-black returnEventButton">
+                <a class="text-info" href="./reservations.php">
+                  <i class="fas fa-arrow-left"></i>
+                </a>
+                Go Back
+              </Button>
+            </div>
+          </div>
+        </div>
 
-					<br>
-					<div class="mx-1 returnEvent">
-						<Button type="button" class="btn btn-sm btn-black returnEventButton">
-							<a class="text-info" href="./reservations.php">
-								<i class="fas fa-arrow-left"></i>
-							</a>
-							Go Back
-						</Button>
-					</div>			
-				</div>
-			</div>
-		
-			<br>
-			<br>
-		
-		
-			<div class="reservationContainer">
-				<h4> Reservation Information </h4>
+        <br>
+        <br>
 
-				<div class="eventInformation">
+        <div class="reservationContainer">
+          <h4>
+            Reservation Information
+          </h4>
 
-					<div class="eventInformationValues container">
+          <div class="eventInformation">
+            <div class="eventInformationValues container">
+              <h3 id="eventStartTimeLabel">
+                Start Time: <span>{{ slot_start }}</span>
+              </h3><br>
 
-						<h3 id="eventStartTimeLabel">
-							Start Time: <span>{{ slot_start }}</span>
-						</h3><br>
+              <h3 id="eventEndTimeLabel">
+                End Time: <span>{{ slot_end }}</span>
+              </h3><br><br>
 
-						<h3 id="eventEndTimeLabel">
-							End Time: <span>{{ slot_end }}</span>
-						</h3><br><br>
+              <h3 id="eventLocationLabel">
+                Location: <span>{{ event_location }}</span>
+              </h3><br>
+              <h3 id="eventCreatorLabel">
+                Event Creator: <span>{{ event_creator }}</span>
+              </h3><br>
 
-						<h3 id="eventLocationLabel">Location: <span> {{ event_location }} </span></h3><br>
-						<h3 id="eventCreatorLabel">Event Creator: <span> {{ event_creator }} </span></h3><br>
-						
-						{% if event_description == "" %}
-							<h3 id="eventDescriptionLabel">Description: <span> None </span></h3>
-						{% else %}
-							<h3 id="eventDescriptionLabel">Description: <span> {{ event_description }} </span></h3>
-						{% endif %}
-						
-						<br><br>
-						<h3 id="eventFileLabel">
-							{% if user_file %}
+              {% if event_description == '' %}
+                <h3 id="eventDescriptionLabel">
+                  Description: <span>None</span>
+                </h3>
+              {% else %}
+                <h3 id="eventDescriptionLabel">
+                  Description: <span>{{ event_description }}</span>
+                </h3>
+              {% endif %}
 
-								File: 
-								<span>
-								<a href="./{{ user_file }}" download>
-									{{ user_file|slice(27) }}
-								</a>
-								</span>
-							{% else %}
-								
-								File: <span> None </span>
+              <br><br>
+              <h3 id="eventFileLabel">
+                {% if user_file %}
+                  File:
+                  <span>
+                    <a href="./{{ user_file }}" download>
+                      {{ user_file|slice(27) }}
+                    </a>
+                  </span>
+                {% else %}
+                  File: <span>None</span>
+                {% endif %}
+              </h3>
+            </div>
 
-							{% endif %}
-						</h3>
+            {% if event_upload == 1 %}
+              <br>
+              <br>
+              <div class="fileUploadContainer">
+                <label id="uploadLabel">
+                  Upload a File for the Event Creator:
+                </label>
+                {% include 'partials/upload.twig' %}
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
 
-					</div>
+    <div id="deleteConfirm" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <!-- Modal content -->
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1>
+              Confirm Delete
+            </h1>
+            <button type="button" class="close" data-dismiss="modal">
+              &times;
+            </button>
+          </div>
 
-					{% if event_upload == 1 %}
+          <div class="modal-body warningUndoneContainer">
+            *This change cannot be undone*
+          </div>
 
-					<br>
-					<br>
-					<div class="fileUploadContainer">
-						<label id="uploadLabel"> Upload a File for the Event Creator:</label>
-						{% include "partials/upload.twig" %}
-					</div>
+          <div class="modal-footer">
+            <button type="button"
+              class="btn btn-dark"
+              id="deleteCancelButton"
+              data-dismiss="modal">
+              Cancel
+            </button>
+            <button type="button" class="btn btn-dark" id="deleteSubmitButton">
+              Delete
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-					{% endif %}
+  <!-- jQuery -->
+  <script type="text/javascript" src="static/js/jquery.min.js"></script>
 
-				</div>
+  <!-- Bootstrap tooltips -->
+  <script type="text/javascript" src="static/js/popper.min.js"></script>
 
-			</div>
-		</div>
-	</div>
+  <!-- Bootstrap core JavaScript -->
+  <script type="text/javascript" src="static/js/bootstrap.min.js"></script>
 
-	<div id="deleteConfirm" class="modal fade" role="dialog">
+  <!-- MDB core JavaScript -->
+  <script type="text/javascript" src="static/js/mdb.min.js"></script>
 
-		<div class="modal-dialog">
+  <!-- Your custom scripts (optional) -->
+  <script type="text/javascript"></script>
 
-			<!-- Modal content-->
-			<div class="modal-content">
+  <!-- Date Range Picker -->
 
-				<div class="modal-header">
-					<h1> Confirm Delete </h1>
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-				</div>
-				
-				<div class="modal-body warningUndoneContainer">
-					*This change cannot be undone*
-				</div>
+  <script type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css">
 
-				<div class="modal-footer">
-					<button type="button" class="btn btn-dark" id="deleteCancelButton"
-						data-dismiss="modal">Cancel</button>
-					<button type="button" class="btn btn-dark" id="deleteSubmitButton">Delete</button>
-				</div>
+  <!-- UI specific javascripts -->
+  <script type="text/javascript" src="static/view_js/ui.js"></script>
 
-			</div>
+  <!-- JavaScript specific to this page -->
+  <script type="text/javascript" src="static/view_js/reservation_details.js"></script>
 
-		</div>
-
-	</div>
-
-</div>
-
-
-<!-- jQuery -->
-<script type="text/javascript" src="js/jquery.min.js"></script>
-
-<!-- Bootstrap tooltips -->
-<script type="text/javascript" src="js/popper.min.js"></script>
-
-<!-- Bootstrap core JavaScript -->
-<script type="text/javascript" src="js/bootstrap.min.js"></script>
-
-<!-- MDB core JavaScript -->
-<script type="text/javascript" src="js/mdb.min.js"></script>
-
-<!-- Your custom scripts (optional) -->
-<script type="text/javascript"></script>
-
-<!-- Date Range Picker -->
-
-<script type="text/javascript"
-	src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css" />
-
-<!-- UI specific javascripts -->
-<script type="text/javascript" src="view_js/ui.js"></script>
-
-<!-- JavaScript specific to this page -->
-<script type="text/javascript" src="view_js/reservation_details.js"></script>
-
-<!-- JavaScript for file upload -->
-<script type="text/javascript" src="view_js/upload.js"></script>
-
+  <!-- JavaScript for file upload -->
+  <script type="text/javascript" src="static/view_js/upload.js"></script>
 {% endblock %}

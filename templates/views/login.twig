@@ -1,0 +1,66 @@
+{% extends 'layout/layout.twig' %}
+
+{% block page_head %}
+  <link rel="stylesheet" href="static/css/main.css">
+{% endblock %}
+
+{% block page_content %}
+  <div class="container objectSpace">
+    <h3>This page can only be used in development.</h3>
+
+    {% if loggedIn %}
+      <p class="alert alert-success">You're now logged in as {{user}}, {{firstName}} {{lastName}}, {{email}}</p>
+    {% else %}
+      <p class="alert alert-warning">Fill out all fields</p>
+    {% endif %}
+
+    <form action="login.php" method="post">
+      <p>
+        <label>user</label><br>
+        <input class="form-control" name="user" type="text" value={{user}}>
+      </p>
+      <p>
+        <label>firstName</label><br>
+        <input class="form-control" name="firstName" type="text" value={{firstName}}>
+      </p>
+      <p>
+        <label>lastName</label><br>
+        <input class="form-control" name="lastName" type="text" value={{lastName}}>
+      </p>
+      <p>
+        <label>email</label><br>
+        <input class="form-control" name="email" type="text" value={{email}}>
+      </p>
+      <p>
+        <button class="btn btn-primary">
+          Login
+        </button>
+      </p>
+    </form>
+  </div>
+
+  <!-- jQuery -->
+  <script type="text/javascript" src="static/js/jquery.min.js"></script>
+
+  <!-- Bootstrap tooltips -->
+  <script type="text/javascript" src="static/js/popper.min.js"></script>
+
+  <!-- Bootstrap core JavaScript -->
+  <script type="text/javascript" src="static/js/bootstrap.min.js"></script>
+
+  <!-- MDB core JavaScript -->
+  <script type="text/javascript" src="static/js/mdb.min.js"></script>
+
+  <!-- Your custom scripts (optional) -->
+  <script type="text/javascript"></script>
+
+  <!-- Date Range Picker -->
+
+  <script type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css">
+
+  <!-- UI specific javascripts -->
+  <script type="text/javascript" src="static/view_js/ui.js"></script>
+{% endblock %}

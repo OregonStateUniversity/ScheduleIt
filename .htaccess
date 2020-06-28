@@ -1,6 +1,10 @@
 RewriteEngine On
 RewriteBase /
 
+<files ".env">
+Require all denied
+</files>
+
 <files "secret1">
 Require all denied
 </files>

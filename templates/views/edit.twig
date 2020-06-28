@@ -1,494 +1,703 @@
-{% extends "layout/layout.twig" %}
+{% extends 'layout/layout.twig' %}
 
-{% block page_head %} 
-	
-	<link rel="stylesheet" href="css/editStyle.css"> 	
-	
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+{% block page_head %}
+  <link rel="stylesheet" href="static/css/editStyle.css">
 
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"
+    type="text/javascript"></script>
 {% endblock %}
 
-
 {% block page_content %}
+  {% if event_data %}
+    {% for entry in event_data %}
+      <span class="d-none eventDataForFormEntry">{{ entry|raw }}</span>
+      <span class="d-none eventDataEntry">{{ entry|raw }}</span>
+    {% endfor %}
+  {% endif %}
 
-{% if event_data %} 
+  <div class="container objectSpace">
+    <h2>
+      Edit an Event
+    </h2>
 
-	{% for entry in event_data %} 
-		
-		<span class="d-none eventDataForFormEntry">{{ entry|raw }}</span>
-		<span class="d-none eventDataEntry">{{ entry|raw }}</span> 
-			
-	{% endfor %}
- 
-	
-{% endif %}
+    <div class="entryField1">
+      <div class="nextBackField">
+        <button type="button" class="btn btn-dark nextBackField" id="field1to2">
+          Edit Event Time
+        </button>
+      </div>
 
+      <form>
+        <div class="form-group text-nowrap">
+          <label for="eventNameInput">Event Name</label>
+          <input type="text"
+            class="form-control"
+            id="eventNameInput"
+            placeholder="Enter a name">
+        </div>
 
-<div class="container objectSpace">
+        <div class="form-group text-nowrap">
+          <label for="locationInput">Location</label>
+          <input name="locationSelector"
+            class="form-control input-lg"
+            list="locationDatalist"
+            id="locationInput">
+          <datalist id="locationDatalist"></datalist>
+        </div>
 
-<h2> Edit an Event </h2>
+        <div class="form-group text-nowrap">
+          <label for="eventDescriptTextArea">Event Description</label>
+          <textarea class="form-control rounded-0"
+            id="eventDescriptTextArea"
+            rows="3"></textarea>
+        </div>
 
-	<div class="entryField1">
-
-		<div class="nextBackField">
-			<button type="button" class="btn btn-dark nextBackField" id="field1to2">Edit Event Time</button>
-		</div>
-		
-		<form>
-
-			<div class="form-group text-nowrap">
-				<label for="eventNameInput">Event Name</label>
-				<input type="text" class="form-control" id="eventNameInput" placeholder="Enter a name">
-			</div>
-			
-			<div class="form-group text-nowrap">
-				<label for="locationInput">Location</label>
-				<input name="locationSelector" class="form-control input-lg" list="locationDatalist" id="locationInput"></input>
-				<datalist id="locationDatalist"></datalist>
-			</div>
-			
-
-			<div class="form-group text-nowrap">
-				<label for="eventDescriptTextArea">Event Description</label>
-				<textarea class="form-control rounded-0" id="eventDescriptTextArea" rows="3"></textarea>
-			</div>
-
-			<!--  This is the input text where you can insert a file with a list of ONIDs to send emails to. Not implemented for now.
+        <!--     This is the input text where you can insert a file with a list of ONIDs to send emails to. Not implemented for now.
 			<div class="form-group text-nowrap">
 				<label for="dumpFileInput">User Notification Dump File</label>
 				<span style="padding-left:10px" class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Required Format: Email List in Text File. Sends a notification of Event to all listed Oregon State University Emails"></span>
 				<input type="file" class="form-control-file" id="exampleFormControlFile1">
 			</div>
-			-->
-			
-			<!-- Anonymous Event Default unchecked -->
-			<div class="form-group text-nowrap">
-				<div class="custom-control custom-checkbox">
-				<input type="checkbox" class="custom-control-input" id="anonymousCheck">
-				<label class="custom-control-label" for="anonymousCheck">Anonymous Event</label>
-				<span style="padding-left:10px; color: orange;" class="fa fa-exclamation-triangle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Allows users to be seen on registered slots if checked. Unchecking this will make users registered to this event visible."></span>
-				</div>
-			</div>
-			
-			
-			<!-- File Upload Default unchecked -->
-			<div class="form-group text-nowrap">
-				<div class="custom-control custom-checkbox">
-				<input type="checkbox" class="custom-control-input" id="fileUpload">
-				<label class="custom-control-label" for="fileUpload">Enable User File Upload</label>
-				<span style="padding-left:10px; color:orange;" class="fa fa-exclamation-triangle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Allows users to upload a PDF when registering for this event. Unchecking this may remove user uploaded files tied to this event."></span>
-				</div>
-			</div>
+			   -->
 
-			
-			<div class="nextBackField">
-				<button type="button" class="btn btn-dark nextBackField" id="resetFormButton">Reset</button>
-				<button type="button" class="btn btn-dark" id="saveForm">Save Form Changes</button>
-			</div>
-			
-		</form>
-	</div>
+        <!-- Anonymous Event Default unchecked -->
+        <div class="form-group text-nowrap">
+          <div class="custom-control custom-checkbox">
+            <input type="checkbox"
+              class="custom-control-input"
+              id="anonymousCheck">
+            <label class="custom-control-label" for="anonymousCheck">
+              Anonymous Event
+            </label>
+            <span style="padding-left:10px; color: orange;"
+              class="fa fa-exclamation-triangle"
+              aria-hidden="true"
+              data-toggle="tooltip"
+              data-placement="top"
+              title="Allows users to be seen on registered slots if checked. Unchecking this will make users registered to this event visible.">
 
-	
+            </span>
+          </div>
+        </div>
 
-<div class="container collapse entryField2">
+        <!-- File Upload Default unchecked -->
+        <div class="form-group text-nowrap">
+          <div class="custom-control custom-checkbox">
+            <input type="checkbox"
+              class="custom-control-input"
+              id="fileUpload">
+            <label class="custom-control-label" for="fileUpload">
+              Enable User File Upload
+            </label>
+            <span style="padding-left:10px; color:orange;"
+              class="fa fa-exclamation-triangle"
+              aria-hidden="true"
+              data-toggle="tooltip"
+              data-placement="top"
+              title="Allows users to upload a PDF when registering for this event. Unchecking this may remove user uploaded files tied to this event.">
 
-	<form>
+            </span>
+          </div>
+        </div>
 
-		<div class="nextBackField">
-			<div class="col-xs-4">
-				<button type="button" class="btn btn-dark nextBackField" id="field2to1">Edit Event Fields</button>
-			</div>
-		</div>
-		
-		<div class="form-group text-nowrap">
-			<label for="timeslotCapInput">Capacity per Timeslot</label>
-			<span style="padding-left:10px; color:orange;" class="fa fa-exclamation-triangle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Changing this value may cause users booked to a slot in this event to be removed off."></span>
-			<input type="number" min="1" oninput="validity.valid||(value='');" class="form-control mb-4" id="timeslotCapInput" placeholder="Enter a capacity (default: 1)">
-		</div>
-		
-		<div class="form-group">
-			<label for="eventSlotDurationInput">Slot Duration <i style="padding-left: 10px; color: red;" class="fa fa-exclamation-triangle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="WARNING: Changing this value will cause all existing event slots to be deleted!"></i></label>
-			<select class="browser-default custom-select" id="durationSelector">
-			  <option value="15">15 Minutes</option>
-			  <option value="30">30 Minutes</option>
-			  <option value="60">1 Hour </option>
-			</select>
-		</div>
-	</form>
-	
-	<div class="manageEditEventsField">
-		<div class="existingEventsContainer">
-		
-			<div class="form-group">
-				<label id="labelForExistingDates">Existing Dates</label>
-				<button class="btn btn-sm btn-dark hide" id="editExistingSlots"> <i class="fas fa-edit" aria-hidden="true"></i> </button>
-				<button class="btn btn-sm btn-dark hide" id="hideExistingDates"> <i class="fa fa-eye-slash" aria-hidden="true"></i> </button>
-			</div>
-		
-			<table class="table table-sm" id="existingEventsTable">
-					<thead>
-						<tr>
-						<th scope="col">Date</th>
-						<th scope="col">Day Name</th>
-						<th scope="col">Start Time</th>
-						<th scope="col">End Time</th>
-						<th scope="col">
-							<i class="fa fa-trash" aria-hidden="true"></i>
-						</tr>
-					</thead>
-					<tbody>
-					</tbody>
-			</table>
-		</div>
-		<br>
-		<br>
-		<br>
-		<br>
-		<div class="addedEventsContainer">
-		
-			<div class="form-group">
-				<label id="labelForAddedDates" for="eventDateInput">Added Dates</label>
-				<button class="btn btn-sm btn-dark openAddEvents" id="openAddEvents"> <i class="fa fa-plus" aria-hidden="true"></i> </button>
-				<button class="btn btn-sm btn-dark hide" id="hideAddedDates"> <i class="fa fa-eye-slash" aria-hidden="true"></i> </button>
-				
-			</div>
+        <div class="nextBackField">
+          <button type="button"
+            class="btn btn-dark nextBackField"
+            id="resetFormButton">
+            Reset
+          </button>
+          <button type="button" class="btn btn-dark" id="saveForm">
+            Save Form Changes
+          </button>
+        </div>
+      </form>
+    </div>
 
-			<table class="table table-sm" id="addEventsTable">
-				<thead>
-					<tr>
-						<th scope="col">Date</th>
-						<th scope="col">Day Name</th>
-						<th scope="col">Start Time</th>
-						<th scope="col">End Time</th>
-						<th scope="col">
-							<i class="fa fa-trash" aria-hidden="true"></i>
-						</th>
-					</tr>
-				</thead>
-				<tbody>
-				</tbody>
-			</table>
-		
-		</div>
-		<br>
-		<br>
-		<br>
-		<br>
-		<div class="nextBackField">
-				<button type="button" class="btn btn-dark nextBackField" id="resetButton">Reset</button>
-				<button type="button" class="btn btn-dark" id="saveSlots">Save Slot Changes</button>
-		</div>
-		
-	</div>
+    <div class="container collapse entryField2">
+      <form>
+        <div class="nextBackField">
+          <div class="col-xs-4">
+            <button type="button"
+              class="btn btn-dark nextBackField"
+              id="field2to1">
+              Edit Event Fields
+            </button>
+          </div>
+        </div>
 
-	
-</div>
-	
-	
-	<!-- Edit Modal -->
-	<div id="editSlotsModal" class="modal fade" data-keyboard="false" data-backdrop="static" role="dialog">
-		<div class="modal-dialog">
+        <div class="form-group text-nowrap">
+          <label for="timeslotCapInput">Capacity per Timeslot</label>
+          <span style="padding-left:10px; color:orange;"
+            class="fa fa-exclamation-triangle"
+            aria-hidden="true"
+            data-toggle="tooltip"
+            data-placement="top"
+            title="Changing this value may cause users booked to a slot in this event to be removed off.">
 
-			<!-- Modal content-->
-			<div class="modal-content">
-				<div class="modal-header">
-					<h1> Edit Event Time Slot </h1>
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-				</div>
-			
-			<div class="modal-body editSlotField">
-			
-			<div class="editSlotHeading">
-				<h3> Slot to be Edited: </h3>
-				<label id="editSlotName"></label>
-			</div>
-			
-			<div class="table-responsive text-nowrap timeSelectionField">
-			
-				<div class="form-group">
-					<label for="eventDateInput">Edit Slot Date: </label>
-					<!-- Date Picker   Source: https://jsfiddle.net/christianklemp_imt/b20paum2/ -->
-					<div class="input-group date editEventInput mb-3" id="editDatepicker">
-						<input readonly type="text" class="form-control" id="editDates" name="Dates" placeholder="Select days" required />
-						<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i><span class="count"></span></span>
-					</div>
-				</div>
-			
-			
-				<table class="table-sm editTimeSelector" id="editTimeSelector">
-				<thead>
-					<tr>
-					<th scope="col">Time</th>
-					</tr>
-				</thead>
-				<tbody>
+          </span>
+          <input type="number"
+            min="1"
+            oninput="validity.valid||(value='');"
+            class="form-control mb-4"
+            id="timeslotCapInput"
+            placeholder="Enter a capacity (default: 1)">
+        </div>
 
-				<tr>
-					<th scope="row">7:00 AM<div class="doNotDisplay">0</div></th>
-				</tr>
+        <div class="form-group">
+          <label for="eventSlotDurationInput">
+            Slot Duration <i style="padding-left: 10px; color: red;" class="fa fa-exclamation-triangle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="WARNING: Changing this value will cause all existing event slots to be deleted!"></i>
+          </label>
+          <select class="browser-default custom-select" id="durationSelector">
+            <option value="15">
+              15 Minutes
+            </option>
+            <option value="30">
+              30 Minutes
+            </option>
+            <option value="60">
+              1 Hour
+            </option>
+          </select>
+        </div>
+      </form>
 
-				<tr>
-				  <th scope="row">8:00 AM<div class="doNotDisplay">60</div></th>
-				</tr>
+      <div class="manageEditEventsField">
+        <div class="existingEventsContainer">
+          <div class="form-group">
+            <label id="labelForExistingDates">Existing Dates</label>
+            <button class="btn btn-sm btn-dark hide" id="editExistingSlots">
+              <i class="fas fa-edit" aria-hidden="true"></i>
+            </button>
+            <button class="btn btn-sm btn-dark hide" id="hideExistingDates">
+              <i class="fa fa-eye-slash" aria-hidden="true"></i>
+            </button>
+          </div>
 
-				<tr>
-				  <th scope="row">9:00 AM<div class="doNotDisplay">120</div></th>
-				</tr>
+          <table class="table table-sm" id="existingEventsTable">
+            <thead>
+              <tr>
+                <th scope="col">
+                  Date
+                </th>
+                <th scope="col">
+                  Day Name
+                </th>
+                <th scope="col">
+                  Start Time
+                </th>
+                <th scope="col">
+                  End Time
+                </th>
+                <th scope="col">
+                  <i class="fa fa-trash" aria-hidden="true"></i>
+                </th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <br>
+        <br>
+        <br>
+        <br>
+        <div class="addedEventsContainer">
+          <div class="form-group">
+            <label id="labelForAddedDates" for="eventDateInput">
+              Added Dates
+            </label>
+            <button class="btn btn-sm btn-dark openAddEvents"
+              id="openAddEvents">
+              <i class="fa fa-plus" aria-hidden="true"></i>
+            </button>
+            <button class="btn btn-sm btn-dark hide" id="hideAddedDates">
+              <i class="fa fa-eye-slash" aria-hidden="true"></i>
+            </button>
+          </div>
 
-				<tr>
-				  <th scope="row">10:00 AM<div class="doNotDisplay">180</div></th>
-				</tr>
+          <table class="table table-sm" id="addEventsTable">
+            <thead>
+              <tr>
+                <th scope="col">
+                  Date
+                </th>
+                <th scope="col">
+                  Day Name
+                </th>
+                <th scope="col">
+                  Start Time
+                </th>
+                <th scope="col">
+                  End Time
+                </th>
+                <th scope="col">
+                  <i class="fa fa-trash" aria-hidden="true"></i>
+                </th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <br>
+        <br>
+        <br>
+        <br>
+        <div class="nextBackField">
+          <button type="button"
+            class="btn btn-dark nextBackField"
+            id="resetButton">
+            Reset
+          </button>
+          <button type="button" class="btn btn-dark" id="saveSlots">
+            Save Slot Changes
+          </button>
+        </div>
+      </div>
+    </div>
 
-				<tr>
-				  <th scope="row">11:00 AM<div class="doNotDisplay">240</div></th>
-				</tr>
+    <!-- Edit Modal -->
+    <div id="editSlotsModal"
+      class="modal fade"
+      data-keyboard="false"
+      data-backdrop="static"
+      role="dialog">
+      <div class="modal-dialog">
+        <!-- Modal content -->
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1>
+              Edit Event Time Slot
+            </h1>
+            <button type="button" class="close" data-dismiss="modal">
+              &times;
+            </button>
+          </div>
 
-				<tr>
-				  <th scope="row">12:00 PM<div class="doNotDisplay">300</div></th>
-				</tr>
+          <div class="modal-body editSlotField">
+            <div class="editSlotHeading">
+              <h3>
+                Slot to be Edited:
+              </h3>
+              <label id="editSlotName"></label>
+            </div>
 
-				<tr>
-				  <th scope="row">1:00 PM<div class="doNotDisplay">360</div></th>
-				</tr>
+            <div class="table-responsive text-nowrap timeSelectionField">
+              <div class="form-group">
+                <label for="eventDateInput">Edit Slot Date:</label>
+                <!-- Date Picker Source: https://jsfiddle.net/christianklemp_imt/b20paum2/ -->
+                <div class="input-group date editEventInput mb-3"
+                  id="editDatepicker">
+                  <input readonly
+                    type="text"
+                    class="form-control"
+                    id="editDates"
+                    name="Dates"
+                    placeholder="Select days"
+                    required>
+                  <span class="input-group-addon">
+                    <i class="glyphicon glyphicon-calendar"></i><span class="count"></span>
+                  </span>
+                </div>
+              </div>
 
-				<tr>
-				  <th scope="row">2:00 PM<div class="doNotDisplay">420</div></th>
-				</tr>
+              <table class="table-sm editTimeSelector" id="editTimeSelector">
+                <thead>
+                  <tr>
+                    <th scope="col">
+                      Time
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">
+                      7:00 AM<div class="doNotDisplay">
+                        0
+                      </div>
+                    </th>
+                  </tr>
 
-				<tr>
-				  <th scope="row">3:00 PM<div class="doNotDisplay">480</div></th>
-				</tr>
+                  <tr>
+                    <th scope="row">
+                      8:00 AM<div class="doNotDisplay">
+                        60
+                      </div>
+                    </th>
+                  </tr>
 
-				<tr>
-				  <th scope="row">4:00 PM<div class="doNotDisplay">540</div></th>
-				</tr>
+                  <tr>
+                    <th scope="row">
+                      9:00 AM<div class="doNotDisplay">
+                        120
+                      </div>
+                    </th>
+                  </tr>
 
-				<tr>
-				  <th scope="row">5:00 PM<div class="doNotDisplay">600</div></th>
-				</tr>
+                  <tr>
+                    <th scope="row">
+                      10:00 AM<div class="doNotDisplay">
+                        180
+                      </div>
+                    </th>
+                  </tr>
 
-				<tr>
-				  <th scope="row">6:00 PM<div class="doNotDisplay">660</div></th>
-				</tr>
+                  <tr>
+                    <th scope="row">
+                      11:00 AM<div class="doNotDisplay">
+                        240
+                      </div>
+                    </th>
+                  </tr>
 
-				<tr>
-				  <th scope="row">7:00 PM<div class="doNotDisplay">720</div></th>
-				</tr>
+                  <tr>
+                    <th scope="row">
+                      12:00 PM<div class="doNotDisplay">
+                        300
+                      </div>
+                    </th>
+                  </tr>
 
-			  </tbody>
-			</table>
-			</div>
-			
-			
-			</div>
-				
-				<div class="modal-footer">
-					<button type="button" class="btn btn-dark" id="editSlotsCancelButton" data-dismiss="modal">Cancel</button>
-					<button type="button" class="btn btn-dark" id="editSlotsConfirmButton">Confirm</button>
-				</div>
-			</div>
+                  <tr>
+                    <th scope="row">
+                      1:00 PM<div class="doNotDisplay">
+                        360
+                      </div>
+                    </th>
+                  </tr>
 
-		</div>
+                  <tr>
+                    <th scope="row">
+                      2:00 PM<div class="doNotDisplay">
+                        420
+                      </div>
+                    </th>
+                  </tr>
 
-	</div>
-	
-	
-	
-	
-	
-	<!-- Add Modal -->
-	<div id="addEventModal" class="modal fade" data-keyboard="false" data-backdrop="static" role="dialog">
-		<div class="modal-dialog">
+                  <tr>
+                    <th scope="row">
+                      3:00 PM<div class="doNotDisplay">
+                        480
+                      </div>
+                    </th>
+                  </tr>
 
-			<!-- Modal content-->
-			<div class="modal-content">
-				<div class="modal-header">
-					<h1> Add Event Time Slot </h1>
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-				</div>
-				
-			<div class="modal-body addEventsField">
-			<div class="table-responsive text-nowrap timeSelectionField">
-			
-				<div class="form-group">
-					<label for="eventDateInput">Add Dates</label>
-					<!-- Date Picker   Source: https://jsfiddle.net/christianklemp_imt/b20paum2/ -->
-					<div class="input-group date addEventInput mb-3" id="datepicker">
-						<input readonly type="text" class="form-control" id="Dates" name="Dates" placeholder="Select days" required />
-						<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i><span class="count"></span></span>
-					</div>
-				</div>
-			
-			
-				<table class="table-sm timeSelector" id="timeSelector">
-				<thead>
-					<tr>
-					<th scope="col">Time</th>
-					</tr>
-				</thead>
-				<tbody>
+                  <tr>
+                    <th scope="row">
+                      4:00 PM<div class="doNotDisplay">
+                        540
+                      </div>
+                    </th>
+                  </tr>
 
-				<tr>
-					<th scope="row">7:00 AM<div class="doNotDisplay">0</div></th>
-				</tr>
+                  <tr>
+                    <th scope="row">
+                      5:00 PM<div class="doNotDisplay">
+                        600
+                      </div>
+                    </th>
+                  </tr>
 
-				<tr>
-				  <th scope="row">8:00 AM<div class="doNotDisplay">60</div></th>
-				</tr>
+                  <tr>
+                    <th scope="row">
+                      6:00 PM<div class="doNotDisplay">
+                        660
+                      </div>
+                    </th>
+                  </tr>
 
-				<tr>
-				  <th scope="row">9:00 AM<div class="doNotDisplay">120</div></th>
-				</tr>
+                  <tr>
+                    <th scope="row">
+                      7:00 PM<div class="doNotDisplay">
+                        720
+                      </div>
+                    </th>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
 
-				<tr>
-				  <th scope="row">10:00 AM<div class="doNotDisplay">180</div></th>
-				</tr>
+          <div class="modal-footer">
+            <button type="button"
+              class="btn btn-dark"
+              id="editSlotsCancelButton"
+              data-dismiss="modal">
+              Cancel
+            </button>
+            <button type="button"
+              class="btn btn-dark"
+              id="editSlotsConfirmButton">
+              Confirm
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
 
-				<tr>
-				  <th scope="row">11:00 AM<div class="doNotDisplay">240</div></th>
-				</tr>
+    <!-- Add Modal -->
+    <div id="addEventModal"
+      class="modal fade"
+      data-keyboard="false"
+      data-backdrop="static"
+      role="dialog">
+      <div class="modal-dialog">
+        <!-- Modal content -->
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1>
+              Add Event Time Slot
+            </h1>
+            <button type="button" class="close" data-dismiss="modal">
+              &times;
+            </button>
+          </div>
 
-				<tr>
-				  <th scope="row">12:00 PM<div class="doNotDisplay">300</div></th>
-				</tr>
+          <div class="modal-body addEventsField">
+            <div class="table-responsive text-nowrap timeSelectionField">
+              <div class="form-group">
+                <label for="eventDateInput">Add Dates</label>
+                <!-- Date Picker Source: https://jsfiddle.net/christianklemp_imt/b20paum2/ -->
+                <div class="input-group date addEventInput mb-3"
+                  id="datepicker">
+                  <input readonly
+                    type="text"
+                    class="form-control"
+                    id="Dates"
+                    name="Dates"
+                    placeholder="Select days"
+                    required>
+                  <span class="input-group-addon">
+                    <i class="glyphicon glyphicon-calendar"></i><span class="count"></span>
+                  </span>
+                </div>
+              </div>
 
-				<tr>
-				  <th scope="row">1:00 PM<div class="doNotDisplay">360</div></th>
-				</tr>
+              <table class="table-sm timeSelector" id="timeSelector">
+                <thead>
+                  <tr>
+                    <th scope="col">
+                      Time
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">
+                      7:00 AM<div class="doNotDisplay">
+                        0
+                      </div>
+                    </th>
+                  </tr>
 
-				<tr>
-				  <th scope="row">2:00 PM<div class="doNotDisplay">420</div></th>
-				</tr>
+                  <tr>
+                    <th scope="row">
+                      8:00 AM<div class="doNotDisplay">
+                        60
+                      </div>
+                    </th>
+                  </tr>
 
-				<tr>
-				  <th scope="row">3:00 PM<div class="doNotDisplay">480</div></th>
-				</tr>
+                  <tr>
+                    <th scope="row">
+                      9:00 AM<div class="doNotDisplay">
+                        120
+                      </div>
+                    </th>
+                  </tr>
 
-				<tr>
-				  <th scope="row">4:00 PM<div class="doNotDisplay">540</div></th>
-				</tr>
+                  <tr>
+                    <th scope="row">
+                      10:00 AM<div class="doNotDisplay">
+                        180
+                      </div>
+                    </th>
+                  </tr>
 
-				<tr>
-				  <th scope="row">5:00 PM<div class="doNotDisplay">600</div></th>
-				</tr>
+                  <tr>
+                    <th scope="row">
+                      11:00 AM<div class="doNotDisplay">
+                        240
+                      </div>
+                    </th>
+                  </tr>
 
-				<tr>
-				  <th scope="row">6:00 PM<div class="doNotDisplay">660</div></th>
-				</tr>
+                  <tr>
+                    <th scope="row">
+                      12:00 PM<div class="doNotDisplay">
+                        300
+                      </div>
+                    </th>
+                  </tr>
 
-				<tr>
-				  <th scope="row">7:00 PM<div class="doNotDisplay">720</div></th>
-				</tr>
+                  <tr>
+                    <th scope="row">
+                      1:00 PM<div class="doNotDisplay">
+                        360
+                      </div>
+                    </th>
+                  </tr>
 
-			  </tbody>
-			</table>
-			</div>
-			
-			
-			</div>
-				
-				<div class="modal-footer">
-					<button type="button" class="btn btn-dark" id="addEventsCancelButton" data-dismiss="modal">Cancel</button>
-					<button type="button" class="btn btn-dark" id="addEventsButton">Add</button>
-				</div>
-			</div>
+                  <tr>
+                    <th scope="row">
+                      2:00 PM<div class="doNotDisplay">
+                        420
+                      </div>
+                    </th>
+                  </tr>
 
-		</div>
+                  <tr>
+                    <th scope="row">
+                      3:00 PM<div class="doNotDisplay">
+                        480
+                      </div>
+                    </th>
+                  </tr>
 
-	</div>
+                  <tr>
+                    <th scope="row">
+                      4:00 PM<div class="doNotDisplay">
+                        540
+                      </div>
+                    </th>
+                  </tr>
 
+                  <tr>
+                    <th scope="row">
+                      5:00 PM<div class="doNotDisplay">
+                        600
+                      </div>
+                    </th>
+                  </tr>
 
-	<!-- Modal -->
-	<div id="generalConfirm" class="modal fade" role="dialog">
-		<div class="modal-dialog">
+                  <tr>
+                    <th scope="row">
+                      6:00 PM<div class="doNotDisplay">
+                        660
+                      </div>
+                    </th>
+                  </tr>
 
-			<!-- Modal content-->
-			<div class="modal-content">
-				<div class="modal-header">
-					<h1 id="generalHeaderLabel"></h1>
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-				</div>
-				
-				<div class="confirmationDescriptionContainer modal-body">
-				</div>
-				
-				<div class="modal-footer">
-					<button type="button" class="btn btn-dark" id="generalCancelButton" data-dismiss="modal">Cancel</button>
-					<button type="button" class="btn btn-dark" id="generalAcceptButton">Confirm</button>
-				</div>
-			</div>
+                  <tr>
+                    <th scope="row">
+                      7:00 PM<div class="doNotDisplay">
+                        720
+                      </div>
+                    </th>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
 
-		</div>
+          <div class="modal-footer">
+            <button type="button"
+              class="btn btn-dark"
+              id="addEventsCancelButton"
+              data-dismiss="modal">
+              Cancel
+            </button>
+            <button type="button" class="btn btn-dark" id="addEventsButton">
+              Add
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
 
-	</div>
-	
-	<!-- Modal -->
-	<div id="refreshConfirm" class="modal fade" role="dialog">
-		<div class="modal-dialog">
+    <!-- Modal -->
+    <div id="generalConfirm" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <!-- Modal content -->
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 id="generalHeaderLabel"></h1>
+            <button type="button" class="close" data-dismiss="modal">
+              &times;
+            </button>
+          </div>
 
-			<!-- Modal content-->
-			<div class="modal-content">
-				<div class="modal-header">
-					<h1 id="refreshHeaderLabel">Changes Saved!</h1>
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-				</div>
-				
-				<div class="modal-body refreshContent">
-					<label id="refreshChangeHeader"></label>
-					<br>
-					<br>
-					<label>Please Refresh the page to view changes.</label>
-					<br>
-					<button type="button" class="btn btn-dark" id="refreshButton">Refresh</button>
-				</div>
-				
-				<div class="modal-footer">
-					<button type="button" class="btn btn-dark" data-dismiss="modal">Finish</button>
-				</div>
-			</div>
+          <div class="confirmationDescriptionContainer modal-body"></div>
 
-		</div>
+          <div class="modal-footer">
+            <button type="button"
+              class="btn btn-dark"
+              id="generalCancelButton"
+              data-dismiss="modal">
+              Cancel
+            </button>
+            <button type="button" class="btn btn-dark" id="generalAcceptButton">
+              Confirm
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
 
-	</div>
-	
-</div>
+    <!-- Modal -->
+    <div id="refreshConfirm" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <!-- Modal content -->
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 id="refreshHeaderLabel">
+              Changes Saved!
+            </h1>
+            <button type="button" class="close" data-dismiss="modal">
+              &times;
+            </button>
+          </div>
 
-<!-- jQuery -->
-<script type="text/javascript" src="js/jquery.min.js"></script>
+          <div class="modal-body refreshContent">
+            <label id="refreshChangeHeader"></label>
+            <br>
+            <br>
+            <label>Please Refresh the page to view changes.</label>
+            <br>
+            <button type="button" class="btn btn-dark" id="refreshButton">
+              Refresh
+            </button>
+          </div>
 
-<!-- Bootstrap tooltips -->
-<script type="text/javascript" src="js/popper.min.js"></script>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-dark" data-dismiss="modal">
+              Finish
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-<!-- Bootstrap core JavaScript -->
-<script type="text/javascript" src="js/bootstrap.min.js"></script>
+  <!-- jQuery -->
+  <script type="text/javascript" src="static/js/jquery.min.js"></script>
 
-<!-- MDB core JavaScript -->
-<script type="text/javascript" src="js/mdb.min.js"></script>
+  <!-- Bootstrap tooltips -->
+  <script type="text/javascript" src="static/js/popper.min.js"></script>
 
-<!-- Your custom scripts (optional) -->
-<script type="text/javascript"></script>
+  <!-- Bootstrap core JavaScript -->
+  <script type="text/javascript" src="static/js/bootstrap.min.js"></script>
 
+  <!-- MDB core JavaScript -->
+  <script type="text/javascript" src="static/js/mdb.min.js"></script>
 
-<!-- Date Range Picker -->
+  <!-- Your custom scripts (optional) -->
+  <script type="text/javascript"></script>
 
-<script type="text/javascript"
-	src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
+  <!-- Date Range Picker -->
 
-	
-<!-- UI specific javascripts -->
-<script type="text/javascript" src="view_js/ui.js"></script>	
+  <script type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css">
 
-<!-- JavaScript specific to this page -->
-<script type="text/javascript" src="view_js/editGeneralFunctions.js"></script>
-	
-<!-- JavaScript specific to this page -->
-<script type="text/javascript" src="view_js/edit.js"></script>
+  <!-- UI specific javascripts -->
+  <script type="text/javascript" src="static/view_js/ui.js"></script>
 
-<!-- JavaScript specific to this page -->
-<script type="text/javascript" src="view_js/editFormSection.js"></script>
+  <!-- JavaScript specific to this page -->
+  <script type="text/javascript" src="static/view_js/editGeneralFunctions.js"></script>
 
+  <!-- JavaScript specific to this page -->
+  <script type="text/javascript" src="static/view_js/edit.js"></script>
 
+  <!-- JavaScript specific to this page -->
+  <script type="text/javascript" src="static/view_js/editFormSection.js"></script>
 {% endblock %}

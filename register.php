@@ -1,67 +1,60 @@
 <?php
 
-    // set up session
+// set up session
 
-    require_once 'php/session.php';
+require_once 'config/session.php';
 
-    // set up connection to database via MySQLi
+// set up connection to database via MySQLi
 
-    require_once 'php/database.php';
+require_once 'config/database.php';
 
-    // set up twig
+// set up twig
 
-    require_once 'php/twig.php';
-    
-    // include code for rendering view for errors
+require_once 'config/twig.php';
 
-    require_once 'php/render_error.php';
+// include code for rendering view for errors
 
+require_once 'config/render_error.php';
 
-    // get key for event from URL
+// get key for event from URL
 
-    $eventKey = $_GET["key"];
+$eventKey = $_GET["key"];
 
+// get event data from database
 
-    // get event data from database
+$eventData = $database->getEvent($eventKey);
 
-    $eventData = $database -> getEvent($eventKey);
+// if event data could not be found, show error page
 
-    // if event data could not be found, show error page
+if ($eventData == null) {
+  $errorCode = 404;
+  render_error($twig, $errorCode, $errorMessages[$errorCode]);
+  exit();
+}
 
-    if ($eventData == NULL) {
-        $errorCode = 404;
-        render_error($twig, $errorCode, $errorMessages[$errorCode]);
-        exit;
-    }
+$eventName = $eventData['name'];
+$eventAnoymous = $eventData['anonymous'];
+$eventUpload = $eventData['upload'];
 
-    $eventName = $eventData['name'];
-    $eventAnoymous = $eventData['anonymous'];
-    $eventUpload = $eventData['upload'];
+// get time slot data for event from database
 
+$slotData = $database->getRegistrationData($eventKey, $_SESSION["user"]);
+$columnNames = array_keys($slotData[0]);
 
-    // get time slot data for event from database
+// if ($slotData == NULL) {
+//     $errorCode = 404;
+//     render_error($twig, $errorCode, $errorMessages[$errorCode]);
+//     exit;
+// }
 
-    $slotData = $database -> getRegistrationData($eventKey, $_SESSION["user"]);
-    $columnNames = array_keys($slotData[0]);
+// render page using twig
 
-    // if ($slotData == NULL) {
-    //     $errorCode = 404;
-    //     render_error($twig, $errorCode, $errorMessages[$errorCode]);
-    //     exit;
-    // }
-
-
-    // render page using twig
-
-    echo $twig -> render(
-        'views/register.twig',
-        [
-            'event_name' => $eventName,
-            'event_anonymous' => $eventAnoymous,
-            'event_upload' => $eventUpload,
-            'table_headers' => $columnNames,
-            'table_rows' => $slotData
-        ]
-    );
+echo $twig->render('views/register.twig', [
+  'event_name' => $eventName,
+  'event_anonymous' => $eventAnoymous,
+  'event_upload' => $eventUpload,
+  'table_headers' => $columnNames,
+  'table_rows' => $slotData,
+]);
 
 ?>

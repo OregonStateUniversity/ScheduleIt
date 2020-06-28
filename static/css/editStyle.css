@@ -1,0 +1,163 @@
+label {
+  font-weight: bold;
+}
+
+.entryField1 {
+  height: fit-content;
+  padding: 10px;
+}
+
+.entryField2 {
+  padding: 10px;
+}
+
+.nextBackField {
+  float: none !important;
+  text-align: right !important;
+}
+
+.timeSelector,
+.editTimeSelector {
+  background-color: white;
+  padding: 5px;
+}
+
+.timeSelector table,
+.editTimeSelector table {
+  table-layout: fixed;
+  min-width: 100%;
+  border: none;
+}
+
+.timeSelector td,
+.editTimeSelector td {
+  cursor: pointer;
+  border: 1px solid black;
+}
+
+.timeSelector th,
+.editTimeSelector th {
+  font-size: 10px;
+  padding-top: 0 !important;
+  border: none;
+}
+
+#editTimeSelector td.selected {
+  background-color: #ccc;
+}
+
+#timeSelector td.selected {
+  background-color: #ccc;
+}
+
+.manageEditEventsField {
+  min-width: 100%;
+  min-height: 100%;
+}
+
+.timeSelectionField {
+  overflow-x: auto;
+  overflow-y: auto;
+}
+
+.addedEventsContainer {
+  display: inline-block;
+  min-width: 100% !important;
+  overflow-x: auto;
+}
+
+.toggled {
+  background: #d3d3d3;
+  border: 1px solid grey;
+
+  border-radius: 2px;
+}
+
+.confirmationDescriptionContainer {
+  text-align: center;
+}
+
+#confirmationDescription,
+#warningTag {
+  color: red;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.onLabel,
+.changedLabel {
+  color: blue;
+}
+
+.offLabel {
+  color: red;
+}
+
+.saveItemList {
+  font-size: 18px;
+}
+
+.openAddEvents:hover {
+  cursor: pointer;
+}
+
+#labelForAddedDates,
+#labelForExistingDates {
+  font-size: 20px;
+}
+
+.editableField:hover {
+  background-color: #add8e6;
+  cursor: pointer;
+}
+
+#deleteEventsHeader {
+  padding: 10px;
+}
+
+.fullSlot {
+  cursor: not-allowed !important;
+  background-color: #ffb6c1 !important;
+}
+
+.buttonActive {
+  background-color: #add8e6 !important;
+  box-shadow: 0 5px white;
+}
+
+.disabledRow {
+  background-color: #ffcccb !important;
+  opacity: 0.75;
+  pointer-events: none;
+}
+
+.selectedRow {
+  background-color: blue !important;
+  color: white;
+}
+
+.toBeAddedSlots {
+  color: blue;
+}
+
+.toBeDeletedSlots {
+  color: red;
+}
+
+.editSlotHeading {
+  text-align: center !important;
+}
+
+.deleteAddedSlot {
+  border: none;
+  background-color: rgba(0, 0, 0, 0);
+  color: red;
+}
+
+.refreshContent {
+  text-align: center;
+}
+
+.table {
+  text-align: center;
+}
