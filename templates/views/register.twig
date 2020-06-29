@@ -29,23 +29,23 @@
     <!-- <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Select TimeSlot</button> -->
 
     <table id="timeSlots" class="table mt-5 d-none">
+
       <tr class="row">
         {% for table_header in table_headers %}
-          <th class="col">
-            {{ table_header }}
-          </th>
+        <th class="col">{{ table_header }} </th>
         {% endfor %}
       </tr>
 
       {% for table_row in table_rows %}
+        
         <tr class="row">
           {% for table_data in table_row %}
-            <td class="col">
-              {{ table_data }}
-            </td>
+          <td class="col">{{ table_data }}</td>
           {% endfor %}
         </tr>
+
       {% endfor %}
+
     </table>
 
     <!-- Modal -->
@@ -162,7 +162,7 @@
   <script type="text/javascript"
     src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
   <link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css">
+    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css" />
 
   <!-- UI specific javascripts -->
   <script type="text/javascript" src="static/view_js/ui.js"></script>
