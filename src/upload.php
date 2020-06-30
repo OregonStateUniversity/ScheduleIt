@@ -69,7 +69,7 @@ if ($fileError == false) {
 
   if ($result > 0) {
     echo "Your file has been uploaded.";
-    shell_exec('chmod 755 *');
+    shell_exec('chmod -R 755 ../uploads/');
     exit();
   }
 }

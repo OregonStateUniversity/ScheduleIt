@@ -184,21 +184,15 @@
               {% for table_row in table_rows %}
                 <tr scope="row">
                   {% for column in table_row|slice(0, - 1) %}
-                    <td scope="col">
-                      {{ column }}
-                    </td>
+                    <td scope="col">{{ column }}</td>
                   {% endfor %}
 
                   {% set file_path = table_row|last %}
 
                   <td scope="col">
-                    <a class="fileDownloadFile"
-                      href="./{{ file_path }}"
-                      download>
+                    <a class="fileDownloadFile" href="./MyEventBoard/{{ file_path }}" download>
                       <button class="fileDownloadButton btn btn-dark btn-sm">
-                        <i class="fa fa-download"></i> <text>
-                          Download
-                        </text>
+                        <i class="fa fa-download"></i> <text>Download</text>
                       </button>
                     </a>
                   </td>
