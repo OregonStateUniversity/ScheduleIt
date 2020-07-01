@@ -12,7 +12,7 @@ $database->connectAsAdministrator();
 
 // include email function
 
-require_once 'config/notify_user.php';
+require_once '../config/notify_user.php';
 
 // get data from POST request
 
