@@ -5,7 +5,15 @@ as part of the Schedule It! project.
 
 - [Getting Started](docs/GETTING_STARTED.md)
 
-## Contact Information
+## Contact Information - current development team
+
+Bangbay Sibolian: sibolibb@oregonstate.edu
+
+Roman Guerrero: guerrero@oregonstate.edu
+
+Michael Czapary: czaparym@oregonstate.edu
+
+## Original Creators
 
 Tommy Liao: liaoto@oregonstate.edu or tommycs404@gmail.com
 
