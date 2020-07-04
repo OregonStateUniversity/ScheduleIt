@@ -1,5 +1,7 @@
 .DS_Store
 .php_cs.cache
+.htpasswd
+*.log
 
 # Editors
 .idea
@@ -17,6 +19,7 @@ node_modules
 
 bin/*
 !bin/pre-commit
+!bin/pre-push
 uploads/*
 !uploads/.gitkeep
 vendor/*
