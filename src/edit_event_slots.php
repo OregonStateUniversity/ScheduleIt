@@ -2,17 +2,17 @@
 
 // set up session
 
-require_once '../config/session.php';
+require_once dirname(__DIR__) . '/config/session.php';
 
 // set up connection to database via MySQLi
 
-require_once '../config/database.php';
+require_once dirname(__DIR__) . '/config/database.php';
 
 $database->connectAsAdministrator();
 
 // include email function
 
-require_once '../config/notify_user.php';
+require_once dirname(__DIR__) . '/config/notify_user.php';
 
 // get data from POST request
 
@@ -26,11 +26,11 @@ $deletedSlots = json_decode($_POST['deletedSlots'], true);
 $eventData = $database->getEvent($eventKey);
 
 if ($eventData == null) {
-  echo "The specified event does not exist.";
-  exit();
+    echo "The specified event does not exist.";
+    exit();
 } elseif ($eventData['creator'] != $_SESSION['user']) {
-  echo "You do not have permission to edit the specified event.";
-  exit();
+    echo "You do not have permission to edit the specified event.";
+    exit();
 }
 
 // initialize error codes
@@ -41,76 +41,74 @@ $deleteSuccess = true;
 // delete slots if slots exist
 
 if (count($deletedSlots) > 0) {
-  foreach ($deletedSlots as $slot) {
-    // get list of users who will lose their time slots
+    foreach ($deletedSlots as $slot) {
+        // get list of users who will lose their time slots
 
-    $removedUsers = $database->getUsersOfSlot($slot["slotHash"]);
+        $removedUsers = $database->getUsersOfSlot($slot["slotHash"]);
 
-    // delete time slot
+        // delete time slot
 
-    $errorCode = $database->editEvent_deleteSlot($eventKey, $slot["slotHash"]);
+        $errorCode = $database->editEvent_deleteSlot($eventKey, $slot["slotHash"]);
 
-    if ($errorCode != 0) {
-      $deleteSuccess = false;
+        if ($errorCode != 0) {
+            $deleteSuccess = false;
+        }
+
+        // build URL that leads to sign-up page for event
+
+        // $developerONID = substr(getcwd(), strlen('/nfs/stak/users/'), -1 * strlen('/public_html/MyEventBoard'));
+        // $siteURL = 'http://web.engr.oregonstate.edu/~' . $developerONID . '/MyEventBoard/';
+        // $siteURL = $siteURL . 'register?key=' . $eventKey;
+
+        $siteURL = 'https://eecs.oregonstate.edu/education/myeventboard/';
+        $siteURL = $siteURL . 'register.php?key=' . $eventKey;
+
+        // email users who were kicked off after successful delete
+
+        if ($removedUsers == null || !$deleteSuccess) {
+            continue;
+        }
+
+        foreach ($removedUsers as $user) {
+            emailUserAboutDeletedSlot($user, $eventData["name"], $siteURL);
+        }
     }
-
-    // build URL that leads to sign-up page for event
-
-    // $developerONID = substr(getcwd(), strlen('/nfs/stak/users/'), -1 * strlen('/public_html/MyEventBoard'));
-    // $siteURL = 'http://web.engr.oregonstate.edu/~' . $developerONID . '/MyEventBoard/';
-    // $siteURL = $siteURL . 'register?key=' . $eventKey;
-
-    $siteURL = 'https://eecs.oregonstate.edu/education/myeventboard/';
-    $siteURL = $siteURL . 'register.php?key=' . $eventKey;
-
-    // email users who were kicked off after successful delete
-
-    if ($removedUsers == null || !$deleteSuccess) {
-      continue;
-    }
-
-    foreach ($removedUsers as $user) {
-      emailUserAboutDeletedSlot($user, $eventData["name"], $siteURL);
-    }
-  }
 }
 
 // add slots if slots exist
 
 if (count($addedSlots) > 0) {
-  $slotData = [];
+    $slotData = [];
 
-  $slotData["duration"] = intval($_POST['slot_duration']);
-  $slotData["capacity"] = intval($_POST['slot_capacity']);
+    $slotData["duration"] = intval($_POST['slot_duration']);
+    $slotData["capacity"] = intval($_POST['slot_capacity']);
 
-  foreach ($addedSlots as $slot) {
-    $slotData["startTime"] = $slot['startTime'] . ':00';
-    $slotData["endTime"] = $slot['endTime'] . ':00';
+    foreach ($addedSlots as $slot) {
+        $slotData["startTime"] = $slot['startTime'] . ':00';
+        $slotData["endTime"] = $slot['endTime'] . ':00';
 
-    $errorCode = $database->editEvent_addSlot($eventKey, $slotData);
+        $errorCode = $database->editEvent_addSlot($eventKey, $slotData);
 
-    if ($errorCode != 0) {
-      $insertSuccess = false;
+        if ($errorCode != 0) {
+            $insertSuccess = false;
+        }
     }
-  }
 }
 
 // response to front end
 
 if ($insertSuccess && $deleteSuccess) {
-  echo "The event time slots changes were successfully saved!";
+    echo "The event time slots changes were successfully saved!";
 } else {
-  $errorCode = -1; // placeholder error code, means nothing
+    $errorCode = -1; // placeholder error code, means nothing
 
-  if ($insertSuccess && $deleteSuccess == false) {
-    $errorCode = 2;
-  } elseif ($insertSuccess == false && $deleteSuccess) {
-    $errorCode = 1;
-  } else {
-    $errorCode = 3;
-  }
+    if ($insertSuccess && $deleteSuccess == false) {
+        $errorCode = 2;
+    } elseif ($insertSuccess == false && $deleteSuccess) {
+        $errorCode = 1;
+    } else {
+        $errorCode = 3;
+    }
 
-  echo "The event could not be edited.\nError Code: " . $errorCode;
+    echo "The event could not be edited.\nError Code: " . $errorCode;
 }
-
-?>

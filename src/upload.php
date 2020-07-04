@@ -2,11 +2,11 @@
 
 // set up session
 
-require_once '../config/session.php';
+require_once dirname(__DIR__) . '/config/session.php';
 
 // set up connection to database via MySQLi
 
-require_once '../config/database.php';
+require_once dirname(__DIR__) . '/config/database.php';
 
 $database->connectAsAdministrator();
 
@@ -20,9 +20,9 @@ $slotKey = $_POST['slotKey'];
 $bookingData = $database->getUserBooking($slotKey, $_SESSION["user"]);
 
 if ($bookingData == null) {
-  echo "You have not reserved a time slot." . '\n';
-  echo "File upload is not possible." . '\n';
-  exit();
+    echo "You have not reserved a time slot." . '\n';
+    echo "File upload is not possible." . '\n';
+    exit();
 }
 
 $bookingID = $bookingData["id"];
@@ -45,7 +45,7 @@ $path = $newPath . '/' . $newFileName . '.' . $ext;
 // if directory for event's files does not exist, create it
 
 if (!file_exists($newPath)) {
-  mkdir($newPath, 0755, true);
+    mkdir($newPath, 0755, true);
 }
 
 // if there is error with file upload
@@ -54,26 +54,24 @@ if (!file_exists($newPath)) {
 $fileError = false;
 
 if (0 < $_FILES['file']['error']) {
-  echo 'Error: ' . $_FILES['file']['error'] . '<br>';
-  $fileError = true;
+    echo 'Error: ' . $_FILES['file']['error'] . '<br>';
+    $fileError = true;
 }
 
 // if there is no error with file upload, add path to database
 // otherwise, report that file upload was not successful
 
 if ($fileError == false) {
-  move_uploaded_file($_FILES['file']['tmp_name'], $path);
-  chmod($path, 0644);
+    move_uploaded_file($_FILES['file']['tmp_name'], $path);
+    chmod($path, 0644);
 
-  $result = $database->addFile($path, $bookingID);
+    $result = $database->addFile($path, $bookingID);
 
-  if ($result > 0) {
-    echo "Your file has been uploaded.";
-    shell_exec('chmod -R 755 ../uploads/');
-    exit();
-  }
+    if ($result > 0) {
+        echo "Your file has been uploaded.";
+        shell_exec('chmod -R 755 ../uploads/');
+        exit();
+    }
 }
 
 echo "Your file could not be uploaded.";
-
-?>

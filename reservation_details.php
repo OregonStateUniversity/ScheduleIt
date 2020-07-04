@@ -2,19 +2,19 @@
 
 // set up session
 
-require_once 'config/session.php';
+require_once dirname(__FILE__) . '/config/session.php';
 
 // set up connection to database via MySQLi
 
-require_once 'config/database.php';
+require_once dirname(__FILE__) . '/config/database.php';
 
 // set up twig
 
-require_once 'config/twig.php';
+require_once dirname(__FILE__) . '/config/twig.php';
 
 // include code for rendering view for errors
 
-require_once 'config/render_error.php';
+require_once dirname(__FILE__) . '/config/render_error.php';
 
 // get key for event from URL
 
@@ -25,14 +25,14 @@ $slotKey = $_GET["key"];
 // if there are no results, show error 404
 
 $reservationData = $database->getReservationDetails(
-  $slotKey,
-  $_SESSION["user"]
+    $slotKey,
+    $_SESSION["user"]
 );
 
 if ($reservationData == null) {
-  $errorCode = 404;
-  render_error($twig, $errorCode, $errorMessages[$errorCode]);
-  exit();
+    $errorCode = 404;
+    render_error($twig, $errorCode, $errorMessages[$errorCode]);
+    exit();
 }
 
 // render page using twig
@@ -48,5 +48,3 @@ echo $twig->render('views/reservation_details.twig', [
   'slot_end' => $reservationData['end_time'],
   'user_file' => $reservationData['file'],
 ]);
-
-?>

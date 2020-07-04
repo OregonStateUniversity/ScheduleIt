@@ -1,4 +1,5 @@
 .DS_Store
+.php_cs.cache
 
 # Editors
 .idea
@@ -10,16 +11,16 @@
 
 # Composer
 composer.phar
-bin/composer
 
 # Node
 node_modules
 
+bin/*
+!bin/pre-commit
 uploads/*
 !uploads/.gitkeep
 vendor/*
 !vendor/.gitkeep
 
-secret1
-secret2
+secret*
 text_file
