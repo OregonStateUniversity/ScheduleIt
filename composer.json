@@ -13,11 +13,15 @@
   "scripts": {
     "post-update-cmd": [
       "cp bin/pre-commit .git/hooks/pre-commit",
-      "chmod a+x .git/hooks/pre-commit"
+      "chmod a+x .git/hooks/pre-commit",
+      "cp bin/pre-push .git/hooks/pre-push",
+      "chmod a+x .git/hooks/pre-push"
     ],
     "post-install-cmd": [
       "cp bin/pre-commit .git/hooks/pre-commit",
-      "chmod a+x .git/hooks/pre-commit"
+      "chmod a+x .git/hooks/pre-commit",
+      "cp bin/pre-push .git/hooks/pre-push",
+      "chmod a+x .git/hooks/pre-push"
     ]
   }
 }
