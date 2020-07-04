@@ -1,0 +1,45 @@
+#!/bin/sh
+
+echo "Running pre-commit hook"
+
+PROJECT=`php -r "echo dirname(dirname(dirname(realpath('$0'))));"`
+STAGED_FILES_CMD=`git diff --cached --name-only --diff-filter=ACMR HEAD | grep \\\\.php`
+
+echo "Checking PHP Lint..."
+for FILE in $STAGED_FILES_CMD
+do
+  php -l -d display_errors=0 $PROJECT/$FILE
+  if [ $? != 0 ]
+  then
+    echo "Fix the error before(s) commit."
+    exit 1
+  fi
+  FILES="$FILES $PROJECT/$FILE"
+done
+
+echo "Running PHP Code Beautifier and Fixer (phpcbf)..."
+vendor/bin/phpcbf --standard=config/phpcs.xml $STAGED_FILES_CMD --colors --report=summary
+if [ $? != 0 ]
+then
+  echo "Fix the error before(s) commit."
+  exit 1
+fi
+
+echo "Running PHP-CS-FIXER..."
+
+PHP_CS_STATUS=0
+
+for FILE in $STAGED_FILES_CMD
+do
+  vendor/bin/php-cs-fixer fix $FILE
+  PHP_CS_STATUS=$(( $PHP_CS_STATUS + $? ))
+done
+
+if [ $PHP_CS_STATUS != 0 ]
+then
+  echo "Fix the error(s) before commit."
+fi
+
+echo "End of pre-commit hook"
+
+exit $PHP_CS_STATUS

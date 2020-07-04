@@ -26,7 +26,7 @@ $cas_port = 443;
 
 // Load the CAS lib
 
-require_once dirname(__DIR__).'/vendor/jasig/phpcas/source/CAS.php';
+require_once dirname(__DIR__) . '/vendor/jasig/phpcas/source/CAS.php';
 
 // Enable debugging
 
@@ -59,7 +59,7 @@ phpCAS::setNoCasServerValidation();
 // Example of the URL for the version of CAS 2.0 validation
 
 phpCAS::setServerServiceValidateURL(
-  'https://login.oregonstate.edu/idp/profile/cas/serviceValidate'
+    'https://login.oregonstate.edu/idp/profile/cas/serviceValidate'
 );
 
 // Override the validation url for any SAML11 validation
@@ -75,7 +75,5 @@ phpCAS::forceAuthentication();
 
 // logout if desired
 if (isset($_REQUEST['logout'])) {
-  phpCAS::logout();
+    phpCAS::logout();
 }
-
-?>

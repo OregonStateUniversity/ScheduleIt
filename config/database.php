@@ -1,81 +1,83 @@
 <?php
 
-require_once 'env.php';
+require_once dirname(__DIR__) . '/config/env.php';
 
 // include functions for generating hashes
 
-require_once 'hash.php';
+require_once dirname(__DIR__) . '/config/hash.php';
 
 // definition of class for custom interface of MySQLi database
 
 class DatabaseInterface
 {
-  private $database;
+    private $database;
 
-  public function __construct($mode = null)
-  {
-    switch ($mode) {
-      case 'a':
-        $this->connectAsAdministrator();
-      case 'ro':
-        $this->connectAsReadOnlyUser();
-      default:
-        $this->connectToDatabase('TEST');
+    public function __construct($mode = null)
+    {
+        switch ($mode) {
+            case 'a':
+                $this->connectAsAdministrator();
+                // no break
+            case 'ro':
+                $this->connectAsReadOnlyUser();
+                // no break
+            default:
+                $this->connectToDatabase('TEST');
+        }
     }
-  }
 
-  public function getError()
-  {
-    return $this->database->connect_error;
-  }
-
-  private function connectToDatabase($env)
-  {
-    $host_env = "DATABASE_HOST_{$env}";
-    $username_env = "DATABASE_USERNAME_{$env}";
-    $password_env = "DATABASE_PASSWORD_{$env}";
-    $name_env = "DATABASE_NAME_{$env}";
-    $port_env = "DATABASE_PORT_{$env}";
-
-
-    $host = $_ENV[$host_env];
-    $userName = $_ENV[$username_env];
-    $password = $_ENV[$password_env];
-    $databaseName = $_ENV[$name_env];
-    $port = $_ENV[$port_env];
-
-    // create connection to database
-
-    $this->database = new mysqli(
-      $host,
-      $userName,
-      $password,
-      $databaseName,
-      $port
-    );
-
-    // check if that was successful
-    // application is completely dependent on database so dying is acceptable
-    // return if it was successful
-
-    if ($this->getError()) {
-      die('A connection to the database could not be established.');
+    public function getError()
+    {
+        return $this->database->connect_error;
     }
-  }
 
-  public function connectAsReadOnlyUser()
-  {
-    $this->connectToDatabase('READONLY');
-  }
+    private function connectToDatabase($env)
+    {
+        $host_env = "DATABASE_HOST_{$env}";
+        $username_env = "DATABASE_USERNAME_{$env}";
+        $password_env = "DATABASE_PASSWORD_{$env}";
+        $name_env = "DATABASE_NAME_{$env}";
+        $port_env = "DATABASE_PORT_{$env}";
 
-  public function connectAsAdministrator()
-  {
-    $this->connectToDatabase('ADMIN');
-  }
 
-  public function getUserByONID($userONID)
-  {
-    $query = "
+        $host = $_ENV[$host_env];
+        $userName = $_ENV[$username_env];
+        $password = $_ENV[$password_env];
+        $databaseName = $_ENV[$name_env];
+        $port = $_ENV[$port_env];
+
+        // create connection to database
+
+        $this->database = new mysqli(
+            $host,
+            $userName,
+            $password,
+            $databaseName,
+            $port
+        );
+
+        // check if that was successful
+        // application is completely dependent on database so dying is acceptable
+        // return if it was successful
+
+        if ($this->getError()) {
+            die('A connection to the database could not be established.');
+        }
+    }
+
+    public function connectAsReadOnlyUser()
+    {
+        $this->connectToDatabase('READONLY');
+    }
+
+    public function connectAsAdministrator()
+    {
+        $this->connectToDatabase('ADMIN');
+    }
+
+    public function getUserByONID($userONID)
+    {
+        $query = "
 
             SELECT id, onid, email, last_name, first_name
             FROM meb_user
@@ -83,69 +85,69 @@ class DatabaseInterface
 
         ";
 
-    $statement = $this->database->prepare($query);
+        $statement = $this->database->prepare($query);
 
-    $statement->bind_param("s", $userONID);
-    $statement->execute();
+        $statement->bind_param("s", $userONID);
+        $statement->execute();
 
-    $result = $statement->get_result();
+        $result = $statement->get_result();
 
-    if ($result->num_rows > 0) {
-      $resultArray = $result->fetch_all(MYSQLI_ASSOC);
-      $userData = $resultArray[0];
-    } else {
-      $userData = null;
+        if ($result->num_rows > 0) {
+            $resultArray = $result->fetch_all(MYSQLI_ASSOC);
+            $userData = $resultArray[0];
+        } else {
+            $userData = null;
+        }
+
+        $statement->close();
+        $result->free();
+
+        return $userData;
     }
 
-    $statement->close();
-    $result->free();
+    public function getUserKey($userONID)
+    {
+        $userData = $this->getUserByONID($userONID);
 
-    return $userData;
-  }
-
-  public function getUserKey($userONID)
-  {
-    $userData = $this->getUserByONID($userONID);
-
-    if ($userData) {
-      return $userData["id"];
-    } else {
-      return -1;
+        if ($userData) {
+            return $userData["id"];
+        } else {
+            return -1;
+        }
     }
-  }
 
-  public function addUser($userONID, $email, $firstName, $lastName)
-  {
-    // check if user is in database
+    public function addUser($userONID, $email, $firstName, $lastName)
+    {
+        // check if user is in database
 
-    $userData = $this->getUserByONID($userONID);
+        $userData = $this->getUserByONID($userONID);
 
-    // if user is not in database, add user to database
+        // if user is not in database, add user to database
 
-    if ($userData == null) {
-      $query = "
+        if ($userData == null) {
+            $query = "
 
                 INSERT INTO meb_user(onid, email, last_name, first_name)
                 VALUES (?, ?, ?, ?)
 
             ";
 
-      $statement = $this->database->prepare($query);
+            $statement = $this->database->prepare($query);
 
-      $statement->bind_param("ssss", $userONID, $email, $lastName, $firstName);
-      $statement->execute();
+            $statement->bind_param("ssss", $userONID, $email, $lastName, $firstName);
+            $statement->execute();
 
-      $result = $statement->affected_rows;
+            $result = $statement->affected_rows;
 
-      $statement->close();
+            $statement->close();
 
-      return $result;
+            return $result;
+        }
     }
-  }
 
-  public function getTimeSlot($slotKey)
-  {
-    $query = "
+    public function getTimeSlot($slotKey)
+    {
+        $query = "
 
             SELECT
             id, hash, start_time, end_time, duration,
@@ -156,28 +158,28 @@ class DatabaseInterface
 
         ";
 
-    $statement = $this->database->prepare($query);
-    $statement->bind_param("s", $slotKey);
-    $statement->execute();
+        $statement = $this->database->prepare($query);
+        $statement->bind_param("s", $slotKey);
+        $statement->execute();
 
-    $result = $statement->get_result();
+        $result = $statement->get_result();
 
-    if ($result->num_rows > 0) {
-      $resultArray = $result->fetch_all(MYSQLI_ASSOC);
-      $slotData = $resultArray[0];
-    } else {
-      $slotData = null;
+        if ($result->num_rows > 0) {
+            $resultArray = $result->fetch_all(MYSQLI_ASSOC);
+            $slotData = $resultArray[0];
+        } else {
+            $slotData = null;
+        }
+
+        $statement->close();
+        $result->free();
+
+        return $slotData;
     }
 
-    $statement->close();
-    $result->free();
-
-    return $slotData;
-  }
-
-  private function addTimeSlots($slotData, $eventID)
-  {
-    $query = "
+    private function addTimeSlots($slotData, $eventID)
+    {
+        $query = "
 
             INSERT INTO
             meb_timeslot(hash, start_time, end_time, duration, slot_capacity, spaces_available, is_full, fk_event_id)
@@ -185,45 +187,45 @@ class DatabaseInterface
 
         ";
 
-    $statement = $this->database->prepare($query);
+        $statement = $this->database->prepare($query);
 
-    $statement->bind_param(
-      "sssiiiii",
-      $hash,
-      $startDate,
-      $endDate,
-      $duration,
-      $capacity,
-      $spaces,
-      $full,
-      $eventID
-    );
+        $statement->bind_param(
+            "sssiiiii",
+            $hash,
+            $startDate,
+            $endDate,
+            $duration,
+            $capacity,
+            $spaces,
+            $full,
+            $eventID
+        );
 
-    $result = 0;
-    $full = 0;
+        $result = 0;
+        $full = 0;
 
-    foreach ($slotData["dates"] as $item) {
-      $startDate = $item["startDate"];
-      $endDate = $item["endDate"];
-      $duration = $slotData["duration"];
-      $capacity = $slotData["capacity"];
-      $spaces = $slotData["capacity"];
+        foreach ($slotData["dates"] as $item) {
+            $startDate = $item["startDate"];
+            $endDate = $item["endDate"];
+            $duration = $slotData["duration"];
+            $capacity = $slotData["capacity"];
+            $spaces = $slotData["capacity"];
 
-      $hash = createTimeSlotHash($startDate, $endDate, $eventID);
+            $hash = createTimeSlotHash($startDate, $endDate, $eventID);
 
-      $statement->execute();
+            $statement->execute();
 
-      $result += $statement->affected_rows;
+            $result += $statement->affected_rows;
+        }
+
+        $statement->close();
+
+        return $result;
     }
 
-    $statement->close();
-
-    return $result;
-  }
-
-  public function getUserEvents($userONID)
-  {
-    $query = "
+    public function getUserEvents($userONID)
+    {
+        $query = "
 
             SELECT
             meb_event.hash AS 'Event Key',
@@ -238,27 +240,27 @@ class DatabaseInterface
 
         ";
 
-    $statement = $this->database->prepare($query);
-    $statement->bind_param("s", $userONID);
-    $statement->execute();
+        $statement = $this->database->prepare($query);
+        $statement->bind_param("s", $userONID);
+        $statement->execute();
 
-    $result = $statement->get_result();
+        $result = $statement->get_result();
 
-    if ($result->num_rows > 0) {
-      $resultArray = $result->fetch_all(MYSQLI_ASSOC);
-    } else {
-      $resultArray = null;
+        if ($result->num_rows > 0) {
+            $resultArray = $result->fetch_all(MYSQLI_ASSOC);
+        } else {
+            $resultArray = null;
+        }
+
+        $statement->close();
+        $result->free();
+
+        return $resultArray;
     }
 
-    $statement->close();
-    $result->free();
-
-    return $resultArray;
-  }
-
-  public function getEventSlotDetails($eventKey)
-  {
-    $query = "
+    public function getEventSlotDetails($eventKey)
+    {
+        $query = "
 
             SELECT
             meb_timeslot.duration,
@@ -273,29 +275,29 @@ class DatabaseInterface
 
         ";
 
-    $statement = $this->database->prepare($query);
+        $statement = $this->database->prepare($query);
 
-    $statement->bind_param("s", $eventKey);
-    $statement->execute();
+        $statement->bind_param("s", $eventKey);
+        $statement->execute();
 
-    $result = $statement->get_result();
+        $result = $statement->get_result();
 
-    if ($result->num_rows > 0) {
-      $resultArray = $result->fetch_all(MYSQLI_ASSOC);
-      $slotDetails = $resultArray[0];
-    } else {
-      $slotDetails = null;
+        if ($result->num_rows > 0) {
+            $resultArray = $result->fetch_all(MYSQLI_ASSOC);
+            $slotDetails = $resultArray[0];
+        } else {
+            $slotDetails = null;
+        }
+
+        $statement->close();
+        $result->free();
+
+        return $slotDetails;
     }
 
-    $statement->close();
-    $result->free();
-
-    return $slotDetails;
-  }
-
-  public function getEventBySlotKey($slotKey)
-  {
-    $query = "
+    public function getEventBySlotKey($slotKey)
+    {
+        $query = "
 
             SELECT
             meb_event.id, meb_event.hash, name, description, location,
@@ -311,29 +313,29 @@ class DatabaseInterface
 
         ";
 
-    $statement = $this->database->prepare($query);
+        $statement = $this->database->prepare($query);
 
-    $statement->bind_param("s", $slotKey);
-    $statement->execute();
+        $statement->bind_param("s", $slotKey);
+        $statement->execute();
 
-    $result = $statement->get_result();
+        $result = $statement->get_result();
 
-    if ($result->num_rows > 0) {
-      $resultArray = $result->fetch_all(MYSQLI_ASSOC);
-      $eventData = $resultArray[0];
-    } else {
-      $eventData = null;
+        if ($result->num_rows > 0) {
+            $resultArray = $result->fetch_all(MYSQLI_ASSOC);
+            $eventData = $resultArray[0];
+        } else {
+            $eventData = null;
+        }
+
+        $statement->close();
+        $result->free();
+
+        return $eventData;
     }
 
-    $statement->close();
-    $result->free();
-
-    return $eventData;
-  }
-
-  public function getEvent($eventKey)
-  {
-    $query = "
+    public function getEvent($eventKey)
+    {
+        $query = "
 
             SELECT
             meb_event.id, hash, name, description, location, onid AS 'creator',
@@ -345,35 +347,35 @@ class DatabaseInterface
 
         ";
 
-    $statement = $this->database->prepare($query);
+        $statement = $this->database->prepare($query);
 
-    $statement->bind_param("s", $eventKey);
-    $statement->execute();
+        $statement->bind_param("s", $eventKey);
+        $statement->execute();
 
-    $result = $statement->get_result();
+        $result = $statement->get_result();
 
-    if ($result->num_rows > 0) {
-      $resultArray = $result->fetch_all(MYSQLI_ASSOC);
-      $eventData = $resultArray[0];
-    } else {
-      $eventData = null;
+        if ($result->num_rows > 0) {
+            $resultArray = $result->fetch_all(MYSQLI_ASSOC);
+            $eventData = $resultArray[0];
+        } else {
+            $eventData = null;
+        }
+
+        $statement->close();
+        $result->free();
+
+        return $eventData;
     }
 
-    $statement->close();
-    $result->free();
+    public function changeEventDetails($eventKey, $eventData)
+    {
+        $name = $eventData["name"];
+        $description = $eventData["description"];
+        $location = $eventData["location"];
+        $isAnonymous = $eventData["anonymous"];
+        $enableUpload = $eventData["upload"];
 
-    return $eventData;
-  }
-
-  public function changeEventDetails($eventKey, $eventData)
-  {
-    $name = $eventData["name"];
-    $description = $eventData["description"];
-    $location = $eventData["location"];
-    $isAnonymous = $eventData["anonymous"];
-    $enableUpload = $eventData["upload"];
-
-    $query = "
+        $query = "
 
             UPDATE meb_event
             SET name = ?, description = ?, location = ?, is_anon = ?, enable_upload = ?
@@ -381,93 +383,93 @@ class DatabaseInterface
 
         ";
 
-    $statement = $this->database->prepare($query);
+        $statement = $this->database->prepare($query);
 
-    $statement->bind_param(
-      "sssiis",
-      $name,
-      $description,
-      $location,
-      $isAnonymous,
-      $enableUpload,
-      $eventKey
-    );
+        $statement->bind_param(
+            "sssiis",
+            $name,
+            $description,
+            $location,
+            $isAnonymous,
+            $enableUpload,
+            $eventKey
+        );
 
-    $statement->execute();
+        $statement->execute();
 
-    $result = $statement->affected_rows;
+        $result = $statement->affected_rows;
 
-    $statement->close();
+        $statement->close();
 
-    return $result;
-  }
+        return $result;
+    }
 
-  public function deleteEvent($eventKey)
-  {
-    $query = "DELETE FROM meb_event WHERE hash = ?";
+    public function deleteEvent($eventKey)
+    {
+        $query = "DELETE FROM meb_event WHERE hash = ?";
 
-    $statement = $this->database->prepare($query);
+        $statement = $this->database->prepare($query);
 
-    $statement->bind_param("s", $eventKey);
-    $statement->execute();
+        $statement->bind_param("s", $eventKey);
+        $statement->execute();
 
-    $result = $statement->affected_rows;
+        $result = $statement->affected_rows;
 
-    $statement->close();
+        $statement->close();
 
-    return $result;
-  }
+        return $result;
+    }
 
-  public function addEvent($eventData, $slotData)
-  {
-    $name = $eventData["name"];
-    $description = $eventData["description"];
-    $creator = $eventData["creator"];
-    $location = $eventData["location"];
-    $capacity = $eventData["capacity"];
-    $openSlots = $eventData["capacity"];
-    $anonymous = $eventData["anonymous"];
-    $upload = $eventData["upload"];
+    public function addEvent($eventData, $slotData)
+    {
+        $name = $eventData["name"];
+        $description = $eventData["description"];
+        $creator = $eventData["creator"];
+        $location = $eventData["location"];
+        $capacity = $eventData["capacity"];
+        $openSlots = $eventData["capacity"];
+        $anonymous = $eventData["anonymous"];
+        $upload = $eventData["upload"];
 
-    $hash = createEventHash($name, $description, $creator, $location);
+        $hash = createEventHash($name, $description, $creator, $location);
 
-    $query = "
+        $query = "
 
             INSERT INTO meb_event(hash, name, description, fk_event_creator, location, capacity, open_slots, is_anon, enable_upload)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
 
         ";
 
-    $statement = $this->database->prepare($query);
+        $statement = $this->database->prepare($query);
 
-    $statement->bind_param(
-      "sssisiiii",
-      $hash,
-      $name,
-      $description,
-      $creator,
-      $location,
-      $capacity,
-      $openSlots,
-      $anonymous,
-      $upload
-    );
+        $statement->bind_param(
+            "sssisiiii",
+            $hash,
+            $name,
+            $description,
+            $creator,
+            $location,
+            $capacity,
+            $openSlots,
+            $anonymous,
+            $upload
+        );
 
-    $statement->execute();
+        $statement->execute();
 
-    $newEventID = $this->database->insert_id;
-    $this->addTimeSlots($slotData, $newEventID);
+        $newEventID = $this->database->insert_id;
+        $this->addTimeSlots($slotData, $newEventID);
 
-    $result = $statement->affected_rows;
+        $result = $statement->affected_rows;
 
-    $statement->close();
+        $statement->close();
 
-    return $result;
-  }
+        return $result;
+    }
 
-  public function getRegistrationData($eventKey, $userONID)
-  {
-    $query = "
+    public function getRegistrationData($eventKey, $userONID)
+    {
+        $query = "
 
             SELECT
             T.hash, T.start_time, T.duration,
@@ -487,28 +489,28 @@ class DatabaseInterface
 
         ";
 
-    $statement = $this->database->prepare($query);
+        $statement = $this->database->prepare($query);
 
-    $statement->bind_param("ss", $userONID, $eventKey);
-    $statement->execute();
+        $statement->bind_param("ss", $userONID, $eventKey);
+        $statement->execute();
 
-    $result = $statement->get_result();
+        $result = $statement->get_result();
 
-    if ($result->num_rows > 0) {
-      $resultArray = $result->fetch_all(MYSQLI_ASSOC);
-    } else {
-      $resultArray = null;
+        if ($result->num_rows > 0) {
+            $resultArray = $result->fetch_all(MYSQLI_ASSOC);
+        } else {
+            $resultArray = null;
+        }
+
+        $statement->close();
+        $result->free();
+
+        return $resultArray;
     }
 
-    $statement->close();
-    $result->free();
-
-    return $resultArray;
-  }
-
-  public function getEditingData($eventKey)
-  {
-    $query = "
+    public function getEditingData($eventKey)
+    {
+        $query = "
 
             SELECT
             t0.hash AS 'eventHash', t0.name, t0.description,
@@ -528,32 +530,32 @@ class DatabaseInterface
 
         ";
 
-    $statement = $this->database->prepare($query);
+        $statement = $this->database->prepare($query);
 
-    $statement->bind_param("s", $eventKey);
-    $statement->execute();
+        $statement->bind_param("s", $eventKey);
+        $statement->execute();
 
-    $result = $statement->get_result();
+        $result = $statement->get_result();
 
-    $resultObjects = [];
+        $resultObjects = [];
 
-    while (1) {
-      $resultObject = $result->fetch_object();
-      if ($resultObject == null) {
-        break;
-      }
-      $resultObjects[] = $resultObject;
+        while (1) {
+            $resultObject = $result->fetch_object();
+            if ($resultObject == null) {
+                break;
+            }
+            $resultObjects[] = $resultObject;
+        }
+
+        $statement->close();
+        $result->free();
+
+        return $resultObjects;
     }
 
-    $statement->close();
-    $result->free();
-
-    return $resultObjects;
-  }
-
-  public function getDashboardData($userONID)
-  {
-    $query = "
+    public function getDashboardData($userONID)
+    {
+        $query = "
 
             SELECT
             U.onid AS 'user',
@@ -582,28 +584,28 @@ class DatabaseInterface
 
         ";
 
-    $statement = $this->database->prepare($query);
+        $statement = $this->database->prepare($query);
 
-    $statement->bind_param("s", $userONID);
-    $statement->execute();
+        $statement->bind_param("s", $userONID);
+        $statement->execute();
 
-    $result = $statement->get_result();
+        $result = $statement->get_result();
 
-    if ($result->num_rows > 0) {
-      $resultArray = $result->fetch_all(MYSQLI_ASSOC);
-    } else {
-      $resultArray = null;
+        if ($result->num_rows > 0) {
+            $resultArray = $result->fetch_all(MYSQLI_ASSOC);
+        } else {
+            $resultArray = null;
+        }
+
+        $statement->close();
+        $result->free();
+
+        return $resultArray;
     }
 
-    $statement->close();
-    $result->free();
-
-    return $resultArray;
-  }
-
-  public function getAttendeeData($eventKey)
-  {
-    $query = "
+    public function getAttendeeData($eventKey)
+    {
+        $query = "
 
             SELECT
             t1.start_time AS 'Time Slot Start Time',
@@ -625,28 +627,28 @@ class DatabaseInterface
 
         ";
 
-    $statement = $this->database->prepare($query);
+        $statement = $this->database->prepare($query);
 
-    $statement->bind_param("s", $eventKey);
-    $statement->execute();
+        $statement->bind_param("s", $eventKey);
+        $statement->execute();
 
-    $result = $statement->get_result();
+        $result = $statement->get_result();
 
-    if ($result->num_rows > 0) {
-      $resultArray = $result->fetch_all(MYSQLI_ASSOC);
-    } else {
-      $resultArray = null;
+        if ($result->num_rows > 0) {
+            $resultArray = $result->fetch_all(MYSQLI_ASSOC);
+        } else {
+            $resultArray = null;
+        }
+
+        $statement->close();
+        $result->free();
+
+        return $resultArray;
     }
 
-    $statement->close();
-    $result->free();
-
-    return $resultArray;
-  }
-
-  public function getReservationData($userONID)
-  {
-    $query = "
+    public function getReservationData($userONID)
+    {
+        $query = "
 
             SELECT
             t2.name AS 'Event',
@@ -670,28 +672,28 @@ class DatabaseInterface
 
         ";
 
-    $statement = $this->database->prepare($query);
+        $statement = $this->database->prepare($query);
 
-    $statement->bind_param("s", $userONID);
-    $statement->execute();
+        $statement->bind_param("s", $userONID);
+        $statement->execute();
 
-    $result = $statement->get_result();
+        $result = $statement->get_result();
 
-    if ($result->num_rows > 0) {
-      $resultArray = $result->fetch_all(MYSQLI_ASSOC);
-    } else {
-      $resultArray = null;
+        if ($result->num_rows > 0) {
+            $resultArray = $result->fetch_all(MYSQLI_ASSOC);
+        } else {
+            $resultArray = null;
+        }
+
+        $statement->close();
+        $result->free();
+
+        return $resultArray;
     }
 
-    $statement->close();
-    $result->free();
-
-    return $resultArray;
-  }
-
-  public function getReservationDetails($slotKey, $userONID)
-  {
-    $query = "
+    public function getReservationDetails($slotKey, $userONID)
+    {
+        $query = "
 
             SELECT
             t3.hash, t3.name, t3.location, t3.description, t3.enable_upload AS 'upload',
@@ -714,29 +716,29 @@ class DatabaseInterface
 
         ";
 
-    $statement = $this->database->prepare($query);
+        $statement = $this->database->prepare($query);
 
-    $statement->bind_param("ss", $slotKey, $userONID);
-    $statement->execute();
+        $statement->bind_param("ss", $slotKey, $userONID);
+        $statement->execute();
 
-    $result = $statement->get_result();
+        $result = $statement->get_result();
 
-    if ($result->num_rows > 0) {
-      $resultArray = $result->fetch_all(MYSQLI_ASSOC);
-      $reservationDetails = $resultArray[0];
-    } else {
-      $reservationDetails = null;
+        if ($result->num_rows > 0) {
+            $resultArray = $result->fetch_all(MYSQLI_ASSOC);
+            $reservationDetails = $resultArray[0];
+        } else {
+            $reservationDetails = null;
+        }
+
+        $statement->close();
+        $result->free();
+
+        return $reservationDetails;
     }
 
-    $statement->close();
-    $result->free();
-
-    return $reservationDetails;
-  }
-
-  public function getUsersOfSlot($slotKey)
-  {
-    $query = "
+    public function getUsersOfSlot($slotKey)
+    {
+        $query = "
 
             SELECT
             u.email, u.first_name AS 'firstName', u.last_name AS 'lastName'
@@ -753,28 +755,28 @@ class DatabaseInterface
 
         ";
 
-    $statement = $this->database->prepare($query);
+        $statement = $this->database->prepare($query);
 
-    $statement->bind_param("s", $slotKey);
-    $statement->execute();
+        $statement->bind_param("s", $slotKey);
+        $statement->execute();
 
-    $result = $statement->get_result();
+        $result = $statement->get_result();
 
-    if ($result->num_rows > 0) {
-      $resultArray = $result->fetch_all(MYSQLI_ASSOC);
-    } else {
-      $resultArray = null;
+        if ($result->num_rows > 0) {
+            $resultArray = $result->fetch_all(MYSQLI_ASSOC);
+        } else {
+            $resultArray = null;
+        }
+
+        $statement->close();
+        $result->free();
+
+        return $resultArray;
     }
 
-    $statement->close();
-    $result->free();
-
-    return $resultArray;
-  }
-
-  public function getUserBooking($slotKey, $userONID)
-  {
-    $query = "
+    public function getUserBooking($slotKey, $userONID)
+    {
+        $query = "
 
             SELECT
             b.id, fk_timeslot_id AS 'slotID', fk_user_id AS 'userID'
@@ -789,101 +791,101 @@ class DatabaseInterface
 
         ";
 
-    $statement = $this->database->prepare($query);
+        $statement = $this->database->prepare($query);
 
-    $statement->bind_param("ss", $slotKey, $userONID);
-    $statement->execute();
+        $statement->bind_param("ss", $slotKey, $userONID);
+        $statement->execute();
 
-    $result = $statement->get_result();
+        $result = $statement->get_result();
 
-    if ($result->num_rows > 0) {
-      $resultArray = $result->fetch_all(MYSQLI_ASSOC);
-      $bookingData = $resultArray[0];
-    } else {
-      $bookingData = null;
+        if ($result->num_rows > 0) {
+            $resultArray = $result->fetch_all(MYSQLI_ASSOC);
+            $bookingData = $resultArray[0];
+        } else {
+            $bookingData = null;
+        }
+
+        $statement->close();
+        $result->free();
+
+        return $bookingData;
     }
 
-    $statement->close();
-    $result->free();
+    public function reserveTimeSlot($slotID, $userID)
+    {
+        $query = "CALL meb_reserve_slot(?, ?, @res1)";
 
-    return $bookingData;
-  }
+        $statement = $this->database->prepare($query);
 
-  public function reserveTimeSlot($slotID, $userID)
-  {
-    $query = "CALL meb_reserve_slot(?, ?, @res1)";
+        $statement->bind_param("ii", $slotID, $userID);
+        $statement->execute();
+        $statement->close();
 
-    $statement = $this->database->prepare($query);
+        $query = "SELECT @res1";
+        $result = $this->database->query($query);
 
-    $statement->bind_param("ii", $slotID, $userID);
-    $statement->execute();
-    $statement->close();
+        if ($result) {
+            $resultArray = $result->fetch_all(MYSQLI_NUM);
+            $errorCode = $resultArray[0][0];
+        } else {
+            $errorCode = -1;
+        }
 
-    $query = "SELECT @res1";
-    $result = $this->database->query($query);
+        $statement->close();
+        $result->free();
 
-    if ($result) {
-      $resultArray = $result->fetch_all(MYSQLI_NUM);
-      $errorCode = $resultArray[0][0];
-    } else {
-      $errorCode = -1;
+        return $errorCode;
     }
 
-    $statement->close();
-    $result->free();
+    public function deleteReservation($slotKey, $userONID)
+    {
+        $query = "CALL meb_delete_reservation(?, ?, @res1)";
 
-    return $errorCode;
-  }
+        $statement = $this->database->prepare($query);
 
-  public function deleteReservation($slotKey, $userONID)
-  {
-    $query = "CALL meb_delete_reservation(?, ?, @res1)";
+        $statement->bind_param("ss", $slotKey, $userONID);
+        $statement->execute();
 
-    $statement = $this->database->prepare($query);
+        $query = "SELECT @res1";
+        $result = $this->database->query($query);
 
-    $statement->bind_param("ss", $slotKey, $userONID);
-    $statement->execute();
+        if ($result) {
+            $resultArray = $result->fetch_all(MYSQLI_NUM);
+            $errorCode = $resultArray[0];
+        } else {
+            $errorCode = -1;
+        }
 
-    $query = "SELECT @res1";
-    $result = $this->database->query($query);
+        $statement->close();
+        $result->free();
 
-    if ($result) {
-      $resultArray = $result->fetch_all(MYSQLI_NUM);
-      $errorCode = $resultArray[0];
-    } else {
-      $errorCode = -1;
+        return $errorCode;
     }
 
-    $statement->close();
-    $result->free();
-
-    return $errorCode;
-  }
-
-  public function replaceFilePath($filePath, $fileID)
-  {
-    $query = "
+    public function replaceFilePath($filePath, $fileID)
+    {
+        $query = "
 
             UPDATE meb_files
             SET path = ? WHERE id = ?
 
         ";
 
-    $statement = $this->database->prepare($query);
+        $statement = $this->database->prepare($query);
 
-    $statement->bind_param("si", $filePath, $fileID);
-    $statement->execute();
+        $statement->bind_param("si", $filePath, $fileID);
+        $statement->execute();
 
-    $result = $statement->affected_rows;
+        $result = $statement->affected_rows;
 
-    $statement->close();
+        $statement->close();
 
-    return $result;
-  }
+        return $result;
+    }
 
-  public function getFile($bookingID)
-  {
-    $query = "
+    public function getFile($bookingID)
+    {
+        $query = "
 
             SELECT id, path, fk_booking_id AS 'bookingID'
             FROM meb_files
@@ -891,142 +893,140 @@ class DatabaseInterface
 
         ";
 
-    $statement = $this->database->prepare($query);
+        $statement = $this->database->prepare($query);
 
-    $statement->bind_param("i", $bookingID);
-    $statement->execute();
+        $statement->bind_param("i", $bookingID);
+        $statement->execute();
 
-    $result = $statement->get_result();
+        $result = $statement->get_result();
 
-    if ($result->num_rows > 0) {
-      $resultArray = $result->fetch_all(MYSQLI_ASSOC);
-      $fileData = $resultArray[0];
-    } else {
-      $fileData = null;
+        if ($result->num_rows > 0) {
+            $resultArray = $result->fetch_all(MYSQLI_ASSOC);
+            $fileData = $resultArray[0];
+        } else {
+            $fileData = null;
+        }
+
+        $statement->close();
+        $result->free();
+
+        return $fileData;
     }
 
-    $statement->close();
-    $result->free();
+    public function addFile($filePath, $bookingID)
+    {
+        // if there exists file associated with booking
+        // replace path for that file
 
-    return $fileData;
-  }
+        $fileData = $this->getFile($bookingID);
 
-  public function addFile($filePath, $bookingID)
-  {
-    // if there exists file associated with booking
-    // replace path for that file
+        if ($fileData) {
+            $result = $this->replaceFilePath($filePath, $fileData["id"]);
+            return 1;
+        }
 
-    $fileData = $this->getFile($bookingID);
+        // add file path associated with booking
 
-    if ($fileData) {
-      $result = $this->replaceFilePath($filePath, $fileData["id"]);
-      return 1;
-    }
-
-    // add file path associated with booking
-
-    $query = "
+        $query = "
 
             INSERT INTO meb_files(path, fk_booking_id)
             VALUES (?, ?)
 
         ";
 
-    $statement = $this->database->prepare($query);
+        $statement = $this->database->prepare($query);
 
-    $statement->bind_param("si", $filePath, $bookingID);
-    $statement->execute();
+        $statement->bind_param("si", $filePath, $bookingID);
+        $statement->execute();
 
-    $result = $statement->affected_rows;
+        $result = $statement->affected_rows;
 
-    $statement->close();
+        $statement->close();
 
-    return $result;
-  }
-
-  public function editEvent_deleteSlot($eventKey, $slotKey)
-  {
-    // get event mod date and and event key
-
-    $eventData = $this->getEvent($eventKey);
-    $oldModDate = $eventData["mod_date"];
-
-    // use stored procedure to delete slot
-
-    $query = 'CALL meb_delete_slot(?, ?, ?, @res3)';
-
-    $statement = $this->database->prepare($query);
-
-    $statement->bind_param("sss", $oldModDate, $eventKey, $slotKey);
-    $statement->execute();
-
-    $query = "SELECT @res3";
-    $result = $this->database->query($query);
-
-    if ($result) {
-      $resultArray = $result->fetch_all(MYSQLI_NUM);
-      $errorCode = $resultArray[0][0];
-    } else {
-      $errorCode = -1;
+        return $result;
     }
 
-    $statement->close();
-    $result->free();
+    public function editEvent_deleteSlot($eventKey, $slotKey)
+    {
+        // get event mod date and and event key
 
-    return $errorCode;
-  }
+        $eventData = $this->getEvent($eventKey);
+        $oldModDate = $eventData["mod_date"];
 
-  public function editEvent_addSlot($eventKey, $slotData)
-  {
-    // get event mod date and and event key
+        // use stored procedure to delete slot
 
-    $eventData = $this->getEvent($eventKey);
-    $oldModDate = $eventData["mod_date"];
+        $query = 'CALL meb_delete_slot(?, ?, ?, @res3)';
 
-    // use stored procedure to add slot
+        $statement = $this->database->prepare($query);
 
-    $query = 'CALL meb_add_slot(?, ?, ?, ?, ?, ?, ?, @res2)';
+        $statement->bind_param("sss", $oldModDate, $eventKey, $slotKey);
+        $statement->execute();
 
-    $statement = $this->database->prepare($query);
+        $query = "SELECT @res3";
+        $result = $this->database->query($query);
 
-    $startTime = $slotData["startTime"];
-    $endTime = $slotData["endTime"];
-    $duration = $slotData["duration"];
-    $capacity = $slotData["capacity"];
+        if ($result) {
+            $resultArray = $result->fetch_all(MYSQLI_NUM);
+            $errorCode = $resultArray[0][0];
+        } else {
+            $errorCode = -1;
+        }
 
-    $slotKey = createTimeSlotHash($startTime, $endTime, $eventKey);
+        $statement->close();
+        $result->free();
 
-    $statement->bind_param(
-      'sssssii',
-      $oldModDate,
-      $eventKey,
-      $slotKey,
-      $startTime,
-      $endTime,
-      $duration,
-      $capacity
-    );
-
-    $statement->execute();
-
-    $query = "SELECT @res2";
-    $result = $this->database->query($query);
-
-    if ($result) {
-      $resultArray = $result->fetch_all(MYSQLI_NUM);
-      $errorCode = $resultArray[0][0];
-    } else {
-      $errorCode = -1;
+        return $errorCode;
     }
 
-    $statement->close();
-    $result->free();
+    public function editEvent_addSlot($eventKey, $slotData)
+    {
+        // get event mod date and and event key
 
-    return $errorCode;
-  }
+        $eventData = $this->getEvent($eventKey);
+        $oldModDate = $eventData["mod_date"];
+
+        // use stored procedure to add slot
+
+        $query = 'CALL meb_add_slot(?, ?, ?, ?, ?, ?, ?, @res2)';
+
+        $statement = $this->database->prepare($query);
+
+        $startTime = $slotData["startTime"];
+        $endTime = $slotData["endTime"];
+        $duration = $slotData["duration"];
+        $capacity = $slotData["capacity"];
+
+        $slotKey = createTimeSlotHash($startTime, $endTime, $eventKey);
+
+        $statement->bind_param(
+            'sssssii',
+            $oldModDate,
+            $eventKey,
+            $slotKey,
+            $startTime,
+            $endTime,
+            $duration,
+            $capacity
+        );
+
+        $statement->execute();
+
+        $query = "SELECT @res2";
+        $result = $this->database->query($query);
+
+        if ($result) {
+            $resultArray = $result->fetch_all(MYSQLI_NUM);
+            $errorCode = $resultArray[0][0];
+        } else {
+            $errorCode = -1;
+        }
+
+        $statement->close();
+        $result->free();
+
+        return $errorCode;
+    }
 }
 
 $database = new DatabaseInterface();
 $database->connectAsReadOnlyUser();
-
-?>

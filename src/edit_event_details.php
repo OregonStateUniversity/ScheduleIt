@@ -2,11 +2,11 @@
 
 // set up session
 
-require_once '../config/session.php';
+require_once dirname(__DIR__) . '/config/session.php';
 
 // set up connection to database via MySQLi
 
-require_once '../config/database.php';
+require_once dirname(__DIR__) . '/config/database.php';
 
 $database->connectAsAdministrator();
 
@@ -17,21 +17,21 @@ $eventKey = $_POST['eventHash'];
 $eventData = $database->getEvent($eventKey);
 
 if ($eventData == null) {
-  echo "Something went wrong...";
-  exit();
+    echo "Something went wrong...";
+    exit();
 }
 
 if ($eventData["creator"] != $_SESSION["user"]) {
-  echo "You are not authorized to change event details.";
-  exit();
+    echo "You are not authorized to change event details.";
+    exit();
 }
 
 // check if event name or event location is blank
 
 if (trim($_POST['eventName']) == "" || trim($_POST['eventLocation']) == "") {
-  echo "Event name and event location must be specified." . "\n";
-  echo "No changes to the event details were made.";
-  exit();
+    echo "Event name and event location must be specified." . "\n";
+    echo "No changes to the event details were made.";
+    exit();
 }
 
 // get event details from POST requestt
@@ -48,7 +48,7 @@ $eventData["description"] = $_POST['eventDescription'];
 
 $isAnonymous = 1;
 if ($_POST['isAnonymous'] == "false") {
-  $isAnonymous = 0;
+    $isAnonymous = 0;
 }
 
 $eventData["anonymous"] = $isAnonymous;
@@ -59,7 +59,7 @@ $eventData["anonymous"] = $isAnonymous;
 
 $enableUpload = 0;
 if ($_POST['enableUpload'] == "true") {
-  $enableUpload = 1;
+    $enableUpload = 1;
 }
 
 $eventData["upload"] = $enableUpload;
@@ -71,9 +71,7 @@ $result = $database->changeEventDetails($eventKey, $eventData);
 // send response
 
 if ($result > 0) {
-  echo "The event details changes were successfully saved!";
+    echo "The event details changes were successfully saved!";
 } else {
-  echo "No changes to the event details were made.";
+    echo "No changes to the event details were made.";
 }
-
-?>

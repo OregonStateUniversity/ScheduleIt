@@ -2,11 +2,11 @@
 
 // set up session
 
-require_once '../config/session.php';
+require_once dirname(__DIR__) . '/config/session.php';
 
 // set up connection to database via MySQLi
 
-require_once '../config/database.php';
+require_once dirname(__DIR__) . '/config/database.php';
 
 $database->connectAsAdministrator();
 
@@ -14,29 +14,27 @@ $database->connectAsAdministrator();
 // if something was submitted via HTTP POST
 
 if (!empty($_POST)) {
-  $eventData = [];
+    $eventData = [];
 
-  $eventData["name"] = $_POST['eventName'];
-  $eventData["description"] = $_POST['eventDescription'];
-  $eventData["creator"] = $database->getUserKey($_SESSION['user']);
-  $eventData["location"] = $_POST['eventLocation'];
-  $eventData["capacity"] = $_POST['eventCap'];
-  $eventData["anonymous"] = $_POST["anonymous"];
-  $eventData["upload"] = $_POST["upload"];
+    $eventData["name"] = $_POST['eventName'];
+    $eventData["description"] = $_POST['eventDescription'];
+    $eventData["creator"] = $database->getUserKey($_SESSION['user']);
+    $eventData["location"] = $_POST['eventLocation'];
+    $eventData["capacity"] = $_POST['eventCap'];
+    $eventData["anonymous"] = $_POST["anonymous"];
+    $eventData["upload"] = $_POST["upload"];
 
-  $slotData = [];
+    $slotData = [];
 
-  $slotData["dates"] = json_decode($_POST['slotArray'], true);
-  $slotData["duration"] = $_POST['eventDuration'];
-  $slotData["capacity"] = $_POST['sCap'];
+    $slotData["dates"] = json_decode($_POST['slotArray'], true);
+    $slotData["duration"] = $_POST['eventDuration'];
+    $slotData["capacity"] = $_POST['sCap'];
 
-  $result = $database->addEvent($eventData, $slotData);
+    $result = $database->addEvent($eventData, $slotData);
 
-  if ($result == 1) {
-    echo "Your event was successfully created.";
-  } else {
-    echo "Your event could not be created.";
-  }
+    if ($result == 1) {
+        echo "Your event was successfully created.";
+    } else {
+        echo "Your event could not be created.";
+    }
 }
-
-?>

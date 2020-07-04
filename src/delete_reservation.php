@@ -2,11 +2,11 @@
 
 // set up session
 
-require_once '../config/session.php';
+require_once dirname(__DIR__) . '/config/session.php';
 
 // set up connection to database via MySQLi
 
-require_once '../config/database.php';
+require_once dirname(__DIR__) . '/config/database.php';
 
 $database->connectAsAdministrator();
 
@@ -19,9 +19,7 @@ $slotKey = $_POST["key"];
 $errorCode = $database->deleteReservation($slotKey, $_SESSION["user"]);
 
 if ($errorCode == 0) {
-  echo "The reservation was deleted successfully!";
+    echo "The reservation was deleted successfully!";
 } else {
-  echo "The reservation could not be deleted!";
+    echo "The reservation could not be deleted!";
 }
-
-?>
