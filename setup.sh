@@ -15,6 +15,6 @@ php composer-setup.php --quiet
 RESULT=$?
 rm composer-setup.php
 mv composer.phar bin/composer
-composer install
+bin/composer update
 sh set_permissions.sh
 exit $RESULT

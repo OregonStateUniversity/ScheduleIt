@@ -2,11 +2,11 @@
 
 // set up session
 
-require_once '../config/session.php';
+require_once dirname(__DIR__) . '/config/session.php';
 
 // set up connection to database via MySQLi
 
-require_once '../config/database.php';
+require_once dirname(__DIR__) . '/config/database.php';
 
 $database->connectAsAdministrator();
 
@@ -34,35 +34,33 @@ echo $errorCode;
 // send confirmation e-mail if successful
 
 if ($errorCode != -1) {
-  // get details about time slot
+    // get details about time slot
 
-  $date = $_POST["date"];
-  $slotTime = $_POST["start_time"];
-  $duration = $_POST["duration"];
+    $date = $_POST["date"];
+    $slotTime = $_POST["start_time"];
+    $duration = $_POST["duration"];
 
-  // get event location
+    // get event location
 
-  $eventData = $database->getEventBySlotKey($slotKey);
-  $location = $eventData["location"];
+    $eventData = $database->getEventBySlotKey($slotKey);
+    $location = $eventData["location"];
 
-  // create then send e-mail
+    // create then send e-mail
 
-  $formatA = "Hi %s,\n\nYou have successfully reserved a time slot.";
-  $formatB = "\n\nDate: %s\nTime: %s\nDuration: %s\nLocation: %s\n";
-  $format = $formatA . $formatB;
+    $formatA = "Hi %s,\n\nYou have successfully reserved a time slot.";
+    $formatB = "\n\nDate: %s\nTime: %s\nDuration: %s\nLocation: %s\n";
+    $format = $formatA . $formatB;
 
-  $headers = "From: MyEventBoard" . "\r\n";
+    $headers = "From: MyEventBoard" . "\r\n";
 
-  $msg = sprintf(
-    $format,
-    $_SESSION["firstName"],
-    $date,
-    $slotTime,
-    $duration,
-    $location
-  );
+    $msg = sprintf(
+        $format,
+        $_SESSION["firstName"],
+        $date,
+        $slotTime,
+        $duration,
+        $location
+    );
 
-  mail($_SESSION['email'], "Confirmation", $msg, $headers);
+    mail($_SESSION['email'], "Confirmation", $msg, $headers);
 }
-
-?>

@@ -2,19 +2,19 @@
 
 // set up session
 
-require_once 'config/session.php';
+require_once dirname(__FILE__) . '/config/session.php';
 
 // set up connection to database via MySQLi
 
-require_once 'config/database.php';
+require_once dirname(__FILE__) . '/config/database.php';
 
 // set up twig
 
-require_once 'config/twig.php';
+require_once dirname(__FILE__) . '/config/twig.php';
 
 // include code for rendering view for errors
 
-require_once 'config/render_error.php';
+require_once dirname(__FILE__) . '/config/render_error.php';
 
 // get key for event from URL
 
@@ -31,14 +31,14 @@ $resultObjects = $database->getEditingData($eventKey);
 $errorCode = 0;
 
 if ($resultObjects == null) {
-  $errorCode = 404;
+    $errorCode = 404;
 } elseif ($resultObjects[0]->creator != $_SESSION['user']) {
-  $errorCode = 403;
+    $errorCode = 403;
 }
 
 if ($errorCode != 0) {
-  render_error($twig, $errorCode, $errorMessages[$errorCode]);
-  exit();
+    render_error($twig, $errorCode, $errorMessages[$errorCode]);
+    exit();
 }
 
 // encode array of PHP objects as JSON
@@ -46,11 +46,9 @@ if ($errorCode != 0) {
 $eventData = [];
 
 foreach ($resultObjects as $resultObject) {
-  $eventData[] = json_encode($resultObject);
+    $eventData[] = json_encode($resultObject);
 }
 
 // render page using twig
 
 echo $twig->render('views/edit.twig', ['event_data' => $eventData]);
-
-?>
