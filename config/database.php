@@ -3,11 +3,9 @@
 require_once dirname(__DIR__) . '/config/env.php';
 
 // include functions for generating hashes
-
 require_once dirname(__DIR__) . '/config/hash.php';
 
 // definition of class for custom interface of MySQLi database
-
 class DatabaseInterface
 {
     private $database;
@@ -17,10 +15,8 @@ class DatabaseInterface
         switch ($mode) {
             case 'a':
                 $this->connectAsAdministrator();
-                // no break
             case 'ro':
                 $this->connectAsReadOnlyUser();
-                // no break
             default:
                 $this->connectToDatabase('TEST');
         }
@@ -1025,6 +1021,130 @@ class DatabaseInterface
         $result->free();
 
         return $errorCode;
+    }
+
+
+  //get a timeslot hash from a start time and event hash
+    public function getReservedSlotId($startTime, $eventHash)
+    {
+      //echo 'console.log("test2")';
+        $query = "
+
+	SELECT meb_timeslot.id as slotId FROM `meb_timeslot`
+	INNER JOIN `meb_event` ON meb_timeslot.fk_event_id = meb_event.id
+	AND meb_timeslot.start_time = ?
+	AND meb_event.hash = ?
+
+      	;";
+        $statement = $this->database->prepare($query);
+
+        $statement->bind_param("ss", $startTime, $eventHash);
+        $statement->execute();
+      //$result = $this->database->query($query);
+        $result = $statement->get_result();
+        if ($result->num_rows > 0) {
+            $resultArray = $result->fetch_all(MYSQLI_ASSOC);
+            $hash = $resultArray[0];
+        } else {
+            $hash = null;
+        }
+
+        $statement->close();
+        $result->free();
+        return $hash;
+    }
+
+    // creator deletes an attendee's reservation
+    public function creatorDeleteReservation($slotId, $attendeeOnid)
+    {
+        $query = "
+
+       SELECT meb_booking.id as  bookingID  FROM `meb_booking`
+       INNER JOIN `meb_user`
+       ON meb_booking.fk_user_id = meb_user.id
+       WHERE meb_user.onid = ?
+       AND meb_booking.fk_timeslot_id = ?
+
+       ;";
+
+        $statement = $this->database->prepare($query);
+
+        $statement->bind_param("si", $attendeeOnid, $slotId);
+        $statement->execute();
+
+        $result = $statement->get_result();
+        if ($result->num_rows > 0) {
+            $resultArray = $result->fetch_all(MYSQLI_ASSOC);
+            $id = $resultArray[0];
+        } else {
+            $id = null;
+        }
+
+        $statement->close();
+        $result->free();
+
+        return $id;
+    }
+
+    public function deleteBooking($bookingId)
+    {
+        $query = "
+
+        DELETE FROM `meb_booking` WHERE id = ?
+
+        ;";
+
+        $statement = $this->database->prepare($query);
+
+        $statement->bind_param("i", $bookingId);
+        $statement->execute();
+
+        $result = $statement->affected_rows;
+
+        $statement->close();
+
+        return $result;
+    }
+
+    public function updateAvailableSlots($eventHash, $slotId)
+    {
+        $update_meb_timeslot_query = "
+
+        UPDATE `meb_timeslot`
+        SET spaces_available = spaces_available + 1, is_full = 0
+        WHERE meb_timeslot.id = ?
+
+        ;";
+
+        $updateTimeSlotSpace = $this->database->prepare($update_meb_timeslot_query);
+
+        $updateTimeSlotSpace->bind_param("i", $slotId);
+        $updateTimeSlotSpace->execute();
+
+        $result = $updateTimeSlotSpace->affected_rows;
+
+        $updateTimeSlotSpace->close();
+
+        //echo $result;
+
+        $update_meb_event_query = "
+
+        UPDATE `meb_event`
+        SET open_slots = open_slots + 1
+        WHERE meb_event.hash = ?
+
+        ;";
+
+        $updateEventSlot = $this->database->prepare($update_meb_event_query);
+
+        $updateEventSlot->bind_param("s", $eventHash);
+        $updateEventSlot->execute();
+
+        $result2 = $updateEventSlot->affected_rows;
+
+        $updateEventSlot->close();
+
+        return $result2;
     }
 }
 

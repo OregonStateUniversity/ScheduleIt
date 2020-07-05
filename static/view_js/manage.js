@@ -13,7 +13,7 @@
  *	those on the list a link to the Registration page for the respective event. There should also be an option to allow the user to
  *   optionally write or paste in a list of ONIDs into a textbox instead of uploading a CSV or textfile to achieve the above.
  *
- * - Delete User Slot Feature: Allows the event creator to delete a user off a slot by clicking on the red X for each user in the table for this page.
+ * - @@implemented needs further testing@@ Delete User Slot Feature: Allows the event creator to delete a user off a slot by clicking on the red X for each user in the table for this page.
  *	If a user is deleted off the slot, they should be notified via email and the slot they are deleted off of should reflect the capacity after the delete.
  *
  *********************************************************************/
@@ -89,9 +89,101 @@ $(document).ready(function () {
     $("#deleteUserSubmitButton").on("click", function () {
       $("#deleteUser").modal("toggle");
       //Delete user from slot here
+      var onid = ""
+      var pos = userName.lastIndexOf(" ");
+      var lgn = userName.lngth;
+      onid = userName.slice(pos + 1, lgn);
+      var newDate = userTimeSlot.replace("on", "");
+      var date = new Date(newDate);
+
+      //https://stackoverflow.com/questions/8362952/javascript-output-current-datetime-in-yyyy-mm-dd-hhmsec-format
+      var startTime =
+          date.getUTCFullYear() + "-" +
+          ("0" + (date.getMonth()+1)).slice(-2) + "-" +
+          ("0" + date.getDate()).slice(-2) + " " +
+          ("0" + date.getHours()).slice(-2) + ":" +
+          ("0" + date.getMinutes()).slice(-2) + ":" +
+          ("0" + date.getSeconds()).slice(-2);
+
+
+      var eventName = document.getElementById("eventName").textContent;
+      eventName = eventName.trim();
+      getSlotId(startTime, hashKey[1], onid);
+      notifyAttendee(onid, eventName);
     });
   });
 });
+
+// sends an email message to the attendee that they have been
+// removed from the timeslot
+function notifyAttendee(onid, eventName) {
+  console.log(onid);
+  console.log(eventName);
+  $.ajax({
+    url: "src/notify_attendee.php",
+    type: "POST",
+    data: { attendee: onid, eventname: eventName }
+  }).done(function(response) {
+    console.log(response);
+  });
+}
+
+// getslot id gets the time slot id and calls get bookingid
+function getSlotId(time, eventHash, onid) {
+  $.ajax({
+    url: "src/get_slot_id.php",
+    type: "POST",
+    data: { hash: eventHash, startTime: time }
+  }).done(function (response) {
+    console.log(response);
+    var slotId = JSON.parse(response);
+    var id = slotId.slotId;
+    getBookingId(id, onid, eventHash);
+  });
+}
+
+// getBookingId gets the booking or time slot reservation for
+// the attendee and calls deleteBookingSlot
+function getBookingId(slotId, attendeeOnid, eventHash) {
+  $.ajax({
+    url: "src/get_booking_id.php",
+    type: "POST",
+    data: { id: slotId, onid: attendeeOnid }
+  }).done(function (response) {
+    console.log(response);
+    var getJsonId = JSON.parse(response);
+    var bookingId = getJsonId.bookingID;
+    deleteBookingSlot(bookingId, eventHash, slotId);
+  });
+}
+
+// deleteBookingSlot deletes the reservation and calls
+// updateAvailableSlots
+function deleteBookingSlot(id, eventHash, slotId) {
+  $.ajax({
+    url: "src/delete_booking.php",
+    type: "POST",
+    data: { bookingID: id }
+  }).done(function (response) {
+    console.log(response);
+    updateAvailableSlots(eventHash, slotId);
+  });
+}
+
+// updateAvailableSlots increases the avialable slots for
+// the event and the time slot by 1.  It also sets the
+// timeslot is_full variable to 0.
+function updateAvailableSlots(eventHash, slotId) {
+   $.ajax({
+     url: "src/update_available_slots.php",
+     type: "POST",
+     data: { eventhash: eventHash, slotID: slotId }
+   }).done(function(response) {
+     console.log(response);
+     alert(response);
+     location.reload();
+   });
+}
 
 function deleteThisEvent(hashKey) {
   $.ajax({
