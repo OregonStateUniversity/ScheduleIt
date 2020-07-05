@@ -1026,6 +1026,129 @@ class DatabaseInterface
 
         return $errorCode;
     }
+
+      //get a timeslot hash from a start time and event hash
+  public function getReservedSlotId($startTime, $eventHash)
+  {
+    //echo 'console.log("test2")';
+    $query = "
+
+	SELECT meb_timeslot.id as slotId FROM `meb_timeslot`
+	INNER JOIN `meb_event` ON meb_timeslot.fk_event_id = meb_event.id
+	AND meb_timeslot.start_time = ?
+	AND meb_event.hash = ?
+
+      	;";
+    $statement = $this->database->prepare($query);
+
+    $statement->bind_param("ss", $startTime, $eventHash);
+    $statement->execute();
+    //$result = $this->database->query($query);
+    $result = $statement->get_result();
+    if ($result->num_rows > 0) {
+       $resultArray = $result->fetch_all(MYSQLI_ASSOC);
+       $hash = $resultArray[0];
+    } else {
+      $hash = null;
+    }
+
+    $statement->close();
+    $result->free();
+    return $hash;
+  }
+
+  // creator deletes an attendee's reservation
+  public function creatorDeleteReservation($slotId, $attendeeOnid)
+  {
+    $query = "
+
+       SELECT meb_booking.id as  bookingID  FROM `meb_booking`
+       INNER JOIN `meb_user`
+       ON meb_booking.fk_user_id = meb_user.id
+       WHERE meb_user.onid = ?
+       AND meb_booking.fk_timeslot_id = ?
+
+       ;";
+
+    $statement = $this->database->prepare($query);
+
+    $statement->bind_param("si", $attendeeOnid, $slotId);
+    $statement->execute();
+
+    $result = $statement->get_result();
+    if ($result->num_rows > 0) {
+      $resultArray = $result->fetch_all(MYSQLI_ASSOC);
+      $id = $resultArray[0];
+    } else {
+      $id = null;
+    }
+
+    $statement->close();
+    $result->free();
+
+    return $id;
+   }
+
+   public function deleteBooking($bookingId)
+   {
+     $query = "
+
+        DELETE FROM `meb_booking` WHERE id = ?
+
+        ;";
+
+     $statement = $this->database->prepare($query);
+
+     $statement->bind_param("i", $bookingId);
+     $statement->execute();
+
+     $result = $statement->affected_rows;
+
+     $statement->close();
+
+     return $result;
+   }
+
+   public function updateAvailableSlots($eventHash, $slotId)
+   {
+     $query = "
+
+        UPDATE `meb_timeslot`
+        SET spaces_available = spaces_available + 1
+        WHERE meb_timeslot.id = ?
+
+        ;";
+
+     $statement = $this->database->prepare($query);
+
+     $statement->bind_param("i", $slotId);
+     $statement->execute();
+
+     $result = $statement->affected_rows;
+
+     $statement->close();
+
+     //echo $result;
+
+     $query2 = "
+
+        UPDATE `meb_event`
+        SET open_slots = open_slots + 1
+        WHERE meb_event.hash = ?
+
+        ;";
+
+     $statement2 = $this->database->prepare($query2);
+
+     $statement2->bind_param("s", $eventHash);
+     $statement2->execute();
+
+     $result2 = $statement2->affected_rows;
+
+     $statement->close();
+
+     return $result2;
+   }
 }
 
 $database = new DatabaseInterface();
