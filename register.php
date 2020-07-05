@@ -2,19 +2,19 @@
 
 // set up session
 
-require_once 'config/session.php';
+require_once dirname(__FILE__) . '/config/session.php';
 
 // set up connection to database via MySQLi
 
-require_once 'config/database.php';
+require_once dirname(__FILE__) . '/config/database.php';
 
 // set up twig
 
-require_once 'config/twig.php';
+require_once dirname(__FILE__) . '/config/twig.php';
 
 // include code for rendering view for errors
 
-require_once 'config/render_error.php';
+require_once dirname(__FILE__) . '/config/render_error.php';
 
 // get key for event from URL
 
@@ -27,9 +27,9 @@ $eventData = $database->getEvent($eventKey);
 // if event data could not be found, show error page
 
 if ($eventData == null) {
-  $errorCode = 404;
-  render_error($twig, $errorCode, $errorMessages[$errorCode]);
-  exit();
+    $errorCode = 404;
+    render_error($twig, $errorCode, $errorMessages[$errorCode]);
+    exit();
 }
 
 $eventName = $eventData['name'];
@@ -56,5 +56,3 @@ echo $twig->render('views/register.twig', [
   'table_headers' => $columnNames,
   'table_rows' => $slotData,
 ]);
-
-?>

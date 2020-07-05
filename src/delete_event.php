@@ -2,11 +2,11 @@
 
 // set up session
 
-require_once '../config/session.php';
+require_once dirname(__DIR__) . '/config/session.php';
 
 // set up connection to database via MySQLi
 
-require_once '../config/database.php';
+require_once dirname(__DIR__) . '/config/database.php';
 
 $database->connectAsAdministrator();
 
@@ -20,14 +20,12 @@ $eventKey = $_POST["key"];
 $eventData = $database->getEvent($eventKey);
 
 if ($eventData["creator"] == $_SESSION["user"]) {
-  $result = $database->deleteEvent($eventKey);
+    $result = $database->deleteEvent($eventKey);
 
-  if ($result > 0) {
-    echo "The event was deleted successfully!";
-    exit();
-  }
+    if ($result > 0) {
+        echo "The event was deleted successfully!";
+        exit();
+    }
 }
 
 echo "The event could not be deleted.";
-
-?>

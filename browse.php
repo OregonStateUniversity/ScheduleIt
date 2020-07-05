@@ -2,15 +2,15 @@
 
 // set up session
 
-require_once 'config/session.php';
+require_once dirname(__FILE__) . '/config/session.php';
 
 // set up connection to database via MySQLi
 
-require_once 'config/database.php';
+require_once dirname(__FILE__) . '/config/database.php';
 
 // set up twig
 
-require_once 'config/twig.php';
+require_once dirname(__FILE__) . '/config/twig.php';
 
 // get event data from database
 
@@ -46,5 +46,3 @@ echo $twig->render('views/browse.twig', [
   'table_headers' => $resultKeys,
   'table_rows' => $resultArray,
 ]);
-
-?>

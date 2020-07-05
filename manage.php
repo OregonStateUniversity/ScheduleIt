@@ -2,19 +2,19 @@
 
 // set up session
 
-require_once 'config/session.php';
+require_once dirname(__FILE__) . '/config/session.php';
 
 // set up connection to database via MySQLi
 
-require_once 'config/database.php';
+require_once dirname(__FILE__) . '/config/database.php';
 
 // set up twig
 
-require_once 'config/twig.php';
+require_once dirname(__FILE__) . '/config/twig.php';
 
 // include code for rendering view for errors
 
-require_once 'config/render_error.php';
+require_once dirname(__FILE__) . '/config/render_error.php';
 
 // get key for event from URL
 
@@ -29,14 +29,14 @@ $eventData = $database->getEvent($eventKey);
 $errorCode = 0;
 
 if ($eventData == null) {
-  $errorCode = 404;
+    $errorCode = 404;
 } elseif ($eventData['creator'] != $_SESSION['user']) {
-  $errorCode = 403;
+    $errorCode = 403;
 }
 
 if ($errorCode != 0) {
-  render_error($twig, $errorCode, $errorMessages[$errorCode]);
-  exit();
+    render_error($twig, $errorCode, $errorMessages[$errorCode]);
+    exit();
 }
 
 // get duration and capacity of slots for event
@@ -48,10 +48,10 @@ $slotDetails = $database->getEventSlotDetails($eventKey);
 $attendeeData = $database->getAttendeeData($eventKey);
 
 if ($attendeeData) {
-  $columnNames = array_keys($attendeeData[0]);
+    $columnNames = array_keys($attendeeData[0]);
 } else {
-  $attendeeData = [];
-  $columnNames = [];
+    $attendeeData = [];
+    $columnNames = [];
 }
 
 // render page using twig
@@ -62,5 +62,3 @@ echo $twig->render('views/manage.twig', [
   'table_headers' => $columnNames,
   'table_rows' => $attendeeData,
 ]);
-
-?>

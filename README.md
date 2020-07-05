@@ -3,9 +3,18 @@
 MyEventBoard is a scheduling web application developed by Tommy Liao, Simon Louie and Blaise Takushi,  
 as part of the Schedule It! project.
 
-- [Getting Started](docs/GETTING_STARTED.md)
+## Docs
 
-## Contact Information - current development team
+[Getting Started](GETTING_STARTED.md)
+[Installation](INSTALLATION.md)
+
+## Contact Information
+
+### Faculty Sponsor
+
+Donald Heer: heer@eecs.oregonstate.edu
+
+### Summer 2020 Capstone Team
 
 Bangbay Sibolian: sibolibb@oregonstate.edu
 
@@ -13,7 +22,7 @@ Roman Guerrero: guerrero@oregonstate.edu
 
 Michael Czapary: czaparym@oregonstate.edu
 
-## Original Creators
+### Spring 2020 Capstone Team
 
 Tommy Liao: liaoto@oregonstate.edu or tommycs404@gmail.com
 

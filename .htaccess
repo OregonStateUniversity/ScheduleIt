@@ -1,18 +1,12 @@
 RewriteEngine On
 RewriteBase /
 
-<files ".env">
-Require all denied
-</files>
+<FilesMatch "\.(env|example|gitignore|htaccess|htpasswd|ini|log|md|sh)$">
+  Order allow,deny
+  Deny from all
+</FilesMatch>
 
-<files "secret1">
-Require all denied
-</files>
-
-<files "secret2">
-Require all denied
-</files>
-
-<files "text_file">
-Require all denied
-</files>
+<Files ~ "(secret|text_file)">
+  Order allow,deny
+  Deny from all
+</Files>

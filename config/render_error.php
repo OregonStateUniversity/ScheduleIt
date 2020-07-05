@@ -8,10 +8,8 @@ $errorMessages = [
 
 function render_error($twig, $errorCode, $errorMessage)
 {
-  echo $twig->render('views/error.twig', [
+    echo $twig->render('views/error.twig', [
     'error_code' => $errorCode,
     'error_message' => $errorMessage,
-  ]);
+    ]);
 }
-
-?>
