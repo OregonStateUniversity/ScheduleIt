@@ -15,7 +15,9 @@
  *
  * - Delete User Slot Feature: Allows the event creator to delete a user off a slot by clicking on the red X for each user in the table for this page.
  *	If a user is deleted off the slot, they should be notified via email and the slot they are deleted off of should reflect the capacity after the delete.
- *
+ * This is partially implemented.  Event creators can delete attendee
+ * reservations but an email is not sent and any uploaded file is 
+ * not accounted for yet.
  *********************************************************************/
 
 $(document).ready(function () {
