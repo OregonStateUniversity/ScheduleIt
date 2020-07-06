@@ -24,22 +24,3 @@ then
   echo "Fix the error before(s) commit."
   exit 1
 fi
-
-echo "Running PHP-CS-FIXER..."
-
-PHP_CS_STATUS=0
-
-for FILE in $STAGED_FILES_CMD
-do
-  vendor/bin/php-cs-fixer fix $FILE
-  PHP_CS_STATUS=$(( $PHP_CS_STATUS + $? ))
-done
-
-if [ $PHP_CS_STATUS != 0 ]
-then
-  echo "Fix the error(s) before commit."
-fi
-
-echo "End of pre-commit hook"
-
-exit $PHP_CS_STATUS
