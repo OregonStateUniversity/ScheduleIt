@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    {# page title can be redefined by view #}
+    <title>
+      {% block page_title %}
+        MyEventBoard
+      {% endblock %}
+    </title>
+
+    <link rel="icon" href="static/images/MyEventBoardLogos/MEB-favicon.ico">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="static/css/bootstrap.min.css">
+
+    <!-- Material Design Bootstrap -->
+    <link rel="stylesheet" href="static/css/mdb.min.css">
+
+    <!-- Your custom styles (optional) -->
+    <link rel="stylesheet" href="static/css/style.css">
+    <link rel="stylesheet" href="static/css/style.css">
+    <link rel="stylesheet" href="static/css/sidebarStyle.css">
+    <link rel="stylesheet" href="static/css/main.css">
+
+    {% block page_head %}
+
+    {% endblock %} {# for page specific resources #}
+  </head>
+
+  <body>
+    <!-- Website Header -->
+
+    {{ include('partials/header.twig') }}
+
+    <!-- Content -->
+
+    {% block page_content %}
+
+    {% endblock %} {# content should be defined by view #}
+
+    {{ include('partials/footer.twig') }}
+  </body>
+</html>
