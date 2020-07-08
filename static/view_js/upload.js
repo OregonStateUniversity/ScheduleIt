@@ -25,5 +25,9 @@ function uploadFile(fileData, slotKey) {
     type: "POST"
   }).done(function (response) {
     alert(response);
+    var sitePath = location.pathname;
+    if (sitePath.search("/reservation_details.php") > 0) {
+      location.reload();
+    }
   });
 }

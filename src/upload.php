@@ -27,6 +27,13 @@ if ($bookingData == null) {
 
 $bookingID = $bookingData["id"];
 
+// check file size ** final size TBD **
+
+if ($_FILES['file']['size'] > 500000) {
+   echo "This file is too large.";
+   exit();
+}
+
 // get event key using time slot key
 
 $eventData = $database->getEventBySlotKey($slotKey);
