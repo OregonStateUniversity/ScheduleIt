@@ -22,10 +22,6 @@ if (
     $_SESSION['email'] = $_POST['email'];
 }
 
-// set up connection to database via MySQLi
-
-require_once dirname(__FILE__) . '/config/database.php';
-
 // set up twig
 
 require_once dirname(__FILE__) . '/config/twig.php';
