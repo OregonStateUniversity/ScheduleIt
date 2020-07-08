@@ -342,37 +342,19 @@
     </div>
   </div>
 
-  <!-- jQuery -->
-  <script type="text/javascript" src="static/js/jquery.min.js"></script>
 
-  <!-- Bootstrap tooltips -->
-  <script type="text/javascript" src="static/js/popper.min.js"></script>
+{% endblock %}
 
-  <!-- Bootstrap core JavaScript -->
-  <script type="text/javascript" src="static/js/bootstrap.min.js"></script>
+{% block page_footer %}
+<!-- UI specific javascripts -->
+<script type="text/javascript" src="static/view_js/ui.js"></script>
 
-  <!-- MDB core JavaScript -->
-  <script type="text/javascript" src="static/js/mdb.min.js"></script>
+<!-- JavaScript specific to this page -->
+<script type="text/javascript" src="static/view_js/manage.js"></script>
 
-  <!-- Your custom scripts (optional) -->
-  <script type="text/javascript"></script>
+<!-- JavaScript specific to this page -->
+<script>
+  $(document).ready(function () { formatTableDateTime(0); });
+</script>
 
-  <!-- Date Range Picker -->
-
-  <script type="text/javascript"
-    src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
-  <link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css">
-  <link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <!-- UI specific javascripts -->
-  <script type="text/javascript" src="static/view_js/ui.js"></script>
-
-  <!-- JavaScript specific to this page -->
-  <script type="text/javascript" src="static/view_js/manage.js"></script>
-
-  <!-- JavaScript specific to this page -->
-  <script>
-    $(document).ready(function () { formatTableDateTime(0); });
-  </script>
 {% endblock %}
