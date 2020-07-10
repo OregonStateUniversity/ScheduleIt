@@ -29,10 +29,12 @@ $bookingID = $bookingData["id"];
 
 // check file size ** final size TBD **
 
-if ($_FILES['file']['size'] > 500000) {
+if ($_FILES['file']['size'] > 5000000) {
    echo "This file is too large.";
    exit();
 }
+
+
 
 // get event key using time slot key
 
@@ -49,8 +51,18 @@ $oldFileName = $_FILES['file']['name'];
 $ext = pathinfo($oldFileName, PATHINFO_EXTENSION);
 $path = $newPath . '/' . $newFileName . '.' . $ext;
 
-// if directory for event's files does not exist, create it
+// file extention whitelist
+// to enable more file types just add the extentions with no . to the array.
+$allowedExtensions = array('txt', 'zip', 'pdf', 'docx', 'xlsx' ,'pptx');
+$isAllowed = in_array($ext, $allowedExtensions);
 
+if (!$isAllowed) {
+   $fileErrorMsg = "This file extention is not allowed.  Please upload a .txt, .zip,.pdf or an ms office file.";
+   echo $fileErrorMsg;
+   exit();
+}
+
+// if directory for event's files does not exist, create it
 if (!file_exists($newPath)) {
     mkdir($newPath, 0755, true);
 }
