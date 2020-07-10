@@ -57,7 +57,7 @@ $allowedExtensions = array('txt', 'zip', 'pdf', 'docx', 'xlsx' ,'pptx');
 $isAllowed = in_array($ext, $allowedExtensions);
 
 if (!$isAllowed) {
-   $fileErrorMsg = "This file extention is not allowed.  Please upload a .txt, .zip, .pdf or an ms office file.";
+   $fileErrorMsg = "This file type is not allowed.  Accepted file types: .txt, .zip, .pdf or an ms office file.";
    echo $fileErrorMsg;
    exit();
 }
