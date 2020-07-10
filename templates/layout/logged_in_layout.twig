@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 
 <html lang="en">
-  <head>
+  <head class="webpage-background">
     <meta charset="UTF-8">
     <meta name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -14,15 +14,14 @@
       {% endblock %}
     </title>
 
+    <!-- Beaver logo -->
     <link rel="icon" href="static/images/MyEventBoardLogos/MEB-favicon.ico">
-    <link rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css">
-    <link rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!-- Date Range Picker Style Sheet-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css">
 
     <!-- Font Awesome -->
-    <link rel="stylesheet"
-      href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
 
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="static/css/bootstrap.min.css">
@@ -32,7 +31,6 @@
 
     <!-- Your custom styles (optional) -->
     <link rel="stylesheet" href="static/css/style.css">
-    <link rel="stylesheet" href="static/css/style.css">
     <link rel="stylesheet" href="static/css/sidebarStyle.css">
     <link rel="stylesheet" href="static/css/main.css">
 
@@ -41,7 +39,7 @@
     {% endblock %} {# for page specific resources #}
   </head>
 
-  <body>
+  <body class="webpage-background">
     <!-- Website Header -->
 
     {{ include('partials/header.twig') }}
@@ -78,8 +76,7 @@
     <script type="text/javascript"></script>
 
     <!-- Date Range Picker -->
-    <script type="text/javascript"
-      src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
     {% block page_footer %}
     {% endblock %}
 

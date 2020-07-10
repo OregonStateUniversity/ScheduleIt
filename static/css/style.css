@@ -42,9 +42,7 @@
   font-weight: bold;
 }
 
-@import url(https://fonts.googleapis.com/css?family=Muli:400, 300);
-body,
-html {
+.webpage-background {
   background-color: grey;
   height: 100vh;
   width: 100%;
@@ -112,5 +110,878 @@ html {
 
   #footer {
     font-size: 11px;
+  }
+}
+
+/* Edit page styles   *   *   */
+.custom-file-label {
+  font-weight: bold;
+}
+
+.entryField1 {
+  height: fit-content;
+  padding: 10px;
+}
+
+.entryField2 {
+  padding: 10px;
+}
+
+.nextBackField {
+  float: none !important;
+  text-align: right !important;
+}
+
+.timeSelector,
+.editTimeSelector {
+  background-color: white;
+  padding: 5px;
+}
+
+.timeSelector table,
+.editTimeSelector table {
+  table-layout: fixed;
+  min-width: 100%;
+  border: none;
+}
+
+.timeSelector td,
+.editTimeSelector td {
+  cursor: pointer;
+  border: 1px solid black;
+}
+
+.timeSelector th,
+.editTimeSelector th {
+  font-size: 10px;
+  padding-top: 0 !important;
+  border: none;
+}
+
+#editTimeSelector td.selected {
+  background-color: #ccc;
+}
+
+#timeSelector td.selected {
+  background-color: #ccc;
+}
+
+.manageEditEventsField {
+  min-width: 100%;
+  min-height: 100%;
+}
+
+.timeSelectionField {
+  overflow-x: auto;
+  overflow-y: auto;
+}
+
+.addedEventsContainer {
+  display: inline-block;
+  min-width: 100% !important;
+  overflow-x: auto;
+}
+
+.toggled {
+  background: #d3d3d3;
+  border: 1px solid grey;
+
+  border-radius: 2px;
+}
+
+.confirmationDescriptionContainer {
+  text-align: center;
+}
+
+#confirmationDescription,
+#warningTag {
+  color: red;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.onLabel,
+.changedLabel {
+  color: blue;
+}
+
+.offLabel {
+  color: red;
+}
+
+.saveItemList {
+  font-size: 18px;
+}
+
+.openAddEvents:hover {
+  cursor: pointer;
+}
+
+#labelForAddedDates,
+#labelForExistingDates {
+  font-size: 20px;
+}
+
+.editableField:hover {
+  background-color: #add8e6;
+  cursor: pointer;
+}
+
+#deleteEventsHeader {
+  padding: 10px;
+}
+
+.fullSlot {
+  cursor: not-allowed !important;
+  background-color: #ffb6c1 !important;
+}
+
+.buttonActive {
+  background-color: #add8e6 !important;
+  box-shadow: 0 5px white;
+}
+
+.disabledRow {
+  background-color: #ffcccb !important;
+  opacity: 0.75;
+  pointer-events: none;
+}
+
+.selectedRow {
+  background-color: blue !important;
+  color: white;
+}
+
+.toBeAddedSlots {
+  color: blue;
+}
+
+.toBeDeletedSlots {
+  color: red;
+}
+
+.editSlotHeading {
+  text-align: center !important;
+}
+
+.deleteAddedSlot {
+  border: none;
+  background-color: rgba(0, 0, 0, 0);
+  color: red;
+}
+
+.refreshContent {
+  text-align: center;
+}
+
+.table {
+  text-align: center;
+}
+
+/* Create page styles   *   *   */
+.create-label{ /* Class created to remove global label tag - RG */
+  font-weight: bold;
+}
+
+.requiredSign {
+  color: red;
+}
+
+.requiredInput {
+  border-color: red;
+}
+
+.entryField1 {
+  height: fit-content;
+  padding: 10px;
+}
+
+.entryField2 {
+  padding: 10px;
+}
+.timeSelectionField {
+  overflow-x: auto;
+}
+
+.submitField {
+  padding: 10px;
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+  vertical-align: middle;
+}
+
+.nextBackField {
+  float: none !important;
+  text-align: right !important;
+}
+
+.timeSelector {
+  background-color: white;
+}
+
+.timeSelector table {
+  table-layout: fixed;
+  min-width: 100%;
+  border: none;
+}
+
+.timeSelector td {
+  cursor: pointer;
+  border: 1px solid black;
+}
+
+.timeSelector th {
+  font-size: 10px;
+  padding-top: 0 !important;
+  border: none;
+}
+
+#timeSelector td.selected {
+  background-color: #ccc;
+}
+
+/* Event page styles   *   *   */
+.yourEvents > .table > tbody > tr > td {
+  vertical-align: middle;
+}
+
+.yourEvents {
+  text-align: center;
+}
+
+.eventManageButton {
+  border: none;
+  background: none;
+  color: #0000ee;
+}
+
+.eventManageButton > a {
+  color: #0000ee !important;
+}
+
+.toggled {
+  background: #d3d3d3;
+  border: 1px solid grey;
+
+  border-radius: 2px;
+}
+
+.containerForEventsToDelete {
+  padding: 10px;
+  border: none !important;
+  background: white !important;
+}
+
+.containerForEventsToDelete > ul > li {
+  background-color: orange;
+  font-weight: bold;
+  border: 1px solid black;
+  margin-top: 3px;
+}
+
+.containerForEventsToDelete > ul {
+  background-color: white;
+  padding: 10px;
+  margin: 10px;
+}
+
+.noEvents {
+  text-align: center;
+}
+
+.linkToEvent {
+  color: #18acc9 !important;
+}
+
+.linkColumn {
+  max-width: 150px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.linkColumn > a {
+  display: none;
+}
+
+.capacityColumn {
+  max-width: 60px !important;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.slotsColumn {
+  max-width: 80px !important;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media only screen and (max-width: 768px) {
+  .copy {
+    padding: 2px !important;
+    font-size: 10px !important;
+  }
+}
+
+/* Manage page styles   *   *   */
+.eventNameOnViewer {
+  background: #333;
+  padding: 10px;
+  border-radius: 10px;
+  text-align: center;
+  margin-top: 5px;
+  margin-bottom: 15px;
+}
+
+#eventName {
+  font-weight: bold !important;
+  padding: 10px;
+  color: orange;
+}
+
+.containerForActionsAndInformation {
+  text-align: center;
+}
+
+.toolbarContainer {
+  border: 4px solid #333;
+  border-radius: 10px;
+  background-color: #d3d3d3;
+  box-shadow: 3px 3px 3px 3px rgba(0, 0, 255, 0.2);
+  width: 40%;
+  display: inline-block;
+  margin: 10px;
+  text-align: center;
+  background-color: #333;
+}
+
+.logisticsContainer {
+  border: 4px solid #333;
+  border-radius: 10px;
+  background-color: #d3d3d3;
+  box-shadow: 3px 3px 3px 3px rgba(0, 0, 255, 0.2);
+  width: 90%;
+  display: inline-block;
+  margin: 10px;
+  text-align: center;
+  background-color: #333;
+}
+
+.logisticsContainer > h4,
+.toolbarContainer > h4 {
+  font-weight: bold;
+  padding: 10px;
+  color: orange;
+}
+
+.buttonsContainer {
+  background: #d3d3d3;
+  border-radius: 10px;
+  padding: 5px;
+}
+
+.informationContainer > label,
+.informationContainer > h4 {
+  padding-left: 10px;
+  font-weight: bold;
+  padding-right: 10px;
+  padding-top: 5px;
+}
+
+.informationContainer {
+  padding: 5px;
+  border-radius: 10px;
+  background: white;
+}
+
+.buttonsContainer > div {
+  display: block;
+}
+
+.removedContainer {
+  text-align: center;
+}
+
+.inviteInstructions {
+  font-weight: bold;
+  text-align: center;
+}
+
+.requirementsForInviteText {
+  color: red;
+}
+
+#uploadLabel {
+  font-weight: bold;
+}
+
+.warningUndoneContainer {
+  text-align: center;
+  color: red;
+  font-weight: bold;
+}
+
+.deleteUserSlot {
+  border: none;
+  background-color: rgba(0, 0, 0, 0);
+  color: red;
+}
+
+.slotsContainer {
+  text-align: center;
+}
+
+.slotsContainer > .table > tbody > tr > td {
+  vertical-align: middle;
+}
+
+.informationContainer > label > text {
+  font-weight: 400 !important;
+}
+
+@media only screen and (max-width: 768px) {
+  .toolbarContainer,
+  .logisticsContainer {
+    width: 100%;
+    text-align: center;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .fileDownloadButton > text {
+    display: none;
+  }
+
+  .slotsContainer {
+    text-align: center;
+  }
+
+  .table {
+    font-size: 10px;
+    margin: 0;
+    padding: 0;
+  }
+
+  .table > tr {
+    white-space: nowrap !important;
+  }
+}
+
+/* Register page styles   *   *   */
+.datepicker-switch {
+  pointer-events: none;
+}
+
+.datepicker {
+  display: inline-block;
+  text-align: center;
+}
+
+.table-condensed th {
+  font-size: 20px;
+}
+
+.table-condensed td {
+  font-size: 20px;
+}
+
+.table-condensed > tbody > tr > td {
+  border: 1px solid red !important;
+}
+
+.entryFieldRegister {
+  text-align: center;
+}
+
+.calendarField {
+  display: inline-block;
+}
+
+#slotPicker td:hover {
+  cursor: pointer;
+}
+
+.slotSelected {
+  background-color: #d3d3d3;
+}
+
+#myModal {
+  overflow-y: auto;
+}
+
+.slotPicker > thead > tr > th {
+  border: 1px solid black;
+}
+
+.slotPicker > tbody > tr > th {
+  padding-top: 0;
+  margin-top: 0;
+  border: 1px solid black;
+  padding-bottom: 20px;
+}
+
+.slotPicker > tbody > tr > td {
+  border: 1px solid black;
+}
+
+.blank > th {
+  border: none !important;
+}
+
+.fullSlot > td,
+.mySlot > td {
+  cursor: not-allowed !important;
+}
+
+.fullSlot {
+  background-color: #ffb6c1;
+}
+
+.mySlot {
+  background-color: #7fff7f;
+}
+
+.modal-open {
+  overflow: auto;
+}
+
+.descriptor {
+  background-color: #333;
+  border-radius: 5px;
+  padding: 5px;
+  color: white;
+  width: 100%;
+}
+
+#eventLocation {
+  font-weight: bold;
+}
+
+#eventDescriptionLabel {
+  font-style: italic;
+  font-weight: bold;
+}
+
+.fileUpload {
+  padding-top: 30px;
+  padding-bottom: 30px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+#submitFile {
+  background-color: black;
+  color: white;
+  border: 1px solid black;
+}
+
+#noticeLabel {
+  font-weight: bold;
+}
+
+#confirmationText {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+#feedbackMessage {
+  font-weight: bold;
+}
+
+.fileUploadContainer {
+  margin-top: 25px !important;
+  padding: 10px;
+  border: 1px solid #d3d3d3;
+  background: #333;
+  border-radius: 10px;
+}
+
+.fileUploadContainer > label {
+  color: orange;
+}
+
+.fileUploadContent {
+  background-color: white;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+@media only screen and (max-width: 768px) {
+  .fileUpload {
+    font-size: 10px;
+    text-align: left;
+  }
+
+  .uploadPlaceholder {
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  #submitFile {
+    display: inline-block;
+    vertical-align: middle;
+  }
+}
+
+/* Reservations  page styles   *   *   */
+.yourInvites {
+  text-align: center;
+}
+
+.yourInvites > .table > tbody > tr > td {
+  vertical-align: middle;
+}
+
+.pastEventsContainer > .table > tbody > tr > td {
+  vertical-align: middle;
+}
+
+.pastEventsTable {
+  text-align: center;
+}
+
+.pastEventsTable > thead > tr,
+.pastEventsTable > tbody > tr {
+  opacity: 0.65;
+}
+
+.pastEventsTable > tbody > tr > td > a {
+  color: black !important;
+}
+
+.pastEventsField {
+  margin-top: 15%;
+}
+
+.containerForEventsToDelete > ul > li {
+  background-color: orange;
+  font-weight: bold;
+  border: 1px solid black;
+  margin-top: 3px;
+}
+
+.containerForEventsToDelete > ul {
+  background-color: white;
+  padding: 10px;
+  margin: 10px;
+}
+
+.containerForEventsToDelete {
+  padding: 10px;
+  border: none !important;
+  background: white !important;
+}
+
+#deleteSelectedConfirmBox {
+  float: none !important;
+  text-align: right !important;
+}
+
+.eventManageButton {
+  border: none;
+  background: none;
+  color: #0000ee;
+}
+
+/* Reservation Details page styles   *   *   */
+.containerForActionsAndInformation {
+  text-align: center;
+}
+
+.eventNameOnViewer {
+  background: #333;
+  padding: 10px;
+  border-radius: 10px;
+  text-align: center;
+  margin-top: 5px;
+  margin-bottom: 15px;
+}
+
+#eventName {
+  font-weight: bold !important;
+  padding: 10px;
+  color: orange;
+}
+
+.fileUploadContainer {
+  background: white;
+  padding: 10px;
+  border-radius: 10px;
+  width: 60%;
+}
+
+.toolbarContainer > h4 {
+  font-weight: bold;
+  padding: 10px;
+  color: orange;
+}
+
+.toolbarContainer {
+  border: 4px solid #333;
+  border-radius: 10px;
+  background-color: #d3d3d3;
+  box-shadow: 3px 3px 3px 3px rgba(0, 0, 255, 0.2);
+  width: 30%;
+  display: inline-block;
+  margin: 5px;
+  text-align: center;
+  background-color: #333;
+}
+
+.reservationContainer {
+  border: 4px solid #333;
+  border-radius: 10px;
+  background-color: #d3d3d3;
+  box-shadow: 3px 3px 3px 3px rgba(0, 0, 255, 0.2);
+  margin: 5px;
+  text-align: center;
+  background-color: #333;
+}
+
+.reservationContainer > h4 {
+  font-weight: bold;
+  padding: 10px;
+  color: orange;
+}
+
+.buttonsContainer {
+  background: #d3d3d3;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.buttonsContainer > div {
+  display: block;
+}
+
+#uploadLabel {
+  font-weight: bold;
+}
+
+.eventInformation {
+  border: 5px solid #d3d3d3;
+  border-radius: 10px;
+  padding: 15px;
+  background: #d3d3d3;
+}
+
+.eventInformationValues {
+  border: 5px solid white;
+  border-radius: 10px;
+  padding: 15px;
+  background: white;
+}
+
+.eventInformationValues > h3 {
+  font-weight: bold;
+}
+
+.eventInformationValues > h3 > span {
+  font-weight: 300;
+}
+
+#submitFile {
+  background-color: black;
+  color: white;
+  border: 1px solid black;
+}
+
+h2 {
+  font-weight: bold;
+}
+
+h2 > text,
+h2 > a {
+  font-weight: 300 !important;
+}
+
+.removedContainer {
+  text-align: center;
+}
+
+.fileContainer > h2,
+.fileContainer > a {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 10px 0;
+}
+
+.warningUndoneContainer {
+  text-align: center;
+  color: red;
+  font-weight: bold;
+}
+
+@media only screen and (max-width: 768px) {
+  h3 {
+    font-size: 16px;
+  }
+
+  h3 > text {
+    font-size: 16px;
+  }
+
+  #eventName {
+    font-size: 25px;
+  }
+
+  .toolbarContainer {
+    width: 100%;
+    text-align: center;
+  }
+
+  .entryField1 {
+    width: 100%;
+    padding: none !important;
+    margin: none !important;
+  }
+
+  .reservationContainer {
+    padding: none !important;
+    margin: none !important;
+    width: 100%;
+  }
+
+  .fileUploadContainer {
+    background: white;
+    border-radius: 0px;
+    padding: 5px;
+    width: 100%;
+  }
+
+  .fileDownloadButton > text {
+    display: none;
+  }
+
+  .eventInformation {
+    border: 1px solid #d3d3d3;
+    border-radius: 10px;
+    padding: 10px;
+    background: #d3d3d3;
+  }
+
+  .eventInformationValues {
+    border: 1px solid white;
+    border-radius: 10px;
+    padding: 10px;
+    background: white;
+  }
+
+  .fileUpload {
+    font-size: 10px;
+    text-align: left;
+  }
+
+  .uploadPlaceholder {
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  #submitFile {
+    display: inline-block;
+    vertical-align: middle;
   }
 }
