@@ -17,7 +17,6 @@ require_once dirname(__FILE__) . '/config/twig.php';
 require_once dirname(__FILE__) . '/config/render_error.php';
 
 // get key for event from URL
-
 $slotKey = $_GET["key"];
 
 // get event information and time slot reservation information from database
@@ -47,4 +46,5 @@ echo $twig->render('views/reservation_details.twig', [
   'slot_start' => $reservationData['start_time'],
   'slot_end' => $reservationData['end_time'],
   'user_file' => $reservationData['file'],
+  'event_file' => $reservationData['event_file'],
 ]);
