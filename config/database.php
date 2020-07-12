@@ -948,21 +948,35 @@ class DatabaseInterface
     {
        // this will need to delete old files linked
 
-       $query = "
+       $queryClearFile = "
         
+           UPDATE `meb_event`
+           SET event_file = null
+           WHERE hash = ?;
+       ";
+
+       $statementClearFile = $this->database->prepare($queryClearFile);
+
+       $statementClearFile->bind_param("s", $eventKey);
+       $statementClearFile->execute();
+
+       $statementClearFile->close();
+       
+       $queryUpdateFile = "
+
            UPDATE `meb_event`
            SET event_file = ?
            WHERE hash = ?;
        ";
 
-       $statement = $this->database->prepare($query);
+       $statementUpdateFile = $this->database->prepare($queryUpdateFile);
+       
+       $statementUpdateFile->bind_param("ss", $filePath, $eventKey);
+       $statementUpdateFile->execute();
 
-       $statement->bind_param("ss", $filePath, $eventKey);
-       $statement->execute();
+       $result = $statementUpdateFile->affected_rows;
 
-       $result = $statement->affected_rows;
-
-       $statement->close();
+       $statementUpdateFile->close();
 
        return $result;
     }
