@@ -61,5 +61,4 @@ echo $twig->render('views/manage.twig', [
   'slot_duration' => $slotDetails['duration'],
   'table_headers' => $columnNames,
   'table_rows' => $attendeeData,
-  'session_user' => $_SESSION['user'],
 ]);
