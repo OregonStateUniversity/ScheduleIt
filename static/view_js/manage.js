@@ -203,4 +203,18 @@ function initializeEmptyDownloadItems() {
   });
 }
 
+// Upload a file feature
+ $("#submitFile").on("click", function () {
+   var inputFile = $("#inputFile");
+
+  if (!inputFile.val()) {
+    alert("Please upload a file first!");
+  } else {
+    var fileData = inputFile.prop("files")[0];
+    var slotKey = window.location.search.split("?key=")[1];
+
+    creatorUploadFile(fileData, slotKey);
+  }
+});
+
 $(this).find(".myLink").attr("href");

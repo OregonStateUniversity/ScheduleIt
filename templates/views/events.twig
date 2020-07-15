@@ -71,9 +71,11 @@
     </div>
   </div>
 
-  <!-- UI specific javascripts -->
-  <script type="text/javascript" src="static/view_js/ui.js"></script>
+{% endblock %}
 
-  <!-- JavaScript specific to this page -->
-  <script type="text/javascript" src="static/view_js/events.js"></script>
+{% block page_footer %}
+
+<!-- JavaScript specific to this page -->
+<script type="text/javascript" src="static/view_js/events.js"></script>
+
 {% endblock %}

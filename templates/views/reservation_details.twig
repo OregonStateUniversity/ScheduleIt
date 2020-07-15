@@ -92,11 +92,23 @@
                   File:
                   <span>
                     <a href="./MyEventBoard/{{ user_file }}" download>
-                      {{ user_file|slice(27) }}
+                      {{ user_file|slice(28) }}
                     </a>
                   </span>
                 {% else %}
                   File: <span>None</span>
+                {% endif %}
+              </h3>
+
+              <br><br>
+              <h3 id="creatorFileLabel">
+                {% if event_file is not null %}
+                  Creator File:
+                  <span>
+                    <a href="./MyEventBoard/{{ event_file }}" download>
+                      {{ event_file|slice(28) }}
+                    </a>
+                  </span>
                 {% endif %}
               </h3>
             </div>
@@ -110,7 +122,7 @@
                 </label>
                 <p>
                    You may only upload a single file.  Uploading a second file
-                   will overwrite the first.  If you need to upload multiple 
+                   will overwrite the first.  If you need to upload multiple
                    files combine them into a single zip file.
                 </p>
                 {% include 'partials/upload.twig' %}
@@ -154,12 +166,14 @@
     </div>
   </div>
 
-  <!-- UI specific javascripts -->
-  <script type="text/javascript" src="static/view_js/ui.js"></script>
+{% endblock %}
 
-  <!-- JavaScript specific to this page -->
-  <script type="text/javascript" src="static/view_js/reservation_details.js"></script>
+{% block page_footer %}
 
-  <!-- JavaScript for file upload -->
-  <script type="text/javascript" src="static/view_js/upload.js"></script>
+<!-- JavaScript specific to this page -->
+<script type="text/javascript" src="static/view_js/upload.js"></script>
+
+<!-- JavaScript specific to this page -->
+<script type="text/javascript" src="static/view_js/register.js"></script>
+
 {% endblock %}

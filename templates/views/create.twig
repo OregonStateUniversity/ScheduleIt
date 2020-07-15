@@ -105,7 +105,20 @@
             </span>
           </div>
         </div>
-
+{#
+              <br>
+              <div class="fileUploadContainer">
+                <label id="uploadLabel">
+                  **Optional** Upload a File for Event Attendees:
+                </label>
+                <p>
+                   You may only upload a single file.  Uploading a second file
+                   will overwrite the first.  If you need to upload multiple
+                   files combine them into a single zip file.
+                </p>
+                {% include 'partials/upload.twig' %}
+              </div>
+#}
         <div class="nextBackField">
           <button type="button"
             class="btn btn-dark nextBackField"
@@ -114,6 +127,11 @@
           </button>
         </div>
       </form>
+     <div>
+       <p>
+        After you create your event you can upload a file from the manage page.
+       </p>
+     </div>
     </div>
 
     <div class="container collapse entryField2">
@@ -301,9 +319,11 @@
     </div>
   </div>
 
-  <!-- UI specific javascripts -->
-  <script type="text/javascript" src="static/view_js/ui.js"></script>
+{% endblock %}
 
-  <!-- JavaScript specific to this page -->
-  <script type="text/javascript" src="static/view_js/create.js"></script>
+{% block page_footer %}
+
+<!-- JavaScript specific to this page -->
+<script type="text/javascript" src="static/view_js/create.js"></script>
+
 {% endblock %}

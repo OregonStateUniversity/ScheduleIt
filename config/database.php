@@ -335,7 +335,8 @@ class DatabaseInterface
 
             SELECT
             meb_event.id, hash, name, description, location, onid AS 'creator',
-            capacity, open_slots, is_anon AS 'anonymous', enable_upload AS 'upload', mod_date
+            capacity, open_slots, is_anon AS 'anonymous', enable_upload AS 'upload',
+            mod_date, event_file
 
             FROM meb_event
             INNER JOIN meb_user ON meb_event.fk_event_creator = meb_user.id
@@ -693,6 +694,7 @@ class DatabaseInterface
 
             SELECT
             t3.hash, t3.name, t3.location, t3.description, t3.enable_upload AS 'upload',
+            t3.event_file,
             CONCAT(t4.first_name, ' ', t4.last_name) AS 'creator',
             t1.start_time, t1.end_time, t5.path AS 'file'
 
@@ -942,6 +944,43 @@ class DatabaseInterface
         return $result;
     }
 
+    public function addEventFile($filePath, $eventKey)
+    {
+       // this will need to delete old files linked
+
+       $queryClearFile = "
+        
+           UPDATE `meb_event`
+           SET event_file = null
+           WHERE hash = ?;
+       ";
+
+       $statementClearFile = $this->database->prepare($queryClearFile);
+
+       $statementClearFile->bind_param("s", $eventKey);
+       $statementClearFile->execute();
+
+       $statementClearFile->close();
+       
+       $queryUpdateFile = "
+
+           UPDATE `meb_event`
+           SET event_file = ?
+           WHERE hash = ?;
+       ";
+
+       $statementUpdateFile = $this->database->prepare($queryUpdateFile);
+       
+       $statementUpdateFile->bind_param("ss", $filePath, $eventKey);
+       $statementUpdateFile->execute();
+
+       $result = $statementUpdateFile->affected_rows;
+
+       $statementUpdateFile->close();
+
+       return $result;
+    }
+
     public function editEvent_deleteSlot($eventKey, $slotKey)
     {
         // get event mod date and and event key
@@ -1027,7 +1066,6 @@ class DatabaseInterface
   //get a timeslot hash from a start time and event hash
     public function getReservedSlotId($startTime, $eventHash)
     {
-      //echo 'console.log("test2")';
         $query = "
 
 	SELECT meb_timeslot.id as slotId FROM `meb_timeslot`
@@ -1040,7 +1078,7 @@ class DatabaseInterface
 
         $statement->bind_param("ss", $startTime, $eventHash);
         $statement->execute();
-      //$result = $this->database->query($query);
+      
         $result = $statement->get_result();
         if ($result->num_rows > 0) {
             $resultArray = $result->fetch_all(MYSQLI_ASSOC);

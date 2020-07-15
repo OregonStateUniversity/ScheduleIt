@@ -123,7 +123,7 @@
                     This event has file uploading enabled. You may optionally
                     upload a file to your registration now or you can upload a
                     file at a later time in the reservations page.  You may only
-                    upload a single file.  If you need to upload multiple files 
+                    upload a single file.  If you need to upload multiple files
                     please put them into a single zip file.
                   </label>
                   {% include 'partials/upload.twig' %}
@@ -142,12 +142,14 @@
     </div>
   </div>
 
-  <!-- UI specific javascripts -->
-  <script type="text/javascript" src="static/view_js/ui.js"></script>
+{% endblock %}
 
-  <!-- JavaScript specific to this page -->
-  <script type="text/javascript" src="static/view_js/register.js"></script>
+{% block page_footer %}
 
-  <!-- JavaScript for file upload -->
-  <script type="text/javascript" src="static/view_js/upload.js"></script>
+<!-- JavaScript specific to this page -->
+<script type="text/javascript" src="static/view_js/upload.js"></script>
+
+<!-- JavaScript specific to this page -->
+<script type="text/javascript" src="static/view_js/register.js"></script>
+
 {% endblock %}

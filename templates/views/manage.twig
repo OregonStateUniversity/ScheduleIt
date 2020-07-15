@@ -16,6 +16,8 @@
     {% set anonymous = event_data|slice(8, 1)|first %}
     {% set upload = event_data|slice(9, 1)|first %}
 
+    {% set event_file = event_data|slice(11, 1)|first %}
+
     <div class="eventNameOnViewer">
       <h2 id="eventName">
         {{ event_name }}
@@ -152,9 +154,32 @@
             </label><br><br>
 
             <label>
+              Event File:
+                <span>
+                  <a href="./MyEventBoard/{{ event_file}}" download>
+                    {{ event_file|slice(28) }}
+                  </a>
+                </span>
+            </label>
+            <br><br>
+            <label>
               Link to Event Registration:
               <a href="./register.php?key={{ event_key }}">Here</a>
             </label>
+
+              <br>
+              <br>
+              <div class="fileUploadContainer">
+                <label id="uploadLabel">
+                  Upload a File for this event:
+                </label>
+                <p>
+                   You may only upload a single file.  Uploading a second file
+                   will overwrite the first.  If you need to upload multiple
+                   files combine them into a single zip file.
+                </p>
+                {% include 'partials/upload.twig' %}
+              </div>
           </div>
         </div>
       </div>
@@ -342,19 +367,11 @@
     </div>
   </div>
 
-
 {% endblock %}
 
 {% block page_footer %}
-<!-- UI specific javascripts -->
-<script type="text/javascript" src="static/view_js/ui.js"></script>
 
 <!-- JavaScript specific to this page -->
 <script type="text/javascript" src="static/view_js/manage.js"></script>
-
-<!-- JavaScript specific to this page -->
-<script>
-  $(document).ready(function () { formatTableDateTime(0); });
-</script>
 
 {% endblock %}
