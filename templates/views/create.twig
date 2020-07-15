@@ -107,7 +107,7 @@
             </span>
           </div>
         </div>
-{#                         
+{#
               <br>
               <div class="fileUploadContainer">
                 <label id="uploadLabel">
@@ -115,12 +115,12 @@
                 </label>
                 <p>
                    You may only upload a single file.  Uploading a second file
-                   will overwrite the first.  If you need to upload multiple 
+                   will overwrite the first.  If you need to upload multiple
                    files combine them into a single zip file.
                 </p>
                 {% include 'partials/upload.twig' %}
               </div>
-#}            
+#}
         <div class="nextBackField">
           <button type="button"
             class="btn btn-dark nextBackField"
@@ -320,5 +320,12 @@
       </button>
     </div>
   </div>
+
+{% endblock %}
+
+{% block page_footer %}
+
+<!-- JavaScript specific to this page -->
+<script type="text/javascript" src="static/view_js/create.js"></script>
 
 {% endblock %}

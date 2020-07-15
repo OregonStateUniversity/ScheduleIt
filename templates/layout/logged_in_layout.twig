@@ -60,7 +60,7 @@
 
     {% endblock %} {# content should be defined by view #}
 
-    {{ include('partials/footer.twig') }}
+
 
     <!-- jQuery -->
     <script type="text/javascript" src="static/js/jquery.min.js"></script>
@@ -80,6 +80,15 @@
     <!-- Date Range Picker -->
     <script type="text/javascript"
       src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+
+      <!-- UI specific javascripts -->
+      <script type="text/javascript" src="view_js/ui.js"></script>
+
+      <!-- JavaScript specific to this page -->
+      <script>$(document).ready(function () { formatTableDateTime(0); }); </script>
+
+
+    {{ include('partials/footer.twig') }}
     {% block page_footer %}
     {% endblock %}
 

@@ -122,7 +122,7 @@
                 </label>
                 <p>
                    You may only upload a single file.  Uploading a second file
-                   will overwrite the first.  If you need to upload multiple 
+                   will overwrite the first.  If you need to upload multiple
                    files combine them into a single zip file.
                 </p>
                 {% include 'partials/upload.twig' %}
@@ -166,34 +166,14 @@
     </div>
   </div>
 
-  <!-- jQuery -->
-  <script type="text/javascript" src="static/js/jquery.min.js"></script>
+{% endblock %}
 
-  <!-- Bootstrap tooltips -->
-  <script type="text/javascript" src="static/js/popper.min.js"></script>
+{% block page_footer %}
 
-  <!-- Bootstrap core JavaScript -->
-  <script type="text/javascript" src="static/js/bootstrap.min.js"></script>
+<!-- JavaScript specific to this page -->
+<script type="text/javascript" src="static/view_js/upload.js"></script>
 
-  <!-- MDB core JavaScript -->
-  <script type="text/javascript" src="static/js/mdb.min.js"></script>
+<!-- JavaScript specific to this page -->
+<script type="text/javascript" src="static/view_js/register.js"></script>
 
-  <!-- Your custom scripts (optional) -->
-  <script type="text/javascript"></script>
-
-  <!-- Date Range Picker -->
-
-  <script type="text/javascript"
-    src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
-  <link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css">
-
-  <!-- UI specific javascripts -->
-  <script type="text/javascript" src="static/view_js/ui.js"></script>
-
-  <!-- JavaScript specific to this page -->
-  <script type="text/javascript" src="static/view_js/reservation_details.js"></script>
-
-  <!-- JavaScript for file upload -->
-  <script type="text/javascript" src="static/view_js/upload.js"></script>
 {% endblock %}
