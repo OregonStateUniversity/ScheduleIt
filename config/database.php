@@ -948,37 +948,37 @@ class DatabaseInterface
     {
        // this will need to delete old files linked
 
-       $queryClearFile = "
+        $queryClearFile = "
         
            UPDATE `meb_event`
            SET event_file = null
            WHERE hash = ?;
        ";
 
-       $statementClearFile = $this->database->prepare($queryClearFile);
+        $statementClearFile = $this->database->prepare($queryClearFile);
 
-       $statementClearFile->bind_param("s", $eventKey);
-       $statementClearFile->execute();
+        $statementClearFile->bind_param("s", $eventKey);
+        $statementClearFile->execute();
 
-       $statementClearFile->close();
+        $statementClearFile->close();
        
-       $queryUpdateFile = "
+        $queryUpdateFile = "
 
            UPDATE `meb_event`
            SET event_file = ?
            WHERE hash = ?;
        ";
 
-       $statementUpdateFile = $this->database->prepare($queryUpdateFile);
+        $statementUpdateFile = $this->database->prepare($queryUpdateFile);
        
-       $statementUpdateFile->bind_param("ss", $filePath, $eventKey);
-       $statementUpdateFile->execute();
+        $statementUpdateFile->bind_param("ss", $filePath, $eventKey);
+        $statementUpdateFile->execute();
 
-       $result = $statementUpdateFile->affected_rows;
+        $result = $statementUpdateFile->affected_rows;
 
-       $statementUpdateFile->close();
+        $statementUpdateFile->close();
 
-       return $result;
+        return $result;
     }
 
     public function editEvent_deleteSlot($eventKey, $slotKey)

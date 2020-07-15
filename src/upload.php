@@ -30,8 +30,8 @@ $bookingID = $bookingData["id"];
 // check file size ** final size TBD **
 
 if ($_FILES['file']['size'] > 5000000) {
-   echo "This file is too large.";
-   exit();
+    echo "This file is too large.";
+    exit();
 }
 
 
@@ -57,9 +57,9 @@ $allowedExtensions = array('txt', 'zip', 'pdf', 'docx', 'xlsx' ,'pptx');
 $isAllowed = in_array($ext, $allowedExtensions);
 
 if (!$isAllowed) {
-   $fileErrorMsg = "This file type is not allowed.  Accepted file types: .txt, .zip, .pdf, .docx, .xlsx, .pptx";
-   echo $fileErrorMsg;
-   exit();
+    $fileErrorMsg = "This file type is not allowed.  Accepted file types: .txt, .zip, .pdf, .docx, .xlsx, .pptx";
+    echo $fileErrorMsg;
+    exit();
 }
 
 // if directory for event's files does not exist, create it
