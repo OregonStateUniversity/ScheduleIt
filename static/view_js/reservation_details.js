@@ -22,10 +22,16 @@ $(document).ready(function () {
   $(".returnEventButton").click(function () {
     window.location.href = $(this).children().attr("href");
   });
-
+  
+  //get event hash and onid to delete file 
+  var getEventHash = document.getElementById("get-event-key");
+  var eventHash = getEventHash.getAttribute("data-id");
+  var getOnid = document.getElementById("get-onid");
+  var userOnid = getOnid.getAttribute("data-id");
+  //console.log(userOnid);
   var hashForEventFromURL = window.location.href;
   var hashKey = hashForEventFromURL.split("?key=");
-
+  //var userOnid = 
   // Delete the reservation. Requires the slot hash to work.
   $("#deleteEventButton").on("click", function () {
     $("#deleteConfirm").modal("toggle");
@@ -35,7 +41,7 @@ $(document).ready(function () {
       $("#deleteConfirm").modal("toggle");
 
       deleteThisEvent(hashKey[1]);
-
+      deleteFile(userOnid, eventHash); 
       $(".entryField1").empty();
 
       var removedContainer = $("<div></div>");
@@ -68,12 +74,17 @@ $(document).ready(function () {
 $("#submitFile").on("click", function () {
   var inputFile = $("#inputFile");
 
+  var getEventHash = document.getElementById("get-event-key");
+  var eventHash = getEventHash.getAttribute("data-id");
+  var getOnid = document.getElementById("get-onid");
+  var userOnid = getOnid.getAttribute("data-id");
   if (!inputFile.val()) {
     alert("Please upload a file first!");
   } else {
     var fileData = inputFile.prop("files")[0];
     var slotKey = window.location.search.split("?key=")[1];
-
+    
+    deleteFile(userOnid, eventHash, "_upload");
     uploadFile(fileData, slotKey);
   }
 });
@@ -85,6 +96,18 @@ function deleteThisEvent(hashKey) {
     type: "POST",
     data: { key: hashKey }
   }).done(function (response) {
-    console.log(response);
+    
+  });
+}
+
+// Dete file uploaded for this reservation: Requires event hash and user onid
+
+function deleteFile(attendeeOnid, eventHashKey, fileType) {
+  $.ajax({
+    url: "src/delete_file.php",
+    type: "POST",
+    data: { onid: attendeeOnid, eventHash: eventHashKey, type: fileType }
+  }).done(function(response) {
+    
   });
 }

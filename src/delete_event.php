@@ -21,8 +21,9 @@ $eventData = $database->getEvent($eventKey);
 
 if ($eventData["creator"] == $_SESSION["user"]) {
     $result = $database->deleteEvent($eventKey);
-
+    echo $result;
     if ($result > 0) {
+        $database->deleteEventFiles($eventKey);
         echo "The event was deleted successfully!";
         exit();
     }

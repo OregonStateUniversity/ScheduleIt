@@ -16,8 +16,9 @@
     {% set anonymous = event_data|slice(8, 1)|first %}
     {% set upload = event_data|slice(9, 1)|first %}
 
-    {% set event_file = event_data|slice(11, 1)|first %}
-
+    {% set event_file = event_data|slice(11, 1)|first %}    
+    
+    <a hrf="#" data-id="{{ creator_onid }}" id="get-creator-onid"></a>
     <div class="eventNameOnViewer">
       <h2 id="eventName">
         {{ event_name }}
@@ -152,7 +153,7 @@
                 {{ slot_duration }} minutes
               </text>
             </label><br><br>
-
+            
             <label>
               Event File:
                 <span>
@@ -175,7 +176,7 @@
                 </label>
                 <p>
                    You may only upload a single file.  Uploading a second file
-                   will overwrite the first.  If you need to upload multiple
+                   will overwrite the first.  If you need to upload multiple 
                    files combine them into a single zip file.
                 </p>
                 {% include 'partials/upload.twig' %}
@@ -367,16 +368,42 @@
     </div>
   </div>
 
+
 {% endblock %}
 
 {% block page_footer %}
+    <!-- jQuery -->
+    <script type="text/javascript" src="static/js/jquery.min.js"></script>
+
+    <!-- Bootstrap tooltips -->
+    <script type="text/javascript" src="static/js/popper.min.js"></script>
+
+    <!-- Bootstrap core JavaScript -->
+    <script type="text/javascript" src="static/js/bootstrap.min.js"></script>
+
+    <!-- MDB core JavaScript -->
+    <script type="text/javascript" src="static/js/mdb.min.js"></script>
+
+    <!-- Your custom scripts (optional) -->
+    <script type="text/javascript"></script>
+
+    <!-- Date Range Picker -->
+    <script type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+    <link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css">
+<!-- UI specific javascripts -->
+<script type="text/javascript" src="static/view_js/ui.js"></script>
 
 <!-- JavaScript specific to this page -->
 <script type="text/javascript" src="static/view_js/manage.js"></script>
 
+<!-- JavaScript specific to this page -->
+<script>
+  $(document).ready(function () { formatTableDateTime(0); });
+</script>
+
 <!-- JavaScript for file upload -->
 <script type="text/javascript" src="static/view_js/upload.js"></script>
-
-<script>$(document).ready(function () { formatTableDateTime(0); }); </script>
 
 {% endblock %}
