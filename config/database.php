@@ -982,8 +982,6 @@ class DatabaseInterface
 
     public function addEventFile($filePath, $eventKey)
     {
-       // this will need to delete old files linked
-
        $queryClearFile = "
         
            UPDATE `meb_event`

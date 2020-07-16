@@ -28,10 +28,10 @@ $(document).ready(function () {
   var eventHash = getEventHash.getAttribute("data-id");
   var getOnid = document.getElementById("get-onid");
   var userOnid = getOnid.getAttribute("data-id");
-  //console.log(userOnid);
+  
   var hashForEventFromURL = window.location.href;
   var hashKey = hashForEventFromURL.split("?key=");
-  //var userOnid = 
+   
   // Delete the reservation. Requires the slot hash to work.
   $("#deleteEventButton").on("click", function () {
     $("#deleteConfirm").modal("toggle");
@@ -41,7 +41,7 @@ $(document).ready(function () {
       $("#deleteConfirm").modal("toggle");
 
       deleteThisEvent(hashKey[1]);
-      deleteFile(userOnid, eventHash); 
+      deleteFile(userOnid, eventHash, "_upload"); 
       $(".entryField1").empty();
 
       var removedContainer = $("<div></div>");

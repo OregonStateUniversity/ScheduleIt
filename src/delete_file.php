@@ -15,7 +15,7 @@ $database->connectAsAdministrator();
 $onid = $_POST["onid"];
 $eventHash = $_POST["eventHash"];
 $type = $_POST["type"];
-// delete reservation
+// delete file
 
 $result = $database->deleteFile($onid, $eventHash, $type);
 
