@@ -47,4 +47,5 @@ echo $twig->render('views/reservation_details.twig', [
   'slot_end' => $reservationData['end_time'],
   'user_file' => $reservationData['file'],
   'event_file' => $reservationData['event_file'],
+  'user_onid' => $_SESSION["user"],
 ]);

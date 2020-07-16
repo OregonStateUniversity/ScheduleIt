@@ -110,21 +110,32 @@ $(document).ready(function () {
       eventName = eventName.trim();
       getSlotId(startTime, hashKey[1], onid);
       notifyAttendee(onid, eventName);
+      deleteFile(onid, hashKey[1], "_upload");
     });
   });
 });
 
+
+// this will delete any file that was uploaded by the attendee
+function deleteFile(attendeeOnid, eventHashKey, fileType) {
+  $.ajax({
+    url: "src/delete_file.php",
+    type: "POST",
+    data: { onid: attendeeOnid, eventHash: eventHashKey, type: fileType  }
+  }).done(function(response) {
+    
+  });
+}
+
 // sends an email message to the attendee that they have been
 // removed from the timeslot
 function notifyAttendee(onid, eventName) {
-  console.log(onid);
-  console.log(eventName);
   $.ajax({
     url: "src/notify_attendee.php",
     type: "POST",
     data: { attendee: onid, eventname: eventName }
   }).done(function(response) {
-    console.log(response);
+    
   });
 }
 
@@ -135,7 +146,6 @@ function getSlotId(time, eventHash, onid) {
     type: "POST",
     data: { hash: eventHash, startTime: time }
   }).done(function (response) {
-    console.log(response);
     var slotId = JSON.parse(response);
     var id = slotId.slotId;
     getBookingId(id, onid, eventHash);
@@ -150,7 +160,6 @@ function getBookingId(slotId, attendeeOnid, eventHash) {
     type: "POST",
     data: { id: slotId, onid: attendeeOnid }
   }).done(function (response) {
-    console.log(response);
     var getJsonId = JSON.parse(response);
     var bookingId = getJsonId.bookingID;
     deleteBookingSlot(bookingId, eventHash, slotId);
@@ -165,7 +174,6 @@ function deleteBookingSlot(id, eventHash, slotId) {
     type: "POST",
     data: { bookingID: id }
   }).done(function (response) {
-    console.log(response);
     updateAvailableSlots(eventHash, slotId);
   });
 }
@@ -179,7 +187,6 @@ function updateAvailableSlots(eventHash, slotId) {
      type: "POST",
      data: { eventhash: eventHash, slotID: slotId }
    }).done(function(response) {
-     console.log(response);
      alert(response);
      location.reload();
    });
@@ -191,7 +198,7 @@ function deleteThisEvent(hashKey) {
     type: "POST",
     data: { key: hashKey }
   }).done(function (response) {
-    console.log(response);
+    
   });
 }
 
@@ -206,13 +213,17 @@ function initializeEmptyDownloadItems() {
 // Upload a file feature
  $("#submitFile").on("click", function () {
    var inputFile = $("#inputFile");
-
+   
   if (!inputFile.val()) {
     alert("Please upload a file first!");
   } else {
     var fileData = inputFile.prop("files")[0];
     var slotKey = window.location.search.split("?key=")[1];
-
+    
+    var getOnid = document.getElementById("get-creator-onid");
+    var creatorOnid = getOnid.getAttribute("data-id");
+    
+    deleteFile(creatorOnid, slotKey, "_event_file")
     creatorUploadFile(fileData, slotKey);
   }
 });

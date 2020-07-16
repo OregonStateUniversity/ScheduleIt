@@ -1,9 +1,7 @@
 {% extends 'layout/logged_in_layout.twig' %}
 
 {% block page_head %}
-
-<link rel="stylesheet" href="css/reservationDetailsStyle.css">
-
+  <link rel="stylesheet" href="css/reservationDetailsStyle.css">
 {% endblock %}
 
 {% block page_content %}
@@ -52,7 +50,8 @@
             </div>
           </div>
         </div>
-
+        <a hrf="#" data-id="{{ event_key }}" id="get-event-key"></a>
+        <a hrf="#" data-id="{{ user_onid }}" id="get-onid"></a>
         <br>
         <br>
 
@@ -124,7 +123,7 @@
                 </label>
                 <p>
                    You may only upload a single file.  Uploading a second file
-                   will overwrite the first.  If you need to upload multiple
+                   will overwrite the first.  If you need to upload multiple 
                    files combine them into a single zip file.
                 </p>
                 {% include 'partials/upload.twig' %}
@@ -167,15 +166,13 @@
       </div>
     </div>
   </div>
-
 {% endblock %}
 
 {% block page_footer %}
 
-<!-- JavaScript specific to this page -->
-<script type="text/javascript" src="static/view_js/reservation_details.js"></script>
+  <!-- JavaScript specific to this page -->
+  <script type="text/javascript" src="static/view_js/reservation_details.js"></script>
 
-<!-- JavaScript specific to this page -->
-<script type="text/javascript" src="static/view_js/upload.js"></script>
-
+  <!-- JavaScript for file upload -->
+  <script type="text/javascript" src="static/view_js/upload.js"></script>
 {% endblock %}
