@@ -1,0 +1,78 @@
+<div class="row">
+  <div class="col-md-6">
+    <form method="post">
+      <div class="mb-4">
+        <label class="h6">Title</label>
+        <input class="form-control" name="title" type="text" value="{{meeting.title}}">
+      </div>
+      <div class="mb-4">
+        <label class="h6">Location</label>
+        <select class="form-control" name="title">
+          <option>Somewhere, USA</option>
+        </select>
+      </div>
+      <div class="mb-4">
+        <label class="h6">Description</label>
+        <textarea class="form-control">{{meeting.description}}</textarea>
+      </div>
+      <div class="form-check mb-4">
+        <input class="form-check-input" name="anonymous" type="checkbox" value="" id="anonymous">
+        <label class="form-check-label" for="anonymous">
+          Anonymous Meeting
+        </label>
+      </div>
+      <div class="form-check mb-4">
+        <input class="form-check-input" name="enable-upload" type="checkbox" value="" id="enable-upload">
+        <label class="form-check-label" for="enable-upload">
+          Enable Attendees to Upload Files
+        </label>
+      </div>
+      <div class="form-group mb-4">
+        <label class="h6">File Download for Attendees</label>
+        <input class="form-control-file" type="file">
+      </div>
+      <div class="mb-4">
+        <label class="h6">Attendees Allowed Per Timeslot</label>
+        <div class="row">
+          <div class="col-6">
+            <select class="form-control" name="max-attendees">
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="mb-4">
+        <label class="h6">Select Meeting Dates</label>
+        <div id="calendar"></div>
+      </div>
+      <div class="mb-4">
+        <label class="h6">Slot Duration</label>
+        <div class="row">
+          <div class="col-6">
+            <select class="form-control" name="max-attendees">
+              <option>1 hour</option>
+              <option>30 minutes</option>
+              <option>15 minutes</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <div class="mb-4">
+        <label class="h6">Select Available Times</label>
+        {{ include('meetings/_date_table.twig') }}
+      </div>
+      <div class="pt-4">
+        <button class="btn btn-success">
+          Save Meeting
+        </button>
+        <a class="ml-3" href="{{site_url}}/meetings">
+          Cancel
+        </a>
+      </div>
+    </form>
+  </div>
+</div>

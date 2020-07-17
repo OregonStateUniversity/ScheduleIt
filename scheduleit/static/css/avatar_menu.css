@@ -1,0 +1,16 @@
+/* Avatar Menu */
+.nav-avatar {
+  color: #fff;
+  display: inline-block;
+  font-size: 48px;
+}
+
+.nav-avatar-link {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  color: #fff;
+  display: flex;
+  font-size: 1.25rem;
+  min-width: 10rem;
+}

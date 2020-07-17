@@ -1,0 +1,15 @@
+/* Buttons */
+.btn-primary {
+  background-color: var(--osu-orange-secondary);
+  border-color: var(--osu-orange-secondary);
+}
+
+.btn-primary:focus {
+  background-color: var(--osu-orange);
+  border-color: var(--osu-orange);
+}
+
+.btn-primary:hover {
+  background-color: var(--osu-orange-secondary-hover);
+  border-color: var(--osu-orange-secondary-hover);
+}

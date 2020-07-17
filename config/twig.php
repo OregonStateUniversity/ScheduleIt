@@ -1,6 +1,6 @@
 <?php
 
-require_once dirname(__DIR__) . '/vendor/autoload.php';
+require_once ABSPATH . 'vendor/autoload.php';
 
-$loader = new Twig_Loader_Filesystem(dirname(__DIR__) . '/templates');
-$twig = new Twig_Environment($loader);
+$loader = new \Twig\Loader\FilesystemLoader(ABSPATH . 'templates');
+$twig = new \Twig\Environment($loader);
