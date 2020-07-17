@@ -9,10 +9,10 @@
 * Host can remove an attendee
 * Attendee can cancel an rsvp
 * Host can delete a meeting
-* Attendee can view list of meetings they rsvp¡¯d to from reservations page
+* Attendee can view list of meetings they rsvp'd to from reservations page
 * Attendee can view meeting details from meeting link on reservations page
 * Host can view a list of created events from the manage page
-* Host can see event details and list of rsvp¡¯d attendees from meeting link on manage page
+* Host can see event details and list of rsvp'd attendees from meeting link on manage page
 * E-mail confirmation of meeting rsvp
 * E-mail notification if host removes attendee from event
 
@@ -31,6 +31,6 @@
 10. Find your meeting again on the manage page.
 11. Check that the user file is correct.
 12. Remove the user (yourself) from the meeting.
-13. Verify that you received ¡®confirmation¡¯ and ¡®removed from event notification¡¯ emails in your osu gmail account (onid@oregonstate.edu).
+13. Verify that you received 'confirmation' and 'removed from event notification' emails in your osu gmail account (onid@oregonstate.edu).
 14. Delete the meeting.
 15. Verify meeting is no longer listed on your manage and reservations pages. 
