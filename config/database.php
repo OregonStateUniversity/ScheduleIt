@@ -1,9 +1,9 @@
 <?php
 
-require_once dirname(__DIR__) . '/config/env.php';
+require_once ABSPATH . 'config/env.php';
 
 // include functions for generating hashes
-require_once dirname(__DIR__) . '/config/hash.php';
+require_once ABSPATH . 'config/hash.php';
 
 // definition of class for custom interface of MySQLi database
 class DatabaseInterface
@@ -423,21 +423,21 @@ class DatabaseInterface
     public function deleteEventFiles($eventKey)
     {
         $dirname = '../uploads/' . $eventKey . '/';
-        
+
         if (is_dir($dirname)) {
-          $dir_handle = opendir($dirname);
-          if (!$dir_handle) {
-            return false;
-          }
-          while($file = readdir($dir_handle)) {
-            if ($file != "." && $file != "..") {
-              if (!is_dir($dirname."/".$file)) {
-                unlink($dirname."/".$file);
-              } else {
-                     delete_directory($dirname.'/'.$file);
-              }           
-            }  
-          }
+            $dir_handle = opendir($dirname);
+            if (!$dir_handle) {
+                return false;
+            }
+            while ($file = readdir($dir_handle)) {
+                if ($file != "." && $file != "..") {
+                    if (!is_dir($dirname . "/" . $file)) {
+                        unlink($dirname . "/" . $file);
+                    } else {
+                         delete_directory($dirname . '/' . $file);
+                    }
+                }
+            }
         }
         closedir($dir_handle);
         rmdir($dirname);
@@ -445,12 +445,12 @@ class DatabaseInterface
 
     public function deleteFile($attendeeOnid, $eventKey, $type)
     {
-       $fileName = $attendeeOnid . $type . '.*';
-       $filePath = '../uploads/' . $eventKey . '/' . $fileName;
-       $files = glob($filePath);
-       foreach ($files as $file) {
-         unlink($file);
-       }       
+        $fileName = $attendeeOnid . $type . '.*';
+        $filePath = '../uploads/' . $eventKey . '/' . $fileName;
+        $files = glob($filePath);
+        foreach ($files as $file) {
+            unlink($file);
+        }
     }
 
     public function addEvent($eventData, $slotData)
@@ -982,37 +982,37 @@ class DatabaseInterface
 
     public function addEventFile($filePath, $eventKey)
     {
-       $queryClearFile = "
-        
+        $queryClearFile = "
+
            UPDATE `meb_event`
            SET event_file = null
            WHERE hash = ?;
        ";
 
-       $statementClearFile = $this->database->prepare($queryClearFile);
+        $statementClearFile = $this->database->prepare($queryClearFile);
 
-       $statementClearFile->bind_param("s", $eventKey);
-       $statementClearFile->execute();
+        $statementClearFile->bind_param("s", $eventKey);
+        $statementClearFile->execute();
 
-       $statementClearFile->close();
-       
-       $queryUpdateFile = "
+        $statementClearFile->close();
+
+        $queryUpdateFile = "
 
            UPDATE `meb_event`
            SET event_file = ?
            WHERE hash = ?;
        ";
 
-       $statementUpdateFile = $this->database->prepare($queryUpdateFile);
-       
-       $statementUpdateFile->bind_param("ss", $filePath, $eventKey);
-       $statementUpdateFile->execute();
+        $statementUpdateFile = $this->database->prepare($queryUpdateFile);
 
-       $result = $statementUpdateFile->affected_rows;
+        $statementUpdateFile->bind_param("ss", $filePath, $eventKey);
+        $statementUpdateFile->execute();
 
-       $statementUpdateFile->close();
+        $result = $statementUpdateFile->affected_rows;
 
-       return $result;
+        $statementUpdateFile->close();
+
+        return $result;
     }
 
     public function editEvent_deleteSlot($eventKey, $slotKey)
@@ -1112,7 +1112,7 @@ class DatabaseInterface
 
         $statement->bind_param("ss", $startTime, $eventHash);
         $statement->execute();
-      
+
         $result = $statement->get_result();
         if ($result->num_rows > 0) {
             $resultArray = $result->fetch_all(MYSQLI_ASSOC);

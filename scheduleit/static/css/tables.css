@@ -1,0 +1,24 @@
+.table-times {
+  padding-top: 50px;
+  width: 120px;
+  white-space: nowrap;
+}
+
+.table-dates .table-date {
+  width: auto;
+}
+.table-dates .table-date td:hover {
+  background-color: var(--osu-orange-secondary-hover);
+  cursor: pointer;
+}
+
+.table-date td,
+.table-date th {
+  height: 50px;
+  width: 100px;
+  white-space: nowrap;
+}
+
+.table-dates-container {
+  overflow-x: auto;
+}

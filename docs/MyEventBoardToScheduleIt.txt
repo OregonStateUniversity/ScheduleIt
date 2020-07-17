@@ -1,0 +1,32 @@
+Old page => New page
+
+Files:
+create.php => scheduleit/meetings/create.php
+dashboard.php => scheduleit/meetings/index.php
+edit.php => scheduleit/meetings/edit.php
+error.php => scheduleit/errors/404.php
+events.php => scheduleit/manage/index.php
+index.php => scheduleit/home/index.php
+login.php => scheduleit/home/login.php
+logout.php => scheduleit/home/logout.php
+manage.php => scheduleit/meetings/show.php*
+register.php => scheduleit/meetings/rsvp.php
+reservation_details.php => scheduleit/meetings/show.php*
+reservations.php => scheduleit/meetings/index.php
+
+* Could make sense to make separate PHPs, but want to make them the same routes
+
+Routes:
+/MyEventBoard/create.php => /MyEventBoard/scheduleit/meetings/create
+/MyEventBoard/dashboard.php => /MyEventBoard/scheduleit/meetings
+/MyEventBoard/edit.php?key={key} => /MyEventBoard/scheduleit/meetings/{meeting_id}/edit**
+/MyEventBoard/events.php => /MyEventBoard/scheduleit/meetings
+/MyEventBoard/index.php => /MyEventBoard/scheduleit
+/MyEventBoard/login.php => /MyEventBoard/scheduleit/login
+/MyEventBoard/logout.php => /MyEventBoard/scheduleit/logout
+/MyEventBoard/manage.php => /MyEventBoard/scheduleit/manage
+/MyEventBoard/register.php?key={key} => /MyEventBoard/scheduleit/meetings/{meeting_id}/rsvp**
+/MyEventBoard/reservation_details.php?key={key} => /MyEventBoard/scheduleit/meetings/{meeting_id}**
+/MyEventBoard/reservations.php => /MyEventBoard/scheduleit/meetings
+
+** Can still incorporate a key query param

@@ -1,7 +1,9 @@
 <?php
 
+require_once dirname(__FILE__) . '/scheduleit.config.php';
+
 // start session
-require_once dirname(__FILE__) . '/config/env.php';
+require_once ABSPATH . 'config/env.php';
 
 // This page is only for local development.
 if ($_ENV['ENVIRONMENT'] != 'development') {
@@ -24,7 +26,7 @@ if (
 
 // set up twig
 
-require_once dirname(__FILE__) . '/config/twig.php';
+require_once ABSPATH . 'config/twig.php';
 
 // render page using twig
 

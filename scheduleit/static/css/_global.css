@@ -1,0 +1,22 @@
+/* Global */
+:root {
+  --navbar-height-desktop: 100px;
+  --navbar-height-mobile: 80px;
+  --osu-orange: #d73f09;
+  --osu-orange-secondary: #c34500;
+  --osu-orange-secondary-hover: #615042;
+}
+
+body {
+  background: #fff;
+  color: #000;
+  font-size: .875rem;
+}
+
+a {
+  color: var(--osu-orange-secondary);
+}
+
+a:hover {
+  color: var(--osu-orange-secondary-hover);
+}

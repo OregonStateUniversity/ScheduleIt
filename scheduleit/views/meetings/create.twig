@@ -1,0 +1,28 @@
+{% extends 'layouts/logged_in.twig' %}
+
+{% block page_content %}
+
+<h1 class="h2 mb-4">
+  {{title}}
+</h1>
+{{ include('meetings/_meeting_form.twig') }}
+
+{% endblock %}
+
+{% block page_footer %}
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    var calendarElement = document.getElementById("calendar");
+    var calendar = new FullCalendar.Calendar(calendarElement, {
+      initialView: "dayGridMonth",
+      dateClick: function(info) {
+        info.dayEl.style.backgroundColor = "#000";
+        info.dayEl.style.color = "#fff";
+      }
+    });
+    calendar.render();
+  });
+</script>
+
+{% endblock %}

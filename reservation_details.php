@@ -1,20 +1,22 @@
 <?php
 
+require_once dirname(__FILE__) . '/scheduleit.config.php';
+
 // set up session
 
-require_once dirname(__FILE__) . '/config/session.php';
+require_once ABSPATH . 'config/session.php';
 
 // set up connection to database via MySQLi
 
-require_once dirname(__FILE__) . '/config/database.php';
+require_once ABSPATH . 'config/database.php';
 
 // set up twig
 
-require_once dirname(__FILE__) . '/config/twig.php';
+require_once ABSPATH . 'config/twig.php';
 
 // include code for rendering view for errors
 
-require_once dirname(__FILE__) . '/config/render_error.php';
+require_once ABSPATH . 'config/render_error.php';
 
 // get key for event from URL
 $slotKey = $_GET["key"];

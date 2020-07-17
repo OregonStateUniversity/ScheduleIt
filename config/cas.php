@@ -1,5 +1,7 @@
 <?php
 
+require_once dirname(__DIR__) . '/scheduleit.config.php';
+
 // based on examples provided for phpCAS
 // https://github.com/apereo/phpCAS/blob/master/docs/examples/example_simple.php
 // https://github.com/apereo/phpCAS/blob/master/docs/examples/example_custom_urls.php

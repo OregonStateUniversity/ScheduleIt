@@ -1,0 +1,14 @@
+{% extends 'layouts/logged_in.twig' %}
+
+{% block page_content %}
+
+<h1 class="h2 mb-4">
+  {{title}}
+</h1>
+{% if meeting.hostEmail == user_email %}
+  {{ include('meetings/_meeting_details_mine.twig') }}
+{% else %}
+  {{ include('meetings/_meeting_details_other.twig') }}
+{% endif %}
+
+{% endblock %}

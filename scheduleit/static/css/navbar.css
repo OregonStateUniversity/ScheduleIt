@@ -1,0 +1,70 @@
+/* Nav */
+.navbar {
+  background-color: var(--osu-orange);
+  height: var(--navbar-height-mobile);
+}
+
+@media (min-width: 768px) {
+  .navbar {
+    background-color: var(--osu-orange);
+    height: var(--navbar-height-desktop);
+  }
+}
+
+.navbar-brand {
+  background: url(images/osu-logo.svg) 0 0.5rem no-repeat;
+  background-size: contain;
+  color: #fff;
+  font-size: 1rem;
+  height: 80px;
+  padding: 48px 0 0;
+  width: 110px;
+}
+
+.navbar-brand span {
+  display: block;
+}
+
+@media (min-width: 768px) {
+  .navbar-brand {
+    background-position: 0 center;
+    font-size: 1.5rem;
+    padding: 1.25rem 0 1.25rem 15.75rem;
+  }
+
+  .navbar-brand span {
+    display: inline;
+  }
+}
+
+.navbar-brand:hover {
+  color: #fff;
+}
+
+.navbar-rsvps-link {
+  color: #fff;
+  font-size: 2rem;
+  position: relative;
+}
+
+.navbar-rsvps-link:hover {
+  color: #fff;
+}
+
+.navbar-rsvps-count {
+  color: #000;
+  font-size: 1.15rem;
+  font-weight: 700;
+  left: 0.5rem;
+  position: absolute;
+  top: 0.5rem;
+}
+
+.navbar-rsvps-link:hover .navbar-rsvps-count {
+  color: var(--osu-orange);
+}
+
+.navbar-toggler {
+  right: 0;
+  top: 0.5rem;
+}

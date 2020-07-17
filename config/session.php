@@ -1,7 +1,7 @@
 <?php
 
 // start session
-require_once dirname(__DIR__) . '/config/env.php';
+require_once ABSPATH . 'config/env.php';
 
 session_start();
 
@@ -13,8 +13,7 @@ if ($_ENV['ENVIRONMENT'] == 'development') {
         !isset($_SESSION['lastName']) &&
         !isset($_SESSION['email'])
     ) {
-        header("Location: login.php");
-        exit();
+        die("Go to login.php to log in");
     }
 } else {
     // if session is new, get user data
@@ -23,7 +22,7 @@ if ($_ENV['ENVIRONMENT'] == 'development') {
     if (!isset($_SESSION['user'])) {
         // set up CAS client and force user to log in
 
-        require_once dirname(__DIR__) . '/config/cas.php';
+        require_once ABSPATH . 'config/cas.php';
 
         // we use the user's ONID, first name, last name and e-mail
         // however, many more attributes are available
@@ -44,7 +43,7 @@ if ($_ENV['ENVIRONMENT'] == 'development') {
 
 // add user to database if user does not exist
 
-require_once dirname(__DIR__) . '/config/database.php';
+require_once ABSPATH . 'config/database.php';
 
 $database->connectAsAdministrator();
 

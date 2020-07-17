@@ -1,0 +1,14 @@
+/* Calendar */
+.meeting-mine {
+  background-color: var(--osu-orange-secondary);
+  border-color: var(--osu-orange-secondary);
+  color: #fff;
+  padding: 0 0.25rem;
+}
+
+.meeting-other {
+  background-color: #000;
+  border-color: #000;
+  color: #fff;
+  padding: 0 0.25rem;
+}
