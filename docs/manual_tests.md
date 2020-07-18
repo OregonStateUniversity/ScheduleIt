@@ -13,6 +13,6 @@
 11. Cancel an RSVP for a meeting
 12. Change the RSVP time for a meeting you signed up for
 13. Upload a file for a meeting
-14. Change the file you¡¯ve uploaded for a meeting
+14. Change the file you've uploaded for a meeting
 
 **Not implemented yet
