@@ -90,13 +90,12 @@ $ clip < ~/.ssh/id_rsa.pub
 ## Clone the repository
 Go to the the folder `/c/Program Files/Ampps/www/`
 
-Clone the repository into the `www` folder: `git clone git@github.com:repository_folder.git`  
-For example: `git clone git@github.com:OregonStateUniversity/MyEventBoard.git`
+Clone the repository into the `www` folder: `git clone git@github.com:OregonStateUniversity/MyEventBoard.git`
 
 ## Set .env & run scripts
 
 ##### Set up .env file
-1. Copy .env.example to ~root/.env  
+1. Copy `.env.example` to `.env` in the root directory of the pject  
 2. Input passwords where they're missing  
 3. Set ENVIRONMENT to development  
 
@@ -104,7 +103,7 @@ ENVIRONMENT should be entirely uppercase
 development should be entirely lowercase
 
 ##### Run set up script
-In Git Bash (in the My Event Board) folder, run - `bash ./setup.sh`
+In Git Bash (in the My Event Board) folder, run - `bash setup.sh` or `./setup.sh`
 
 Now that everything is set up, you can start the running the site on your localhost.  
 This simulates hosting the site on the OSU engineering server.
