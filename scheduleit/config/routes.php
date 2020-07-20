@@ -17,7 +17,12 @@ switch ($request) {
         require_once ABSPATH . 'scheduleit/views/calendar/index.php';
         break;
     case '/login':
-        require_once ABSPATH . 'scheduleit/views/home/login.php';
+        if (ENVIRONMENT == 'development') {
+            require_once ABSPATH . 'scheduleit/views/home/login.php';
+        } else {
+            http_response_code(404);
+            require_once ABSPATH . 'scheduleit/views/errors/error_logged_out.php';
+        }
         break;
     case '/logout':
         require_once ABSPATH . 'scheduleit/views/home/logout.php';
@@ -27,17 +32,14 @@ switch ($request) {
         break;
     case ($meeting_edit > 0):
         $meeting_id = $uri[2];
-        define('MEETING_ID', $meeting_id);
         require_once ABSPATH . 'scheduleit/views/meetings/edit.php';
         break;
     case ($meeting_rsvp > 0):
         $meeting_id = $uri[2];
-        define('MEETING_ID', $meeting_id);
         require_once ABSPATH . 'scheduleit/views/meetings/rsvp.php';
         break;
     case ($meeting_show > 0):
         $meeting_id = $uri[2];
-        define('MEETING_ID', $meeting_id);
         require_once ABSPATH . 'scheduleit/views/meetings/show.php';
         break;
     case '/meetings/create':
@@ -54,6 +56,6 @@ switch ($request) {
         break;
     default:
         http_response_code(404);
-        require_once ABSPATH . 'scheduleit/views/errors/404.php';
+        require_once ABSPATH . 'scheduleit/views/errors/error_logged_in.php';
         break;
 }

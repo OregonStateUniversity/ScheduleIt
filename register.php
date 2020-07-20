@@ -1,33 +1,15 @@
 <?php
 
 require_once dirname(__FILE__) . '/scheduleit.config.php';
-
-// set up session
-
 require_once ABSPATH . 'config/session.php';
 
-// set up connection to database via MySQLi
-
-require_once ABSPATH . 'config/database.php';
-
-// set up twig
-
-require_once ABSPATH . 'config/twig.php';
-
-// include code for rendering view for errors
-
-require_once ABSPATH . 'config/render_error.php';
-
 // get key for event from URL
-
 $eventKey = $_GET["key"];
 
 // get event data from database
-
 $eventData = $database->getEvent($eventKey);
 
 // if event data could not be found, show error page
-
 if ($eventData == null) {
     $errorCode = 404;
     render_error($twig, $errorCode, $errorMessages[$errorCode]);
@@ -39,7 +21,6 @@ $eventAnoymous = $eventData['anonymous'];
 $eventUpload = $eventData['upload'];
 
 // get time slot data for event from database
-
 $slotData = $database->getRegistrationData($eventKey, $_SESSION["user"]);
 $columnNames = array_keys($slotData[0]);
 
@@ -48,8 +29,6 @@ $columnNames = array_keys($slotData[0]);
 //     render_error($twig, $errorCode, $errorMessages[$errorCode]);
 //     exit;
 // }
-
-// render page using twig
 
 echo $twig->render('views/register.twig', [
   'event_name' => $eventName,

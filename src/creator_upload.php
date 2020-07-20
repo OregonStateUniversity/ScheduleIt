@@ -1,29 +1,20 @@
 <?php
 
-// set up session
-
-require_once dirname(__DIR__) . '/config/session.php';
-
-// set up connection to database via MySQLi
-
-require_once dirname(__DIR__) . '/config/database.php';
+require_once dirname(__DIR__) . '/scheduleit.config.php';
+require_once ABSPATH . 'config/session.php';
 
 $database->connectAsAdministrator();
 
 // get time slot key from POST request
-
 $eventKey = $_POST['eventKey'];
 
 // check file size ** final size TBD **
-
 if ($_FILES['file']['size'] > 5000000) {
     echo "This file is too large.";
     exit();
 }
 
-
 // determine path
-
 $uploadsDirectory = '../uploads/';
 $newPath = $uploadsDirectory . $eventKey;
 $newFileName = $_SESSION["user"] . '_event_file';
@@ -50,7 +41,6 @@ if (!file_exists($newPath)) {
 
 // if there is error with file upload
 // do not try to add path to database
-
 $fileError = false;
 
 if (0 < $_FILES['file']['error']) {
@@ -60,7 +50,6 @@ if (0 < $_FILES['file']['error']) {
 
 // if there is no error with file upload, add path to database
 // otherwise, report that file upload was not successful
-
 if ($fileError == false) {
     move_uploaded_file($_FILES['file']['tmp_name'], $path);
     chmod($path, 0644);

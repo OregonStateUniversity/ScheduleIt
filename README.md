@@ -5,8 +5,9 @@ as part of the Schedule It! project.
 
 ## Docs
 
-[Getting Started](GETTING_STARTED.md)
-[Installation](INSTALLATION.md)
+[Getting Started](docs/GETTING_STARTED.md)
+
+[Installation](docs/INSTALLATION.md)
 
 ## Contact Information
 

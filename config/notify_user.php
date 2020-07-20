@@ -9,7 +9,7 @@ function emailUserAboutDeletedSlot($user, $eventName, $siteURL)
     $format = $formatA . $formatB;
 
     $headers = "From: MyEventBoard" . "\r\n";
-    $msg = sprintf($format, $user["firstName"], $eventName, $siteURL);
+    $msg = sprintf($format, $user["first_name"], $eventName, $siteURL);
 
     mail($user["email"], "Time Slot Removal Notification", $msg, $headers);
 }

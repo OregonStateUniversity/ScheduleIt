@@ -1,22 +1,15 @@
 <?php
 
-// set up session
-
-require_once dirname(__DIR__) . '/config/session.php';
-
-// set up connection to database via MySQLi
-
-require_once dirname(__DIR__) . '/config/database.php';
+require_once dirname(__DIR__) . '/scheduleit.config.php';
 
 $database->connectAsAdministrator();
 
 // get data from POST request
-
 $onid = $_POST["onid"];
 $eventHash = $_POST["eventHash"];
 $type = $_POST["type"];
-// delete file
 
+// delete file
 $result = $database->deleteFile($onid, $eventHash, $type);
 
 if ($result == true) {

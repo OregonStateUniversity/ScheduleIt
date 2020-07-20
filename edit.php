@@ -1,35 +1,17 @@
 <?php
 
 require_once dirname(__FILE__) . '/scheduleit.config.php';
-
-// set up session
-
 require_once ABSPATH . 'config/session.php';
 
-// set up connection to database via MySQLi
-
-require_once ABSPATH . 'config/database.php';
-
-// set up twig
-
-require_once ABSPATH . 'config/twig.php';
-
-// include code for rendering view for errors
-
-require_once ABSPATH . 'config/render_error.php';
-
 // get key for event from URL
-
 $eventKey = $_GET["key"];
 
 // get event and time slot data
-
 $resultObjects = $database->getEditingData($eventKey);
 
 // check results
 // if there are no results, show error 404
 // if there are results or if current user is not event creator, show error 403
-
 $errorCode = 0;
 
 if ($resultObjects == null) {
@@ -44,13 +26,10 @@ if ($errorCode != 0) {
 }
 
 // encode array of PHP objects as JSON
-
 $eventData = [];
 
 foreach ($resultObjects as $resultObject) {
     $eventData[] = json_encode($resultObject);
 }
-
-// render page using twig
 
 echo $twig->render('views/edit.twig', ['event_data' => $eventData]);

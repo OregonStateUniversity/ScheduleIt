@@ -2,24 +2,24 @@
   <div class="card-body">
     <div class="row">
       <div class="col-4">
-        <h3 class="h5 text-nowrap">{{meeting.date}}</h3>
+        <h3 class="h5 text-nowrap">{{meeting.start_time | date("D, M d")}}</h3>
       </div>
       <div class="col-8">
         <h4 class="h5 mb-2">
           <a href="{{site_url}}/meetings/{{meeting.id}}">
-            {{meeting.title}}
+            {{meeting.event_name}}
           </a>
         </h4>
         <p class="mb-0">
-          {{meeting.location}}
+          {{meeting.event_location}}
         </p>
         <p class="mb-0">
-          {{meeting.time}}
+          {{meeting.start_time| date("g:ia")}}-{{meeting.end_time| date("g:ia")}}
         </p>
         <p class="mb-0">
           Host:
-          <a href="mailto:{{meeting.hostEmail}}">
-            {{meeting.hostName}}
+          <a href="mailto:{{meeting.ec_email}}">
+            {{meeting.ec_first_name}} {{meeting.ec_last_name}}
           </a>
         </p>
         {% if meeting.attendeeName %}
