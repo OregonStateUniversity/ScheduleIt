@@ -1,12 +1,7 @@
 <?php
 
-// set up session
-
-require_once dirname(__DIR__) . '/config/session.php';
-
-// set up connection to database via MySQLi
-
-require_once dirname(__DIR__) . '/config/database.php';
+require_once dirname(__DIR__) . '/scheduleit.config.php';
+require_once ABSPATH . 'config/session.php';
 
 $database->connectAsAdministrator();
 

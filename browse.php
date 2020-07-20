@@ -1,21 +1,9 @@
 <?php
 
 require_once dirname(__FILE__) . '/scheduleit.config.php';
-
-// set up session
-
 require_once ABSPATH . 'config/session.php';
 
-// set up connection to database via MySQLi
-
-require_once ABSPATH . 'config/database.php';
-
-// set up twig
-
-require_once ABSPATH . 'config/twig.php';
-
 // get event data from database
-
 $query = "
 
         SELECT
@@ -40,8 +28,6 @@ $resultKeys = array_keys($resultArray[0]);
 
 $result->free();
 $database->close();
-
-// render page using twig
 
 echo $twig->render('views/browse.twig', [
   'user_ONID' => $_SESSION['user'],

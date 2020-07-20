@@ -1,55 +1,54 @@
 <?php
 
-// start session
+require_once ABSPATH . 'config/database.php';
 require_once ABSPATH . 'config/env.php';
 
 session_start();
 
-// Set the user manually for local development
+// Redirect user to login page in local environment
 if ($_ENV['ENVIRONMENT'] == 'development') {
-    if (
-        !isset($_SESSION['user']) &&
-        !isset($_SESSION['firstName']) &&
-        !isset($_SESSION['lastName']) &&
-        !isset($_SESSION['email'])
-    ) {
-        die("Go to login.php to log in");
+    if (!isset($_SESSION['user'])) {
+        header("Location: " . SITE_DIR . '/login');
     }
 } else {
-    // if session is new, get user data
+    // If session is new, get user data
     // session should persist until browser gets closed
-
     if (!isset($_SESSION['user'])) {
-        // set up CAS client and force user to log in
-
+        // Set up CAS client and force user to log in
         require_once ABSPATH . 'config/cas.php';
 
-        // we use the user's ONID, first name, last name and e-mail
-        // however, many more attributes are available
-
+        // We use the user's ONID, first name, last name and e-mail
+        // However, many more attributes are available
         $_SESSION['user'] = $_SESSION['phpCAS']['user'];
 
-        $allAttributes = $_SESSION['phpCAS']['attributes'];
+        $user_attributes = $_SESSION['phpCAS']['attributes'];
 
-        $_SESSION['firstName'] = $allAttributes['firstname'];
-        $_SESSION['lastName'] = $allAttributes['lastname'];
-        $_SESSION['email'] = $allAttributes['email'];
+        $_SESSION['first_name'] = $user_attributes['firstname'];
+        $_SESSION['last_name'] = $user_attributes['lastname'];
+        $_SESSION['email'] = $user_attributes['email'];
 
-        // discard everything else
-
+        // Discard everything else
         unset($_SESSION['phpCAS']);
     }
 }
 
-// add user to database if user does not exist
-
-require_once ABSPATH . 'config/database.php';
-
 $database->connectAsAdministrator();
 
+// Add user to database if user does not exist
 $database->addUser(
     $_SESSION['user'],
     $_SESSION['email'],
-    $_SESSION['firstName'],
-    $_SESSION['lastName']
+    $_SESSION['first_name'],
+    $_SESSION['last_name']
 );
+
+$current_url = array_filter(explode("/", $_SERVER['REQUEST_URI']));
+
+if (in_array('scheduleit', $current_url)) {
+    require_once ABSPATH . 'scheduleit/config/twig.php';
+} else {
+    require_once ABSPATH . 'config/twig.php';
+}
+$twig->addGlobal('user_email', $_SESSION['email']);
+$twig->addGlobal('user_firstname', $_SESSION['first_name']);
+$twig->addGlobal('user_lastname', $_SESSION['last_name']);

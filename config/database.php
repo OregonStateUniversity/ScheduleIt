@@ -112,7 +112,7 @@ class DatabaseInterface
         }
     }
 
-    public function addUser($userONID, $email, $firstName, $lastName)
+    public function addUser($userONID, $email, $first_name, $last_name)
     {
         // check if user is in database
 
@@ -130,7 +130,7 @@ class DatabaseInterface
 
             $statement = $this->database->prepare($query);
 
-            $statement->bind_param("ssss", $userONID, $email, $lastName, $firstName);
+            $statement->bind_param("ssss", $userONID, $email, $last_name, $first_name);
             $statement->execute();
 
             $result = $statement->affected_rows;
@@ -600,7 +600,8 @@ class DatabaseInterface
             T.duration as 'slot_duration',
             T.spaces_available as 'slots_remaining',
             U1.first_name as 'ec_first_name',
-            U1.last_name as 'ec_last_name'
+            U1.last_name as 'ec_last_name',
+            U1.email as 'ec_email'
 
             FROM meb_booking
             INNER JOIN meb_user U
@@ -775,7 +776,7 @@ class DatabaseInterface
         $query = "
 
             SELECT
-            u.email, u.first_name AS 'firstName', u.last_name AS 'lastName'
+            u.email, u.first_name AS 'first_name', u.last_name AS 'last_name'
 
             FROM meb_timeslot t
             INNER JOIN meb_booking b

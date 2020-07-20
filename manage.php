@@ -1,25 +1,9 @@
 <?php
 
 require_once dirname(__FILE__) . '/scheduleit.config.php';
-
-// set up session
-
 require_once ABSPATH . 'config/session.php';
 
-// set up connection to database via MySQLi
-
-require_once ABSPATH . 'config/database.php';
-
-// set up twig
-
-require_once ABSPATH . 'config/twig.php';
-
-// include code for rendering view for errors
-
-require_once ABSPATH . 'config/render_error.php';
-
 // get key for event from URL
-
 $eventKey = $_GET["key"];
 
 // get event data using event key
@@ -42,11 +26,9 @@ if ($errorCode != 0) {
 }
 
 // get duration and capacity of slots for event
-
 $slotDetails = $database->getEventSlotDetails($eventKey);
 
 // get list of attendees, their time slots, and their files from database
-
 $attendeeData = $database->getAttendeeData($eventKey);
 
 if ($attendeeData) {
@@ -55,8 +37,6 @@ if ($attendeeData) {
     $attendeeData = [];
     $columnNames = [];
 }
-
-// render page using twig
 
 echo $twig->render('views/manage.twig', [
   'event_data' => $eventData,

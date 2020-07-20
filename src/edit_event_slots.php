@@ -1,28 +1,18 @@
 <?php
 
-// set up session
-
-require_once dirname(__DIR__) . '/config/session.php';
-
-// set up connection to database via MySQLi
-
-require_once dirname(__DIR__) . '/config/database.php';
+require_once dirname(__DIR__) . '/scheduleit.config.php';
+require_once ABSPATH . 'config/session.php';
+require_once ABSPATH . 'config/notify_user.php';
 
 $database->connectAsAdministrator();
 
-// include email function
-
-require_once dirname(__DIR__) . '/config/notify_user.php';
-
 // get data from POST request
-
 $eventKey = $_POST['eventHash'];
 $addedSlots = json_decode($_POST['addedSlots'], true);
 $deletedSlots = json_decode($_POST['deletedSlots'], true);
 
 // get event data
 // if there are no results or event creator ONID does not match user ONID, abort now
-
 $eventData = $database->getEvent($eventKey);
 
 if ($eventData == null) {
@@ -34,20 +24,16 @@ if ($eventData == null) {
 }
 
 // initialize error codes
-
 $insertSuccess = true;
 $deleteSuccess = true;
 
 // delete slots if slots exist
-
 if (count($deletedSlots) > 0) {
     foreach ($deletedSlots as $slot) {
         // get list of users who will lose their time slots
-
         $removedUsers = $database->getUsersOfSlot($slot["slotHash"]);
 
         // delete time slot
-
         $errorCode = $database->editEvent_deleteSlot($eventKey, $slot["slotHash"]);
 
         if ($errorCode != 0) {
@@ -55,16 +41,15 @@ if (count($deletedSlots) > 0) {
         }
 
         // build URL that leads to sign-up page for event
-
         // $developerONID = substr(getcwd(), strlen('/nfs/stak/users/'), -1 * strlen('/public_html/MyEventBoard'));
         // $siteURL = 'http://web.engr.oregonstate.edu/~' . $developerONID . '/MyEventBoard/';
         // $siteURL = $siteURL . 'register?key=' . $eventKey;
 
+        // TODO: Use global variable
         $siteURL = 'https://eecs.oregonstate.edu/education/myeventboard/';
         $siteURL = $siteURL . 'register.php?key=' . $eventKey;
 
         // email users who were kicked off after successful delete
-
         if ($removedUsers == null || !$deleteSuccess) {
             continue;
         }
@@ -76,7 +61,6 @@ if (count($deletedSlots) > 0) {
 }
 
 // add slots if slots exist
-
 if (count($addedSlots) > 0) {
     $slotData = [];
 
@@ -96,7 +80,6 @@ if (count($addedSlots) > 0) {
 }
 
 // response to front end
-
 if ($insertSuccess && $deleteSuccess) {
     echo "The event time slots changes were successfully saved!";
 } else {

@@ -1,22 +1,15 @@
 <?php
 
-// set up session
-
-require_once dirname(__DIR__) . '/config/session.php';
-
-// set up connection to database via MySQLi
-
-require_once dirname(__DIR__) . '/config/database.php';
+require_once dirname(__DIR__) . '/scheduleit.config.php';
+require_once ABSPATH . 'config/session.php';
 
 $database->connectAsAdministrator();
 
 // get time slot key from POST request
-
 $slotKey = $_POST['slotKey'];
 
 // get ID of user's booking for time slot
 // if there is no booking, show user error message and abort now
-
 $bookingData = $database->getUserBooking($slotKey, $_SESSION["user"]);
 
 if ($bookingData == null) {
@@ -28,21 +21,16 @@ if ($bookingData == null) {
 $bookingID = $bookingData["id"];
 
 // check file size ** final size TBD **
-
 if ($_FILES['file']['size'] > 5000000) {
     echo "This file is too large.";
     exit();
 }
 
-
-
 // get event key using time slot key
-
 $eventData = $database->getEventBySlotKey($slotKey);
 $eventKey = $eventData["hash"];
 
 // determine path
-
 $uploadsDirectory = '../uploads/';
 $newPath = $uploadsDirectory . $eventKey;
 $newFileName = $_SESSION["user"] . '_upload';
@@ -69,7 +57,6 @@ if (!file_exists($newPath)) {
 
 // if there is error with file upload
 // do not try to add path to database
-
 $fileError = false;
 
 if (0 < $_FILES['file']['error']) {
@@ -79,7 +66,6 @@ if (0 < $_FILES['file']['error']) {
 
 // if there is no error with file upload, add path to database
 // otherwise, report that file upload was not successful
-
 if ($fileError == false) {
     move_uploaded_file($_FILES['file']['tmp_name'], $path);
     chmod($path, 0644);

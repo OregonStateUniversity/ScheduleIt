@@ -1,8 +1,6 @@
 <?php
 
-require_once ABSPATH . 'config/database.php';
 require_once ABSPATH . 'config/session.php';
-require_once ABSPATH . 'scheduleit/config/twig.php';
 
 $all_meetings = [
     [
@@ -97,7 +95,7 @@ $all_meetings = [
     ]
 ];
 
-if (!$all_meetings[MEETING_ID - 1]['title']) {
+if (!$all_meetings[$meeting_id - 1]['title']) {
     http_response_code(404);
     echo $twig->render('errors/error.twig', [
         'message' => 'Sorry, we couldn\'t find that meeting.',
@@ -105,7 +103,7 @@ if (!$all_meetings[MEETING_ID - 1]['title']) {
     ]);
 } else {
     echo $twig->render('meetings/rsvp.twig', [
-        'meeting' => $all_meetings[MEETING_ID - 1],
-        'title' => 'RSVP - ' . $all_meetings[MEETING_ID - 1]['title'],
+        'meeting' => $all_meetings[$meeting_id - 1],
+        'title' => 'RSVP - ' . $all_meetings[$meeting_id - 1]['title'],
     ]);
 }
