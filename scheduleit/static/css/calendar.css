@@ -12,3 +12,13 @@
   color: #fff;
   padding: 0 0.25rem;
 }
+
+.fc td {
+  background-color: #fff !important;
+  color: #000 !important;
+}
+
+.fc td.active {
+  background-color: #000 !important;
+  color: #fff !important;
+}

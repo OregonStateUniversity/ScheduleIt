@@ -17,6 +17,15 @@
     var calendar = new FullCalendar.Calendar(calendarElement, {
       initialView: "dayGridMonth",
       dateClick: function(info) {
+        if (info.dayEl.classList.contains('active')) {
+          info.dayEl.classList.remove('active');
+          // TODO: Remove from time table
+        } else {
+          info.dayEl.classList.add('active');
+          // TODO: Add to time table
+        }
+
+
         info.dayEl.style.backgroundColor = "#000";
         info.dayEl.style.color = "#fff";
       }
