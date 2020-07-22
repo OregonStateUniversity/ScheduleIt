@@ -1,3 +1,8 @@
 .card-mine {
+  background-color: #f8f9fa;
   border-color: var(--osu-orange);
+}
+
+.card-text-large {
+  font-size: 1.15rem;
 }

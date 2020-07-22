@@ -13,10 +13,13 @@ body {
   font-size: .875rem;
 }
 
-a {
-  color: var(--osu-orange-secondary);
+a,
+a:hover {
+  color: var(--osu-orange);
 }
 
-a:hover {
-  color: var(--osu-orange-secondary-hover);
+.h4,
+.h5,
+.h6 {
+  color: #333;
 }

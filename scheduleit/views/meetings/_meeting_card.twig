@@ -1,36 +1,55 @@
-<div class="card mb-3 {{ meeting.hostName == 'Me' ? 'card-mine' }}">
+<div class="card mb-3 {{ meeting.creator_onid == user_onid ? 'card-mine' : 'card-other' }}">
   <div class="card-body">
-    <div class="row">
-      <div class="col-4">
-        <h3 class="h5 text-nowrap">{{meeting.start_time | date("D, M d")}}</h3>
-      </div>
-      <div class="col-8">
-        <h4 class="h5 mb-2">
-          <a href="{{site_url}}/meetings/{{meeting.id}}">
-            {{meeting.event_name}}
-          </a>
-        </h4>
-        <p class="mb-0">
-          {{meeting.event_location}}
-        </p>
-        <p class="mb-0">
-          {{meeting.start_time| date("g:ia")}}-{{meeting.end_time| date("g:ia")}}
-        </p>
-        <p class="mb-0">
-          Host:
-          <a href="mailto:{{meeting.ec_email}}">
-            {{meeting.ec_first_name}} {{meeting.ec_last_name}}
-          </a>
-        </p>
-        {% if meeting.attendeeName %}
-          <p class="mb-0">
-            Attendee:
-            <a href="mailto:{{meeting.attendeeEmail}}">
-              {{meeting.attendeeName}}
-            </a>
-          </p>
-        {% endif %}
-      </div>
-    </div>
+    <h3 class="h6 d-md-flex justify-content-between">
+      <span>
+        {{meeting.start_time | date("D, F j, Y")}}
+      </span>
+      <span class="d-block d-md-inline mt-2 mt-md-0">
+        {{meeting.start_time| date("g:ia")}}-{{meeting.end_time| date("g:ia")}}
+      </span>
+    </h3>
+    <h4 class="h5 mb-2">
+      <a href="{{site_url}}/meetings/{{meeting.id}}">
+        {{meeting.name}}
+      </a>
+    </h4>
+    <p class="mb-0">
+      {{meeting.location}}
+    </p>
+    {% if meeting.creator_onid != user_onid %}
+      <p class="mb-0">
+        Creator:
+        <a href="mailto:{{meeting.creator_email}}">
+          {{meeting.creator_name}}
+        </a>
+      </p>
+    {% endif %}
+    {% if meeting.creator_onid == user_onid %}
+      <p class="mb-0">
+        Attendee:
+        <a href="mailto:{{meeting.attendee_email}}">
+          {% if meeting.attendee_onid == user_onid %}
+            Me
+          {% else %}
+            {{meeting.attendee_name}}
+          {% endif %}
+        </a>
+      </p>
+    {% endif %}
+    {% if meeting.description %}
+      <p class="mt-2 mb-0">
+        {{meeting.description}}
+      </p>
+    {% endif %}
+    {% if meeting.creator_file %}
+      <p class="mt-2 mb-0">
+        Host File: {{meeting.creator_file}}
+      </p>
+    {% endif %}
+    {% if meeting.attendee_file %}
+      <p class="mt-2 mb-0">
+        Attendee File: {{meeting.attendee_file}}
+      </p>
+    {% endif %}
   </div>
 </div>

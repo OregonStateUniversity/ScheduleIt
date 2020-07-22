@@ -7,41 +7,53 @@
     {{title}}
   </h1>
   <form class="form-inline mb-4" method="get">
-    <input class="form-control mr-sm-2" name="q" type="search" value="{{search_term}}">
-    <button class="btn btn-primary my-2 my-sm-0">
-      Search
-    </button>
+    <div>
+      <input class="form-control mr-sm-2" name="q" type="search">
+    </div>
+    <div class="pl-3 pl-md-1">
+      <button class="btn btn-primary my-2 my-sm-0">
+        Search
+      </button>
+    </div>
   </form>
 </div>
 {% if search_term and search_result_count > 0 %}
   <p>
-    Found {{search_result_count}} result{% if search_result_count != 1 %}s{% endif %}
+    Found {{search_result_count}} result{% if search_result_count != 1 %}s{% endif %} for "{{search_term}}"
   </p>
 {% endif %}
 
 {% if meetings %}
   <table class="table">
     <thead>
-      <tr>
-        <th scope="col">Title</th>
-        <th scope="col">Location</th>
-        <th scope="col">Dates</th>
-        <th scope="col">Available Slots</th>
-        <th scope="col">RSVP Link</th>
+      <tr class="d-flex">
+        <th class="col-3">Title</th>
+        <th class="col-3">Location</th>
+        <th class="col-3">Dates</th>
+        <th class="col-2">Timeslots</th>
+        <th class="col-1">RSVP Link</th>
       </tr>
     </thead>
     <tbody>
       {% for meeting in meetings %}
-        <tr>
-          <td><a href="{{site_url}}/meetings/{{meeting.id}}">{{meeting.title}}</a></td>
-          <td>{{meeting.location}}</td>
-          <td>
+        <tr class="d-flex">
+          <td class="col-3">
+            <a href="{{site_url}}/meetings/{{meeting.id}}">{{meeting.name}}</a>
+          </td>
+          <td class="col-3">
+            {{meeting.location}}
+          </td>
+          <td class="col-3">
             {% for date in meeting.dates %}
-              {{date}}<br>
+              {{date.date | date("n/j/y")}}{% if loop.index != meeting.dates_count %}, {% endif %}
             {% endfor %}
           </td>
-          <td>{{meeting.slots_available}} / {{meeting.slots}}</td>
-          <td><a href="{{site_url}}/meetings/{{meeting.id}}/rsvp">RSVP</a></td>
+          <td class="col-2">
+            {{meeting.open_slots}} / {{meeting.capacity}}
+          </td>
+          <td class="col-1">
+            <a href="{{site_url}}/meetings/{{meeting.id}}/rsvp">RSVP Link</a>
+          </td>
         </tr>
       {% endfor %}
     </tbody>
@@ -50,7 +62,7 @@
   {% if search_term %}
     <p>No results found</p>
   {% else %}
-    <p>Nothing here yet!</p>
+    <p>Nothing here yet! Want to <a href="{{site_url}}/meetings/create">create a meeting</a>?</p>
   {% endif %}
 {% endif %}
 

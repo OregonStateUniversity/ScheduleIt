@@ -1,66 +1,78 @@
-<div class="card mb-4 {{ meeting.hostName == 'Me' ? 'card-mine' }}">
+<div class="card mb-4 card-mine">
   <div class="card-body">
     <div class="row">
       <div class="col-6">
-        <h4 class="h6 mb-0">
+        <h4 class="h6 mb-1">
           Title
         </h4>
-        <p>
-          {{meeting.title}}
+        <p class="card-text-large">
+          {{meeting.name}}
         </p>
-        <h4 class="h6 mb-0">
+        <h4 class="h6 mb-1">
           Location
         </h4>
-        <p>
+        <p class="card-text-large">
           {{meeting.location}}
         </p>
-        <h4 class="h6 mb-0">
+        <h4 class="h6 mb-1">
           Description
         </h4>
-        <p>
+        <p class="card-text-large">
           {{meeting.description}}
         </p>
-        <h4 class="h6 mb-0">
+        <h4 class="h6 mb-1">
           Dates
         </h4>
-        <p>
+        <p class="card-text-large">
           {% for date in meeting.dates %}
-            {{date}}<br>
+            {{date.date | date("n/j/y")}}{% if loop.index != meeting.dates_count %}, {% endif %}
           {% endfor %}
         </p>
       </div>
       <div class="col-6">
-        <h4 class="h6 mb-0">
+        <h4 class="h6 mb-1">
           Anonymous Meeting
         </h4>
-        <p>
-          No
+        <p class="card-text-large">
+          {% if meeting.is_anon == true %}
+            Yes
+          {% else %}
+            No
+          {% endif %}
         </p>
-        <h4 class="h6 mb-0">
+        <h4 class="h6 mb-1">
           Enable Attendees to Upload Files
         </h4>
-        <p>
-          Yes
+        <p class="card-text-large">
+          {% if meeting.enable_upload == true %}
+            Yes
+          {% else %}
+            No
+          {% endif %}
         </p>
-        <h4 class="h6 mb-0">
+        <h4 class="h6 mb-1">
           File Download for Attendees
         </h4>
-        <p>
-          <a href="#">
-            file.pdf
-          </a>
+        <p class="card-text-large">
+          {% if meeting.event_file %}
+            <a href="{{meeting.event_file}}">
+              {{meeting.event_file}}
+            </a>
+          {% else %}
+            N/A
+          {% endif %}
         </p>
-        <h4 class="h6 mb-0">
+        <h4 class="h6 mb-1">
           Attendees Allowed Per Timeslot
         </h4>
-        <p>
-          {{meeting.per_slot}}
+        <p class="card-text-large">
+          {{meeting.capacity}}
         </p>
-        <h4 class="h6 mb-0">
+        <h4 class="h6 mb-1">
           RSVP Link
         </h4>
-        <p>
-          <a href="{{site_url}}/meetings/{{meeting.id}}/rsvp">RSVP</a>
+        <p class="card-text-large">
+          <a href="{{site_url}}/meetings/{{meeting.id}}/rsvp">RSVP Link</a>
         </p>
       </div>
     </div>
@@ -74,22 +86,28 @@
 <h2 class="h3">
   Attendees
 </h2>
-{% if meeting.attendees %}
+{% if attendee_meetings %}
   <table class="table">
-    <tr>
-      <th>Date</th>
-      <th>Time</th>
-      <th>Name</th>
-      <th>File</th>
-      <th></th>
+    <tr class="d-flex">
+      <th class="col-3">Date</th>
+      <th class="col-3">Time</th>
+      <th class="col-3">Name</th>
+      <th class="col-2">Uploaded File</th>
+      <th class="col-1">Remove</th>
     </tr>
-    {% for attendee in meeting.attendees %}
-      <tr>
-        <td>{{attendee.date}}</td>
-        <td>{{attendee.time}}</td>
-        <td><a href="mailto:{{attendee.email}}">{{attendee.name}}</a></td>
-        <td><a href="#">file.pdf</a></td>
-        <td>
+    {% for meeting in attendee_meetings %}
+      <tr class="d-flex">
+        <td class="col-3">{{meeting.start_time | date("D, F j, Y")}}</td>
+        <td class="col-3">{{meeting.start_time| date("g:ia")}}-{{meeting.end_time| date("g:ia")}}</td>
+        <td class="col-3"><a href="mailto:{{meeting.attendee_email}}">{{meeting.attendee_name}}</a></td>
+        <td class="col-2">
+          {% if meeting.attendee_file %}
+            <a href="{{meeting.attendee_file}}">{{meeting.attendee_file}}</a>
+          {% else %}
+            N/A
+          {% endif %}
+        </td>
+        <td class="col-1">
           <i class="fas fa-times text-danger ml-2" data-toggle="modal" data-target="#delete-attendee-modal" role="button"></i>
         </td>
       </tr>

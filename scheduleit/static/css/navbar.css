@@ -2,6 +2,7 @@
 .navbar {
   background-color: var(--osu-orange);
   height: var(--navbar-height-mobile);
+  padding: 0 1.5rem;
 }
 
 @media (min-width: 768px) {
@@ -21,19 +22,12 @@
   width: 110px;
 }
 
-.navbar-brand span {
-  display: block;
-}
 
 @media (min-width: 768px) {
   .navbar-brand {
     background-position: 0 center;
-    font-size: 1.5rem;
-    padding: 1.25rem 0 1.25rem 15.75rem;
-  }
-
-  .navbar-brand span {
-    display: inline;
+    font-size: 1.75rem;
+    padding: 1.25rem 0 1.25rem 18rem;
   }
 }
 
@@ -65,6 +59,7 @@
 }
 
 .navbar-toggler {
-  right: 0;
+  border: 1px solid #000;
+  right: 0.5rem;
   top: 0.5rem;
 }

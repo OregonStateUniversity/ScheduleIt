@@ -52,3 +52,5 @@ if (in_array('scheduleit', $current_url)) {
 $twig->addGlobal('user_email', $_SESSION['email']);
 $twig->addGlobal('user_firstname', $_SESSION['first_name']);
 $twig->addGlobal('user_lastname', $_SESSION['last_name']);
+$twig->addGlobal('user_onid', $_SESSION['user']);
+$twig->addGlobal('user_timezone', "America/Los_Angeles");

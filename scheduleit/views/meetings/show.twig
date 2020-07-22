@@ -5,7 +5,7 @@
 <h1 class="h2 mb-4">
   {{title}}
 </h1>
-{% if meeting.hostEmail == user_email %}
+{% if meeting.creator_onid == user_onid %}
   {{ include('meetings/_meeting_details_mine.twig') }}
 {% else %}
   {{ include('meetings/_meeting_details_other.twig') }}

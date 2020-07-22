@@ -51,9 +51,6 @@ switch ($request) {
     case '/profile':
         require_once ABSPATH . 'scheduleit/views/profile/index.php';
         break;
-    case '/settings':
-        require_once ABSPATH . 'scheduleit/views/settings/index.php';
-        break;
     default:
         http_response_code(404);
         require_once ABSPATH . 'scheduleit/views/errors/error_logged_in.php';

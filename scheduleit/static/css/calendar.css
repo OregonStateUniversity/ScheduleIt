@@ -1,16 +1,20 @@
 /* Calendar */
 .meeting-mine {
-  background-color: var(--osu-orange-secondary);
-  border-color: var(--osu-orange-secondary);
-  color: #fff;
-  padding: 0 0.25rem;
+  background-color: rgba(195, 69, 0, 0.15);
+  border: 1px solid var(--osu-orange-secondary);
+  color: #000;
+  padding: 0.25rem;
 }
 
 .meeting-other {
-  background-color: #000;
-  border-color: #000;
-  color: #fff;
-  padding: 0 0.25rem;
+  background-color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  color: #000;
+  padding: 0.25rem;
+}
+
+.fc-daygrid-event-dot {
+  display: none;
 }
 
 .fc td.active {

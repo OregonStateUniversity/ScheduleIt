@@ -2,112 +2,17 @@
 
 require_once ABSPATH . 'config/session.php';
 
-$all_meetings = [
-    [
-        "id" => 1,
-        "dates" => ["July 17, 2020", "July 19, 2020"],
-        "description" => "Lorem ipsum dolor amet.",
-        "hostEmail" => "heer@eecs.oregonstate.edu",
-        "hostName" => "Me",
-        "location" => "Somewhere, USA",
-        "per_slot" => 2,
-        "slots" => 20,
-        "slots_available" => 18,
-        "title" => "Don's Meeting",
-    ],
-    [
-        "id" => 2,
-        "date" => "Sat, Jul 18",
-        "description" => "Lorem ipsum dolor amet.",
-        "hostEmail" => "czaparym@oregonstate.edu",
-        "hostName" => "Michael Czapary",
-        "location" => "Somewhere, USA",
-        "time" => "12pm-1pm",
-        "title" => "Mike's Meeting",
-    ],
-    [
-        "id" => 3,
-        "date" => "Sun, Jul 19",
-        "description" => "Lorem ipsum dolor amet.",
-        "hostEmail" => "guerrero@oregonstate.edu",
-        "hostName" => "Roman Guerrero",
-        "location" => "Somewhere, USA",
-        "time" => "11am-12pm",
-        "title" => "Roman's Meeting",
-    ],
-    [
-        "id" => 4,
-        "date" => "Sun, Jul 26",
-        "description" => "Lorem ipsum dolor amet.",
-        "hostEmail" => "sibolibb@oregonstate.edu",
-        "hostName" => "Bangbay Siboliban",
-        "location" => "Somewhere, USA",
-        "time" => "11am-12pm",
-        "title" => "Bangbay's Meeting",
-    ],
-    [
-        "id" => 5,
-        "date" => "Sat, Jul 25",
-        "description" => "Lorem ipsum dolor amet.",
-        "hostEmail" => "william.pfeil@oregonstate.ed",
-        "hostName" => "Bill Pfeil",
-        "location" => "Somewhere, USA",
-        "time" => "11am-12pm",
-        "title" => "Bill's Meeting",
-    ],
-    [
-        "id" => 6,
-        "date" => "Sun, Jun 21",
-        "description" => "Lorem ipsum dolor amet.",
-        "hostEmail" => "guerrero@oregonstate.edu",
-        "hostName" => "Roman Guerrero",
-        "location" => "Somewhere, USA",
-        "time" => "11am-12pm",
-        "title" => "Roman's Past Meeting",
-    ],
-    [
-        "id" => 7,
-        "date" => "Sat, Jun 20",
-        "description" => "Lorem ipsum dolor amet.",
-        "hostEmail" => "czaparym@oregonstate.edu",
-        "hostName" => "Michael Czapary",
-        "location" => "Somewhere, USA",
-        "time" => "12pm-1pm",
-        "title" => "Mike's Past Meeting",
-    ],
-    [
-        "id" => 8,
-        "date" => "Fri, Jun 19",
-        "description" => "Lorem ipsum dolor amet.",
-        "hostEmail" => "heer@eecs.oregonstate.edu",
-        "hostName" => "Me",
-        "location" => "Somewhere, USA",
-        "time" => "12pm-12:30pm",
-        "title" => "Don's Past Meeting",
-    ],
-    [
-        "id" => 9,
-        "dates" => ["July 20, 2020"],
-        "description" => "Lorem ipsum dolor amet.",
-        "hostEmail" => "heer@eecs.oregonstate.edu",
-        "hostName" => "Me",
-        "location" => "Somewhere, USA",
-        "per_slot" => 2,
-        "slots" => 20,
-        "slots_available" => 18,
-        "title" => "Don's Other Meeting",
-    ]
-];
+$meeting = $database->getMeeting($meeting_id, $_SESSION['user']);
 
-if (!$all_meetings[$meeting_id - 1]['title']) {
-    http_response_code(404);
-    echo $twig->render('errors/error.twig', [
-        'message' => 'Sorry, we couldn\'t find that meeting.',
-        'title' => 'Meeting Not Found',
+if (count($meeting) > 0) {
+    echo $twig->render('meetings/edit.twig', [
+        'meeting' => $meeting[0],
+        'title' => 'Edit Meeting - ' . $meeting[0]['name'],
     ]);
 } else {
-    echo $twig->render('meetings/edit.twig', [
-        'meeting' => $all_meetings[$meeting_id - 1],
-        'title' => 'Edit - ' . $all_meetings[$meeting_id - 1]['title'],
+    http_response_code(404);
+    echo $twig->render('errors/error_logged_in.twig', [
+        'message' => 'Sorry, we couldn\'t find that meeting.',
+        'title' => 'Meeting Not Found',
     ]);
 }
