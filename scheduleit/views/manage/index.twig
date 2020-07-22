@@ -31,7 +31,7 @@
         <th class="col-3">Location</th>
         <th class="col-3">Dates</th>
         <th class="col-2">Timeslots</th>
-        <th class="col-1">RSVP Link</th>
+        <th class="col-1">Invite Link</th>
       </tr>
     </thead>
     <tbody>
@@ -52,7 +52,7 @@
             {{meeting.open_slots}} / {{meeting.capacity}}
           </td>
           <td class="col-1">
-            <a href="{{site_url}}/meetings/{{meeting.id}}/rsvp">RSVP Link</a>
+            <a href="{{site_url}}/meetings/{{meeting.id}}/invite">Invite Link</a>
           </td>
         </tr>
       {% endfor %}

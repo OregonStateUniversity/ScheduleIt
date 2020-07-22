@@ -50,9 +50,9 @@
           Past Meetings
         </a>
       {% endif %}
-      {% if rsvps %}
-        <a class="nav-item nav-link" id="rsvps-tab" data-toggle="tab" href="#rsvps" role="tab" aria-controls="rsvps" aria-selected="false">
-          <strong>RSVPs (2)</Strong>
+      {% if invites %}
+        <a class="nav-item nav-link" id="invites-tab" data-toggle="tab" href="#invites" role="tab" aria-controls="invites" aria-selected="false">
+          <strong>Invites (2)</Strong>
         </a>
       {% endif %}
     </div>
@@ -86,9 +86,9 @@
           </div>
         {% endif %}
         {% if past_meetings %}
-          <div class="tab-pane fade" id="rsvps" role="tabpanel" aria-labelledby="rsvps-tab">
+          <div class="tab-pane fade" id="invites" role="tabpanel" aria-labelledby="invites-tab">
             <p>
-             TODO: Show RSVPs.
+             TODO: Show Invites.
             </p>
           </div>
         {% endif %}

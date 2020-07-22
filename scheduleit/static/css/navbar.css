@@ -35,17 +35,17 @@
   color: #fff;
 }
 
-.navbar-rsvps-link {
+.navbar-invites-link {
   color: #fff;
   font-size: 2rem;
   position: relative;
 }
 
-.navbar-rsvps-link:hover {
+.navbar-invites-link:hover {
   color: #fff;
 }
 
-.navbar-rsvps-count {
+.navbar-invites-count {
   color: #000;
   font-size: 1.15rem;
   font-weight: 700;
@@ -54,7 +54,7 @@
   top: 0.5rem;
 }
 
-.navbar-rsvps-link:hover .navbar-rsvps-count {
+.navbar-invites-link:hover .navbar-invites-count {
   color: var(--osu-orange);
 }
 

@@ -16,7 +16,7 @@ echo $twig->render('meetings/index.twig', [
     'upcoming_meetings' => $upcoming_meetings,
     'created_meetings' => $created_meetings,
     'past_meetings' => $past_meetings,
-    'rsvps' => [1, 2],
+    'invites' => [1, 2],
     'search_meetings' => $search_meetings,
     'title' => 'My Meetings',
 ]);

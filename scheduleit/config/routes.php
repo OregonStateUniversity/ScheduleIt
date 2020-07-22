@@ -4,7 +4,7 @@ $request_uri = str_replace(SITE_DIR, '', $_SERVER['REQUEST_URI']);
 $request_queries = explode('?', $request_uri);
 $request = $request_queries[0];
 $meeting_show = preg_match('/meetings\/[0-9]+$/i', $request);
-$meeting_rsvp = preg_match('/meetings\/[0-9]+\/rsvp$/i', $request);
+$meeting_invite = preg_match('/meetings\/[0-9]+\/invite$/i', $request);
 $meeting_edit = preg_match('/meetings\/[0-9]+\/edit$/i', $request);
 $uri = explode('/', $request);
 
@@ -34,9 +34,9 @@ switch ($request) {
         $meeting_id = $uri[2];
         require_once ABSPATH . 'scheduleit/views/meetings/edit.php';
         break;
-    case ($meeting_rsvp > 0):
+    case ($meeting_invite > 0):
         $meeting_id = $uri[2];
-        require_once ABSPATH . 'scheduleit/views/meetings/rsvp.php';
+        require_once ABSPATH . 'scheduleit/views/meetings/invite.php';
         break;
     case ($meeting_show > 0):
         $meeting_id = $uri[2];
