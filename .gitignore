@@ -2,6 +2,7 @@
 .php_cs.cache
 .htpasswd
 *.log
+scheduleit/.htaccess
 
 # Editors
 .idea
