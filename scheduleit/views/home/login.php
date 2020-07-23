@@ -1,11 +1,16 @@
 <?php
 
+$redirect_url = SITE_DIR . '/meetings';
+
 // This page is only for local environment
+if (ENVIRONMENT != 'development') {
+    header('Location: ' . $redirect_url);
+}
+
 require_once ABSPATH . 'scheduleit/config/database.php';
 
 session_start();
 
-$redirect_url = SITE_DIR . '/meetings';
 
 if (
     !empty($_POST['user'])
