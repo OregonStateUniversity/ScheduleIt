@@ -650,7 +650,7 @@ class DatabaseInterface
     * @param string $userOnid
     * @return array of events
     */
-    public function getInvitations($userOnid)
+    public function getInvites($userOnid)
     {
       $get_invite_query = "
 
