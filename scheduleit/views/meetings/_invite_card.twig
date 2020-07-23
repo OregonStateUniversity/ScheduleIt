@@ -1,0 +1,26 @@
+<div class="card mb-3">
+  <div class="card-body">
+    <h3 class="h6 d-md-flex justify-content-between">
+      <span class="d-block d-md-inline mt-2 mt-md-0">
+    </h3>
+    <h4 class="h5 mb-2">
+      <a href="{{site_url}}/meetings/{{meeting.id}}">
+         {{meeting.name}}
+      </a>
+    </h4>
+    <p class="mb-0">
+      Creator:
+      <a href="mailto:{{meeting.email}}">
+          {{meeting.creator_name}}
+      </a>
+    </p>
+    <p class="mb-0">
+      Location: {{meeting.location}}
+    </p>
+    {% if meeting.description %}
+      <p class="mt-2 mb-0">
+        Description: {{meeting.description}}
+      </p>
+    {% endif %}
+  </div>
+</div>
