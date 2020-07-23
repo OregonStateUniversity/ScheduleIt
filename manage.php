@@ -31,6 +31,9 @@ $slotDetails = $database->getEventSlotDetails($eventKey);
 // get list of attendees, their time slots, and their files from database
 $attendeeData = $database->getAttendeeData($eventKey);
 
+// get list of invited onids that didn't register yet
+$inviteList = $database->getNotRegistered($eventData["id"]);
+
 if ($attendeeData) {
     $columnNames = array_keys($attendeeData[0]);
 } else {
@@ -44,4 +47,5 @@ echo $twig->render('views/manage.twig', [
   'table_headers' => $columnNames,
   'table_rows' => $attendeeData,
   'creator_onid' => $_SESSION["user"],
+  'invite_list' => $inviteList
 ]);
