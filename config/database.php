@@ -1285,12 +1285,8 @@ class DatabaseInterface
 
       $list = $getList->get_result();
 
-      if($list->num_rows > 0) {
-         $listArray = $list->fetch_all(MYSQLI_ASSOC);
-      } else {
-         $listArray = null;
-      }
-      
+      $listArray = $list->fetch_all(MYSQLI_ASSOC);
+           
       $getList->close();
       $list->free();
       return $listArray;
