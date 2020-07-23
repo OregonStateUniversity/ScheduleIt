@@ -642,6 +642,33 @@ class DatabaseInterface
 
         return $list;
     }
+   
+    public function getInvitations($userOnid)
+    {
+      $get_invite_query = "
+
+      SELECT * from meb_event
+      INNER JOIN meb_invites ON meb_event.id = meb_invites.fk_event_id
+      WHERE meb_invites.user_onid = ?
+      AND fk_event_id NOT IN
+        (SELECT fk_event_id FROM meb_timeslot
+        INNER JOIN meb_booking ON meb_timeslot.id = meb_booking.fk_timeslot_id
+        INNER JOIN meb_user ON meb_booking.fk_user_id = meb_user.id
+        WHERE meb_user.onid = ?);
+     ";
+
+     $getList = $this->database->prepare($get_invite_query);
+
+     $getList->bind_param("ss", $userOnid, $userOnid);
+     $getList->execute();
+
+     $result = $getList->get_result();
+     $list = $result->fetch_all(MYSQLI_ASSOC);
+     $result->free();
+     $getList->close();
+
+     return $list;
+    }
 }
 
 $database = new DatabaseInterface();

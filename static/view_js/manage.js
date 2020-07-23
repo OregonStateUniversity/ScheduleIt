@@ -42,7 +42,7 @@ $(document).ready(function () {
     .addEventListener("click", function() {
       var onid = $("#onid").val();
       var eventHash = $("#regLink").attr("href");
-      var creatorOnid = $("#get-creator-onid").attr("data-id);
+      var creatorOnid = $("#get-creator-onid").attr("data-id");
       $.ajax({
         type: "POST",
         url: "src/onid_invite.php",

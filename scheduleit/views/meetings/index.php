@@ -1,5 +1,7 @@
 <?php
-
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 require_once ABSPATH . 'config/session.php';
 
 $search_term = !empty($_GET['q']) ? $_GET['q'] : null;
@@ -8,6 +10,8 @@ $upcoming_meetings = $database->getAllUpcomingMeetings($_SESSION['user']);
 $created_meetings = $database->getUpcomingMeetingsByCreator($_SESSION['user']);
 $past_meetings = $database->getPastMeetings($_SESSION['user']);
 $search_meetings = $database->getMeetingsBySearchTerm($_SESSION['user'], $search_term);
+$invitations = $database->getInvitations($_SESSION['user']);
+$invite_count = count($invitations);
 
 echo $twig->render('meetings/index.twig', [
     'meetings_page' => true,
@@ -16,7 +20,8 @@ echo $twig->render('meetings/index.twig', [
     'upcoming_meetings' => $upcoming_meetings,
     'created_meetings' => $created_meetings,
     'past_meetings' => $past_meetings,
-    'invites' => [1, 2],
+    'invites' => $invitations,
+    'invite_count' => $invite_count,
     'search_meetings' => $search_meetings,
     'title' => 'My Meetings',
 ]);
