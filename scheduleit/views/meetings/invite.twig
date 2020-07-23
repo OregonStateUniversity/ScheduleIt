@@ -63,44 +63,38 @@
     <label class="h6">Select a Time Slot</label>
     {{ include('meetings/_date_table.twig') }}
   </div>
-  {% if meeting.hostName == 'Me' %}
-    <p class="text-danger">You can't Invite to your own meeting.</p>
-  {% else %}
-    <div class="pt-4">
-      <button class="btn btn-success">
-        Save Invite
-      </button>
-      <a class="ml-3" href="{{site_url}}/meetings">
-        Cancel
-      </a>
-    </div>
-  {% endif %}
-</form>
-{% if meeting.hostName != 'Me' %}
-  <p class="mt-5">
-    <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#decline-meeting-modal" type="button">
-      Decline Meeting
+  <div class="pt-4">
+    <button class="btn btn-success">
+      Save Invite
     </button>
-  </p>
-  <div class="modal fade" id="decline-meeting-modal" tabindex="-1" role="dialog" aria-labelledby="decline-meeting-modal-label" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="decline-meeting-modal-label">Decline Meeting</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          Are you sure you want to decline this meeting?
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-danger">Decline</button>
-        </div>
+    <a class="ml-3" href="{{site_url}}/meetings">
+      Cancel
+    </a>
+  </div>
+</form>
+<p class="mt-5">
+  <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#decline-meeting-modal" type="button">
+    Decline Meeting
+  </button>
+</p>
+<div class="modal fade" id="decline-meeting-modal" tabindex="-1" role="dialog" aria-labelledby="decline-meeting-modal-label" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="decline-meeting-modal-label">Decline Meeting</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to decline this meeting?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-danger">Decline</button>
       </div>
     </div>
   </div>
-{% endif %}
+</div>
 
 {% endblock %}
