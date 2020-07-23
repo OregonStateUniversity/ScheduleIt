@@ -642,7 +642,14 @@ class DatabaseInterface
 
         return $list;
     }
-   
+    
+    /**
+    * Get invitations that the user does not 
+    * have a booking for 
+    *
+    * @param string $userOnid
+    * @return array of events
+    */
     public function getInvitations($userOnid)
     {
       $get_invite_query = "
