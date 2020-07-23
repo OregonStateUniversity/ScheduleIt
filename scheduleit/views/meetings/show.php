@@ -2,26 +2,17 @@
 
 require_once ABSPATH . 'config/session.php';
 
-$results = $database->getMeeting($meeting_id, $_SESSION['user']);
-$meetings = [];
+$meeting = $database->getMeetingById($meeting_id, $_SESSION['user']);
 
-// Add dates to meetings
-foreach ($results as $key => $meeting) {
-    if ($meeting['id']) {
-        $meeting['dates'] = $database->getDatesByMeetingId($meeting['id']);
-        $meeting['dates_count'] = count($meeting['dates']);
-    }
+if ($meeting) {
+    $meeting['dates'] = $database->getDatesByMeetingId($meeting['id']);
+    $meeting['dates_count'] = count($meeting['dates']);
+    $attendee_meetings = $database->getMeetingAttendees($meeting_id);
 
-    array_push($meetings, $meeting);
-}
-
-$attendee_meetings = $database->getMeetingAttendees($meeting_id, $_SESSION['user']);
-
-if (count($meetings) > 0) {
     echo $twig->render('meetings/show.twig', [
         'attendee_meetings' => $attendee_meetings,
-        'meeting' => $meetings[0],
-        'title' => $meetings[0]['name'],
+        'meeting' => $meeting,
+        'title' => $meeting['name'],
     ]);
 } else {
     http_response_code(404);

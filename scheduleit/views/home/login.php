@@ -1,7 +1,7 @@
 <?php
 
 // This page is only for local environment
-require_once ABSPATH . 'config/database.php';
+require_once ABSPATH . 'scheduleit/config/database.php';
 
 session_start();
 

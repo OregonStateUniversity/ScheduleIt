@@ -24,6 +24,16 @@
         </a>
       </p>
     {% endif %}
+    {% if meeting.creator_file %}
+      <p class="mt-2 mb-0">
+        Creator File: <a href="{{meeting.creator_file}}">{{meeting.creator_file | basename}}</a>
+      </p>
+    {% endif %}
+    {% if meeting.description %}
+      <p class="mt-2 mb-0">
+        {{meeting.description}}
+      </p>
+    {% endif %}
     {% if meeting.creator_onid == user_onid %}
       <p class="mb-0">
         Attendee:
@@ -36,19 +46,9 @@
         </a>
       </p>
     {% endif %}
-    {% if meeting.description %}
-      <p class="mt-2 mb-0">
-        {{meeting.description}}
-      </p>
-    {% endif %}
-    {% if meeting.creator_file %}
-      <p class="mt-2 mb-0">
-        Host File: {{meeting.creator_file}}
-      </p>
-    {% endif %}
     {% if meeting.attendee_file %}
       <p class="mt-2 mb-0">
-        Attendee File: {{meeting.attendee_file}}
+        Attendee File: <a href="{{meeting.attendee_file}}">{{meeting.attendee_file | basename}}</a>
       </p>
     {% endif %}
   </div>

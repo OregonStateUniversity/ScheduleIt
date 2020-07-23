@@ -54,9 +54,9 @@
           File Download for Attendees
         </h4>
         <p class="card-text-large">
-          {% if meeting.event_file %}
-            <a href="{{meeting.event_file}}">
-              {{meeting.event_file}}
+          {% if meeting.creator_file %}
+            <a href="{{meeting.creator_file}}">
+              {{meeting.creator_file | basename}}
             </a>
           {% else %}
             N/A
@@ -72,7 +72,7 @@
           Invite Link
         </h4>
         <p class="card-text-large">
-          <a href="{{site_url}}/meetings/{{meeting.id}}/invite">Invite Link</a>
+          <a href="{{site_url}}/meetings/invite?key={{meeting.hash}}">Invite Link</a>
         </p>
       </div>
     </div>
@@ -97,12 +97,18 @@
     </tr>
     {% for meeting in attendee_meetings %}
       <tr class="d-flex">
-        <td class="col-3">{{meeting.start_time | date("D, F j, Y")}}</td>
-        <td class="col-3">{{meeting.start_time| date("g:ia")}}-{{meeting.end_time| date("g:ia")}}</td>
-        <td class="col-3"><a href="mailto:{{meeting.attendee_email}}">{{meeting.attendee_name}}</a></td>
+        <td class="col-3">
+          {{meeting.start_time | date("D, F j, Y")}}
+        </td>
+        <td class="col-3">
+          {{meeting.start_time| date("g:ia")}}-{{meeting.end_time| date("g:ia")}}
+        </td>
+        <td class="col-3">
+          <a href="mailto:{{meeting.attendee_email}}">{{meeting.attendee_name}}</a>
+        </td>
         <td class="col-2">
           {% if meeting.attendee_file %}
-            <a href="{{meeting.attendee_file}}">{{meeting.attendee_file}}</a>
+            <a href="{{meeting.attendee_file}}">{{meeting.attendee_file | basename}}</a>
           {% else %}
             N/A
           {% endif %}
