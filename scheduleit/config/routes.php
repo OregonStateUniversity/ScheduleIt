@@ -16,11 +16,7 @@ switch ($request) {
         require_once ABSPATH . 'scheduleit/views/calendar/index.php';
         break;
     case '/login':
-        if (ENVIRONMENT == 'development') {
-            require_once ABSPATH . 'scheduleit/views/home/login.php';
-        } else {
-            require_once ABSPATH . 'scheduleit/views/errors/error_logged_out.php';
-        }
+        require_once ABSPATH . 'scheduleit/views/home/login.php';
         break;
     case '/logout':
         require_once ABSPATH . 'scheduleit/views/home/logout.php';

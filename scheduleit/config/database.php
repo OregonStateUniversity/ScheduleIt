@@ -156,7 +156,7 @@ class DatabaseInterface
     }
 
     /**
-     * Get meetings created by user for the maange page.
+     * Get meetings created by user for the manage page.
      *
      * @param string $onid
      * @param string $search_term

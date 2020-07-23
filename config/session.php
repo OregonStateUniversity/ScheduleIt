@@ -3,9 +3,9 @@
 session_start();
 
 // Redirect user to login page in local environment
-if ($_ENV['ENVIRONMENT'] == 'development') {
+if (ENVIRONMENT == 'development') {
     if (!isset($_SESSION['user'])) {
-        header("Location: " . SITE_DIR . '/login');
+        header('Location: ' . SITE_DIR . '/login');
     }
 } else {
     // If session is new, get user data
@@ -39,7 +39,7 @@ $database->addUser(
     $_SESSION['last_name']
 );
 
-$current_url = array_filter(explode("/", $_SERVER['REQUEST_URI']));
+$current_url = array_filter(explode('/', $_SERVER['REQUEST_URI']));
 
 if (in_array('scheduleit', $current_url)) {
     require_once ABSPATH . 'scheduleit/config/twig.php';
