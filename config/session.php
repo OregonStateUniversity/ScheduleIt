@@ -1,8 +1,5 @@
 <?php
 
-require_once ABSPATH . 'config/database.php';
-require_once ABSPATH . 'config/env.php';
-
 session_start();
 
 // Redirect user to login page in local environment
@@ -49,6 +46,8 @@ if (in_array('scheduleit', $current_url)) {
 } else {
     require_once ABSPATH . 'config/twig.php';
 }
+
 $twig->addGlobal('user_email', $_SESSION['email']);
 $twig->addGlobal('user_firstname', $_SESSION['first_name']);
 $twig->addGlobal('user_lastname', $_SESSION['last_name']);
+$twig->addGlobal('user_onid', $_SESSION['user']);

@@ -10,7 +10,7 @@ index.php => scheduleit/home/index.php
 login.php => scheduleit/home/login.php Done
 logout.php => scheduleit/home/logout.php Done
 manage.php => scheduleit/meetings/show.php*
-register.php => scheduleit/meetings/rsvp.php
+register.php => scheduleit/meetings/invite.php
 reservation_details.php => scheduleit/meetings/show.php*
 reservations.php => scheduleit/meetings/index.php
 
@@ -25,7 +25,7 @@ Routes:
 /MyEventBoard/login.php => /MyEventBoard/scheduleit/login
 /MyEventBoard/logout.php => /MyEventBoard/scheduleit/logout
 /MyEventBoard/manage.php => /MyEventBoard/scheduleit/manage
-/MyEventBoard/register.php?key={key} => /MyEventBoard/scheduleit/meetings/{meeting_id}/rsvp**
+/MyEventBoard/register.php?key={key} => /MyEventBoard/scheduleit/meetings/{meeting_id}/invite**
 /MyEventBoard/reservation_details.php?key={key} => /MyEventBoard/scheduleit/meetings/{meeting_id}**
 /MyEventBoard/reservations.php => /MyEventBoard/scheduleit/meetings
 

@@ -15,7 +15,7 @@
     Meetings Created By Others
   </div>
 </div>
-<div id="calendar"></div>
+<div class="mb-5" id="calendar"></div>
 
 {% endblock %}
 
@@ -24,28 +24,21 @@
 <script>
   document.addEventListener("DOMContentLoaded", function() {
     var calendarElement = document.getElementById("calendar");
+
+    var events = {{meetings | raw}};
+
+    var mappedEvents = events.map(function(event) {
+      return {
+        classNames: event.creator_onid === "{{user_onid}}" ? ["meeting-mine"] : ["meeting-other"],
+        title: event.name,
+        url: "{{site_url}}/meetings/" + event.id,
+        start: event.start_time
+      }
+    });
+
     var calendar = new FullCalendar.Calendar(calendarElement, {
-      initialView: "dayGridMonth",
-      events: [
-        {
-          classNames: ["meeting-mine"],
-          title: "Don's Meeting",
-          url: "{{site_url}}/meetings/1",
-          start: "2020-07-17T12:00:00"
-        },
-        {
-          classNames: ["meeting-other"],
-          title: "Mike's Meeting",
-          url: "{{site_url}}/meetings/2",
-          start: "2020-07-18T12:00:00"
-        },
-        {
-          classNames: ["meeting-other"],
-          title: "Roman's Meeting",
-          url: "{{site_url}}/meetings/3",
-          start: "2020-07-19T11:00:00"
-        },
-      ]
+      events: mappedEvents,
+      initialView: "dayGridMonth"
     });
     calendar.render();
   });

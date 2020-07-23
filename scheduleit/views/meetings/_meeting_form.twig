@@ -1,45 +1,45 @@
 <div class="row">
   <div class="col-md-6">
     <form method="post">
-      <div class="mb-4">
+      <div class="mb-3">
         <label class="h6">Title</label>
-        <input class="form-control" name="title" type="text" value="{{meeting.title}}">
+        <input class="form-control" name="name" type="text" value="{{meeting.name}}">
       </div>
-      <div class="mb-4">
+      <div class="mb-3">
         <label class="h6">Location</label>
         <select class="form-control" name="title">
-          <option>Somewhere, USA</option>
+          <option>{{meeting.location}}</option>
         </select>
       </div>
       <div class="mb-4">
         <label class="h6">Description</label>
         <textarea class="form-control">{{meeting.description}}</textarea>
       </div>
-      <div class="form-check mb-4">
-        <input class="form-check-input" name="anonymous" type="checkbox" value="" id="anonymous">
-        <label class="form-check-label" for="anonymous">
+      <div class="form-check mb-2">
+        <input class="form-check-input" {% if meeting.is_anon == true %}checked{% endif %} name="is_anon" type="checkbox" value="1" id="is_anon">
+        <label class="form-check-label" for="is_anon">
           Anonymous Meeting
         </label>
       </div>
       <div class="form-check mb-4">
-        <input class="form-check-input" name="enable-upload" type="checkbox" value="" id="enable-upload">
-        <label class="form-check-label" for="enable-upload">
+        <input class="form-check-input" {% if meeting.enable_upload == true %}checked{% endif %} name="enable_upload" type="checkbox" value="1" id="enable_upload">
+        <label class="form-check-label" for="enable_upload">
           Enable Attendees to Upload Files
         </label>
       </div>
-      <div class="form-group mb-4">
+      <div class="form-group mb-5">
         <label class="h6">File Download for Attendees</label>
-        <input class="form-control-file" type="file">
+        <p>
+          You may only upload a single file. Uploading a second file will overwrite the first.
+          If you need to upload multiple files combine them into a single zip file.
+        </p>
+        <input class="form-control-file" type="file" value="{{meeting.event_file}}">
       </div>
       <div class="mb-4">
         <label class="h6">Attendees Allowed Per Timeslot</label>
         <div class="row">
           <div class="col-6">
-            <select class="form-control" name="max-attendees">
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-            </select>
+            <input class="form-control" min="1" max="100" name="capacity" type="number" value="{{meeting.capacity}}">
           </div>
         </div>
       </div>
@@ -51,7 +51,7 @@
         <label class="h6">Slot Duration</label>
         <div class="row">
           <div class="col-6">
-            <select class="form-control" name="max-attendees">
+            <select class="form-control" name="duration">
               <option>1 hour</option>
               <option>30 minutes</option>
               <option>15 minutes</option>
@@ -61,7 +61,7 @@
       </div>
     </div>
     <div class="col-md-12">
-      <div class="mb-4">
+      <div class="mb-2">
         <label class="h6">Select Available Times</label>
         {{ include('meetings/_date_table.twig') }}
       </div>

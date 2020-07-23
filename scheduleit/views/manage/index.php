@@ -2,40 +2,19 @@
 
 require_once ABSPATH . 'config/session.php';
 
-$search_term = isset($_GET['q']) ? $_GET['q'] : null;
+$search_term = !empty($_GET['q']) ? $_GET['q'] : '';
+$results = $database->getManageMeetings($_SESSION['user'], $search_term);
+$meetings = [];
 
-if ($search_term == 'other') {
-    $meetings = [
-        [
-            "id" => 9,
-            "dates" => "July 20, 2020",
-            "location" => "Somewhere, USA",
-            "slots" => 20,
-            "slots_available" => 18,
-            "title" => "Don's Other Meeting",
-        ],
-    ];
-} elseif ($search_term) {
-    $meetings = [];
-} else {
-    $meetings = [
-        [
-            "id" => 1,
-            "dates" => ["July 17, 2020", "July 19, 2020"],
-            "location" => "Somewhere, USA",
-            "slots" => 20,
-            "slots_available" => 18,
-            "title" => "Don's Meeting",
-        ],
-        [
-            "id" => 9,
-            "dates" => ["July 20, 2020"],
-            "location" => "Somewhere, USA",
-            "slots" => 20,
-            "slots_available" => 20,
-            "title" => "Don's Other Meeting",
-        ],
-    ];
+// Add dates to meetings
+foreach ($results as $key => $meeting) {
+    if ($meeting['id']) {
+        $meeting['dates'] = $database->getDatesByMeetingId($meeting['id']);
+        $meeting['dates_count'] = count($meeting['dates']);
+
+    }
+
+    array_push($meetings, $meeting);
 }
 
 echo $twig->render('manage/index.twig', [

@@ -4,7 +4,6 @@ if (!defined('ABSPATH')) {
     define('ABSPATH', __DIR__ . '/');
 }
 
-require_once ABSPATH . 'config/database.php';
 require_once ABSPATH . 'config/env.php';
 
 if (!defined('ENVIRONMENT')) {
@@ -21,8 +20,10 @@ if (!defined('SITE_NAME')) {
 
 // Set up Twig
 if (strpos($_SERVER['REQUEST_URI'], 'scheduleit') == true) {
+    require_once ABSPATH . 'scheduleit/config/database.php';
     require_once ABSPATH . 'scheduleit/config/twig.php';
 } else {
+    require_once ABSPATH . 'config/database.php';
     require_once ABSPATH . 'config/twig.php';
     // Include functions for rendering view for errors
     require_once ABSPATH . 'config/render_error.php';

@@ -4,7 +4,6 @@ $request_uri = str_replace(SITE_DIR, '', $_SERVER['REQUEST_URI']);
 $request_queries = explode('?', $request_uri);
 $request = $request_queries[0];
 $meeting_show = preg_match('/meetings\/[0-9]+$/i', $request);
-$meeting_rsvp = preg_match('/meetings\/[0-9]+\/rsvp$/i', $request);
 $meeting_edit = preg_match('/meetings\/[0-9]+\/edit$/i', $request);
 $uri = explode('/', $request);
 
@@ -20,7 +19,6 @@ switch ($request) {
         if (ENVIRONMENT == 'development') {
             require_once ABSPATH . 'scheduleit/views/home/login.php';
         } else {
-            http_response_code(404);
             require_once ABSPATH . 'scheduleit/views/errors/error_logged_out.php';
         }
         break;
@@ -34,10 +32,6 @@ switch ($request) {
         $meeting_id = $uri[2];
         require_once ABSPATH . 'scheduleit/views/meetings/edit.php';
         break;
-    case ($meeting_rsvp > 0):
-        $meeting_id = $uri[2];
-        require_once ABSPATH . 'scheduleit/views/meetings/rsvp.php';
-        break;
     case ($meeting_show > 0):
         $meeting_id = $uri[2];
         require_once ABSPATH . 'scheduleit/views/meetings/show.php';
@@ -45,17 +39,16 @@ switch ($request) {
     case '/meetings/create':
         require_once ABSPATH . 'scheduleit/views/meetings/create.php';
         break;
+    case '/meetings/invite':
+        require_once ABSPATH . 'scheduleit/views/meetings/invite.php';
+        break;
     case '/meetings':
         require_once ABSPATH . 'scheduleit/views/meetings/index.php';
         break;
     case '/profile':
         require_once ABSPATH . 'scheduleit/views/profile/index.php';
         break;
-    case '/settings':
-        require_once ABSPATH . 'scheduleit/views/settings/index.php';
-        break;
     default:
-        http_response_code(404);
-        require_once ABSPATH . 'scheduleit/views/errors/error_logged_in.php';
+        require_once ABSPATH . 'scheduleit/views/errors/error_logged_out.php';
         break;
 }

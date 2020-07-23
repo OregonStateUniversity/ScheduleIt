@@ -7,45 +7,62 @@
     {{title}}
   </h1>
   <form class="form-inline mb-4" method="get">
-    <input class="form-control mr-sm-2" name="q" type="search" value="{{search_term}}">
-    <button class="btn btn-primary my-2 my-sm-0">
-      Search
-    </button>
+    <div>
+      <input class="form-control mr-sm-2" name="q" type="search">
+    </div>
+    <div class="pl-3 pl-md-1">
+      <button class="btn btn-primary my-2 my-sm-0">
+        Search
+      </button>
+    </div>
   </form>
 </div>
 {% if search_term and search_result_count > 0 %}
   <p>
-    Found {{search_result_count}} result{% if search_result_count != 1 %}s{% endif %}
+    Found {{search_result_count}} result{% if search_result_count != 1 %}s{% endif %} for "{{search_term}}"
   </p>
 {% endif %}
 {% if search_term %}
-  <div class="row">
-    <div class="col-lg-6 col-md-8">
-      {% for meeting in meetings %}
-        {{ include('meetings/_meeting_card.twig') }}
-      {% endfor %}
+  {% if search_meetings %}
+    <div class="row">
+      <div class="col-lg-6 col-md-12">
+        {% for meeting in search_meetings %}
+          {{ include('meetings/_meeting_card.twig') }}
+        {% endfor %}
+      </div>
     </div>
-  </div>
+  {% else %}
+    <p>No results found</p>
+  {% endif %}
 {% else %}
   <nav>
     <div class="nav nav-tabs" role="tablist">
       <a class="nav-item nav-link active" id="all-meetings-tab" data-toggle="tab" href="#all-meetings" role="tab" aria-controls="all-meetings" aria-selected="false">
         All Upcoming Meetings
       </a>
-      <a class="nav-item nav-link" id="my-meetings-tab" data-toggle="tab" href="#my-meetings" role="tab" aria-controls="my-meetings" aria-selected="true">
-        Meetings Created By Me
-      </a>
-      <a class="nav-item nav-link" id="past-meetings-tab" data-toggle="tab" href="#past-meetings" role="tab" aria-controls="past-meetings" aria-selected="false">
-        Past Meetings
-      </a>
+      {% if created_meetings %}
+        <a class="nav-item nav-link" id="my-meetings-tab" data-toggle="tab" href="#my-meetings" role="tab" aria-controls="my-meetings" aria-selected="true">
+          Meetings Created By Me
+        </a>
+      {% endif %}
+      {% if past_meetings %}
+        <a class="nav-item nav-link" id="past-meetings-tab" data-toggle="tab" href="#past-meetings" role="tab" aria-controls="past-meetings" aria-selected="false">
+          Past Meetings
+        </a>
+      {% endif %}
+      {% if invites %}
+        <a class="nav-item nav-link" id="invites-tab" data-toggle="tab" href="#invites" role="tab" aria-controls="invites" aria-selected="false">
+          <strong>Invites (2)</Strong>
+        </a>
+      {% endif %}
     </div>
   </nav>
-  <div class="tab-content pt-3">
-    <div class="tab-pane fade show active" id="all-meetings" role="tabpanel" aria-labelledby="all-meetings-tab">
-      <div class="row">
-        <div class="col-lg-6 col-md-8">
-          {% if all_meetings %}
-            {% for meeting in all_meetings %}
+  <div class="row">
+    <div class="col-lg-6">
+      <div class="tab-content pt-3">
+        <div class="tab-pane fade show active" id="all-meetings" role="tabpanel" aria-labelledby="all-meetings-tab">
+          {% if upcoming_meetings %}
+            {% for meeting in upcoming_meetings %}
               {{ include('meetings/_meeting_card.twig') }}
             {% endfor %}
           {% else %}
@@ -54,36 +71,27 @@
             </p>
           {% endif %}
         </div>
-      </div>
-    </div>
-    <div class="tab-pane fade" id="my-meetings" role="tabpanel" aria-labelledby="my-meetings-tab">
-      <div class="row">
-        <div class="col-lg-6 col-md-8">
-          {% if my_meetings %}
-            {% for meeting in my_meetings %}
+        {% if created_meetings %}
+          <div class="tab-pane fade" id="my-meetings" role="tabpanel" aria-labelledby="my-meetings-tab">
+            {% for meeting in created_meetings %}
               {{ include('meetings/_meeting_card.twig') }}
             {% endfor %}
-          {% else %}
-            <p>
-              Nothing here yet! Want to <a href="{{site_url}}/meetings/create">create a meeting</a>?
-            </p>
-          {% endif %}
-        </div>
-      </div>
-    </div>
-    <div class="tab-pane fade" id="past-meetings" role="tabpanel" aria-labelledby="past-meetings-tab">
-      <div class="row">
-        <div class="col-lg-6 col-md-8">
-          {% if past_meetings %}
+          </div>
+        {% endif %}
+        {% if past_meetings %}
+          <div class="tab-pane fade" id="past-meetings" role="tabpanel" aria-labelledby="past-meetings-tab">
             {% for meeting in past_meetings %}
               {{ include('meetings/_meeting_card.twig') }}
             {% endfor %}
-          {% else %}
+          </div>
+        {% endif %}
+        {% if past_meetings %}
+          <div class="tab-pane fade" id="invites" role="tabpanel" aria-labelledby="invites-tab">
             <p>
-              Nothing to see here!
+             TODO: Show Invites.
             </p>
-          {% endif %}
-        </div>
+          </div>
+        {% endif %}
       </div>
     </div>
   </div>

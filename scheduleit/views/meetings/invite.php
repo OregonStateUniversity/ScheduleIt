@@ -2,12 +2,14 @@
 
 require_once ABSPATH . 'config/session.php';
 
-$meeting = $database->getMeetingById($meeting_id, $_SESSION['user']);
+$key = !empty($_GET['key']) ? $_GET['key'] : null;
+
+$meeting = $database->getMeetingByHash($key);
 
 if ($meeting) {
-    echo $twig->render('meetings/edit.twig', [
+    echo $twig->render('meetings/invite.twig', [
         'meeting' => $meeting,
-        'title' => 'Edit Meeting - ' . $meeting['name'],
+        'title' => 'Invite - ' . $meeting['name'],
     ]);
 } else {
     http_response_code(404);
