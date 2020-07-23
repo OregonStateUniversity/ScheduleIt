@@ -18,7 +18,7 @@
 
     {% set event_file = event_data|slice(11, 1)|first %}    
     
-    <a hrf="#" data-id="{{ creator_onid }}" id="get-creator-onid"></a>
+    <a href="#" data-id="{{ creator_onid }}" id="get-creator-onid"></a>
     <div class="eventNameOnViewer">
       <h2 id="eventName">
         {{ event_name }}
@@ -49,6 +49,20 @@
                 <i class="fa fa-envelope" aria-hidden="true"></i>
                 Invite Users to This Event
               </Button>
+            </div>
+
+            <br>
+    
+            <div id="onidInvite">
+              <form>
+                <label for="submitOnid">Please enter a space separated list of ONID ids</label>
+                <input type="text" id="onid" placeholder="onid1 onid2..." required><br>
+                <Button type="button" 
+                  id="submitOnid" 
+                  class="btn btn-dark nextBackField">
+                  Send Invitations
+                </Button>
+              </form>
             </div>
 
             <br>
@@ -165,7 +179,7 @@
             <br><br>
             <label>
               Link to Event Registration:
-              <a href="./register.php?key={{ event_key }}">Here</a>
+              <a id="regLink" href="./register.php?key={{ event_key }}">Here</a>
             </label>
 
               <br>
@@ -237,6 +251,21 @@
             No one has signed up for this event yet.
           </h3>
         {% endif %}
+
+        <div>
+        {% if invite_list %}
+          <br>
+          <h3>
+            List of Invited Onids That Have Not Registered
+          </h3>
+          <br>
+          <div>
+            {% for list in invite_list %}
+              {{ list.user_onid }}<br>
+            {% endfor %}
+          </div>
+        {% endif %}
+        </div> 
       </div>
     </div>
 

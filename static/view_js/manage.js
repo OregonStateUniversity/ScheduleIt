@@ -36,6 +36,29 @@ $(document).ready(function () {
   var hashForEventFromURL = window.location.href;
   var hashKey = hashForEventFromURL.split("?key=");
 
+  // Invite by onid
+  document
+    .getElementById("submitOnid")
+    .addEventListener("click", function() {
+      var onid = $("#onid").val();
+      var eventHash = document.getElementById("regLink").href; 
+      var getOnid = document.getElementById("get-creator-onid");
+      var creatorOnid = getOnid.getAttribute("data-id");
+      $.ajax({
+        type: "POST",
+        url: "src/onid_invite.php",
+        data: {
+          attendeeOnid: onid,
+          hostOnid: creatorOnid,
+          link: eventHash 
+        }
+    }).done(function (response) {
+      alert(response);
+      location.reload();
+    });
+  }); 
+       
+
   // Delete Event Feature. This requires the hash of the event to work.
   $("#deleteEventButton").on("click", function () {
     $("#deleteConfirm").modal("toggle");
@@ -56,10 +79,9 @@ $(document).ready(function () {
       returnButton.on("click", function () {
         window.location.href = "./events.php";
       });
-
       removedContainer.append("<h3> Event Has Been Deleted </h3>");
       removedContainer.append(returnButton);
-
+      
       $(".entryField1").append("<br><br>");
       $(".entryField1").append(removedContainer);
     });
