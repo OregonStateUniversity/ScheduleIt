@@ -41,8 +41,10 @@ $(document).ready(function () {
     .getElementById("submitOnid")
     .addEventListener("click", function() {
       var onid = $("#onid").val();
-      var eventHash = $("#regLink").attr("href");
-      var creatorOnid = $("#get-creator-onid").attr("data-id");
+      var eventHash = document.getElementById("regLink").href;
+      var getOnid = document.getElementById("get-creator-onid");
+      var creatorOnid = getOnid.getAttribute("data-id");
+
       $.ajax({
         type: "POST",
         url: "src/onid_invite.php",
