@@ -1,0 +1,12 @@
+RewriteEngine On
+RewriteBase /
+
+<FilesMatch "\.(env|example|gitignore|htaccess|htpasswd|ini|log|md|sh)$">
+  Order allow,deny
+  Deny from all
+</FilesMatch>
+
+<Files ~ "(secret|text_file)">
+  Order allow,deny
+  Deny from all
+</Files>

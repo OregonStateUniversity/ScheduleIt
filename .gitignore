@@ -1,8 +1,8 @@
 .DS_Store
 .php_cs.cache
+.htaccess
 .htpasswd
 *.log
-scheduleit/.htaccess
 
 # Editors
 .idea
