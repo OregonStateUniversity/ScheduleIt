@@ -1,5 +1,13 @@
 <?php
 
+if (!file_exists(__DIR__ . '/.htaccess')) {
+    die('.htaccess is missing');
+}
+
+if (!file_exists(__DIR__ . '/.env')) {
+    die('.env is missing');
+}
+
 if (!defined('ABSPATH')) {
     define('ABSPATH', __DIR__ . '/');
 }
