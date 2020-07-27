@@ -2,7 +2,7 @@
 
 require_once ABSPATH . 'config/session.php';
 
-$meeting = $database->getMeetingById($meeting_id, $_SESSION['user']);
+$meeting = $database->getMeetingById($meeting_id, $_SESSION['user_onid']);
 
 if ($meeting) {
     echo $twig->render('meetings/edit.twig', [

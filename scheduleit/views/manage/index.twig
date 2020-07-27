@@ -52,7 +52,7 @@
             {{meeting.open_slots}} of {{meeting.capacity}}
           </td>
           <td class="col-1">
-            <a href="{{site_url}}/meetings/{{meeting.id}}/invite">Invite Link</a>
+            <a href="{{site_url}}/invite?key={{meeting.hash}}">Invite Link</a>
           </td>
         </tr>
       {% endfor %}

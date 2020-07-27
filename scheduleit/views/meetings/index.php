@@ -4,11 +4,11 @@ require_once ABSPATH . 'config/session.php';
 
 $search_term = !empty($_GET['q']) ? $_GET['q'] : null;
 
-$upcoming_meetings = $database->getAllUpcomingMeetings($_SESSION['user']);
-$created_meetings = $database->getUpcomingMeetingsByCreator($_SESSION['user']);
-$past_meetings = $database->getPastMeetings($_SESSION['user']);
-$search_meetings = $database->getMeetingsBySearchTerm($_SESSION['user'], $search_term);
-$invites = $database->getInvites($_SESSION['user']);
+$upcoming_meetings = $database->getAllUpcomingMeetings($_SESSION['user_id']);
+$created_meetings = $database->getUpcomingMeetingsByCreator($_SESSION['user_id']);
+$past_meetings = $database->getPastMeetings($_SESSION['user_id']);
+$search_meetings = $database->getMeetingsBySearchTerm($_SESSION['user_id'], $search_term);
+$invites = $database->getInvites($_SESSION['user_onid']);
 $invite_count = count($invites);
 
 echo $twig->render('meetings/index.twig', [

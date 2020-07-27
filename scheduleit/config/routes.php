@@ -21,6 +21,9 @@ switch ($request) {
     case '/logout':
         require_once ABSPATH . 'scheduleit/views/home/logout.php';
         break;
+    case '/invite':
+        require_once ABSPATH . 'scheduleit/views/invites/show.php';
+        break;
     case '/manage':
         require_once ABSPATH . 'scheduleit/views/manage/index.php';
         break;

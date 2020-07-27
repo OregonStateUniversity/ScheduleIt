@@ -2,7 +2,7 @@
 
 require_once ABSPATH . 'config/session.php';
 
-$meeting = $database->getMeetingById($meeting_id, $_SESSION['user']);
+$meeting = $database->getMeetingById($meeting_id, $_SESSION['user_id']);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $attendeeOnids = $_POST['attendeeOnid'];
@@ -12,17 +12,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $hash = $meeting['hash'];
     // turn onid string into array
     $onidArray = explode(" ",$attendeeOnids);
-    
+
     // create email list
     // send email in forloop so that other recipients emails are not
     // exposed
     foreach ($onidArray as $onid) {
       if (strlen($onid) > 2) {
-        
+
         $email = $onid . '@oregonstate.edu';
 
         // create message
-        $msgFormat = 
+        $msgFormat =
         "Hi %s, \n\nYour are invited to %s's event! Please follow this address to reserve a seat:\n\n%s";
 
         $headers = "From: Schedule It" . "\r\n";
@@ -34,15 +34,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 
-if ($meeting) {
+if ($meeting && $meeting['creator_id'] == $_SESSION['user_id']) {
     $meeting['dates'] = $database->getDatesByMeetingId($meeting['id']);
     $meeting['dates_count'] = count($meeting['dates']);
     $attendee_meetings = $database->getMeetingAttendees($meeting_id);
-    
+
     echo $twig->render('meetings/show.twig', [
         'attendee_meetings' => $attendee_meetings,
         'meeting' => $meeting,
-        'title' => $meeting['name'],        
+        'title' => $meeting['name'],
     ]);
 } else {
     http_response_code(404);
