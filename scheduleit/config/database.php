@@ -91,7 +91,7 @@ class DatabaseInterface
     {
         $query = "
 
-            SELECT onid, email, last_name, first_name
+            SELECT id, onid, email, last_name, first_name
             FROM meb_user
             WHERE onid = ?
             LIMIT 1
@@ -162,44 +162,44 @@ class DatabaseInterface
      * @param string $search_term
      * @return array
      */
-    public function getManageMeetings($onid, $search_term)
+    public function getManageMeetings($user_id, $search_term)
     {
         if ($search_term) {
             $events_query = "
 
             SELECT
             meb_event.id,
+            meb_event.hash,
             meb_event.name,
             meb_event.location,
             meb_event.open_slots,
             meb_event.capacity
             FROM meb_event
-            INNER JOIN meb_user ON meb_user.id = meb_event.fk_event_creator
-            WHERE meb_user.onid = ?
+            WHERE meb_event.fk_event_creator = ?
             AND meb_event.name LIKE ?
             ORDER BY meb_event.name ASC
 
             ;";
             $events = $this->database->prepare($events_query);
             $partial_match = '%' . $search_term . '%';
-            $events->bind_param("ss", $onid, $partial_match);
+            $events->bind_param("is", $id, $partial_match);
         } else {
             $events_query = "
 
             SELECT
             meb_event.id,
+            meb_event.hash,
             meb_event.name,
             meb_event.location,
             meb_event.open_slots,
             meb_event.capacity
             FROM meb_event
-            INNER JOIN meb_user ON meb_user.id = meb_event.fk_event_creator
-            WHERE meb_user.onid = ?
+            WHERE meb_event.fk_event_creator = ?
             ORDER BY meb_event.name ASC
 
             ;";
             $events = $this->database->prepare($events_query);
-            $events->bind_param("s", $onid);
+            $events->bind_param("i", $user_id);
         }
 
         $events->execute();
@@ -243,10 +243,10 @@ class DatabaseInterface
     /**
      * Get meetings created by user or where they're an attendee for the calendar page.
      *
-     * @param string $onid
+     * @param int $user_id
      * @return array
      */
-    public function getCalendarMeetings($onid)
+    public function getCalendarMeetings($user_id)
     {
         $bookings_query = "
 
@@ -254,6 +254,7 @@ class DatabaseInterface
         meb_event.id,
         meb_event.name,
         meb_event.location,
+        meb_event.fk_event_creator AS creator_id,
         meb_timeslot.start_time,
         meb_timeslot.end_time,
         meb_user.email AS attendee_email,
@@ -267,13 +268,13 @@ class DatabaseInterface
         INNER JOIN meb_event ON meb_event.id = meb_timeslot.fk_event_id
         INNER JOIN meb_user ON meb_user.id = meb_booking.fk_user_id
         INNER JOIN meb_user AS meb_user2 ON meb_user2.id = meb_event.fk_event_creator
-        WHERE (meb_user.onid = ? OR meb_user2.onid = ?)
+        WHERE (meb_user.id = ? OR meb_user2.id = ?)
         ORDER BY meb_timeslot.start_time DESC
 
         ;";
 
         $bookings = $this->database->prepare($bookings_query);
-        $bookings->bind_param("ss", $onid, $onid);
+        $bookings->bind_param("ii", $user_id, $user_id);
         $bookings->execute();
 
         $result = $bookings->get_result();
@@ -287,17 +288,19 @@ class DatabaseInterface
     /**
      * Get upcoming meetings created by user or where they're an attendee for the meetings page.
      *
-     * @param string $onid
+     * @param int $user_id
      * @return array
      */
-    public function getAllUpcomingMeetings($onid)
+    public function getAllUpcomingMeetings($user_id)
     {
         $bookings_query = "
 
         SELECT
         meb_event.id,
+        meb_event.hash,
         meb_event.name,
         meb_event.location,
+        meb_event.fk_event_creator AS creator_id,
         meb_timeslot.start_time,
         meb_timeslot.end_time,
         meb_user.email AS attendee_email,
@@ -311,14 +314,14 @@ class DatabaseInterface
         INNER JOIN meb_event ON meb_event.id = meb_timeslot.fk_event_id
         INNER JOIN meb_user ON meb_user.id = meb_booking.fk_user_id
         INNER JOIN meb_user AS meb_user2 ON meb_user2.id = meb_event.fk_event_creator
-        WHERE (meb_user.onid = ? OR meb_user2.onid = ?)
+        WHERE (meb_user.id = ? OR meb_user2.id = ?)
         AND meb_timeslot.start_time > now()
         ORDER BY meb_timeslot.start_time ASC
 
         ;";
 
         $bookings = $this->database->prepare($bookings_query);
-        $bookings->bind_param("ss", $onid, $onid);
+        $bookings->bind_param("ii", $user_id, $user_id);
         $bookings->execute();
 
         $result = $bookings->get_result();
@@ -332,17 +335,19 @@ class DatabaseInterface
     /**
      * Get upcoming meetings created by user for the meetings page.
      *
-     * @param string $onid
+     * @param int $user_id
      * @return array
      */
-    public function getUpcomingMeetingsByCreator($onid)
+    public function getUpcomingMeetingsByCreator($user_id)
     {
         $bookings_query = "
 
         SELECT
         meb_event.id,
+        meb_event.hash,
         meb_event.name,
         meb_event.location,
+        meb_event.fk_event_creator AS creator_id,
         meb_timeslot.start_time,
         meb_timeslot.end_time,
         meb_user.email AS attendee_email,
@@ -356,14 +361,14 @@ class DatabaseInterface
         INNER JOIN meb_event ON meb_event.id = meb_timeslot.fk_event_id
         INNER JOIN meb_user ON meb_user.id = meb_booking.fk_user_id
         INNER JOIN meb_user AS meb_user2 ON meb_user2.id = meb_event.fk_event_creator
-        WHERE meb_user2.onid = ?
+        WHERE meb_user2.id = ?
         AND meb_timeslot.start_time > now()
         ORDER BY meb_timeslot.start_time ASC
 
         ;";
 
         $bookings = $this->database->prepare($bookings_query);
-        $bookings->bind_param("s", $onid);
+        $bookings->bind_param("i", $user_id);
         $bookings->execute();
 
         $result = $bookings->get_result();
@@ -377,17 +382,19 @@ class DatabaseInterface
     /**
      * Get past meetings created by user or where they're an attendee for the meetings page.
      *
-     * @param string $onid
+     * @param int $user_id
      * @return array
      */
-    public function getPastMeetings($onid)
+    public function getPastMeetings($user_id)
     {
         $bookings_query = "
 
         SELECT
         meb_event.id,
+        meb_event.hash,
         meb_event.name,
         meb_event.location,
+        meb_event.fk_event_creator AS creator_id,
         meb_timeslot.start_time,
         meb_timeslot.end_time,
         meb_user.email AS attendee_email,
@@ -401,7 +408,7 @@ class DatabaseInterface
         INNER JOIN meb_event ON meb_event.id = meb_timeslot.fk_event_id
         INNER JOIN meb_user ON meb_user.id = meb_booking.fk_user_id
         INNER JOIN meb_user AS meb_user2 ON meb_user2.id = meb_event.fk_event_creator
-        WHERE (meb_user.onid = ? OR meb_user2.onid = ?)
+        WHERE (meb_user.id = ? OR meb_user2.id = ?)
         AND meb_timeslot.start_time < now()
         ORDER BY meb_timeslot.start_time DESC
 
@@ -409,7 +416,7 @@ class DatabaseInterface
 
         $bookings = $this->database->prepare($bookings_query);
 
-        $bookings->bind_param("ss", $onid, $onid);
+        $bookings->bind_param("ii", $user_id, $user_id);
         $bookings->execute();
 
         $result = $bookings->get_result();
@@ -423,18 +430,20 @@ class DatabaseInterface
     /**
      * Search meetings by name, location, creator, or attendee for the meetings page.
      *
-     * @param string $onid
+     * @param int $user_id
      * @param string $search_term
      * @return array
      */
-    public function getMeetingsBySearchTerm($onid, $search_term)
+    public function getMeetingsBySearchTerm($user_id, $search_term)
     {
         $bookings_query = "
 
         SELECT
         meb_event.id,
+        meb_event.hash,
         meb_event.name,
         meb_event.location,
+        meb_event.fk_event_creator AS creator_id,
         meb_timeslot.start_time,
         meb_timeslot.end_time,
         meb_user.email AS attendee_email,
@@ -448,7 +457,7 @@ class DatabaseInterface
         INNER JOIN meb_event ON meb_event.id = meb_timeslot.fk_event_id
         INNER JOIN meb_user ON meb_user.id = meb_booking.fk_user_id
         INNER JOIN meb_user AS meb_user2 ON meb_user2.id = meb_event.fk_event_creator
-        WHERE (meb_user.onid = ? OR meb_user2.onid = ?)
+        WHERE (meb_user.id = ? OR meb_user2.id = ?)
         AND (
             meb_event.name LIKE ?
             OR meb_event.location LIKE ?
@@ -462,7 +471,7 @@ class DatabaseInterface
         $bookings = $this->database->prepare($bookings_query);
 
         $partial_match = '%' . $search_term . '%';
-        $bookings->bind_param("ssssss", $onid, $onid, $partial_match, $partial_match, $partial_match, $partial_match);
+        $bookings->bind_param("iissss", $user_id, $user_id, $partial_match, $partial_match, $partial_match, $partial_match);
         $bookings->execute();
 
         $result = $bookings->get_result();
@@ -474,13 +483,12 @@ class DatabaseInterface
     }
 
     /**
-     * Get meeting by id and ONID to prevent unauthorized access.
+     * Get meeting by id.
      *
      * @param id $id
-     * @param string $onid
      * @return mixed
      */
-    public function getMeetingById($id, $onid)
+    public function getMeetingById($id)
     {
         $bookings_query = "
 
@@ -495,30 +503,16 @@ class DatabaseInterface
         meb_event.is_anon,
         meb_event.enable_upload,
         meb_event.event_file AS creator_file,
-        meb_timeslot.start_time,
-        meb_timeslot.end_time,
-        meb_files.path AS attendee_file,
-        meb_user.email AS attendee_email,
-        CONCAT(meb_user.first_name, ' ', meb_user.last_name) AS attendee_name,
-        meb_user.onid AS attendee_onid,
-        meb_user2.email AS creator_email,
-        CONCAT(meb_user2.first_name, ' ', meb_user2.last_name) AS creator_name,
-        meb_user2.onid AS creator_onid
-        FROM meb_booking
-        INNER JOIN meb_timeslot ON meb_timeslot.id = meb_booking.fk_timeslot_id
-        INNER JOIN meb_event ON meb_event.id = meb_timeslot.fk_event_id
-        INNER JOIN meb_files ON meb_files.fk_booking_id = meb_booking.id
-        INNER JOIN meb_user ON meb_user.id = meb_booking.fk_user_id
-        INNER JOIN meb_user AS meb_user2 ON meb_user2.id = meb_event.fk_event_creator
-        WHERE (meb_user.onid = ? OR meb_user2.onid = ?)
-        AND meb_event.id = ?
+        meb_event.fk_event_creator AS creator_id
+        FROM meb_event
+        WHERE meb_event.id = ?
         LIMIT 1
 
         ;";
 
         $bookings = $this->database->prepare($bookings_query);
 
-        $bookings->bind_param("ssi", $onid, $onid, $id);
+        $bookings->bind_param("i", $id);
         $bookings->execute();
 
         $result = $bookings->get_result();
@@ -557,21 +551,8 @@ class DatabaseInterface
         meb_event.is_anon,
         meb_event.enable_upload,
         meb_event.event_file AS creator_file,
-        meb_timeslot.start_time,
-        meb_timeslot.end_time,
-        meb_files.path AS attendee_file,
-        meb_user.email AS attendee_email,
-        CONCAT(meb_user.first_name, ' ', meb_user.last_name) AS attendee_name,
-        meb_user.onid AS attendee_onid,
-        meb_user2.email AS creator_email,
-        CONCAT(meb_user2.first_name, ' ', meb_user2.last_name) AS creator_name,
-        meb_user2.onid AS creator_onid
-        FROM meb_booking
-        INNER JOIN meb_timeslot ON meb_timeslot.id = meb_booking.fk_timeslot_id
-        INNER JOIN meb_event ON meb_event.id = meb_timeslot.fk_event_id
-        INNER JOIN meb_files ON meb_files.fk_booking_id = meb_booking.id
-        INNER JOIN meb_user ON meb_user.id = meb_booking.fk_user_id
-        INNER JOIN meb_user AS meb_user2 ON meb_user2.id = meb_event.fk_event_creator
+        meb_event.fk_event_creator AS creator_id
+        FROM meb_event
         WHERE meb_event.hash = ?
         LIMIT 1
 
@@ -579,7 +560,7 @@ class DatabaseInterface
 
         $bookings = $this->database->prepare($bookings_query);
 
-        $bookings->bind_param("i", $id);
+        $bookings->bind_param("s", $hash);
         $bookings->execute();
 
         $result = $bookings->get_result();
@@ -616,16 +597,12 @@ class DatabaseInterface
         meb_files.path AS attendee_file,
         meb_user.email AS attendee_email,
         CONCAT(meb_user.first_name, ' ', meb_user.last_name) AS attendee_name,
-        meb_user.onid AS attendee_onid,
-        meb_user2.email AS creator_email,
-        CONCAT(meb_user2.first_name, ' ', meb_user2.last_name) AS creator_name,
-        meb_user2.onid AS creator_onid
+        meb_user.onid AS attendee_onid
         FROM meb_booking
         INNER JOIN meb_timeslot ON meb_timeslot.id = meb_booking.fk_timeslot_id
         INNER JOIN meb_event ON meb_event.id = meb_timeslot.fk_event_id
-        INNER JOIN meb_files ON meb_files.fk_booking_id = meb_booking.id
         INNER JOIN meb_user ON meb_user.id = meb_booking.fk_user_id
-        INNER JOIN meb_user AS meb_user2 ON meb_user2.id = meb_event.fk_event_creator
+        LEFT OUTER JOIN meb_files ON meb_files.fk_booking_id = meb_booking.id
         WHERE meb_event.id = ?
         ORDER BY meb_timeslot.start_time ASC
 
@@ -642,10 +619,10 @@ class DatabaseInterface
 
         return $list;
     }
-    
+
     /**
-    * Get invitations that the user does not 
-    * have a booking for 
+    * Get invitations that the user does not
+    * have a booking for
     *
     * @param string $userOnid
     * @return array of events
@@ -655,7 +632,7 @@ class DatabaseInterface
       $get_invite_query = "
 
         SELECT
-        meb_event.id, 
+        meb_event.id,
         meb_event.name,
         meb_event.description,
         meb_event.hash,
@@ -666,12 +643,12 @@ class DatabaseInterface
         FROM meb_event
         INNER JOIN meb_user ON meb_user.id = meb_event.fk_event_creator
         INNER JOIN meb_invites ON meb_event.id = meb_invites.fk_event_id
-        WHERE meb_invites.user_onid = 'czaparym'
+        WHERE meb_invites.user_onid = ?
         AND fk_event_id NOT IN
           (SELECT fk_event_id FROM meb_timeslot
           INNER JOIN meb_booking ON meb_timeslot.id = meb_booking.fk_timeslot_id
           INNER JOIN meb_user ON meb_booking.fk_user_id = meb_user.id
-          WHERE meb_user.onid = 'czaparym')
+          WHERE meb_user.onid = ?)
       ";
 
       $getList = $this->database->prepare($get_invite_query);

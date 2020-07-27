@@ -2,9 +2,9 @@
 
 require_once ABSPATH . 'config/session.php';
 
-$meeting = $database->getMeetingById($meeting_id, $_SESSION['user']);
+$meeting = $database->getMeetingById($meeting_id, $_SESSION['user_id']);
 
-if ($meeting) {
+if ($meeting && $meeting['creator_id'] == $_SESSION['user_id']) {
     $meeting['dates'] = $database->getDatesByMeetingId($meeting['id']);
     $meeting['dates_count'] = count($meeting['dates']);
     $attendee_meetings = $database->getMeetingAttendees($meeting_id);
