@@ -11,7 +11,6 @@ foreach ($results as $key => $meeting) {
     if ($meeting['id']) {
         $meeting['dates'] = $database->getDatesByMeetingId($meeting['id']);
         $meeting['dates_count'] = count($meeting['dates']);
-
     }
 
     array_push($meetings, $meeting);
