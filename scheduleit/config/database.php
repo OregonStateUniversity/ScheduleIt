@@ -2,6 +2,9 @@
 
 require_once ABSPATH . 'config/env.php';
 
+// include functions for generating hashes
+require_once ABSPATH . 'config/hash.php';
+
 /**
  * DatabaseInterface
  * php version 7.2.28
@@ -656,7 +659,6 @@ class DatabaseInterface
       ";
 
         $getList = $this->database->prepare($get_invite_query);
-
         $getList->bind_param("ss", $userOnid, $userOnid);
         $getList->execute();
 
@@ -666,6 +668,70 @@ class DatabaseInterface
         $getList->close();
 
         return $list;
+    }
+
+    /**
+     * Add new meeting.
+     *
+     * @param object $meeting
+     * @return int;
+     */
+    public function addMeeting($user_id, $meeting)
+    {
+        $name = $meeting['name'];
+        $location = $meeting['location'];
+        $description = $meeting['description'];
+        $event_file = $meeting['event_file'];
+        $is_anon = $meeting['is_anon'];
+        $enable_upload = $meeting['enable_upload'];
+        $capacity = $meeting['capacity'];
+
+        $hash = createEventHash($name, $description, $user_id, $location);
+
+        $query = "
+
+            INSERT INTO meb_event(
+                hash,
+                name,
+                description,
+                fk_event_creator,
+                location,
+                capacity,
+                open_slots,
+                is_anon,
+                enable_upload,
+                event_file
+            )
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+
+        ";
+
+        $statement = $this->database->prepare($query);
+
+        $statement->bind_param(
+            "sssisiiiis",
+            $hash,
+            $name,
+            $description,
+            $user_id,
+            $location,
+            $capacity,
+            $capacity,
+            $is_anon,
+            $enable_upload,
+            $event_file
+        );
+
+        $statement->execute();
+
+        // $newEventID = $this->database->insert_id;
+        // $this->addTimeSlots($slotData, $newEventID);
+
+        $result = $statement->affected_rows;
+
+        $statement->close();
+
+        return $result;
     }
 }
 
