@@ -2,6 +2,15 @@
 
 session_start();
 
+$msg = new \Plasticbrain\FlashMessages\FlashMessages();
+
+$msg->setCssClassMap([
+    $msg::INFO    => 'flash-alert alert-info',
+    $msg::SUCCESS => 'flash-alert alert-success',
+    $msg::WARNING => 'flash-alert alert-warning',
+    $msg::ERROR   => 'flash-alert alert-danger',
+]);
+
 // Redirect user to login page in local environment
 if (ENVIRONMENT == 'development') {
     if (!isset($_SESSION['user_onid'])) {
@@ -66,3 +75,4 @@ $twig->addGlobal('user_id', $_SESSION['user_id']);
 $twig->addGlobal('user_firstname', $_SESSION['user_firstname']);
 $twig->addGlobal('user_lastname', $_SESSION['user_lastname']);
 $twig->addGlobal('user_onid', $_SESSION['user_onid']);
+$twig->addGlobal('msg', $msg);

@@ -27,7 +27,7 @@ if (!defined('SITE_NAME')) {
 }
 
 // Set up Twig
-if (strpos($_SERVER['REQUEST_URI'], 'scheduleit') == true) {
+if (isset($_SERVER['REQUEST_URI']) && strpos($_SERVER['REQUEST_URI'], 'scheduleit') == true) {
     require_once ABSPATH . 'scheduleit/config/database.php';
     require_once ABSPATH . 'scheduleit/config/twig.php';
 } else {

@@ -1222,50 +1222,50 @@ class DatabaseInterface
 
     public function insertInviteList($onid, $eventId)
     {
-      $insert_meb_invites_query = "
+        $insert_meb_invites_query = "
       INSERT `meb_invites` (fk_event_id, user_onid)
       VALUES (?,?);
       ";
       
-      $insert = $this->database->prepare($insert_meb_invites_query);
+        $insert = $this->database->prepare($insert_meb_invites_query);
 
-      $insert->bind_param("is", $eventId, $onid);
-      $insert->execute();
+        $insert->bind_param("is", $eventId, $onid);
+        $insert->execute();
 
-      $insert->close();
+        $insert->close();
     }
 
     public function getInviteList($eventId)
     {
-      $invite_list_query = "
+        $invite_list_query = "
       
       SELECT user_onid AS ONID FROM meb_invites
       WHERE fk_event_id = ?;
 
       ";
 
-      $getList = $this->database->prepare($invite_list_query);
+        $getList = $this->database->prepare($invite_list_query);
       
-      $getList->bind_param("i", $eventId);
-      $getList->execute();
+        $getList->bind_param("i", $eventId);
+        $getList->execute();
 
-      $list = $getList->get_result();
+        $list = $getList->get_result();
 
-      if($list->num_rows > 0) {
-         $listArray = $list->fetch_all(MYSQLI_ASSOC);
-      } else {
-         $listArray = null;
-      }
+        if ($list->num_rows > 0) {
+            $listArray = $list->fetch_all(MYSQLI_ASSOC);
+        } else {
+            $listArray = null;
+        }
       
-      $getList->close();
-      $list->free();
-      return $listArray;
+        $getList->close();
+        $list->free();
+        return $listArray;
     }
 
     public function getNotRegistered($eventId)
     {
       
-      $not_reg_query = "
+        $not_reg_query = "
       
       SELECT user_onid FROM meb_invites
       WHERE fk_event_id = ? AND user_onid NOT IN
@@ -1278,18 +1278,18 @@ class DatabaseInterface
 
       ";
 
-      $getList = $this->database->prepare($not_reg_query);
+        $getList = $this->database->prepare($not_reg_query);
       
-      $getList->bind_param("ii", $eventId, $eventId);
-      $getList->execute();
+        $getList->bind_param("ii", $eventId, $eventId);
+        $getList->execute();
 
-      $list = $getList->get_result();
+        $list = $getList->get_result();
 
-      $listArray = $list->fetch_all(MYSQLI_ASSOC);
+        $listArray = $list->fetch_all(MYSQLI_ASSOC);
            
-      $getList->close();
-      $list->free();
-      return $listArray;
+        $getList->close();
+        $list->free();
+        return $listArray;
     }
 }
 

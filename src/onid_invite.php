@@ -18,7 +18,7 @@ $hash = substr($regLink, $position + 1);
 $eventData = $database->getEvent($hash);
 
 // turn onid string into array
-$onidArray = explode(" ",$attendeeOnid);
+$onidArray = explode(" ", $attendeeOnid);
 
 // create email list
 // send email in forloop so that other recipients emails are not
@@ -26,34 +26,33 @@ $onidArray = explode(" ",$attendeeOnid);
 $emailSentCount = 0;
 $failedList = "";
 foreach ($onidArray as $onid) {
-  if (strlen($onid) > 2) {
-
-    $email = $onid . '@oregonstate.edu';
-
-
-    // create message
-
-    $msgFormat =
-    "Hi, %s, \n\nThis is an automated message, do not reply.\n\nYou are invited to %s's event! Please follow this address to reserve a seat:\n\n%s";
-
-    $headers = "From: MyEventBoard" . "\r\n";
-
-    $msg = sprintf($msgFormat, $onid, $host, $regLink);
+    if (strlen($onid) > 2) {
+        $email = $onid . '@oregonstate.edu';
 
 
-    $result = mail($email, "You're Invited", $msg, $headers);
+      // create message
 
-    if($result == 1) {
-      $emailSentCount += 1;
-      // add onid to the events invite list
-      $database->insertInviteList($onid, $eventData["id"]);
-    } else {
-        $failedList = $failedList . $email . ', ';
+        $msgFormat =
+        "Hi, %s, \n\nThis is an automated message, do not reply.\n\nYou are invited to %s's event! Please follow this address to reserve a seat:\n\n%s";
+
+        $headers = "From: MyEventBoard" . "\r\n";
+
+        $msg = sprintf($msgFormat, $onid, $host, $regLink);
+
+
+        $result = mail($email, "You're Invited", $msg, $headers);
+
+        if ($result == 1) {
+            $emailSentCount += 1;
+          // add onid to the events invite list
+            $database->insertInviteList($onid, $eventData["id"]);
+        } else {
+            $failedList = $failedList . $email . ', ';
+        }
     }
-  }
 };
 
 echo "sent " . $emailSentCount . " invitations.";
-if(strlen($failedList) > 0) {
-  echo "Failed to sent invitation to " . $failedList;
+if (strlen($failedList) > 0) {
+    echo "Failed to sent invitation to " . $failedList;
 }

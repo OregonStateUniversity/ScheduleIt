@@ -14,6 +14,7 @@
     {% endblock %}
   </head>
   <body>
+    {{msg.display()}}
     <nav class="flex-md-nowrap justify-content-between navbar navbar-expand-md py-0 sticky-top">
       <a class="navbar-brand" href="{{site_url}}/meetings">
         <span class="d-block d-md-inline">{{site_name}}</span>
@@ -114,7 +115,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/js/all.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.min.js"></script>
     <script src="{{site_url}}/static/lib/fullcalendar/main.min.js"></script>
-   <!-- <script src="{{site_url}}/static/scripts.php"></script>-->
+    <!-- <script src="{{site_url}}/static/scripts.php"></script>-->
     <script type="text/javascript" src="{{site_url}}/static/js/create.js"></script>
     {% block page_footer %}
     {% endblock %}

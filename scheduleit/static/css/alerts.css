@@ -1,0 +1,8 @@
+.flash-alert {
+  left: 50%;
+  position: fixed;
+  margin-left: -160px;
+  top: 0;
+  width: 320px;
+  z-index: 1021;
+}
