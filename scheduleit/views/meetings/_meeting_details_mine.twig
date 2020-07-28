@@ -1,3 +1,5 @@
+<a href="#" data-id="{{ creator_onid }}" id="get-creator-onid"></a>
+<a href="#" data-id="{{ hash }}" id="get-hash"></a>
 <div class="card mb-4 card-mine">
   <div class="card-body">
     <div class="row">
@@ -72,7 +74,7 @@
           Invite Link
         </h4>
         <p class="card-text-large">
-          <a href="{{site_url}}/meetings/invite?key={{meeting.hash}}">Invite Link</a>
+          <a id="inviteLink" href="{{site_url}}/meetings/invite?key={{meeting.hash}}">Invite Link</a>
         </p>
       </div>
     </div>
@@ -143,6 +145,17 @@
     No attendees have signed up yet.
   </p>
 {% endif %}
+<br>
+<div id="onidInvite">
+  <form enctype="multipart/form-data" method="post">
+    
+    <label for="onid">Please enter a space separated list of ONID ids</label><br>
+    <input class="form-control" type="text" name="attendeeOnid" id="onid" placeholder="onid1 onid2...">{{attendeeOnid}}</input><br><br>
+    <input class="form-control" type="hidden" name="link" value="{{site_url}}/meetings/invite?key={{meeting.hash}}"> 
+    <input type="submit" value="Send Invitations">
+  </form>
+</div>
+<br>
 <p class="mb-5">
   <button class="btn btn-primary" data-toggle="modal" data-target="#invite-attendees-modal" type="button">
     Invite Attendees
@@ -158,7 +171,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <p>
+       <p>
           Enter email addresses separated by commas or on new lines, or upload a CVS file.
         </p>
         <p>
