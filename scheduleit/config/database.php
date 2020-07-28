@@ -551,8 +551,11 @@ class DatabaseInterface
         meb_event.is_anon,
         meb_event.enable_upload,
         meb_event.event_file AS creator_file,
-        meb_event.fk_event_creator AS creator_id
+        meb_event.fk_event_creator AS creator_id,
+        meb_user.email AS creator_email,
+        CONCAT(meb_user.first_name, ' ', meb_user.last_name) AS creator_name
         FROM meb_event
+        INNER JOIN meb_user ON meb_user.id = meb_event.fk_event_creator
         WHERE meb_event.hash = ?
         LIMIT 1
 
@@ -629,7 +632,7 @@ class DatabaseInterface
     */
     public function getInvites($userOnid)
     {
-      $get_invite_query = "
+        $get_invite_query = "
 
         SELECT
         meb_event.id,
@@ -637,8 +640,9 @@ class DatabaseInterface
         meb_event.description,
         meb_event.hash,
         meb_event.location,
-        CONCAT(meb_user.first_name, ' ', meb_user.last_name) AS creator_name,
-        meb_user.email
+        meb_user.id AS creator_id,
+        meb_user.email AS creator_email,
+        CONCAT(meb_user.first_name, ' ', meb_user.last_name) AS creator_name
 
         FROM meb_event
         INNER JOIN meb_user ON meb_user.id = meb_event.fk_event_creator
@@ -651,17 +655,17 @@ class DatabaseInterface
           WHERE meb_user.onid = ?)
       ";
 
-      $getList = $this->database->prepare($get_invite_query);
+        $getList = $this->database->prepare($get_invite_query);
 
-      $getList->bind_param("ss", $userOnid, $userOnid);
-      $getList->execute();
+        $getList->bind_param("ss", $userOnid, $userOnid);
+        $getList->execute();
 
-      $result = $getList->get_result();
-      $list = $result->fetch_all(MYSQLI_ASSOC);
-      $result->free();
-      $getList->close();
+        $result = $getList->get_result();
+        $list = $result->fetch_all(MYSQLI_ASSOC);
+        $result->free();
+        $getList->close();
 
-      return $list;
+        return $list;
     }
 }
 

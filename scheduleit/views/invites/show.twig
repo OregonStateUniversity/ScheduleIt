@@ -1,8 +1,107 @@
 {% extends 'layouts/logged_in.twig' %}
 
-
 {% block page_content %}
 
-TODO
+<h1 class="h2 mb-4">
+  {{title}}
+</h1>
+<div class="row mb-3">
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-body pb-0">
+        <h4 class="h6 mb-0">
+          Location
+        </h4>
+        <p class="card-text-large">
+          {{meeting.location}}
+        </p>
+        {% if meeting.description %}
+          <h4 class="h6 mb-0">
+            Description
+          </h4>
+          <p class="card-text-large">
+            {{meeting.description}}
+          </p>
+        {% endif %}
+        <h4 class="h6 mb-0">
+          Creator
+        </h4>
+        <p class="card-text-large">
+          <a href="mailto:{{meeting.creator_email}}">
+            {% if meeting.creator_id == user_id %}
+              Me
+            {% else %}
+              {{meeting.creator_name}}
+            {% endif %}
+          </a>
+        </p>
+        {% if meeting.creator_file %}
+          <h4 class="h6 mb-0">
+            Creator Meeting File
+          </h4>
+          <p class="card-text-large">
+            <a href="{{meeting.creator_file}}">
+              {{meeting.creator_file | basename}}
+            </a>
+          </p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+<form enctype="multipart/form-data" method="post">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card mb-4">
+        <div class="card-body pb-0">
+          <div class="form-group">
+            <label class="h6">File Upload</label>
+            <p>
+              You may only upload a single file. Uploading a second file will overwrite the first.
+              If you need to upload multiple files combine them into a single zip file.
+            </p>
+            <input class="form-control-file" name="attendee_file" type="file">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="mb-2">
+    <label class="h6">Select a Time Slot</label>
+    {{ include('meetings/_date_table.twig') }}
+  </div>
+  <div class="pt-4">
+    <button class="btn btn-success">
+      Submit
+    </button>
+    <a class="ml-3" href="{{site_url}}/meetings">
+      Cancel
+    </a>
+  </div>
+</form>
+<p class="mt-5">
+  <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#decline-meeting-modal" type="button">
+    Decline Meeting
+  </button>
+</p>
+<div class="modal fade" id="decline-meeting-modal" tabindex="-1" role="dialog" aria-labelledby="decline-meeting-modal-label" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="decline-meeting-modal-label">Decline Meeting</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to decline this meeting?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-danger">Decline</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 {% endblock %}
