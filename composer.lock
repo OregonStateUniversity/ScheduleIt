@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "453eb773d87d6292a06d7b191ba8e3f9",
+    "content-hash": "d631dae680d59171a58fd00ec4e781d2",
     "packages": [
         {
             "name": "jasig/phpcas",

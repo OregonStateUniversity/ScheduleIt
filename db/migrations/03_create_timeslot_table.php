@@ -18,6 +18,5 @@ class CreateTimeslotTable extends AbstractMigration
               ->addForeignKey('fk_event_id', 'meb_event', 'id')
               ->addColumn('mod_date', 'timestamp', ['default' => 'CURRENT_TIMESTAMP', 'update' => 'CURRENT_TIMESTAMP'])
               ->create();
-
     }
 }
