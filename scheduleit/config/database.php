@@ -733,6 +733,67 @@ class DatabaseInterface
 
         return $result;
     }
+
+/**
+* Adds time slots to database
+*
+* @param obj $slotData
+* @param id $eventID
+* @return int
+*/
+
+    private function addTimeSlots($slotData, $eventID)
+    {
+        $query = "
+            INSERT INTO
+            meb_timeslot(
+              hash,
+              start_time,
+              end_time,
+              duration,
+              slot_capacity,
+              spaces_available,
+              is_full,
+              fk_event_id
+            )
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        ";
+
+        $statement = $this->database->prepare($query);
+
+        $statement->bind_param(
+            "sssiiiii",
+            $hash,
+            $startDate,
+            $endDate,
+            $duration,
+            $capacity,
+            $spaces,
+            $full,
+            $eventID
+        );
+
+        $result = 0;
+        $full = 0;
+
+        foreach ($slotData["dates"] as $item) {
+            $startDate = $item["startDate"];
+            $endDate = $item["endDate"];
+            $duration = $slotData["duration"];
+            $capacity = $slotData["capacity"];
+            $spaces = $slotData["capacity"];
+
+            $hash = createTimeSlotHash($startDate, $endDate, $eventID);
+
+            $statement->execute();
+
+            $result += $statement->affected_rows;
+        }
+
+        $statement->close();
+
+        return $result;
+    }
 }
 
 $database = new DatabaseInterface();
