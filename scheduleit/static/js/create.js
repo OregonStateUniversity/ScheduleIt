@@ -1,14 +1,13 @@
 $(document).ready(function () {
- // $("#createNav").addClass("activeNavItem"); // highlight the navbar for create
+   console.log("test1");
   initLocationInput(); // initialize location auto complete list
- // initDatePicker(); // Initialize the date picker
 });
 
 //source: https://blog.teamtreehouse.com/creating-autocomplete-dropdowns-datalist-element
 
 function initLocationInput() {
-  var dataList = document.getElementById("locationDatalist");
-  var input = document.getElementById("locationInput");
+  var dataList = document.getElementById("location-data-list");
+  var input = document.getElementById("location-input");
   
   // create a new xmlhttprequest.
   var request = new XMLHttpRequest();
