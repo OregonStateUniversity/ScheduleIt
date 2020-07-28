@@ -3,7 +3,7 @@
 require_once ABSPATH . 'config/session.php';
 
 $search_term = !empty($_GET['q']) ? $_GET['q'] : '';
-$results = $database->getManageMeetings($_SESSION['user'], $search_term);
+$results = $database->getManageMeetings($_SESSION['user_id'], $search_term);
 $meetings = [];
 
 // Add dates to meetings
@@ -11,7 +11,6 @@ foreach ($results as $key => $meeting) {
     if ($meeting['id']) {
         $meeting['dates'] = $database->getDatesByMeetingId($meeting['id']);
         $meeting['dates_count'] = count($meeting['dates']);
-
     }
 
     array_push($meetings, $meeting);

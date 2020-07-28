@@ -7,14 +7,14 @@ $key = !empty($_GET['key']) ? $_GET['key'] : null;
 $meeting = $database->getMeetingByHash($key);
 
 if ($meeting) {
-    echo $twig->render('meetings/invite.twig', [
+    echo $twig->render('invites/show.twig', [
         'meeting' => $meeting,
-        'title' => 'Invite - ' . $meeting['name'],
+        'title' => $meeting['name'],
     ]);
 } else {
     http_response_code(404);
     echo $twig->render('errors/error_logged_in.twig', [
-        'message' => 'Sorry, we couldn\'t find that meeting.',
-        'title' => 'Meeting Not Found',
+        'message' => 'Sorry, we couldn\'t find that invite.',
+        'title' => 'Invite Not Found',
     ]);
 }

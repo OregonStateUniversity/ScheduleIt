@@ -5,10 +5,193 @@
 <h1 class="h2 mb-4">
   {{title}}
 </h1>
-{% if meeting.creator_onid == user_onid %}
-  {{ include('meetings/_meeting_details_mine.twig') }}
+<div class="card mb-4 card-mine">
+  <div class="card-body pb-0">
+    <div class="row">
+      <div class="col-6">
+        <h4 class="h6 mb-1">
+          Title
+        </h4>
+        <p class="card-text-large">
+          {{meeting.name}}
+        </p>
+        <h4 class="h6 mb-1">
+          Location
+        </h4>
+        <p class="card-text-large">
+          {{meeting.location}}
+        </p>
+        <h4 class="h6 mb-1">
+          Description
+        </h4>
+        <p class="card-text-large">
+          {{meeting.description}}
+        </p>
+        <h4 class="h6 mb-1">
+          Dates
+        </h4>
+        <p class="card-text-large">
+          {% for date in meeting.dates %}
+            {{date.date | date("n/j/y")}}{% if loop.index != meeting.dates_count %}, {% endif %}
+          {% endfor %}
+        </p>
+      </div>
+      <div class="col-6">
+        <h4 class="h6 mb-1">
+          Anonymous Meeting
+        </h4>
+        <p class="card-text-large">
+          {% if meeting.is_anon == true %}
+            Yes
+          {% else %}
+            No
+          {% endif %}
+        </p>
+        <h4 class="h6 mb-1">
+          Enable Attendees to Upload Files
+        </h4>
+        <p class="card-text-large">
+          {% if meeting.enable_upload == true %}
+            Yes
+          {% else %}
+            No
+          {% endif %}
+        </p>
+        <h4 class="h6 mb-1">
+          File Download for Attendees
+        </h4>
+        <p class="card-text-large">
+          {% if meeting.creator_file %}
+            <a href="{{meeting.creator_file}}">
+              {{meeting.creator_file | basename}}
+            </a>
+          {% else %}
+            N/A
+          {% endif %}
+        </p>
+        <h4 class="h6 mb-1">
+          Attendees Allowed Per Timeslot
+        </h4>
+        <p class="card-text-large">
+          {{meeting.capacity}}
+        </p>
+        <h4 class="h6 mb-1">
+          Invite Link
+        </h4>
+        <p class="card-text-large">
+          <a id="inviteLink" href="{{site_url}}/invite?key={{meeting.hash}}">Invite Link</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+<p class="mb-5">
+  <a class="btn btn-primary" href="{{site_url}}/meetings/{{meeting.id}}/edit">
+    Edit Meeting
+  </a>
+</p>
+<h2 class="h3">
+  Attendees
+</h2>
+{% if attendee_meetings %}
+  <table class="table">
+    <tr class="d-flex">
+      <th class="col-3">Date</th>
+      <th class="col-3">Time</th>
+      <th class="col-3">Name</th>
+      <th class="col-2">Uploaded File</th>
+      <th class="col-1">Remove</th>
+    </tr>
+    {% for meeting in attendee_meetings %}
+      <tr class="d-flex">
+        <td class="col-3">
+          {{meeting.start_time | date("D, F j, Y")}}
+        </td>
+        <td class="col-3">
+          {{meeting.start_time| date("g:ia")}}-{{meeting.end_time| date("g:ia")}}
+        </td>
+        <td class="col-3">
+          <a href="mailto:{{meeting.attendee_email}}">{{meeting.attendee_name}}</a>
+        </td>
+        <td class="col-2">
+          {% if meeting.attendee_file %}
+            <a href="{{meeting.attendee_file}}">{{meeting.attendee_file | basename}}</a>
+          {% else %}
+            N/A
+          {% endif %}
+        </td>
+        <td class="col-1">
+          <i class="fas fa-times text-danger ml-2" data-toggle="modal" data-target="#delete-attendee-modal" role="button"></i>
+        </td>
+      </tr>
+    {% endfor %}
+  </table>
+  <div class="modal fade" id="delete-attendee-modal" tabindex="-1" role="dialog" aria-labelledby="delete-attendee-modal-label" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="delete-attendee-modal-label">Remove Attendee</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          Are you sure you want to remove this attendee?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-danger">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
 {% else %}
-  {{ include('meetings/_meeting_details_other.twig') }}
+  <p>
+    No attendees have signed up yet.
+  </p>
 {% endif %}
+<br>
+<div id="onidInvite">
+  <form enctype="multipart/form-data" method="post">
+
+    <label for="onid">Please enter a space separated list of ONID ids</label><br>
+    <input class="form-control" type="text" name="attendeeOnid" id="onid" placeholder="onid1 onid2...">{{attendeeOnid}}</input><br><br>
+    <input class="form-control" type="hidden" name="link" value="{{site_url}}/meetings/invite?key={{meeting.hash}}">
+    <input type="submit" value="Send Invitations">
+  </form>
+</div>
+<br>
+<p class="mb-5">
+  <button class="btn btn-primary" data-toggle="modal" data-target="#invite-attendees-modal" type="button">
+    Invite Attendees
+  </button>
+</p>
+<div class="modal fade" id="invite-attendees-modal" tabindex="-1" role="dialog" aria-labelledby="invite-attendees-modal-label" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="invite-attendees-modal-label">Invite Attendees</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+       <p>
+          Enter email addresses separated by commas or on new lines, or upload a CVS file.
+        </p>
+        <p>
+          <textarea class="form-control"></textarea>
+        </p>
+        <div class="form-group">
+          <input class="form-control-file" type="file">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-success">Send</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 {% endblock %}

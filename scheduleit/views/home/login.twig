@@ -16,27 +16,11 @@
     </p>
   {% endif %}
 
-  {% if user %}
-    <div class="alert alert-success">
-      <p>
-        You're now logged in as:
-      </p>
-      <p>
-        ONID: {{user}}<br>
-        Name: {{first_name}} {{last_name}}<br>
-        Email: {{email}}
-      </p>
-      <p>
-        Redirecting to <a href="{{redirect_url}}">{{redirect_url}}</a>...
-      </p>
-    </div>
-  {% endif %}
-
   <form action="{{site_url}}/login" class="row" method="post">
     <div class="col-md-3">
       <p>
         <label>ONID</label><br>
-        <input class="form-control" name="user" type="text" value={{user}}>
+        <input class="form-control" name="user" type="text">
       </p>
       <p>
         <button class="btn btn-primary">

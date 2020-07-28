@@ -5,67 +5,74 @@
 <h1 class="h2 mb-4">
   {{title}}
 </h1>
-<div class="row">
+<div class="row mb-3">
   <div class="col-md-6">
-    <div class="card {{ meeting.hostName == 'Me' ? 'card-mine' }}">
-      <div class="card-body">
+    <div class="card">
+      <div class="card-body pb-0">
         <h4 class="h6 mb-0">
           Location
         </h4>
-        <p>
+        <p class="card-text-large">
           {{meeting.location}}
         </p>
+        {% if meeting.description %}
+          <h4 class="h6 mb-0">
+            Description
+          </h4>
+          <p class="card-text-large">
+            {{meeting.description}}
+          </p>
+        {% endif %}
         <h4 class="h6 mb-0">
-          Description
+          Creator
         </h4>
-        <p>
-          {{meeting.description}}
-        </p>
-        <h4 class="h6 mb-0">
-          Host
-        </h4>
-        <p>
-          <a href="mailto:{{meeting.hostEmail}}">
-            {{meeting.hostName}}
+        <p class="card-text-large">
+          <a href="mailto:{{meeting.creator_email}}">
+            {% if meeting.creator_id == user_id %}
+              Me
+            {% else %}
+              {{meeting.creator_name}}
+            {% endif %}
           </a>
         </p>
-        <h4 class="h6 mb-0">
-          Host Meeting File
-        </h4>
-        <p>
-          <a href="#">
-            file.pdf
-          </a>
-        </p>
+        {% if meeting.creator_file %}
+          <h4 class="h6 mb-0">
+            Creator Meeting File
+          </h4>
+          <p class="card-text-large">
+            <a href="{{meeting.creator_file}}">
+              {{meeting.creator_file | basename}}
+            </a>
+          </p>
+        {% endif %}
       </div>
     </div>
   </div>
 </div>
-<hr>
-<form method="post">
+<form enctype="multipart/form-data" method="post">
   <div class="row">
     <div class="col-md-6">
-      <div class="card mb-4 {{ meeting.hostName == 'Me' ? 'card-mine' }}">
-        <div class="card-body">
+      <div class="card mb-4">
+        <div class="card-body pb-0">
           <div class="form-group">
             <label class="h6">File Upload</label>
             <p>
               You may only upload a single file. Uploading a second file will overwrite the first.
               If you need to upload multiple files combine them into a single zip file.
             </p>
-            <input class="form-control-file" type="file">
+            <input class="form-control-file" name="attendee_file" type="file">
           </div>
         </div>
       </div>
     </div>
   </div>
-  <div class="mb-4">
+  <div class="mb-2">
     <label class="h6">Select a Time Slot</label>
     {{ include('meetings/_date_table.twig') }}
   </div>
   <div class="pt-4">
     <button class="btn btn-success">
-      Save Invite
+      Submit
     </button>
     <a class="ml-3" href="{{site_url}}/meetings">
       Cancel

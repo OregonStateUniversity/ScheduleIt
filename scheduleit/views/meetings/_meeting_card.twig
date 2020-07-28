@@ -1,4 +1,4 @@
-<div class="card mb-3 {{ meeting.creator_onid == user_onid ? 'card-mine' : 'card-other' }}">
+<div class="card mb-3 {{ meeting.creator_id == user_id ? 'card-mine' : 'card-other' }}">
   <div class="card-body">
     <h3 class="h6 d-md-flex justify-content-between">
       <span>
@@ -9,9 +9,15 @@
       </span>
     </h3>
     <h4 class="h5 mb-2">
-      <a href="{{site_url}}/meetings/{{meeting.id}}">
-        {{meeting.name}}
-      </a>
+      {% if meeting.creator_id == user_id  %}
+        <a href="{{site_url}}/meetings/{{meeting.id}}">
+          {{meeting.name}}
+        </a>
+      {% else %}
+        <a href="{{site_url}}/invite?key={{meeting.hash}}">
+          {{meeting.name}}
+        </a>
+      {% endif %}
     </h4>
     <p class="mb-0">
       {{meeting.location}}
