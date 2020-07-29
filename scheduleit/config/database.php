@@ -734,14 +734,13 @@ class DatabaseInterface
         return $result;
     }
 
-/**
-* Adds time slots to database
-*
-* @param obj $slotData
-* @param id $eventID
-* @return int
-*/
-
+    /**
+    * Adds time slots to database
+    *
+    * @param obj $slotData
+    * @param id $eventID
+    * @return int
+    */
     private function addTimeSlots($slotData, $eventID)
     {
         $query = "
