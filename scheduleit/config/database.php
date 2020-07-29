@@ -733,6 +733,64 @@ class DatabaseInterface
 
         return $result;
     }
+
+    /**
+     * Get list of onids that have not registered 
+     * for an event.
+     *
+     * @param object $eventId
+     * @return string array
+     */
+     public function getNotRegistered($eventId)
+     {
+      
+       $not_reg_query = "
+      
+       SELECT user_onid FROM meb_invites
+       WHERE fk_event_id = ? AND user_onid NOT IN
+         (SELECT DISTINCT user_onid FROM meb_invites
+         INNER JOIN meb_user ON meb_user.onid = meb_invites.user_onid
+         INNER JOIN meb_booking ON meb_booking.fk_user_id = meb_user.id
+         INNER JOIN meb_timeslot ON meb_booking.fk_timeslot_id = meb_timeslot.id
+         INNER JOIN meb_event ON meb_event.id = meb_timeslot.fk_event_id
+         where meb_timeslot.fk_event_id = ?)
+       ";
+
+         $getList = $this->database->prepare($not_reg_query);
+      
+         $getList->bind_param("ii", $eventId, $eventId);
+         $getList->execute();
+
+         $list = $getList->get_result();
+
+         $listArray = $list->fetch_all(MYSQLI_ASSOC);
+           
+         $getList->close();
+         $list->free();
+         return $listArray;
+    }
+
+     /**
+     * add onid to list of inivted onids for an event
+     * 
+     *
+     * @param string $onid, int $eventId
+     * @return none
+     */
+     public function insertInviteList($onid, $eventId)
+     {
+       $insert_meb_invites_query = "
+         INSERT `meb_invites` (fk_event_id, user_onid)
+         VALUES (?,?);
+       ";
+      
+       $insert = $this->database->prepare($insert_meb_invites_query);
+
+       $insert->bind_param("is", $eventId, $onid);
+       $insert->execute();
+
+       $insert->close();
+    } 
 }
 
 $database = new DatabaseInterface();

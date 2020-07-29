@@ -1,8 +1,12 @@
 <?php
-
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 require_once ABSPATH . 'config/session.php';
 
 $meeting = $database->getMeetingById($meeting_id, $_SESSION['user_id']);
+// list of onids that were invited to the event but have not registered
+$inviteList = $database->getNotRegistered($meeting['id']);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $attendeeOnids = $_POST['attendeeOnid'];
@@ -30,6 +34,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $msg = sprintf($msgFormat, $onid, $host, $link);
 
         $result = mail($email, "You're Invited", $msg, $headers);
+
+        if ($result == 1) {
+          // add onid to the events inivte list
+          $database->insertInviteList($onid, $meeting['id']);
+        }
       }
     }
 }
@@ -43,6 +52,7 @@ if ($meeting && $meeting['creator_id'] == $_SESSION['user_id']) {
         'attendee_meetings' => $attendee_meetings,
         'meeting' => $meeting,
         'title' => $meeting['name'],
+        'invite_list' => $inviteList,
     ]);
 } else {
     http_response_code(404);

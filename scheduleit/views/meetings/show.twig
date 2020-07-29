@@ -152,20 +152,36 @@
 {% endif %}
 <br>
 <div id="onidInvite">
+  <p>
+    <h2 class="h3">Invite</h2>
+  </p>
   <form enctype="multipart/form-data" method="post">
 
-    <label for="onid">Please enter a space separated list of ONID ids</label><br>
+    <label for="onid">Please enter a space separated list of ONID IDs</label><br>
     <input class="form-control" type="text" name="attendeeOnid" id="onid" placeholder="onid1 onid2...">{{attendeeOnid}}</input><br><br>
     <input class="form-control" type="hidden" name="link" value="{{site_url}}/meetings/invite?key={{meeting.hash}}">
-    <input type="submit" value="Send Invitations">
+    <button type="submit" class="btn btn-primary">Send Invitations</button>
   </form>
 </div>
 <br>
-<p class="mb-5">
+<div>
+  {% if invite_list %}
+    <h2 class="h3">
+      List of Invited Onids That Have Not Registered
+    </h2>
+    <br>
+    <div>
+      {% for list in invite_list %}
+        {{ list.user_onid }}<br>
+      {% endfor %}
+    </div>
+  {% endif %}
+</div> 
+<!--<p class="mb-5">
   <button class="btn btn-primary" data-toggle="modal" data-target="#invite-attendees-modal" type="button">
     Invite Attendees
   </button>
-</p>
+</p>-->
 <div class="modal fade" id="invite-attendees-modal" tabindex="-1" role="dialog" aria-labelledby="invite-attendees-modal-label" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
