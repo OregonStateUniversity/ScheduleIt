@@ -138,8 +138,7 @@
           </button>
         </div>
         <div class="modal-body">
-          <label id="delete-attendee-modal-body"></label>
-             Are you sure you want to remove this attendee?
+          Are you sure you want to remove this attendee?
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
@@ -157,13 +156,11 @@
 
 <br>
 <div id="onidInvite">
-  <p>
-    <h2 class="h3">Invite</h2>
-  </p>
-  <form enctype="multipart/form-data" method="post">
+  <h2 class="h3">Invite</h2>
+  <form method="post">
 
     <label for="onid">Please enter a space separated list of ONID IDs</label><br>
-    <input class="form-control" type="text" name="attendeeOnid" id="onid" placeholder="onid1 onid2...">{{attendeeOnid}}</input><br><br>
+    <input class="form-control" type="text" name="attendeeOnid" id="onid" placeholder="onid1 onid2...">{{attendeeOnid}}<br><br>
     <input class="form-control" type="hidden" name="link" value="{{site_url}}/meetings/invite?key={{meeting.hash}}">
     <button type="submit" name='onid_invite' class="btn btn-primary">Send Invitations</button>
   </form>
