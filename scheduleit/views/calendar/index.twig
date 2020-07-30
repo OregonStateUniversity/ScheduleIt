@@ -31,7 +31,7 @@
       return {
         classNames: event.creator_id === parseInt("{{user_id}}", 10) ? ["meeting-mine"] : ["meeting-other"],
         title: event.name,
-        url: event.creator_id === parseInt("{{user_id}}", 10) ? "{{site_url}}/meetings/" + event.id : "{{site_url}}/invite?key" + event.hash,
+        url: event.creator_id === parseInt("{{user_id}}", 10) ? "{{site_url}}/meetings/" + event.id : "{{site_url}}/invite?key=" + event.hash,
         start: event.start_time
       }
     });

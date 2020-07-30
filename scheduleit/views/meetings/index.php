@@ -8,8 +8,6 @@ $upcoming_meetings = $database->getAllUpcomingMeetings($_SESSION['user_id']);
 $created_meetings = $database->getUpcomingMeetingsByCreator($_SESSION['user_id']);
 $past_meetings = $database->getPastMeetings($_SESSION['user_id']);
 $search_meetings = $database->getMeetingsBySearchTerm($_SESSION['user_id'], $search_term);
-$invites = $database->getInvites($_SESSION['user_onid']);
-$invite_count = count($invites);
 $invite_meetings = [];
 
 // Add dates to invites
@@ -30,7 +28,6 @@ echo $twig->render('meetings/index.twig', [
     'created_meetings' => $created_meetings,
     'past_meetings' => $past_meetings,
     'invites' => $invite_meetings,
-    'invite_count' => $invite_count,
     'search_meetings' => $search_meetings,
     'title' => 'My Meetings',
 ]);

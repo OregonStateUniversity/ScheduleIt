@@ -7,7 +7,7 @@
 </h1>
 <div class="row mb-3">
   <div class="col-md-6">
-    <div class="card">
+    <div class="card card-mine">
       <div class="card-body pb-0">
         <h4 class="h6 mb-0">
           Location
@@ -50,27 +50,86 @@
   </div>
 </div>
 <form enctype="multipart/form-data" method="post">
-  <div class="row">
+  <div class="mb-3">
+    <div class="card">
+      <div class="card-body pb-0">
+        {% if booking %}
+          <h6 class="h6">
+            Current Timeslot
+          </h6>
+          <p class="mb-4">
+            <label>
+              <input name="timeslot_id" value="{{booking.timeslot_id}}" checked type="radio">
+              {{booking.start_time | date('D, F j, Y g:ia')}}-{{booking.end_time| date('g:ia')}}
+            </label>
+          </p>
+        {% endif %}
+        <h6 class="h6 mb-4">
+          Select a {% if booking %}New {% endif %}Timeslot
+        </h6>
+        {% if dates %}
+          <div class="row">
+            {% for date in dates %}
+              <div class="col-md-3">
+                <h5 class="h6">
+                  {{date.date | date("D, F j, Y")}}
+                </h5>
+                <ul class="list-unstyled mb-4">
+                  {% for time in date.timeslots %}
+                    <li>
+                      <label>
+                        <input name="timeslot_id" value="{{time.id}}" type="radio">
+                        {{time.start_time| date('g:ia')}}-{{time.end_time| date('g:ia')}}
+                      </label>
+                    </li>
+                  {% endfor %}
+                </ul>
+              </div>
+            {% endfor %}
+          </div>
+        {% else %}
+          <p>
+            No timeslots available.
+          </p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  <div class="row mb-4">
     <div class="col-md-6">
-      <div class="card mb-4">
+      <div class="card">
         <div class="card-body pb-0">
           <div class="form-group">
-            <label class="h6">File Upload</label>
+            {% if booking.attendee_file %}
+              <h6 class="h6">
+                File Upload
+              </h6>
+              <p class="card-text-large">
+                <a href="{{booking.attendee_file}}">
+                  {{booking.attendee_file | basename}}
+                </a>
+              </p>
+            {% endif %}
+            <label class="h6">
+              {% if booking.attendee_file %}
+                Upload New File
+              {% else %}
+                File Upload
+              {% endif %}
+            </label>
             <p>
               You may only upload a single file. Uploading a second file will overwrite the first.
               If you need to upload multiple files combine them into a single zip file.
+              Allowed file types: {{upload_allowed_filetypes | join}}
             </p>
-            <input class="form-control-file" name="attendee_file" type="file">
+            <input class="form-control-file" name="file" type="file">
           </div>
         </div>
       </div>
     </div>
   </div>
-  <div class="mb-2">
-    <label class="h6">Select a Time Slot</label>
-    {{ include('meetings/_date_table.twig') }}
-  </div>
   <div class="pt-4">
+    <input name="booking_id" value="{{booking.id}}" type="hidden">
     <button class="btn btn-success">
       Submit
     </button>
@@ -88,18 +147,28 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="decline-meeting-modal-label">Decline Meeting</h5>
+        <h5 class="modal-title" id="decline-meeting-modal-label">
+          Decline Meeting
+        </h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
-        Are you sure you want to decline this meeting?
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-        <button type="button" class="btn btn-danger">Decline</button>
-      </div>
+      <form method="post">
+        <div class="modal-body">
+          Are you sure you want to decline this meeting?
+        </div>
+        <div class="modal-footer">
+          <input name="decline_booking" value="1" type="hidden">
+          <input name="timeslot_hash" value="{{booking.timeslot_hash}}" type="hidden">
+          <button class="btn btn-secondary" data-dismiss="modal" type="button">
+            Cancel
+          </button>
+          <button class="btn btn-danger">
+            Decline
+          </button>
+        </div>
+      </form>
     </div>
   </div>
 </div>

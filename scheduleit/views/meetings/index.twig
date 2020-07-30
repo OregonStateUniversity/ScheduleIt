@@ -38,21 +38,21 @@
   <nav>
     <div class="nav nav-tabs" role="tablist">
       <a class="nav-item nav-link active" id="all-meetings-tab" data-toggle="tab" href="#all-meetings" role="tab" aria-controls="all-meetings" aria-selected="false">
-        All Upcoming Meetings
+        All Upcoming Meetings ({{ upcoming_meetings | count }})
       </a>
       {% if created_meetings %}
         <a class="nav-item nav-link" id="my-meetings-tab" data-toggle="tab" href="#my-meetings" role="tab" aria-controls="my-meetings" aria-selected="true">
-          Meetings Created By Me
+          Meetings Created By Me ({{ created_meetings | count }})
         </a>
       {% endif %}
       {% if past_meetings %}
         <a class="nav-item nav-link" id="past-meetings-tab" data-toggle="tab" href="#past-meetings" role="tab" aria-controls="past-meetings" aria-selected="false">
-          Past Meetings
+          Past Meetings ({{ past_meetings | count }})
         </a>
       {% endif %}
       {% if invites %}
         <a class="nav-item nav-link" id="invites-tab" data-toggle="tab" href="#invites" role="tab" aria-controls="invites" aria-selected="false">
-          <strong>Invites ({{ invite_count }})</Strong>
+          <strong>Invites ({{ invites | count }})</Strong>
         </a>
       {% endif %}
     </div>

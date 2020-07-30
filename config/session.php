@@ -70,9 +70,12 @@ if (in_array('scheduleit', $current_url)) {
     require_once ABSPATH . 'config/twig.php';
 }
 
+$invites = $database->getInvites($_SESSION['user_onid']);
+
 $twig->addGlobal('user_email', $_SESSION['user_email']);
 $twig->addGlobal('user_id', $_SESSION['user_id']);
 $twig->addGlobal('user_firstname', $_SESSION['user_firstname']);
 $twig->addGlobal('user_lastname', $_SESSION['user_lastname']);
 $twig->addGlobal('user_onid', $_SESSION['user_onid']);
 $twig->addGlobal('msg', $msg);
+$twig->addGlobal('invites', $invites);
