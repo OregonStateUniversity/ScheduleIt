@@ -121,7 +121,9 @@
           {% endif %}
         </td>
         <td class="col-1">
-          <i class="fas fa-times text-danger ml-2" data-toggle="modal" data-target="#delete-attendee-modal" role="button"></i>
+          <button class="btn" id="mybtn" data-id="{{meeting.id}}" data-onid="{{meeting.attendee_onid}}" data-time="{{meeting.start_time}}" data-url="{{site_url}}/meetings/remove_attendee" data-meeting-name="{{meeting.name}}">
+            <i class="fa fa-times text-danger ml-2"></i>
+          </button>  
         </td>
       </tr>
     {% endfor %}
@@ -136,20 +138,23 @@
           </button>
         </div>
         <div class="modal-body">
-          Are you sure you want to remove this attendee?
+          <label id="delete-attendee-modal-body"></label>
+             Are you sure you want to remove this attendee?
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-danger">Delete</button>
+          <button type="button" class="btn btn-danger" id="delete-attendee-button">Delete</button> 
         </div>
       </div>
     </div>
   </div>
+ 
 {% else %}
   <p>
     No attendees have signed up yet.
   </p>
 {% endif %}
+
 <br>
 <div id="onidInvite">
   <p>
@@ -160,7 +165,7 @@
     <label for="onid">Please enter a space separated list of ONID IDs</label><br>
     <input class="form-control" type="text" name="attendeeOnid" id="onid" placeholder="onid1 onid2...">{{attendeeOnid}}</input><br><br>
     <input class="form-control" type="hidden" name="link" value="{{site_url}}/meetings/invite?key={{meeting.hash}}">
-    <button type="submit" class="btn btn-primary">Send Invitations</button>
+    <button type="submit" name='onid_invite' class="btn btn-primary">Send Invitations</button>
   </form>
 </div>
 <br>

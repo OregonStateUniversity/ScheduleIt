@@ -791,6 +791,110 @@ class DatabaseInterface
 
        $insert->close();
     } 
+    
+    /**
+    * delete a booking  
+    * 
+    *
+    * @param string $startTime, int $eventId, string $onid
+    * @return int result
+    */
+    public function deleteBooking($startTime, $eventId, $onid)
+    {
+      $delete_booking_query = "
+        DELETE FROM meb_booking
+        WHERE meb_booking.fk_timeslot_id IN      
+         (SELECT meb_timeslot.id as slotId FROM `meb_timeslot`
+          INNER JOIN `meb_event` ON meb_timeslot.fk_event_id = meb_event.id
+          WHERE meb_timeslot.start_time = ?
+          AND meb_event.id = ?)
+        AND meb_booking.fk_user_id IN
+         (SELECT id FROM meb_user
+          WHERE meb_user.onid = ?)
+      ;";
+
+      $delete = $this->database->prepare($delete_booking_query);
+
+      $delete->bind_param("sis", $startTime, $eventId, $onid);
+      $delete->execute();
+      
+      $result = $delete->affected_rows;
+      $delete->close();
+
+      return $result;
+    }
+
+    /**
+    * get a slot id
+    *
+    *
+    * @param string $startTime, int $eventId
+    * @return int $id
+    */
+    public function getSlotId($startTime, $eventId)
+    {
+      $slot_query = "
+        SELECT meb_timeslot.id FROM `meb_timeslot`
+        INNER JOIN `meb_event` ON meb_timeslot.fk_event_id = meb_event.id
+        WHERE meb_timeslot.start_time = ?
+        AND meb_event.id = ?
+      ;";
+
+      $slot = $this->database->prepare($slot_query);
+
+      $slot->bind_param("si", $startTime, $eventId);
+      $slot->execute();
+
+      $result = $slot->get_result();
+      if ($result->num_rows > 0) {
+          $resultArray = $result->fetch_all(MYSQLI_ASSOC);
+          $id = $resultArray[0];
+      }
+      
+      $slot->close();
+      $result->free();
+      return $id;
+    }
+
+    /**
+    * update slot and meeting space
+    *
+    *
+    * @param int $eventId, int $slotId
+    * @return none
+    */
+    public function updateAvailableSlots($eventId, $slotId)
+    {
+      $update_meb_timeslot_query = "
+        UPDATE `meb_timeslot`
+        SET spaces_available = spaces_available + 1, is_full = 0
+        WHERE meb_timeslot.id = ?
+        ;";
+
+      $updateTimeSlotSpace = $this->database->prepare($update_meb_timeslot_query);
+
+      $updateTimeSlotSpace->bind_param("i", $slotId);
+      $updateTimeSlotSpace->execute();
+
+      $result = $updateTimeSlotSpace->affected_rows;
+
+      $updateTimeSlotSpace->close();
+
+      $update_meb_event_query = "
+        UPDATE `meb_event`
+        SET open_slots = open_slots + 1
+        WHERE meb_event.id = ?
+        ;";
+
+        $updateEventSlot = $this->database->prepare($update_meb_event_query);
+
+        $updateEventSlot->bind_param("i", $eventId);
+        $updateEventSlot->execute();
+
+        $result2 = $updateEventSlot->affected_rows;
+
+        $updateEventSlot->close();
+     } 
 }
 
 $database = new DatabaseInterface();
