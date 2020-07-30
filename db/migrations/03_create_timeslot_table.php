@@ -15,7 +15,7 @@ class CreateTimeslotTable extends AbstractMigration
               ->addColumn('spaces_available', 'integer')
               ->addColumn('is_full', 'boolean', ['default' => 0])
               ->addColumn('fk_event_id', 'integer')
-              ->addForeignKey('fk_event_id', 'meb_event', 'id')
+              ->addForeignKey('fk_event_id', 'meb_event', 'id', ['delete' => 'CASCADE'])
               ->addColumn('mod_date', 'timestamp', ['default' => 'CURRENT_TIMESTAMP', 'update' => 'CURRENT_TIMESTAMP'])
               ->create();
     }
