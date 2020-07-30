@@ -120,8 +120,20 @@
             N/A
           {% endif %}
         </td>
+        <td style="display:none;">
+          {{site_url}}/meetings/remove_attendee
+        </td>
+        <td style="display:none;">
+          {{meeting.attendee_onid}}
+        </td>
+        <td style="display:none;">
+          {{meeting.timeslot_hash}}
+        </td>
         <td class="col-1">
-          <i class="fas fa-times text-danger ml-2" data-toggle="modal" data-target="#delete-attendee-modal" role="button"></i>
+          <button class="table-btn">
+            <i class="fa fa-times text-danger ml-2"></i>
+          </button>  
+      <!--    <i class="fas fa-times text-danger ml-2" data-toggle="modal" data-target="#delete-attendee-modal" role="button"></i>  -->
         </td>
       </tr>
     {% endfor %}
@@ -140,32 +152,52 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-danger">Delete</button>
+          <button type="button" class="btn btn-danger" id="delete-attendee-button">Delete</button> 
         </div>
       </div>
     </div>
   </div>
+ 
 {% else %}
   <p>
     No attendees have signed up yet.
   </p>
 {% endif %}
+
 <br>
 <div id="onidInvite">
-  <form enctype="multipart/form-data" method="post">
+  <h2 class="h3">Invite</h2>
+  <form method="post">
 
-    <label for="onid">Please enter a space separated list of ONID ids</label><br>
-    <input class="form-control" type="text" name="attendeeOnid" id="onid" placeholder="onid1 onid2...">{{attendeeOnid}}</input><br><br>
+    <label for="onid">Please enter a space separated list of ONID IDs</label><br>
+    <input class="form-control" type="text" name="attendeeOnid" id="onid" placeholder="onid1 onid2...">{{attendeeOnid}}<br><br>
     <input class="form-control" type="hidden" name="link" value="{{site_url}}/meetings/invite?key={{meeting.hash}}">
-    <input type="submit" value="Send Invitations">
+    <button type="submit" name='onid_invite' class="btn btn-primary">Send Invitations</button>
   </form>
 </div>
 <br>
-<p class="mb-5">
+<div>
+  {% if invite_list %}
+    <h2 class="h3">
+      Invited Not Yet Registered
+    </h2>
+    <br>
+    <table class="table">
+      {% for list in invite_list %}
+        <tr>
+          <td>
+            {{ list.user_onid }}
+          </td>
+        </tr>
+      {% endfor %}
+    </table> 
+  {% endif %}
+</div> 
+<!--<p class="mb-5">
   <button class="btn btn-primary" data-toggle="modal" data-target="#invite-attendees-modal" type="button">
     Invite Attendees
   </button>
-</p>
+</p>-->
 <div class="modal fade" id="invite-attendees-modal" tabindex="-1" role="dialog" aria-labelledby="invite-attendees-modal-label" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">

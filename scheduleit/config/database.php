@@ -695,6 +695,7 @@ class DatabaseInterface
         meb_timeslot.hash AS timeslot_hash,
         meb_timeslot.start_time,
         meb_timeslot.end_time,
+        meb_files.path AS attendee_file,
         meb_user.email AS attendee_email,
         CONCAT(meb_user.first_name, ' ', meb_user.last_name) AS attendee_name,
         meb_user2.email AS creator_email,
@@ -1129,6 +1130,159 @@ class DatabaseInterface
 
         return $result;
     }
+
+    /**
+     * Get list of onids that have not registered 
+     * for an event.
+     *
+     * @param object $eventId
+     * @return string array
+     */
+     public function getNotRegistered($eventId)
+     {
+      
+       $not_reg_query = "
+      
+       SELECT user_onid FROM meb_invites
+       WHERE fk_event_id = ? AND user_onid NOT IN
+         (SELECT DISTINCT user_onid FROM meb_invites
+         INNER JOIN meb_user ON meb_user.onid = meb_invites.user_onid
+         INNER JOIN meb_booking ON meb_booking.fk_user_id = meb_user.id
+         INNER JOIN meb_timeslot ON meb_booking.fk_timeslot_id = meb_timeslot.id
+         INNER JOIN meb_event ON meb_event.id = meb_timeslot.fk_event_id
+         where meb_timeslot.fk_event_id = ?)
+       ";
+
+         $getList = $this->database->prepare($not_reg_query);
+      
+         $getList->bind_param("ii", $eventId, $eventId);
+         $getList->execute();
+
+         $list = $getList->get_result();
+
+         $listArray = $list->fetch_all(MYSQLI_ASSOC);
+           
+         $getList->close();
+         $list->free();
+         return $listArray;
+    }
+
+     /**
+     * add onid to list of inivted onids for an event
+     * 
+     *
+     * @param string $onid, int $eventId
+     * @return none
+     */
+     public function insertInviteList($onid, $eventId)
+     {
+       $insert_meb_invites_query = "
+         INSERT `meb_invites` (fk_event_id, user_onid)
+         VALUES (?,?);
+       ";
+      
+       $insert = $this->database->prepare($insert_meb_invites_query);
+
+       $insert->bind_param("is", $eventId, $onid);
+       $insert->execute();
+
+       $insert->close();
+    } 
+    
+    /**
+    * delete a booking  
+    * 
+    *
+    * @param string $startTime, int $eventId, string $onid
+    * @return int result
+    */
+    public function deleteBookingold($startTime, $eventId, $onid)
+    {
+      $delete_booking_query = "
+        DELETE FROM meb_booking
+        WHERE meb_booking.fk_timeslot_id IN      
+         (SELECT meb_timeslot.id as slotId FROM `meb_timeslot`
+          INNER JOIN `meb_event` ON meb_timeslot.fk_event_id = meb_event.id
+          WHERE meb_timeslot.start_time = ?
+          AND meb_event.id = ?)
+        AND meb_booking.fk_user_id IN
+         (SELECT id FROM meb_user
+          WHERE meb_user.onid = ?)
+      ;";
+
+      $delete = $this->database->prepare($delete_booking_query);
+
+      $delete->bind_param("sis", $startTime, $eventId, $onid);
+      $delete->execute();
+      
+      $result = $delete->affected_rows;
+      $delete->close();
+
+      return $result;
+    }
+
+    /**
+    * get a slot id
+    *
+    *
+    * @param string $startTime, int $eventId
+    * @return int $id
+    */
+    public function getSlotHash($startTime, $eventId)
+    {
+      $hash_query = "
+        SELECT meb_timeslot.hash FROM `meb_timeslot`
+        INNER JOIN `meb_event` ON meb_timeslot.fk_event_id = meb_event.id
+        WHERE meb_timeslot.start_time = ?
+        AND meb_event.id = ?
+      ;";
+
+      $slotHash = $this->database->prepare($hash_query);
+
+      $slotHash->bind_param("si", $startTime, $eventId);
+      $slotHash->execute();
+
+      $result = $slotHash->get_result();
+      if ($result->num_rows > 0) {
+          $resultArray = $result->fetch_all(MYSQLI_ASSOC);
+          $hash = $resultArray[0];
+      }
+      
+      $slotHash->close();
+      $result->free();
+      return $hash;
+    }
+    
+    /**
+    * delete a booking
+    *
+    *
+    * @param string $onid, string $timeslot_hash
+    * @return int $errorCode
+    */
+    public function deleteBooking($onid, $timeslot_hash)
+    {
+      $query = "CALL meb_delete_reservation(?, ?, @res1)";
+
+        $statement = $this->database->prepare($query);
+        $statement->bind_param("ss", $timeslot_hash, $onid);
+        $statement->execute();
+
+        $query = "SELECT @res1";
+        $result = $this->database->query($query);
+
+        if ($result) {
+            $resultArray = $result->fetch_all(MYSQLI_NUM);
+            $errorCode = $resultArray[0];
+        } else {
+            $errorCode = -1;
+        }
+
+        $result->free();
+        $statement->close();
+
+        return $errorCode;
+    }           
 }
 
 $database = new DatabaseInterface();

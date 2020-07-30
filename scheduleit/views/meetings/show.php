@@ -3,11 +3,14 @@
 require_once ABSPATH . 'config/session.php';
 
 $meeting = $database->getMeetingById($meeting_id, $_SESSION['user_id']);
+// list of onids that were invited to the event but have not registered
+$inviteList = $database->getNotRegistered($meeting['id']);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+  if (isset($_POST['attendeeOnid'])) {
     $attendeeOnids = $_POST['attendeeOnid'];
     $link = $_POST['link'];
-    $link = "http://web.engr.oregonstate.edu" . $link;
+    $link = $_SERVER['HTTP_ORIGIN'] . $link;
     $host = $_SESSION['user'];
     $hash = $meeting['hash'];
     // turn onid string into array
@@ -16,6 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // create email list
     // send email in forloop so that other recipients emails are not
     // exposed
+    $sentInvites = 0;
     foreach ($onidArray as $onid) {
       if (strlen($onid) > 2) {
 
@@ -27,11 +31,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         $headers = "From: Schedule It" . "\r\n";
 
-        $msg = sprintf($msgFormat, $onid, $host, $link);
+        $message = sprintf($msgFormat, $onid, $host, $link);
 
-        $result = mail($email, "You're Invited", $msg, $headers);
+        $result = mail($email, "You're Invited", $message, $headers);
+
+        if ($result == 1) {
+          // add onid to the events inivte list
+          $database->insertInviteList($onid, $meeting['id']);
+          $sentInvites += 1;
+        }
       }
     }
+    if ($sentInvites > 1) {
+      $successMessage = 'Sent ' . $sentInvites . ' invites.';
+      $msg->success($successMessage, SITE_DIR . '/meetings/' . $meeting['id']);
+    } else {
+      if ($sentInvites > 0) {
+        $msg->success('Sent 1 invite.', SITE_DIR . '/meetings/' . $meeting['id']);
+      }
+    }
+  } else {
+
+  }
 }
 
 if ($meeting && $meeting['creator_id'] == $_SESSION['user_id']) {
@@ -43,6 +64,7 @@ if ($meeting && $meeting['creator_id'] == $_SESSION['user_id']) {
         'attendee_meetings' => $attendee_meetings,
         'meeting' => $meeting,
         'title' => $meeting['name'],
+        'invite_list' => $inviteList,
     ]);
 } else {
     http_response_code(404);

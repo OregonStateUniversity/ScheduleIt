@@ -47,6 +47,9 @@ switch ($request) {
     case '/profile':
         require_once ABSPATH . 'scheduleit/views/profile/index.php';
         break;
+    case '/meetings/remove_attendee':
+        require_once ABSPATH . 'scheduleit/views/meetings/remove_attendee.php';
+        break;
     default:
         require_once ABSPATH . 'scheduleit/views/errors/error_logged_out.php';
         break;
