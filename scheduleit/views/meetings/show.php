@@ -1,6 +1,9 @@
 <?php
-
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 require_once ABSPATH . 'config/session.php';
+require_once ABSPATH . 'scheduleit/lib/send_email.php';
 
 $meeting = $database->getMeetingById($meeting_id, $_SESSION['user_id']);
 // list of onids that were invited to the event but have not registered
@@ -11,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $attendeeOnids = $_POST['attendeeOnid'];
     $link = $_POST['link'];
     $link = $_SERVER['HTTP_ORIGIN'] . $link;
-    $host = $_SESSION['user'];
+    $host = $_SESSION['user_onid'];
     $hash = $meeting['hash'];
     // turn onid string into array
     $onidArray = explode(" ",$attendeeOnids);
@@ -22,24 +25,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $sentInvites = 0;
     foreach ($onidArray as $onid) {
       if (strlen($onid) > 2) {
+      $send_email->invitation($_SESSION['user_onid'], $onid, $meeting['name'], $_SESSION['user_firstname'] . ' ' . $_SESSION['user_lastname'], $link); 
 
-        $email = $onid . '@oregonstate.edu';
-
-        // create message
-        $msgFormat =
-        "Hi %s, \n\nYour are invited to %s's event! Please follow this address to reserve a seat:\n\n%s";
-
-        $headers = "From: Schedule It" . "\r\n";
-
-        $message = sprintf($msgFormat, $onid, $host, $link);
-
-        $result = mail($email, "You're Invited", $message, $headers);
-
-        if ($result == 1) {
-          // add onid to the events inivte list
-          $database->insertInviteList($onid, $meeting['id']);
-          $sentInvites += 1;
-        }
+      // add onid to the events inivte list
+      $database->insertInviteList($onid, $meeting['id']);
+      $sentInvites += 1;
       }
     }
     if ($sentInvites > 1) {

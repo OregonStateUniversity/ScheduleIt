@@ -1,6 +1,7 @@
 <?php
 
 require_once ABSPATH . 'config/session.php';
+require_once ABSPATH . 'scheduleit/lib/send_email.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       
@@ -8,14 +9,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
      $slotHash = $_POST['slotHash'];
      $removeOnid = trim($removeOnid);
      $slotHash = trim($slotHash); 
-     
+     $eventName = $_POST['eventName'];
      $result = $database->deleteBooking($removeOnid, $slotHash);
           
-     echo json_encode($result);
-     if ($result > 0) {
-         // add email here
-      
-     }
- }
+     echo json_encode($result); 
+     // add email here
+     $send_email->notifyRemovedAttendee($removeOnid, $_SESSION['user_firstname'] . ' ' . $_SESSION['user_lastname'], $_SESSION['user_onid'], $eventName);  
+     
+     
+}
 
  
