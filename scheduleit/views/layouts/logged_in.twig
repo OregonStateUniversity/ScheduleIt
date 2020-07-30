@@ -33,7 +33,11 @@
       <div class="align-items-center d-md-flex d-none">
         <a class="navbar-invites-link mr-4" href="{{site_url}}/meetings">
           <i class="fas fa-bell"></i>
-          <span class="navbar-invites-count">2</span>
+          <span class="navbar-invites-count">
+            {% if invites %}
+              {{invites | count}}
+            {% endif %}
+          </span>
         </a>
         <ul class="navbar-nav">
           <li class="nav-item dropdown">

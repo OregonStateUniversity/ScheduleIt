@@ -21,11 +21,13 @@ if [ ! -f "$COMPOSER" ]; then
   mv composer.phar bin/composer
 fi
 
+echo ""
 echo "* Installing packages..."
 bin/composer install
-echo "\n* Running database migrations..."
+echo "* Running database migrations..."
 vendor/bin/phinx migrate
-echo "\n* Setting file and folder permissions..."
+echo ""
+echo "* Setting file and folder permissions..."
 sh set_permissions.sh
 
 exit $RESULT
