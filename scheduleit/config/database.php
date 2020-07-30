@@ -600,6 +600,7 @@ class DatabaseInterface
         meb_event.location,
         meb_timeslot.start_time,
         meb_timeslot.end_time,
+        meb_timeslot.hash AS slotHash,
         meb_files.path AS attendee_file,
         meb_user.email AS attendee_email,
         CONCAT(meb_user.first_name, ' ', meb_user.last_name) AS attendee_name,
@@ -799,7 +800,7 @@ class DatabaseInterface
     * @param string $startTime, int $eventId, string $onid
     * @return int result
     */
-    public function deleteBooking($startTime, $eventId, $onid)
+    public function deleteBookingold($startTime, $eventId, $onid)
     {
       $delete_booking_query = "
         DELETE FROM meb_booking
@@ -855,7 +856,30 @@ class DatabaseInterface
       $result->free();
       return $hash;
     }
-           
+    
+    public function deleteBooking($onid, $timeslot_hash)
+    {
+      $query = "CALL meb_delete_reservation(?, ?, @res1)";
+
+        $statement = $this->database->prepare($query);
+        $statement->bind_param("ss", $timeslot_hash, $onid);
+        $statement->execute();
+
+        $query = "SELECT @res1";
+        $result = $this->database->query($query);
+
+        if ($result) {
+            $resultArray = $result->fetch_all(MYSQLI_NUM);
+            $errorCode = $resultArray[0];
+        } else {
+            $errorCode = -1;
+        }
+
+        $result->free();
+        $statement->close();
+
+        return $errorCode;
+    }           
 }
 
 $database = new DatabaseInterface();

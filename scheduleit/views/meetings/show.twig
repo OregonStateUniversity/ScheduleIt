@@ -120,10 +120,20 @@
             N/A
           {% endif %}
         </td>
+        <td style="display:none;">
+          {{site_url}}/meetings/remove_attendee
+        </td>
+        <td style="display:none;">
+          {{meeting.attendee_onid}}
+        </td>
+        <td style="display:none;">
+          {{meeting.slotHash}}
+        </td>
         <td class="col-1">
-          <button class="btn" id="mybtn" data-id="{{meeting.id}}" data-onid="{{meeting.attendee_onid}}" data-time="{{meeting.start_time}}" data-url="{{site_url}}/meetings/remove_attendee" data-meeting-name="{{meeting.name}}">
+          <button class="table-btn">
             <i class="fa fa-times text-danger ml-2"></i>
           </button>  
+      <!--    <i class="fas fa-times text-danger ml-2" data-toggle="modal" data-target="#delete-attendee-modal" role="button"></i>  -->
         </td>
       </tr>
     {% endfor %}
@@ -169,14 +179,18 @@
 <div>
   {% if invite_list %}
     <h2 class="h3">
-      List of Invited Onids That Have Not Registered
+      Invited Not Yet Registered
     </h2>
     <br>
-    <div>
+    <table class="table">
       {% for list in invite_list %}
-        {{ list.user_onid }}<br>
+        <tr>
+          <td>
+            {{ list.user_onid }}
+          </td>
+        </tr>
       {% endfor %}
-    </div>
+    </table> 
   {% endif %}
 </div> 
 <!--<p class="mb-5">
