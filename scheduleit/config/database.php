@@ -1,5 +1,7 @@
 <?php
-
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 require_once ABSPATH . 'config/env.php';
 
 // include functions for generating hashes
@@ -532,6 +534,7 @@ class DatabaseInterface
         meb_event.location,
         meb_timeslot.start_time,
         meb_timeslot.end_time,
+        meb_timeslot.hash AS timeslot_hash,
         meb_files.path AS attendee_file,
         meb_user.email AS attendee_email,
         CONCAT(meb_user.first_name, ' ', meb_user.last_name) AS attendee_name,
@@ -1260,7 +1263,7 @@ class DatabaseInterface
     * @param string $onid, string $timeslot_hash
     * @return int $errorCode
     */
-    public function deleteBooking($onid, $timeslot_hash)
+    public function deleteBookingnew($onid, $timeslot_hash)
     {
       $query = "CALL meb_delete_reservation(?, ?, @res1)";
 
