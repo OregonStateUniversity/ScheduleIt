@@ -52,7 +52,9 @@
             {{meeting.open_slots}} of {{meeting.capacity}}
           </td>
           <td class="col-1">
-            <a href="{{site_url}}/invite?key={{meeting.hash}}">Invite Link</a>
+            <button class="copy-btn" data-link="{{site_url}}/invite?key={{meeting.hash}}">
+              <i class="fas fa-clipboard"></i> Copy
+            </button>
           </td>
         </tr>
       {% endfor %}
