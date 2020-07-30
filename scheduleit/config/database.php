@@ -1,7 +1,5 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+
 require_once ABSPATH . 'config/env.php';
 
 // include functions for generating hashes
@@ -1256,36 +1254,7 @@ class DatabaseInterface
       return $hash;
     }
     
-    /**
-    * delete a booking
-    *
-    *
-    * @param string $onid, string $timeslot_hash
-    * @return int $errorCode
-    */
-    public function deleteBookingnew($onid, $timeslot_hash)
-    {
-      $query = "CALL meb_delete_reservation(?, ?, @res1)";
-
-        $statement = $this->database->prepare($query);
-        $statement->bind_param("ss", $timeslot_hash, $onid);
-        $statement->execute();
-
-        $query = "SELECT @res1";
-        $result = $this->database->query($query);
-
-        if ($result) {
-            $resultArray = $result->fetch_all(MYSQLI_NUM);
-            $errorCode = $resultArray[0];
-        } else {
-            $errorCode = -1;
-        }
-
-        $result->free();
-        $statement->close();
-
-        return $errorCode;
-    }           
+           
 }
 
 $database = new DatabaseInterface();
