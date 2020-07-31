@@ -14,13 +14,13 @@
           {{meeting.name}}
         </a>
       {% else %}
-        <a href="{{site_url}}/invite?key={{meeting.hash}}">
+        <a href="{{site_url}}/invite?key={{meeting.event_hash}}">
           {{meeting.name}}
         </a>
       {% endif %}
     </h4>
     <p class="mb-0">
-      {{meeting.location}}
+      Location: {{meeting.location}}
     </p>
     {% if meeting.creator_onid != user_onid %}
       <p class="mb-0">
@@ -31,30 +31,39 @@
       </p>
     {% endif %}
     {% if meeting.creator_file %}
-      <p class="mt-2 mb-0">
-        Creator File: <a href="{{meeting.creator_file}}">{{meeting.creator_file | basename}}</a>
-      </p>
-    {% endif %}
-    {% if meeting.description %}
-      <p class="mt-2 mb-0">
-        {{meeting.description}}
+      <p class="mb-0">
+        {% if meeting.creator_onid == user_onid %}
+          My
+        {% else %}
+          Creator
+        {% endif %}
+        File: <a href="{{meeting.creator_file}}">{{meeting.creator_file | basename}}</a>
       </p>
     {% endif %}
     {% if meeting.creator_onid == user_onid %}
-      <p class="mb-0">
-        Attendee:
-        <a href="mailto:{{meeting.attendee_email}}">
-          {% if meeting.attendee_onid == user_onid %}
-            Me
-          {% else %}
-            {{meeting.attendee_name}}
-          {% endif %}
-        </a>
+      <p class="mt-3 mb-0">
+        Attendee{% if meeting.attendees_count > 1 %}s{% endif %}:
+        {% for attendee in meeting.attendees %}
+          <a href="mailto:{{attendee.attendee_email}}">{% if attendee.attendee_email == user_email %}Me{% else %}{{attendee.attendee_name}}{% endif %}</a>{% if loop.index != meeting.attendees_count %}, {% endif %}
+        {% endfor %}
       </p>
     {% endif %}
-    {% if meeting.attendee_file %}
-      <p class="mt-2 mb-0">
-        Attendee File: <a href="{{meeting.attendee_file}}">{{meeting.attendee_file | basename}}</a>
+    {% if meeting.attendees_files %}
+      <p class="mb-0 {% if meeting.creator_onid != user_onid %}mt-3{% endif %}">
+        {% if meeting.creator_onid == user_onid %}
+          Attendee
+        {% else %}
+          My
+        {% endif %}
+        File{% if meeting.attendees_files_count > 1 %}s{% endif %}:
+        {% for attendee_file in meeting.attendees_files %}
+          <a href="{{attendee_file}}">{{attendee_file | basename}}</a>{% if loop.index != meeting.attendees_files_count %}, {% endif %}
+        {% endfor %}
+      </p>
+    {% endif %}
+    {% if meeting.description %}
+      <p class="mt-3 mb-0">
+        {{meeting.description}}
       </p>
     {% endif %}
   </div>

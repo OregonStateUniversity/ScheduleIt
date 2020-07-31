@@ -26,6 +26,11 @@ if (!defined('SITE_NAME')) {
     define('SITE_NAME', 'Schedule-It');
 }
 
+if (!defined('SITE_URL')) {
+    $protocol = $_SERVER['HTTPS'] == 'on' ? 'https' : 'http';
+    define('SITE_URL', $protocol . '://' . $_SERVER['HTTP_HOST'] . $_ENV['SITE_DIR']);
+}
+
 if (!defined('UPLOADS_ABSPATH')) {
     define('UPLOADS_ABSPATH', ABSPATH . 'uploads/');
 }

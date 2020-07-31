@@ -158,16 +158,20 @@ class DatabaseInterface
             meb_event.name,
             meb_event.location,
             meb_event.open_slots,
-            meb_event.capacity
+            meb_event.capacity,
+            meb_event.mod_date
             FROM meb_event
             WHERE meb_event.fk_event_creator = ?
-            AND meb_event.name LIKE ?
-            ORDER BY meb_event.name ASC
+            AND (
+                meb_event.name LIKE ?
+                OR meb_event.location LIKE ?
+            )
+            ORDER BY meb_event.mod_date DESC
 
             ;";
             $events = $this->database->prepare($events_query);
             $partial_match = '%' . $search_term . '%';
-            $events->bind_param("is", $id, $partial_match);
+            $events->bind_param("iss", $user_id, $partial_match, $partial_match);
         } else {
             $events_query = "
 
@@ -177,10 +181,11 @@ class DatabaseInterface
             meb_event.name,
             meb_event.location,
             meb_event.open_slots,
-            meb_event.capacity
+            meb_event.capacity,
+            meb_event.mod_date
             FROM meb_event
             WHERE meb_event.fk_event_creator = ?
-            ORDER BY meb_event.name ASC
+            ORDER BY meb_event.mod_date DESC
 
             ;";
             $events = $this->database->prepare($events_query);
@@ -236,26 +241,23 @@ class DatabaseInterface
         $bookings_query = "
 
         SELECT
+        DISTINCT(meb_timeslot.hash),
         meb_event.id,
-        meb_event.hash,
+        meb_event.hash AS event_hash,
         meb_event.name,
         meb_event.location,
         meb_event.fk_event_creator AS creator_id,
         meb_timeslot.start_time,
         meb_timeslot.end_time,
-        meb_user.email AS attendee_email,
-        CONCAT(meb_user.first_name, ' ', meb_user.last_name) AS attendee_name,
-        meb_user.onid AS attendee_onid,
-        meb_user2.email AS creator_email,
-        CONCAT(meb_user2.first_name, ' ', meb_user2.last_name) AS creator_name,
-        meb_user2.onid AS creator_onid
-        FROM meb_booking
-        INNER JOIN meb_timeslot ON meb_timeslot.id = meb_booking.fk_timeslot_id
+        meb_creator.email AS creator_email,
+        CONCAT(meb_creator.first_name, ' ', meb_creator.last_name) AS creator_name,
+        meb_creator.onid AS creator_onid
+        FROM meb_timeslot
         INNER JOIN meb_event ON meb_event.id = meb_timeslot.fk_event_id
-        INNER JOIN meb_user ON meb_user.id = meb_booking.fk_user_id
-        INNER JOIN meb_user AS meb_user2 ON meb_user2.id = meb_event.fk_event_creator
-        WHERE (meb_user.id = ? OR meb_user2.id = ?)
-        ORDER BY meb_timeslot.start_time DESC
+        INNER JOIN meb_user AS meb_creator ON meb_creator.id = meb_event.fk_event_creator
+        INNER JOIN meb_booking ON meb_timeslot.id = meb_booking.fk_timeslot_id
+        WHERE (meb_creator.id = ? OR meb_booking.fk_user_id = ?)
+        ORDER BY meb_timeslot.start_time ASC
 
         ;";
 
@@ -282,26 +284,31 @@ class DatabaseInterface
         $bookings_query = "
 
         SELECT
+        DISTINCT(meb_timeslot.hash),
         meb_event.id,
-        meb_event.hash,
+        meb_event.hash AS event_hash,
         meb_event.name,
         meb_event.location,
+        meb_event.description,
         meb_event.fk_event_creator AS creator_id,
         meb_timeslot.start_time,
         meb_timeslot.end_time,
         meb_user.email AS attendee_email,
+        meb_files.path AS attendee_file,
         CONCAT(meb_user.first_name, ' ', meb_user.last_name) AS attendee_name,
-        meb_user.onid AS attendee_onid,
-        meb_user2.email AS creator_email,
-        CONCAT(meb_user2.first_name, ' ', meb_user2.last_name) AS creator_name,
-        meb_user2.onid AS creator_onid
-        FROM meb_booking
-        INNER JOIN meb_timeslot ON meb_timeslot.id = meb_booking.fk_timeslot_id
+        meb_event.event_file AS creator_file,
+        meb_creator.email AS creator_email,
+        CONCAT(meb_creator.first_name, ' ', meb_creator.last_name) AS creator_name,
+        meb_creator.onid AS creator_onid
+        FROM meb_timeslot
         INNER JOIN meb_event ON meb_event.id = meb_timeslot.fk_event_id
-        INNER JOIN meb_user ON meb_user.id = meb_booking.fk_user_id
-        INNER JOIN meb_user AS meb_user2 ON meb_user2.id = meb_event.fk_event_creator
-        WHERE (meb_user.id = ? OR meb_user2.id = ?)
+        INNER JOIN meb_user AS meb_creator ON meb_creator.id = meb_event.fk_event_creator
+        INNER JOIN meb_booking ON meb_timeslot.id = meb_booking.fk_timeslot_id
+        LEFT OUTER JOIN meb_user ON  meb_user.id = meb_booking.fk_user_id
+        LEFT OUTER JOIN meb_files ON meb_files.fk_booking_id = meb_booking.id
+        WHERE (meb_creator.id = ? OR meb_booking.fk_user_id = ?)
         AND meb_timeslot.start_time > now()
+        AND meb_timeslot.spaces_available < meb_timeslot.slot_capacity
         ORDER BY meb_timeslot.start_time ASC
 
         ;";
@@ -329,26 +336,31 @@ class DatabaseInterface
         $bookings_query = "
 
         SELECT
+        DISTINCT(meb_timeslot.hash),
         meb_event.id,
-        meb_event.hash,
+        meb_event.hash AS event_hash,
         meb_event.name,
         meb_event.location,
+        meb_event.description,
         meb_event.fk_event_creator AS creator_id,
         meb_timeslot.start_time,
         meb_timeslot.end_time,
+        meb_files.path AS attendee_file,
         meb_user.email AS attendee_email,
         CONCAT(meb_user.first_name, ' ', meb_user.last_name) AS attendee_name,
-        meb_user.onid AS attendee_onid,
-        meb_user2.email AS creator_email,
-        CONCAT(meb_user2.first_name, ' ', meb_user2.last_name) AS creator_name,
-        meb_user2.onid AS creator_onid
-        FROM meb_booking
-        INNER JOIN meb_timeslot ON meb_timeslot.id = meb_booking.fk_timeslot_id
+        meb_event.event_file AS creator_file,
+        meb_creator.email AS creator_email,
+        CONCAT(meb_creator.first_name, ' ', meb_creator.last_name) AS creator_name,
+        meb_creator.onid AS creator_onid
+        FROM meb_timeslot
         INNER JOIN meb_event ON meb_event.id = meb_timeslot.fk_event_id
-        INNER JOIN meb_user ON meb_user.id = meb_booking.fk_user_id
-        INNER JOIN meb_user AS meb_user2 ON meb_user2.id = meb_event.fk_event_creator
-        WHERE meb_user2.id = ?
+        INNER JOIN meb_user AS meb_creator ON meb_creator.id = meb_event.fk_event_creator
+        INNER JOIN meb_booking ON meb_timeslot.id = meb_booking.fk_timeslot_id
+        LEFT OUTER JOIN meb_user ON  meb_user.id = meb_booking.fk_user_id
+        LEFT OUTER JOIN meb_files ON meb_files.fk_booking_id = meb_booking.id
+        WHERE meb_creator.id = ?
         AND meb_timeslot.start_time > now()
+        AND meb_timeslot.spaces_available < meb_timeslot.slot_capacity
         ORDER BY meb_timeslot.start_time ASC
 
         ;";
@@ -376,32 +388,36 @@ class DatabaseInterface
         $bookings_query = "
 
         SELECT
+        DISTINCT(meb_timeslot.hash),
         meb_event.id,
-        meb_event.hash,
+        meb_event.hash AS event_hash,
         meb_event.name,
         meb_event.location,
+        meb_event.description,
         meb_event.fk_event_creator AS creator_id,
         meb_timeslot.start_time,
         meb_timeslot.end_time,
+        meb_files.path AS attendee_file,
         meb_user.email AS attendee_email,
         CONCAT(meb_user.first_name, ' ', meb_user.last_name) AS attendee_name,
-        meb_user.onid AS attendee_onid,
-        meb_user2.email AS creator_email,
-        CONCAT(meb_user2.first_name, ' ', meb_user2.last_name) AS creator_name,
-        meb_user2.onid AS creator_onid
-        FROM meb_booking
-        INNER JOIN meb_timeslot ON meb_timeslot.id = meb_booking.fk_timeslot_id
+        meb_event.event_file AS creator_file,
+        meb_creator.email AS creator_email,
+        CONCAT(meb_creator.first_name, ' ', meb_creator.last_name) AS creator_name,
+        meb_creator.onid AS creator_onid
+        FROM meb_timeslot
         INNER JOIN meb_event ON meb_event.id = meb_timeslot.fk_event_id
-        INNER JOIN meb_user ON meb_user.id = meb_booking.fk_user_id
-        INNER JOIN meb_user AS meb_user2 ON meb_user2.id = meb_event.fk_event_creator
-        WHERE (meb_user.id = ? OR meb_user2.id = ?)
+        INNER JOIN meb_user AS meb_creator ON meb_creator.id = meb_event.fk_event_creator
+        INNER JOIN meb_booking ON meb_timeslot.id = meb_booking.fk_timeslot_id
+        LEFT OUTER JOIN meb_user ON  meb_user.id = meb_booking.fk_user_id
+        LEFT OUTER JOIN meb_files ON meb_files.fk_booking_id = meb_booking.id
+        WHERE (meb_creator.id = ? OR meb_booking.fk_user_id = ?)
         AND meb_timeslot.start_time < now()
+        AND meb_timeslot.spaces_available < meb_timeslot.slot_capacity
         ORDER BY meb_timeslot.start_time DESC
 
         ;";
 
         $bookings = $this->database->prepare($bookings_query);
-
         $bookings->bind_param("ii", $user_id, $user_id);
         $bookings->execute();
 
@@ -425,30 +441,35 @@ class DatabaseInterface
         $bookings_query = "
 
         SELECT
+        DISTINCT(meb_timeslot.hash),
         meb_event.id,
-        meb_event.hash,
+        meb_event.hash AS event_hash,
         meb_event.name,
         meb_event.location,
+        meb_event.description,
         meb_event.fk_event_creator AS creator_id,
         meb_timeslot.start_time,
         meb_timeslot.end_time,
+        meb_files.path AS attendee_file,
         meb_user.email AS attendee_email,
         CONCAT(meb_user.first_name, ' ', meb_user.last_name) AS attendee_name,
-        meb_user.onid AS attendee_onid,
-        meb_user2.email AS creator_email,
-        CONCAT(meb_user2.first_name, ' ', meb_user2.last_name) AS creator_name,
-        meb_user2.onid AS creator_onid
-        FROM meb_booking
-        INNER JOIN meb_timeslot ON meb_timeslot.id = meb_booking.fk_timeslot_id
+        meb_event.event_file AS creator_file,
+        meb_creator.email AS creator_email,
+        CONCAT(meb_creator.first_name, ' ', meb_creator.last_name) AS creator_name,
+        meb_creator.onid AS creator_onid
+        FROM meb_timeslot
         INNER JOIN meb_event ON meb_event.id = meb_timeslot.fk_event_id
-        INNER JOIN meb_user ON meb_user.id = meb_booking.fk_user_id
-        INNER JOIN meb_user AS meb_user2 ON meb_user2.id = meb_event.fk_event_creator
-        WHERE (meb_user.id = ? OR meb_user2.id = ?)
+        INNER JOIN meb_user AS meb_creator ON meb_creator.id = meb_event.fk_event_creator
+        INNER JOIN meb_booking ON meb_timeslot.id = meb_booking.fk_timeslot_id
+        LEFT OUTER JOIN meb_user ON  meb_user.id = meb_booking.fk_user_id
+        LEFT OUTER JOIN meb_files ON meb_files.fk_booking_id = meb_booking.id
+        WHERE (meb_user.id = ? OR meb_creator.id = ?)
+        AND meb_timeslot.spaces_available < meb_timeslot.slot_capacity
         AND (
             meb_event.name LIKE ?
             OR meb_event.location LIKE ?
             OR CONCAT(meb_user.first_name, ' ', meb_user.last_name) LIKE ?
-            OR CONCAT(meb_user2.first_name, ' ', meb_user2.last_name) LIKE ?
+            OR CONCAT(meb_creator.first_name, ' ', meb_creator.last_name) LIKE ?
         )
         ORDER BY meb_timeslot.start_time DESC
 
@@ -699,13 +720,13 @@ class DatabaseInterface
         meb_files.path AS attendee_file,
         meb_user.email AS attendee_email,
         CONCAT(meb_user.first_name, ' ', meb_user.last_name) AS attendee_name,
-        meb_user2.email AS creator_email,
-        CONCAT(meb_user2.first_name, ' ', meb_user2.last_name) AS creator_name
+        meb_creator.email AS creator_email,
+        CONCAT(meb_creator.first_name, ' ', meb_creator.last_name) AS creator_name
         FROM meb_booking
         INNER JOIN meb_timeslot ON meb_timeslot.id = meb_booking.fk_timeslot_id
         INNER JOIN meb_event ON meb_event.id = meb_timeslot.fk_event_id
         INNER JOIN meb_user ON meb_user.id = meb_booking.fk_user_id
-        INNER JOIN meb_user AS meb_user2 ON meb_user2.id = meb_event.fk_event_creator
+        INNER JOIN meb_user AS meb_creator ON meb_creator.id = meb_event.fk_event_creator
         LEFT OUTER JOIN meb_files ON meb_files.fk_booking_id = meb_booking.id
         WHERE meb_booking.fk_user_id = ?
         AND meb_event.hash = ?
@@ -1133,17 +1154,17 @@ class DatabaseInterface
     }
 
     /**
-     * Get list of onids that have not registered 
+     * Get list of onids that have not registered
      * for an event.
      *
      * @param object $eventId
      * @return string array
      */
-     public function getNotRegistered($eventId)
-     {
-      
-       $not_reg_query = "
-      
+    public function getNotRegistered($eventId)
+    {
+
+        $not_reg_query = "
+
        SELECT user_onid FROM meb_invites
        WHERE fk_event_id = ? AND user_onid NOT IN
          (SELECT DISTINCT user_onid FROM meb_invites
@@ -1154,54 +1175,54 @@ class DatabaseInterface
          where meb_timeslot.fk_event_id = ?)
        ";
 
-         $getList = $this->database->prepare($not_reg_query);
-      
-         $getList->bind_param("ii", $eventId, $eventId);
-         $getList->execute();
+        $getList = $this->database->prepare($not_reg_query);
 
-         $list = $getList->get_result();
+        $getList->bind_param("ii", $eventId, $eventId);
+        $getList->execute();
 
-         $listArray = $list->fetch_all(MYSQLI_ASSOC);
-           
-         $getList->close();
-         $list->free();
-         return $listArray;
+        $list = $getList->get_result();
+
+        $listArray = $list->fetch_all(MYSQLI_ASSOC);
+
+        $getList->close();
+        $list->free();
+        return $listArray;
     }
 
      /**
      * add onid to list of inivted onids for an event
-     * 
+     *
      *
      * @param string $onid, int $eventId
      * @return none
      */
-     public function insertInviteList($onid, $eventId)
-     {
-       $insert_meb_invites_query = "
+    public function insertInviteList($onid, $eventId)
+    {
+        $insert_meb_invites_query = "
          INSERT `meb_invites` (fk_event_id, user_onid)
          VALUES (?,?);
        ";
-      
-       $insert = $this->database->prepare($insert_meb_invites_query);
 
-       $insert->bind_param("is", $eventId, $onid);
-       $insert->execute();
+        $insert = $this->database->prepare($insert_meb_invites_query);
 
-       $insert->close();
-    } 
-    
+        $insert->bind_param("is", $eventId, $onid);
+        $insert->execute();
+
+        $insert->close();
+    }
+
     /**
-    * delete a booking  
-    * 
+    * delete a booking
+    *
     *
     * @param string $startTime, int $eventId, string $onid
     * @return int result
     */
     public function deleteBookingold($startTime, $eventId, $onid)
     {
-      $delete_booking_query = "
+        $delete_booking_query = "
         DELETE FROM meb_booking
-        WHERE meb_booking.fk_timeslot_id IN      
+        WHERE meb_booking.fk_timeslot_id IN
          (SELECT meb_timeslot.id as slotId FROM `meb_timeslot`
           INNER JOIN `meb_event` ON meb_timeslot.fk_event_id = meb_event.id
           WHERE meb_timeslot.start_time = ?
@@ -1211,15 +1232,15 @@ class DatabaseInterface
           WHERE meb_user.onid = ?)
       ;";
 
-      $delete = $this->database->prepare($delete_booking_query);
+        $delete = $this->database->prepare($delete_booking_query);
 
-      $delete->bind_param("sis", $startTime, $eventId, $onid);
-      $delete->execute();
-      
-      $result = $delete->affected_rows;
-      $delete->close();
+        $delete->bind_param("sis", $startTime, $eventId, $onid);
+        $delete->execute();
 
-      return $result;
+        $result = $delete->affected_rows;
+        $delete->close();
+
+        return $result;
     }
 
     /**
@@ -1231,30 +1252,28 @@ class DatabaseInterface
     */
     public function getSlotHash($startTime, $eventId)
     {
-      $hash_query = "
+        $hash_query = "
         SELECT meb_timeslot.hash FROM `meb_timeslot`
         INNER JOIN `meb_event` ON meb_timeslot.fk_event_id = meb_event.id
         WHERE meb_timeslot.start_time = ?
         AND meb_event.id = ?
       ;";
 
-      $slotHash = $this->database->prepare($hash_query);
+        $slotHash = $this->database->prepare($hash_query);
 
-      $slotHash->bind_param("si", $startTime, $eventId);
-      $slotHash->execute();
+        $slotHash->bind_param("si", $startTime, $eventId);
+        $slotHash->execute();
 
-      $result = $slotHash->get_result();
-      if ($result->num_rows > 0) {
-          $resultArray = $result->fetch_all(MYSQLI_ASSOC);
-          $hash = $resultArray[0];
-      }
-      
-      $slotHash->close();
-      $result->free();
-      return $hash;
+        $result = $slotHash->get_result();
+        if ($result->num_rows > 0) {
+            $resultArray = $result->fetch_all(MYSQLI_ASSOC);
+            $hash = $resultArray[0];
+        }
+
+        $slotHash->close();
+        $result->free();
+        return $hash;
     }
-    
-           
 }
 
 $database = new DatabaseInterface();
