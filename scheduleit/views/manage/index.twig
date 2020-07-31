@@ -27,23 +27,24 @@
   <table class="table">
     <thead>
       <tr class="d-flex">
-        <th class="col-3">Title</th>
-        <th class="col-3">Location</th>
-        <th class="col-3">Dates</th>
+        <th class="col-2">Title</th>
+        <th class="col-2">Location</th>
+        <th class="col-2">Dates</th>
         <th class="col-2">Reservations Remaining</th>
-        <th class="col-1">Invite Link</th>
+        <th class="col-2">Invite Link</th>
+        <th class="col-2">Last Modified</th>
       </tr>
     </thead>
     <tbody>
       {% for meeting in meetings %}
         <tr class="d-flex">
-          <td class="col-3">
+          <td class="col-2">
             <a href="{{site_url}}/meetings/{{meeting.id}}">{{meeting.name}}</a>
           </td>
-          <td class="col-3">
+          <td class="col-2">
             {{meeting.location}}
           </td>
-          <td class="col-3">
+          <td class="col-2">
             {% for date in meeting.dates %}
               {{date.date | date("n/j/y")}}{% if loop.index != meeting.dates_count %}, {% endif %}
             {% endfor %}
@@ -51,10 +52,13 @@
           <td class="col-2">
             {{meeting.open_slots}} of {{meeting.capacity}}
           </td>
-          <td class="col-1">
+          <td class="col-2">
             <button class="copy-btn" data-link="{{site_url}}/invite?key={{meeting.hash}}">
               <i class="fas fa-clipboard"></i> Copy
             </button>
+          </td>
+          <td class="col-2">
+            {{meeting.mod_date | date("n/j/y g:ia")}}
           </td>
         </tr>
       {% endfor %}

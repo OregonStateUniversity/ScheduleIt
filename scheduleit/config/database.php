@@ -158,11 +158,12 @@ class DatabaseInterface
             meb_event.name,
             meb_event.location,
             meb_event.open_slots,
-            meb_event.capacity
+            meb_event.capacity,
+            meb_event.mod_date
             FROM meb_event
             WHERE meb_event.fk_event_creator = ?
             AND meb_event.name LIKE ?
-            ORDER BY meb_event.name ASC
+            ORDER BY meb_event.mod_date DESC
 
             ;";
             $events = $this->database->prepare($events_query);
@@ -177,10 +178,11 @@ class DatabaseInterface
             meb_event.name,
             meb_event.location,
             meb_event.open_slots,
-            meb_event.capacity
+            meb_event.capacity,
+            meb_event.mod_date
             FROM meb_event
             WHERE meb_event.fk_event_creator = ?
-            ORDER BY meb_event.name ASC
+            ORDER BY meb_event.mod_date DESC
 
             ;";
             $events = $this->database->prepare($events_query);
