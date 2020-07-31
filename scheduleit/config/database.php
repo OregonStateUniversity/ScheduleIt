@@ -162,13 +162,16 @@ class DatabaseInterface
             meb_event.mod_date
             FROM meb_event
             WHERE meb_event.fk_event_creator = ?
-            AND meb_event.name LIKE ?
+            AND (
+                meb_event.name LIKE ?
+                OR meb_event.location LIKE ?
+            )
             ORDER BY meb_event.mod_date DESC
 
             ;";
             $events = $this->database->prepare($events_query);
             $partial_match = '%' . $search_term . '%';
-            $events->bind_param("is", $id, $partial_match);
+            $events->bind_param("iss", $user_id, $partial_match, $partial_match);
         } else {
             $events_query = "
 
