@@ -129,6 +129,9 @@
         <td style="display:none;">
           {{meeting.timeslot_hash}}
         </td>
+        <td style="display:none;">
+          {{meeting.name}}
+        </td>
         <td class="col-1">
           <button class="table-btn">
             <i class="fa fa-times text-danger ml-2"></i>
@@ -171,7 +174,7 @@
 
     <label for="onid">Please enter a space separated list of ONID IDs</label><br>
     <input class="form-control" type="text" name="attendeeOnid" id="onid" placeholder="onid1 onid2...">{{attendeeOnid}}<br><br>
-    <input class="form-control" type="hidden" name="link" value="{{site_url}}/meetings/invite?key={{meeting.hash}}">
+    <input class="form-control" type="hidden" name="link" value="{{site_url}}/invite?key={{meeting.hash}}">
     <button type="submit" name='onid_invite' class="btn btn-primary">Send Invitations</button>
   </form>
 </div>

@@ -34,6 +34,39 @@ class SendEmail
 
         mail($to, $subject, $message, $headers);
     }
+
+    public function invitation($creatorOnid, $inviteOnid, $eventName, $creatorName, $link)
+    {
+      $to = $inviteOnid . '@oregonstate.edu';
+      $subject = 'Meeting Invitation';
+      $headers = 'From: ' . SITE_NAME . ' <no-reply@oregonstate.edu>' . "\r\n" . 
+          'Reply-To: ' . $creatorName . '<' . $creatorOnid . '@oregonstate.edu' . '>' . "\r\n" .
+          'X-MAiler: PHP/' . phpversion();
+
+      $message = 'Hi ' . $inviteOnid . ', ' . "\r\n\r\n";
+      $message .= $creatorName . ' has invited you to the "' . $eventName . '" meeting.' . "\r\n";
+      $message .= 'Please follow the link below to reserve a spot.' . "\r\n\r\n"; 
+      $message .= $link . "\r\n";
+
+      mail($to, $subject, $message, $headers);
+    }
+
+    public function notifyRemovedAttendee($removeOnid, $creatorName, $creatorOnid, $eventName)
+    {
+      $to = $removeOnid . '@oregonstate.edu';
+      $subject = 'Removed From Meeting';
+      $headers = 'From: ' . SITE_NAME . ' <no-reply@oregonstate.edu>' . "\r\n" .
+          'Reply-To: ' . $creatorName . '<' . $creatorOnid . '@oregonstate.edu' . '>' . "\r\n" .
+          'X-MAiler: PHP/' . phpversion();
+     
+      $message = 'Hi ' . $removeOnid . ', ' . "\r\n";
+      $message .= $creatorName . ' has removed you from the "' . trim($eventName) . '" meeting.' . "\r\n";
+      $message .= 'If you have any question please contact them at ' . "\r\n";
+      $message .= $creatorOnid . '@oregonstate.edu' . "\r\n";
+
+      mail($to, $subject, $message, $headers);
+    } 
+
 }
 
 $send_email = new SendEmail();
