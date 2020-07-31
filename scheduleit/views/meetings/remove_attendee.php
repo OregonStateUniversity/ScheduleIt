@@ -4,7 +4,6 @@ require_once ABSPATH . 'config/session.php';
 require_once ABSPATH . 'scheduleit/lib/send_email.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-      
      $removeOnid = $_POST['attendeeOnid'];
      $slotHash = $_POST['slotHash'];
      $removeOnid = trim($removeOnid);
@@ -20,3 +19,4 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 
  
+
