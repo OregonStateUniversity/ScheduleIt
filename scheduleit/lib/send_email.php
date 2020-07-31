@@ -60,7 +60,7 @@ class SendEmail
           'X-MAiler: PHP/' . phpversion();
      
       $message = 'Hi ' . $removeOnid . ', ' . "\r\n";
-      $message .= $creatorName . ' has removed your from the "' . trim($eventName) . '" meeting.' . "\r\n";
+      $message .= $creatorName . ' has removed you from the "' . trim($eventName) . '" meeting.' . "\r\n";
       $message .= 'If you have any question please contact them at ' . "\r\n";
       $message .= $creatorOnid . '@oregonstate.edu' . "\r\n";
 
