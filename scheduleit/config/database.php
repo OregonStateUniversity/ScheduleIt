@@ -1274,6 +1274,29 @@ class DatabaseInterface
         $result->free();
         return $hash;
     }
+
+    /**
+    * Delete a meeting based on its hash value
+    * 
+    * @param string $meetingHash
+    * @return int $result
+    */
+    public function deleteMeeting($meetingHash)
+    {
+      $query = "DELETE FROM meb_event WHERE hash = ?;";
+
+      $statement = $this->database->prepare($query);
+
+      $statement->bind_param("s", $meetingHash);
+      $statement->execute();
+
+      $result = $statement->affected_rows;
+
+      $statement->close();
+
+      return $result;
+    }
+
 }
 
 $database = new DatabaseInterface();
