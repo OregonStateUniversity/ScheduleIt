@@ -7,50 +7,52 @@ $meeting = $database->getMeetingById($meeting_id, $_SESSION['user_id']);
 $inviteList = $database->getNotRegistered($meeting['id']);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    if (isset($_POST['attendeeOnid'])) {
-        $attendeeOnids = $_POST['attendeeOnid'];
-        $link = $_POST['link'];
-        $link = $_SERVER['HTTP_ORIGIN'] . $link;
-        $host = $_SESSION['user'];
-        $hash = $meeting['hash'];
-      // turn onid string into array
-        $onidArray = explode(" ", $attendeeOnids);
+  if (isset($_POST['attendeeOnid'])) {
+    $attendeeOnids = $_POST['attendeeOnid'];
+    $link = $_POST['link'];
+    $link = $_SERVER['HTTP_ORIGIN'] . $link;
+    $host = $_SESSION['user'];
+    $hash = $meeting['hash'];
+    // turn onid string into array
+    $onidArray = explode(" ",$attendeeOnids);
 
-      // create email list
-      // send email in forloop so that other recipients emails are not
-      // exposed
-        $sentInvites = 0;
-        foreach ($onidArray as $onid) {
-            if (strlen($onid) > 2) {
-                $email = $onid . '@oregonstate.edu';
+    // create email list
+    // send email in forloop so that other recipients emails are not
+    // exposed
+    $sentInvites = 0;
+    foreach ($onidArray as $onid) {
+      if (strlen($onid) > 2) {
 
-                // create message
-                $msgFormat =
-                "Hi %s, \n\nYour are invited to %s's event! Please follow this address to reserve a seat:\n\n%s";
+        $email = $onid . '@oregonstate.edu';
 
-                $headers = "From: Schedule It" . "\r\n";
+        // create message
+        $msgFormat =
+        "Hi %s, \n\nYour are invited to %s's event! Please follow this address to reserve a seat:\n\n%s";
 
-                $message = sprintf($msgFormat, $onid, $host, $link);
+        $headers = "From: Schedule It" . "\r\n";
 
-                $result = mail($email, "You're Invited", $message, $headers);
+        $message = sprintf($msgFormat, $onid, $host, $link);
 
-                if ($result == 1) {
-                  // add onid to the events inivte list
-                    $database->insertInviteList($onid, $meeting['id']);
-                    $sentInvites += 1;
-                }
-            }
+        $result = mail($email, "You're Invited", $message, $headers);
+
+        if ($result == 1) {
+          // add onid to the events inivte list
+          $database->insertInviteList($onid, $meeting['id']);
+          $sentInvites += 1;
         }
-        if ($sentInvites > 1) {
-            $successMessage = 'Sent ' . $sentInvites . ' invites.';
-            $msg->success($successMessage, SITE_DIR . '/meetings/' . $meeting['id']);
-        } else {
-            if ($sentInvites > 0) {
-                $msg->success('Sent 1 invite.', SITE_DIR . '/meetings/' . $meeting['id']);
-            }
-        }
-    } else {
+      }
     }
+    if ($sentInvites > 1) {
+      $successMessage = 'Sent ' . $sentInvites . ' invites.';
+      $msg->success($successMessage, SITE_DIR . '/meetings/' . $meeting['id']);
+    } else {
+      if ($sentInvites > 0) {
+        $msg->success('Sent 1 invite.', SITE_DIR . '/meetings/' . $meeting['id']);
+      }
+    }
+  } else {
+
+  }
 }
 
 if ($meeting && $meeting['creator_id'] == $_SESSION['user_id']) {
