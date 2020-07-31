@@ -120,20 +120,8 @@
             N/A
           {% endif %}
         </td>
-        <td style="display:none;">
-          {{site_url}}/meetings/remove_attendee
-        </td>
-        <td style="display:none;">
-          {{meeting.attendee_onid}}
-        </td>
-        <td style="display:none;">
-          {{meeting.timeslot_hash}}
-        </td>
-        <td style="display:none;">
-          {{meeting.name}}
-        </td>
         <td class="col-1">
-          <button class="table-btn">
+          <button class="table-btn" data-name="{{meeting.name}}" data-timeslot-hash="{{meeting.timeslot_hash}}" data-attendee-onid="{{meeting.attendee_onid}}" data-url="{{site_url}}/meetings/remove_attendee">
             <i class="fa fa-times text-danger ml-2"></i>
           </button>  
       <!--    <i class="fas fa-times text-danger ml-2" data-toggle="modal" data-target="#delete-attendee-modal" role="button"></i>  -->
