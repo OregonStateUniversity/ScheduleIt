@@ -79,6 +79,7 @@ class FileUpload
         }
 
         move_uploaded_file($_FILES[$field_name]['tmp_name'], $new_file_abspath);
+        chmod($new_file_abspath, 0644);
 
         // If there is no error with file upload, add path to database
         if ($booking_id) {
