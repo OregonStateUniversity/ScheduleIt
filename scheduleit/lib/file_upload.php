@@ -52,8 +52,8 @@ class FileUpload
             $renamed_filename = $onid . '_upload' . '.' . $ext;
         } else {
             $renamed_filename = $onid . '_meeting_file' . '.' . $ext;
-        }
-
+        }   
+        
         $new_file_abspath = $uploaded_file_dir . '/' . $renamed_filename;
 
         $url = $meeting_hash . '/' . $renamed_filename;
@@ -123,6 +123,36 @@ class FileUpload
         if (file_exists($file_abspath)) {
             unlink($file_abspath);
         }
+    }
+
+    /**
+    * deleteEventFiles
+    *
+    * @params string $event_hash
+    * @returns none
+    * https://paulund.co.uk/php-delete-directory-and-files-in-directory
+    */
+    public function deleteEventFiles($event_hash)
+    {
+       $dirname = UPLOADS_ABSPATH . $event_hash . '/';
+
+       if (is_dir($dirname)) {
+           $dir_handle = opendir($dirname);
+           if (!$dir_handle) {
+               return false;
+           }
+           while ($file = readdir($dir_handle)) {
+              if ($file != "." && $file != "..") {
+                  if (!is_dir($dirname . "/" . $file)) {
+                          unlink($dirname . "/" . $file);
+                  } else {
+                         delete_directory($dirname . '/' . $file);
+                  }
+              } 
+           }
+       }
+       closedir($dir_handle);
+       rmdir($dirname);
     }
 }
 

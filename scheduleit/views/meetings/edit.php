@@ -15,6 +15,7 @@ if ($meeting) {
 
             if ($result > 0) {
                 // delete event files here
+                $file_upload->deleteEventFiles($meetingHash);
                 $msg->success('"' . $meeting['name'] . '" has been deleted.', SITE_DIR . '/manage');
             } else {
                 $msg->error('Could not delete the meeting.');
