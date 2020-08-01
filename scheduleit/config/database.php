@@ -546,6 +546,7 @@ class DatabaseInterface
         SELECT
         meb_event.id,
         meb_event.name,
+        meb_event.hash,
         meb_event.location,
         meb_timeslot.start_time,
         meb_timeslot.end_time,

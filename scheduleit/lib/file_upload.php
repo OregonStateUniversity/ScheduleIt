@@ -51,10 +51,12 @@ class FileUpload
         if ($booking_id) {
             $renamed_filename = $onid . '_upload';
         } else {
+
             $renamed_filename = $onid . '_meeting_file';
         }
 
         $new_file_abspath = $uploaded_file_dir . '/' . $renamed_filename . '.' . $ext;
+
 
         $url = $meeting_hash . '/' . $renamed_filename . '.' . $ext;
 
@@ -117,8 +119,10 @@ class FileUpload
      */
     public function delete($file)
     {
+
         array_map('unlink', glob($file));
     }
+
 
     /**
     * deleteEventFiles
@@ -143,7 +147,9 @@ class FileUpload
                   } else {
                          delete_directory($dirname . '/' . $file);
                   }
+
               }
+
            }
        }
        closedir($dir_handle);
