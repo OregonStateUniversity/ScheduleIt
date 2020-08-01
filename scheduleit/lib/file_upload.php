@@ -49,14 +49,16 @@ class FileUpload
         $ext = pathinfo($uploaded_filename, PATHINFO_EXTENSION);
 
         if ($booking_id) {
-            $renamed_filename = $onid . '_upload' . '.' . $ext;
+            $renamed_filename = $onid . '_upload';
         } else {
-            $renamed_filename = $onid . '_meeting_file' . '.' . $ext;
-        }   
-        
-        $new_file_abspath = $uploaded_file_dir . '/' . $renamed_filename;
 
-        $url = $meeting_hash . '/' . $renamed_filename;
+            $renamed_filename = $onid . '_meeting_file';
+        }
+
+        $new_file_abspath = $uploaded_file_dir . '/' . $renamed_filename . '.' . $ext;
+
+
+        $url = $meeting_hash . '/' . $renamed_filename . '.' . $ext;
 
         // To enable more file types, just add extensions to schedule.config.php
         $allowed_extensions = unserialize(UPLOAD_ALLOWED_FILETYPES);
@@ -69,11 +71,6 @@ class FileUpload
             ];
         }
 
-        // If directory for event's files doesn't exist, create it
-        if (!file_exists($uploaded_file_dir)) {
-            mkdir($uploaded_file_dir, 0755, true);
-        }
-
         // If there is error with file upload, don't add path to database
         if ($_FILES[$field_name]['error'] > 0) {
             return [
@@ -81,9 +78,6 @@ class FileUpload
                 'message' => 'Error: ' . $_FILES[$field_name]['error']
             ];
         }
-
-        move_uploaded_file($_FILES[$field_name]['tmp_name'], $new_file_abspath);
-        chmod($new_file_abspath, 0644);
 
         // If there is no error with file upload, add path to database
         if ($booking_id) {
@@ -93,16 +87,23 @@ class FileUpload
         }
 
         if ($result > 0) {
+            // If directory for event's files doesn't exist, create it
+            if (!file_exists($uploaded_file_dir)) {
+                mkdir($uploaded_file_dir, 0755, true);
+            }
+
+            // Remove any previously uploaded files
+            $this->delete(UPLOADS_ABSPATH . $meeting_hash . '/' . $renamed_filename . '.*');
+
+            move_uploaded_file($_FILES[$field_name]['tmp_name'], $new_file_abspath);
+            chmod($new_file_abspath, 0644);
+
             shell_exec('chmod 755 ' . UPLOADS_ABSPATH);
-            shell_exec('chmod -R 644 ' . UPLOADS_ABSPATH . $meeting_hash);
-            shell_exec('chmod 755 ' . UPLOADS_ABSPATH . $meeting_hash);
+
             return [
                 'message' => 'Your file has been uploaded.'
             ];
         } else {
-            // Remove file on database failure
-            unlink($new_file_abspath);
-
             return [
                 'error' => true,
                 'message' => 'Your file could not be uploaded.'
@@ -111,16 +112,17 @@ class FileUpload
     }
 
     /**
-     * Remove file from server.
+     * Remove files from server.
      *
      * @param string $file
      * @return void
      */
     public function delete($file)
     {
-       array_map('unlink', glob($file));
 
+        array_map('unlink', glob($file));
     }
+
 
     /**
     * deleteEventFiles
@@ -145,7 +147,9 @@ class FileUpload
                   } else {
                          delete_directory($dirname . '/' . $file);
                   }
-              } 
+
+              }
+
            }
        }
        closedir($dir_handle);
