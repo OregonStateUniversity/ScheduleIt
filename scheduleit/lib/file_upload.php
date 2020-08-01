@@ -48,7 +48,12 @@ class FileUpload
         $uploaded_filename = $_FILES[$field_name]['name'];
         $ext = pathinfo($uploaded_filename, PATHINFO_EXTENSION);
 
-        $renamed_filename = $onid . '_upload' . '.' . $ext;
+        if ($booking_id) {
+            $renamed_filename = $onid . '_upload' . '.' . $ext;
+        } else {
+            $renamed_filename = $onid . '_meeting_file' . '.' . $ext;
+        }
+
         $new_file_abspath = $uploaded_file_dir . '/' . $renamed_filename;
 
         $url = $meeting_hash . '/' . $renamed_filename;
