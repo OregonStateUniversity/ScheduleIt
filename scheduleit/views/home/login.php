@@ -17,6 +17,9 @@ if (
     $user = $database->getUserByONID($_POST['user']);
 
     if ($user) {
+        // TODO: Remove when we remove old pages
+        $_SESSION['user'] = $user['onid'];
+
         $_SESSION['user_onid'] = $user['onid'];
         $_SESSION['user_firstname'] = $user['first_name'];
         $_SESSION['user_lastname'] = $user['last_name'];

@@ -40,7 +40,7 @@
             Creator Meeting File
           </h4>
           <p class="card-text-large">
-            <a href="{{meeting.creator_file}}">
+            <a href="{{uploads_url}}{{meeting.creator_file}}">
               {{meeting.creator_file | basename}}
             </a>
           </p>
@@ -95,39 +95,41 @@
       </div>
     </div>
   </div>
-  <div class="row mb-4">
-    <div class="col-md-6">
-      <div class="card">
-        <div class="card-body pb-0">
-          <div class="form-group">
-            {% if booking.attendee_file %}
-              <h6 class="h6">
-                File Upload
-              </h6>
-              <p class="card-text-large">
-                <a href="{{booking.attendee_file}}">
-                  {{booking.attendee_file | basename}}
-                </a>
-              </p>
-            {% endif %}
-            <label class="h6">
+  {% if meeting.enable_upload %}
+    <div class="row mb-4">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-body pb-0">
+            <div class="form-group">
               {% if booking.attendee_file %}
-                Upload New File
-              {% else %}
-                File Upload
+                <h6 class="h6">
+                  File Upload
+                </h6>
+                <p class="card-text-large">
+                  <a href="{{uploads_url}}{{booking.attendee_file}}">
+                    {{booking.attendee_file | basename}}
+                  </a>
+                </p>
               {% endif %}
-            </label>
-            <p>
-              You may only upload a single file. Uploading a second file will overwrite the first.
-              If you need to upload multiple files combine them into a single zip file.
-              Allowed file types: {{upload_allowed_filetypes | join}}
-            </p>
-            <input class="form-control-file" name="file" type="file">
+              <label class="h6">
+                {% if booking.attendee_file %}
+                  Upload New File
+                {% else %}
+                  File Upload
+                {% endif %}
+              </label>
+              <p>
+                You may only upload a single file. Uploading a second file will overwrite the first.
+                If you need to upload multiple files combine them into a single zip file.
+                Allowed file types: {{upload_allowed_filetypes | join}}
+              </p>
+              <input class="form-control-file" name="file" type="file">
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
+  {% endif %}
   <div class="pt-4">
     <input name="booking_id" value="{{booking.id}}" type="hidden">
     <button class="btn btn-success">

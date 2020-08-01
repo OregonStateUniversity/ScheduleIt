@@ -7,16 +7,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
      $removeOnid = $_POST['attendeeOnid'];
      $slotHash = $_POST['slotHash'];
      $removeOnid = trim($removeOnid);
-     $slotHash = trim($slotHash); 
+     $slotHash = trim($slotHash);
      $eventName = $_POST['eventName'];
      $result = $database->deleteBooking($removeOnid, $slotHash);
           
-     echo json_encode($result); 
+     echo json_encode($result);
      // add email here
-     $send_email->notifyRemovedAttendee($removeOnid, $_SESSION['user_firstname'] . ' ' . $_SESSION['user_lastname'], $_SESSION['user_onid'], $eventName);  
-     
-     
+     $send_email->notifyRemovedAttendee($removeOnid, $_SESSION['user_firstname'] . ' ' . $_SESSION['user_lastname'], $_SESSION['user_onid'], $eventName);
 }
-
- 
-

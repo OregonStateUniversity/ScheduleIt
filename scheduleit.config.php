@@ -35,6 +35,11 @@ if (!defined('UPLOADS_ABSPATH')) {
     define('UPLOADS_ABSPATH', ABSPATH . 'uploads/');
 }
 
+if (!defined('UPLOADS_URL')) {
+    // TODO: Remove ../ when we remove old pages
+    define('UPLOADS_URL', $protocol . '://' . $_SERVER['HTTP_HOST'] . $_ENV['SITE_DIR'] . '/../uploads/');
+}
+
 if (!defined('UPLOAD_ALLOWED_FILETYPES')) {
     define('UPLOAD_ALLOWED_FILETYPES', serialize(['txt', 'zip', 'pdf', 'docx', 'xlsx' ,'pptx']));
 }

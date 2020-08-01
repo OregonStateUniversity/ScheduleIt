@@ -1,44 +1,9 @@
 <form enctype="multipart/form-data" method="post">
   <div class="row">
     <div class="col-md-6">
-      <div class="mb-3">
-        <label class="h6">Title</label>
-        <input class="form-control" name="name" type="text" value="{{meeting.name}}">
-      </div>
-      <div class="mb-3">
-        <label class="h6">Location</label>
-        <input class="form-control input-lg"
-          name="location"
-          list="location-data-list"
-          id="location-input">
-        <datalist id="location-data-list"></datalist>
-      </div>
+      {{ include('meetings/_meeting_info_form_fields.twig') }}
       <div class="mb-4">
-        <label class="h6">Description</label>
-        <textarea class="form-control" name="description">{{meeting.description}}</textarea>
-      </div>
-      <div class="form-check mb-2">
-        <input class="form-check-input" {% if meeting.is_anon == true %}checked{% endif %} name="is_anon" type="checkbox" value="1" id="is_anon">
-        <label class="form-check-label" for="is_anon">
-          Anonymous Meeting
-        </label>
-      </div>
-      <div class="form-check mb-4">
-        <input class="form-check-input" {% if meeting.enable_upload == true %}checked{% endif %} name="enable_upload" type="checkbox" value="1" id="enable_upload">
-        <label class="form-check-label" for="enable_upload">
-          Enable Attendees to Upload Files
-        </label>
-      </div>
-      <div class="form-group mb-5">
-        <label class="h6">File Download for Attendees</label>
-        <p>
-          You may only upload a single file. Uploading a second file will overwrite the first.
-          If you need to upload multiple files combine them into a single zip file.
-        </p>
-        <input class="form-control-file" name="event_file" type="file" value="{{meeting.event_file}}">
-      </div>
-      <div class="mb-4">
-        <label class="h6">Attendees Allowed Per Timeslot</label>
+        <label class="h6">Attendees Allowed Per Timeslot <span class="text-danger">*</span></label>
         <div class="row">
           <div class="col-6">
             <input class="form-control" min="1" max="100" name="capacity" type="number" value="{{meeting.capacity}}">
@@ -50,7 +15,7 @@
         <div id="calendar"></div>
       </div>
       <div class="mb-4">
-        <label class="h6">Slot Duration</label>
+        <label class="h6">Slot Duration <span class="text-danger">*</span></label>
         <div class="row">
           <div class="col-6">
             <select class="form-control" id="duration" name="duration">
@@ -73,7 +38,7 @@
         <button class="btn btn-success">
           Save Meeting
         </button>
-        <a class="ml-3" href="{{site_url}}/meetings">
+        <a class="ml-3" href="{{site_url}}/manage">
           Cancel
         </a>
       </div>

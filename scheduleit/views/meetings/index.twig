@@ -6,16 +6,7 @@
   <h1 class="h2 mb-4">
     {{title}}
   </h1>
-  <form class="form-inline mb-4" method="get">
-    <div>
-      <input class="form-control mr-sm-2" name="q" type="search">
-    </div>
-    <div class="pl-3 pl-md-1">
-      <button class="btn btn-primary my-2 my-sm-0">
-        Search
-      </button>
-    </div>
-  </form>
+  {{ include('shared/_search_form.twig') }}
 </div>
 {% if search_term and search_result_count > 0 %}
   <p>
@@ -41,7 +32,7 @@
         All Upcoming Meetings ({{ upcoming_meetings | count }})
       </a>
       {% if created_meetings %}
-        <a class="nav-item nav-link" id="my-meetings-tab" data-toggle="tab" href="#my-meetings" role="tab" aria-controls="my-meetings" aria-selected="true">
+        <a class="nav-item nav-link" id="created-meetings-tab" data-toggle="tab" href="#created-meetings" role="tab" aria-controls="created-meetings" aria-selected="true">
           Meetings Created By Me ({{ created_meetings | count }})
         </a>
       {% endif %}
@@ -72,7 +63,7 @@
           {% endif %}
         </div>
         {% if created_meetings %}
-          <div class="tab-pane fade" id="my-meetings" role="tabpanel" aria-labelledby="my-meetings-tab">
+          <div class="tab-pane fade" id="created-meetings" role="tabpanel" aria-labelledby="created-meetings-tab">
             {% for meeting in created_meetings %}
               {{ include('meetings/_meeting_card.twig') }}
             {% endfor %}
