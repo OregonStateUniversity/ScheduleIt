@@ -1,4 +1,5 @@
 <?php
+
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -10,39 +11,38 @@ $meeting = $database->getMeetingById($meeting_id, $_SESSION['user_id']);
 $inviteList = $database->getNotRegistered($meeting['id']);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-  if (isset($_POST['attendeeOnid'])) {
-    $attendeeOnids = $_POST['attendeeOnid'];
-    $link = $_POST['link'];
-    $link = $_SERVER['HTTP_ORIGIN'] . $link;
-    $host = $_SESSION['user_onid'];
-    $hash = $meeting['hash'];
-    // turn onid string into array
-    $onidArray = explode(" ",$attendeeOnids);
+    if (isset($_POST['attendeeOnid'])) {
+        $attendeeOnids = $_POST['attendeeOnid'];
+        $link = $_POST['link'];
+        $link = $_SERVER['HTTP_ORIGIN'] . $link;
+        $host = $_SESSION['user_onid'];
+        $hash = $meeting['hash'];
+      // turn onid string into array
+        $onidArray = explode(" ", $attendeeOnids);
 
-    // create email list
-    // send email in forloop so that other recipients emails are not
-    // exposed
-    $sentInvites = 0;
-    foreach ($onidArray as $onid) {
-      if (strlen($onid) > 2) {
-      $send_email->invitation($_SESSION['user_onid'], $onid, $meeting['name'], $_SESSION['user_firstname'] . ' ' . $_SESSION['user_lastname'], $link); 
+      // create email list
+      // send email in forloop so that other recipients emails are not
+      // exposed
+        $sentInvites = 0;
+        foreach ($onidArray as $onid) {
+            if (strlen($onid) > 2) {
+                $send_email->invitation($_SESSION['user_onid'], $onid, $meeting['name'], $_SESSION['user_firstname'] . ' ' . $_SESSION['user_lastname'], $link);
 
-      // add onid to the events inivte list
-      $database->insertInviteList($onid, $meeting['id']);
-      $sentInvites += 1;
-      }
-    }
-    if ($sentInvites > 1) {
-      $successMessage = 'Sent ' . $sentInvites . ' invites.';
-      $msg->success($successMessage, SITE_DIR . '/meetings/' . $meeting['id']);
+              // add onid to the events inivte list
+                $database->insertInviteList($onid, $meeting['id']);
+                $sentInvites += 1;
+            }
+        }
+        if ($sentInvites > 1) {
+            $successMessage = 'Sent ' . $sentInvites . ' invites.';
+            $msg->success($successMessage, SITE_DIR . '/meetings/' . $meeting['id']);
+        } else {
+            if ($sentInvites > 0) {
+                $msg->success('Sent 1 invite.', SITE_DIR . '/meetings/' . $meeting['id']);
+            }
+        }
     } else {
-      if ($sentInvites > 0) {
-        $msg->success('Sent 1 invite.', SITE_DIR . '/meetings/' . $meeting['id']);
-      }
     }
-  } else {
-
-  }
 }
 
 if ($meeting && $meeting['creator_id'] == $_SESSION['user_id']) {
