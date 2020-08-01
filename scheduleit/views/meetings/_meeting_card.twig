@@ -37,7 +37,7 @@
         {% else %}
           Creator
         {% endif %}
-        File: <a href="{{uploads_url}}{{meeting.creator_file}}">{{meeting.creator_file | basename}}</a>
+        File: <a href="{{uploads_url}}{{meeting.creator_file}}" download="">{{meeting.creator_file | basename}}</a>
       </p>
     {% endif %}
     {% if meeting.creator_onid == user_onid %}
@@ -57,7 +57,7 @@
         {% endif %}
         File{% if meeting.attendees_files_count > 1 %}s{% endif %}:
         {% for attendee_file in meeting.attendees_files %}
-          <a href="{{uploads_url}}{{attendee_file}}">{{attendee_file | basename}}</a>{% if loop.index != meeting.attendees_files_count %}, {% endif %}
+          <a href="{{uploads_url}}{{attendee_file}}" download="">{{attendee_file | basename}}</a>{% if loop.index != meeting.attendees_files_count %}, {% endif %}
         {% endfor %}
       </p>
     {% endif %}
