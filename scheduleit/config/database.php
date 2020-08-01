@@ -308,7 +308,6 @@ class DatabaseInterface
         LEFT OUTER JOIN meb_files ON meb_files.fk_booking_id = meb_booking.id
         WHERE (meb_creator.id = ? OR meb_booking.fk_user_id = ?)
         AND meb_timeslot.start_time > now()
-        AND meb_timeslot.spaces_available < meb_timeslot.slot_capacity
         ORDER BY meb_timeslot.start_time ASC
 
         ;";
@@ -360,7 +359,6 @@ class DatabaseInterface
         LEFT OUTER JOIN meb_files ON meb_files.fk_booking_id = meb_booking.id
         WHERE meb_creator.id = ?
         AND meb_timeslot.start_time > now()
-        AND meb_timeslot.spaces_available < meb_timeslot.slot_capacity
         ORDER BY meb_timeslot.start_time ASC
 
         ;";
@@ -412,7 +410,6 @@ class DatabaseInterface
         LEFT OUTER JOIN meb_files ON meb_files.fk_booking_id = meb_booking.id
         WHERE (meb_creator.id = ? OR meb_booking.fk_user_id = ?)
         AND meb_timeslot.start_time < now()
-        AND meb_timeslot.spaces_available < meb_timeslot.slot_capacity
         ORDER BY meb_timeslot.start_time DESC
 
         ;";
@@ -464,7 +461,6 @@ class DatabaseInterface
         LEFT OUTER JOIN meb_user ON  meb_user.id = meb_booking.fk_user_id
         LEFT OUTER JOIN meb_files ON meb_files.fk_booking_id = meb_booking.id
         WHERE (meb_user.id = ? OR meb_creator.id = ?)
-        AND meb_timeslot.spaces_available < meb_timeslot.slot_capacity
         AND (
             meb_event.name LIKE ?
             OR meb_event.location LIKE ?
