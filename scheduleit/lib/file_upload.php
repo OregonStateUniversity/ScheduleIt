@@ -49,7 +49,7 @@ class FileUpload
         $ext = pathinfo($uploaded_filename, PATHINFO_EXTENSION);
 
         if ($booking_id) {
-            $renamed_filename = $onid . '_upload' . '.' .$ext;
+            $renamed_filename = $onid . '_upload' . '.' . $ext;
         } else {
             $renamed_filename = $onid . '_meeting_file' . '.' . $ext;
         }   
