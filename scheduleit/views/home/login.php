@@ -11,6 +11,8 @@ require_once ABSPATH . 'scheduleit/config/database.php';
 
 session_start();
 
+$error = null;
+
 if (
     !empty($_POST['user'])
 ) {
