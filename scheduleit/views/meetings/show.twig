@@ -62,7 +62,7 @@
         </h4>
         <p class="card-text-large">
           {% if meeting.creator_file %}
-            <a href="{{uploads_url}}{{meeting.creator_file}}">
+            <a href="{{uploads_url}}{{meeting.creator_file}}" download="">
               {{meeting.creator_file | basename}}
             </a>
           {% else %}
@@ -117,7 +117,7 @@
         </td>
         <td class="col-2">
           {% if meeting.attendee_file %}
-            <a href="{{uploads_url}}{{meeting.attendee_file}}">{{meeting.attendee_file | basename}}</a>
+            <a href="{{uploads_url}}{{meeting.attendee_file}}" download="">{{meeting.attendee_file | basename}}</a>
           {% else %}
             N/A
           {% endif %}
