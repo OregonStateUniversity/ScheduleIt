@@ -1,7 +1,7 @@
 <?php
 
 require_once ABSPATH . 'config/session.php';
-require_once ABSPATH . 'scheduleit/lib/upload.php';
+require_once ABSPATH . 'scheduleit/lib/file_upload.php';
 require_once ABSPATH . 'scheduleit/lib/send_email.php';
 
 $meeting_hash = !empty($_GET['key']) ? $_GET['key'] : null;
@@ -62,17 +62,21 @@ if ($meeting) {
                 } else {
                     // Delete invite, if one exists
                     $database->deleteInvite($_SESSION['user_onid'], $meeting['id']);
-                    // Send confirmation email
-                    $send_email->inviteConfirmation($booking);
-                    $msg->success('Your settings have been saved.', SITE_DIR . '/invite?key=' . $meeting_hash);
+                    // Send confirmation email only if time updated
+                    if ($timeslot_id != $booking['timeslot_id']) {
+                        $send_email->inviteConfirmation($booking);
+                    }
+                    $msg->success('Your settings have been saved for "' . $meeting['name'] . '".', SITE_DIR . '/meetings');
                 }
             // No file uploaded, just booking update
             } elseif ($updated_booking > -1) {
                 // Delete invite, if one exists
                 $database->deleteInvite($_SESSION['user_onid'], $meeting['id']);
-                // Send confirmation email
-                $send_email->inviteConfirmation($booking);
-                $msg->success('Your settings have been saved.', SITE_DIR . '/invite?key=' . $meeting_hash);
+                // Send confirmation email only if time updated
+                if ($timeslot_id != $booking['timeslot_id']) {
+                    $send_email->inviteConfirmation($booking);
+                }
+                $msg->success('Your settings have been saved for "' . $meeting['name'] . '".', SITE_DIR . '/meetings');
             } else {
                 $msg->error('There was a problem saving your settings.');
             }
@@ -85,8 +89,7 @@ if ($meeting) {
         'booking' => $booking,
         'dates' => $dates,
         'meeting' => $meeting,
-        'title' => $meeting['name'],
-        'upload_allowed_filetypes' => unserialize(UPLOAD_ALLOWED_FILETYPES)
+        'title' => $meeting['name']
     ]);
 } else {
     http_response_code(404);

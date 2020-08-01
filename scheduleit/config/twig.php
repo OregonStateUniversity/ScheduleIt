@@ -6,6 +6,8 @@ $loader = new \Twig\Loader\FilesystemLoader(ABSPATH . 'scheduleit/views');
 $twig = new \Twig\Environment($loader);
 $twig->addGlobal('site_name', SITE_NAME);
 $twig->addGlobal('site_url', SITE_URL);
+$twig->addGlobal('upload_allowed_filetypes', unserialize(UPLOAD_ALLOWED_FILETYPES));
+$twig->addGlobal('uploads_url', UPLOADS_URL);
 
 $basename_filter = new \Twig\TwigFilter('basename', function ($string) {
     return basename($string);

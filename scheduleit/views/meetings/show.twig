@@ -62,7 +62,7 @@
         </h4>
         <p class="card-text-large">
           {% if meeting.creator_file %}
-            <a href="{{meeting.creator_file}}">
+            <a href="{{uploads_url}}{{meeting.creator_file}}">
               {{meeting.creator_file | basename}}
             </a>
           {% else %}
@@ -75,9 +75,6 @@
         <p class="card-text-large">
           {{meeting.capacity}}
         </p>
-        <h4 class="h6 mb-1">
-          Invite Link
-        </h4>
         <p class="card-text-large">
           <a id="inviteLink" href="{{site_url}}/invite?key={{meeting.hash}}">Invite Link</a>
         </p>
@@ -87,7 +84,12 @@
 </div>
 <p class="mb-5">
   <a class="btn btn-primary" href="{{site_url}}/meetings/{{meeting.id}}/edit">
-    Edit Meeting
+    <i class="fas fa-pencil-alt"></i>
+    Edit Meeting Info
+  </a>
+  <a class="btn btn-primary ml-3" href="{{site_url}}/meetings/{{meeting.id}}/dates">
+    <i class="fas fa-calendar-alt"></i>
+    Edit Meeting Dates
   </a>
 </p>
 <h2 class="h3">
@@ -115,16 +117,22 @@
         </td>
         <td class="col-2">
           {% if meeting.attendee_file %}
-            <a href="{{meeting.attendee_file}}">{{meeting.attendee_file | basename}}</a>
+            <a href="{{uploads_url}}{{meeting.attendee_file}}">{{meeting.attendee_file | basename}}</a>
           {% else %}
             N/A
           {% endif %}
         </td>
         <td class="col-1">
-          <button class="table-btn" data-name="{{meeting.name}}" data-timeslot-hash="{{meeting.timeslot_hash}}" data-attendee-onid="{{meeting.attendee_onid}}" data-url="{{site_url}}/meetings/remove_attendee">
-            <i class="fa fa-times text-danger ml-2"></i>
-          </button>  
-      <!--    <i class="fas fa-times text-danger ml-2" data-toggle="modal" data-target="#delete-attendee-modal" role="button"></i>  -->
+          <button
+            class="btn btn-danger btn-sm table-btn"
+            data-name="{{meeting.name}}"
+            data-timeslot-hash="{{meeting.timeslot_hash}}"
+            data-attendee-onid="{{meeting.attendee_onid}}"
+            data-url="{{site_url}}/meetings/remove_attendee"
+            type="button"
+          >
+            <i class="fas fa-times"></i>
+          </button>
         </td>
       </tr>
     {% endfor %}
@@ -143,12 +151,12 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-danger" id="delete-attendee-button">Delete</button> 
+          <button type="button" class="btn btn-danger" id="delete-attendee-button">Delete</button>
         </div>
       </div>
     </div>
   </div>
- 
+
 {% else %}
   <p>
     No attendees have signed up yet.
@@ -181,9 +189,9 @@
           </td>
         </tr>
       {% endfor %}
-    </table> 
+    </table>
   {% endif %}
-</div> 
+</div>
 <!--<p class="mb-5">
   <button class="btn btn-primary" data-toggle="modal" data-target="#invite-attendees-modal" type="button">
     Invite Attendees

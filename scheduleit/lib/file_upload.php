@@ -32,7 +32,7 @@ class FileUpload
      * @param string $field_name
      * @return object
      */
-    public function upload($onid, $meeting_hash, $booking_id, $field_name = 'file')
+    public function upload($onid, $meeting_hash, $booking_id = null, $field_name = 'file')
     {
         // Check file size ** final size TBD **
         if ($_SERVER['CONTENT_LENGTH'] > UPLOAD_SIZE_LIMIT) {
@@ -51,8 +51,7 @@ class FileUpload
         $renamed_filename = $onid . '_upload' . '.' . $ext;
         $new_file_abspath = $uploaded_file_dir . '/' . $renamed_filename;
 
-        // TODO: Use SITE_DIR when we remove old pages
-        $url = '../uploads/' . $meeting_hash . '/' . $renamed_filename;
+        $url = $meeting_hash . '/' . $renamed_filename;
 
         // To enable more file types, just add extensions to schedule.config.php
         $allowed_extensions = unserialize(UPLOAD_ALLOWED_FILETYPES);
@@ -103,6 +102,21 @@ class FileUpload
                 'error' => true,
                 'message' => 'Your file could not be uploaded.'
             ];
+        }
+    }
+
+    /**
+     * Remove file from server.
+     *
+     * @param string $file
+     * @return void
+     */
+    public function delete($file)
+    {
+        $file_abspath = UPLOADS_ABSPATH . $file;
+
+        if (file_exists($file_abspath)) {
+            unlink($file_abspath);
         }
     }
 }

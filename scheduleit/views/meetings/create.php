@@ -1,8 +1,11 @@
 <?php
 
 require_once ABSPATH . 'config/session.php';
+require_once ABSPATH . 'scheduleit/lib/file_upload.php';
 
-$meeting = [];
+$meeting = [
+    'capacity' => 1
+];
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $meeting['name'] = $_POST['name'];
@@ -19,10 +22,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     ) {
         $msg->error('Please fill out all required fields.');
     } else {
-        $new_meeting = $database->addMeeting($_SESSION['user_id'], $meeting);
+        $new_meeting_id = $database->addMeeting($_SESSION['user_id'], $meeting);
 
-        if ($new_meeting == 1) {
-            $msg->success('Meeting created.', SITE_DIR . '/manage');
+
+        // Check for file to upload
+        if ($new_meeting_id > 0 && !empty($_FILES['file']['name'])) {
+            $created_meeting = $database->getMeetingById($new_meeting_id);
+            // Upload file
+            $new_file_upload = $file_upload->upload($_SESSION['user_onid'], $created_meeting['hash']);
+
+            if ($new_file_upload['error']) {
+                $msg->error($new_file_upload['message']);
+            } else {
+                $msg->success('"' . $meeting['name'] . '" has been created.', SITE_DIR . '/meetings/' . $new_meeting_id);
+            }
+        // No file uploaded, just meeting creation
+        } elseif ($new_meeting_id > 0) {
+                $msg->success('"' . $meeting['name'] . '" has been created.', SITE_DIR . '/meetings/' . $new_meeting_id);
         } else {
             $msg->error('Could not create meeting.');
         }

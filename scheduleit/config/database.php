@@ -585,7 +585,7 @@ class DatabaseInterface
      *
      * @param int $user_id
      * @param object $meeting
-     * @return int;
+     * @return int
      */
     public function addMeeting($user_id, $meeting)
     {
@@ -637,6 +637,60 @@ class DatabaseInterface
 
         // $newEventID = $this->database->insert_id;
         // $this->addTimeSlots($slotData, $newEventID);
+
+        $result = $this->database->insert_id;
+
+        $statement->close();
+
+        return $result;
+    }
+
+    /**
+     * Update meeting.
+     *
+     * @param int $user_id
+     * @param object $meeting
+     * @return int
+     */
+    public function updateMeeting($user_id, $meeting)
+    {
+        $id = $meeting['id'];
+        $name = $meeting['name'];
+        $location = $meeting['location'];
+        $description = $meeting['description'];
+        $is_anon = $meeting['is_anon'];
+        $enable_upload = $meeting['enable_upload'];
+        $capacity = $meeting['capacity'];
+
+        $query = "
+
+            UPDATE meb_event
+            SET name = ?,
+            location = ?,
+            description = ?,
+            is_anon = ?,
+            enable_upload = ?,
+            capacity = ?
+            WHERE id = ?
+            AND fk_event_creator = ?
+
+        ";
+
+        $statement = $this->database->prepare($query);
+
+        $statement->bind_param(
+            "sssiiiii",
+            $name,
+            $location,
+            $description,
+            $is_anon,
+            $enable_upload,
+            $capacity,
+            $id,
+            $user_id
+        );
+
+        $statement->execute();
 
         $result = $statement->affected_rows;
 
@@ -1277,26 +1331,25 @@ class DatabaseInterface
 
     /**
     * Delete a meeting based on its hash value
-    * 
+    *
     * @param string $meetingHash
     * @return int $result
     */
     public function deleteMeeting($meetingHash)
     {
-      $query = "DELETE FROM meb_event WHERE hash = ?;";
+        $query = "DELETE FROM meb_event WHERE hash = ?;";
 
-      $statement = $this->database->prepare($query);
+        $statement = $this->database->prepare($query);
 
-      $statement->bind_param("s", $meetingHash);
-      $statement->execute();
+        $statement->bind_param("s", $meetingHash);
+        $statement->execute();
 
-      $result = $statement->affected_rows;
+        $result = $statement->affected_rows;
 
-      $statement->close();
+        $statement->close();
 
-      return $result;
+        return $result;
     }
-
 }
 
 $database = new DatabaseInterface();
