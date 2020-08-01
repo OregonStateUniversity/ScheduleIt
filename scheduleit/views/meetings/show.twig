@@ -156,47 +156,37 @@
       </div>
     </div>
   </div>
-
 {% else %}
   <p>
     No attendees have signed up yet.
   </p>
 {% endif %}
-
-<br>
-<div id="onidInvite">
-  <h2 class="h3">Invite</h2>
-  <form method="post">
-
-    <label for="onid">Please enter a space separated list of ONID IDs</label><br>
-    <input class="form-control" type="text" name="attendeeOnid" id="onid" placeholder="onid1 onid2...">{{attendeeOnid}}<br><br>
-    <input class="form-control" type="hidden" name="link" value="{{site_url}}/invite?key={{meeting.hash}}">
-    <button type="submit" name='onid_invite' class="btn btn-primary">Send Invitations</button>
-  </form>
-</div>
-<br>
-<div>
-  {% if invite_list %}
-    <h2 class="h3">
-      Invited Not Yet Registered
-    </h2>
-    <br>
-    <table class="table">
-      {% for list in invite_list %}
-        <tr>
-          <td>
-            {{ list.user_onid }}
-          </td>
-        </tr>
-      {% endfor %}
-    </table>
-  {% endif %}
-</div>
-<!--<p class="mb-5">
+{% if invite_list %}
+  <h2 class="h3">
+    Invited Not Yet Registered
+  </h2>
+  <table class="table">
+    <tr class="d-flex">
+      <th class="col-6">ONID</th>
+      <th class="col-6">Date Sent</th>
+    </tr>
+    {% for list in invite_list %}
+      <tr class="d-flex">
+        <td class="col-6">
+          {{ list.user_onid }}
+        </td>
+        <td class="col-6">
+          {{ list.mod_date | date("n/j/y g:ia")}}
+        </td>
+      </tr>
+    {% endfor %}
+  </table>
+{% endif %}
+<p class="mb-5">
   <button class="btn btn-primary" data-toggle="modal" data-target="#invite-attendees-modal" type="button">
     Invite Attendees
   </button>
-</p>-->
+</p>
 <div class="modal fade" id="invite-attendees-modal" tabindex="-1" role="dialog" aria-labelledby="invite-attendees-modal-label" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -206,21 +196,21 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
-       <p>
-          Enter email addresses separated by commas or on new lines, or upload a CVS file.
-        </p>
-        <p>
-          <textarea class="form-control"></textarea>
-        </p>
-        <div class="form-group">
-          <input class="form-control-file" type="file">
+      <form method="post">
+        <div class="modal-body">
+         <p>
+            Please enter ONIDs separated by spaces.
+          </p>
+          <div class="form-group">
+            <input class="form-control" name="attendeeOnid" id="onid" placeholder="onid1 onid2..." type="text">
+          </div>
         </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-        <button type="button" class="btn btn-success">Send</button>
-      </div>
+        <div class="modal-footer">
+          <input type="hidden" name="link" value="{{site_url}}/invite?key={{meeting.hash}}">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          <button class="btn btn-success">Send Invitations</button>
+        </div>
+      </form>
     </div>
   </div>
 </div>
