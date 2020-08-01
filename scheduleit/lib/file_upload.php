@@ -120,14 +120,6 @@ class FileUpload
     {
        array_map('unlink', glob($file));
 
-       // $file_abspath = UPLOADS_ABSPATH . $file . '.*';
-       // $files = glob($file_abspath);
-       // foreach ($files as $file) {
-       //    unlink($file);
-       // }
-       // if (file_exists($file_abspath)) {
-      //      unlink($file_abspath);
-       // }
     }
 
     /**
