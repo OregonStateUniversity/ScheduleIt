@@ -6,14 +6,13 @@ $(document).ready(function () {
   var slotHash = $(this).attr('data-timeslot-hash');
   var meetingHash = $(this).attr('data-meeting-hash');
   $("#delete-attendee-modal").modal("show");
-  
+
     $("#delete-attendee-button").click( function () {
       $("#delete-attendee-modal").modal("hide");
       removeAttendee(slotHash, onid, meetingName, meetingHash, url);
     });
   });
-});  
-
+});
 
 function removeAttendee(slotHash, onid, meetingName, meetingHash, url) {
   $.ajax({

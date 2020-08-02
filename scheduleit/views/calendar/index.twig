@@ -22,10 +22,10 @@
 {% block page_footer %}
 
 <script>
-  document.addEventListener("DOMContentLoaded", function() {
+  $(function() {
     var calendarElement = document.getElementById("calendar");
 
-    var events = {{meetings | raw}};
+    var events = {{meetings_json | raw}};
 
     var mappedEvents = events.map(function(event) {
       return {

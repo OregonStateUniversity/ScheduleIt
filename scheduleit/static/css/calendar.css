@@ -17,7 +17,17 @@
   display: none;
 }
 
-.fc td.active {
-  background-color: #000 !important;
+.fc-day {
+  cursor: pointer;
+}
+
+.fc-day:hover {
+  background-color: var(--osu-orange-secondary-hover) !important;
+  color: #fff !important;
+}
+
+.fc-day-active,
+.fc-day-active:hover {
+  background-color: var(--osu-orange-secondary) !important;
   color: #fff !important;
 }

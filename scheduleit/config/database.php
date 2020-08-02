@@ -231,6 +231,37 @@ class DatabaseInterface
     }
 
     /**
+     * Get timeslots for meeting.
+     *
+     * @param int $id
+     * @return array
+     */
+    public function getTimeslotsByMeetingId($id)
+    {
+        $timeslots_query = "
+
+        SELECT
+        id,
+        duration,
+        start_time
+        FROM meb_timeslot
+        WHERE fk_event_id = ?
+
+        ;";
+
+        $timeslots = $this->database->prepare($timeslots_query);
+        $timeslots->bind_param("i", $id);
+        $timeslots->execute();
+
+        $result = $timeslots->get_result();
+        $list = $result->fetch_all(MYSQLI_ASSOC);
+        $result->free();
+        $timeslots->close();
+
+        return $list;
+    }
+
+    /**
      * Get meetings created by user or where they're an attendee for the calendar page.
      *
      * @param int $user_id
