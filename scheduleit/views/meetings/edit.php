@@ -37,6 +37,9 @@ if ($meeting) {
 
                 // Check for file to upload
                 if (!empty($_FILES['file']['name'])) {
+                    // remove old file
+                    $file_name = UPLOADS_ABSPATH . $meeting['hash'] . '/' . $_SESSION['user_onid'] . '_meeting_file.*';
+                    $file_upload->delete($file_name); 
                     // Upload file
                     $new_file_upload = $file_upload->upload($_SESSION['user_onid'], $meeting['hash']);
 
