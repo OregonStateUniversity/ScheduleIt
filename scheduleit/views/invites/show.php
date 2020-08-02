@@ -39,25 +39,24 @@ if ($meeting) {
         } elseif ($_SERVER['CONTENT_LENGTH'] > UPLOAD_SIZE_LIMIT) {
             $msg->error('File upload is too large.');
         } elseif (!empty($_POST['timeslot_id'])) {
+            $booking_id = $_POST['booking_id'];
             $timeslot_id = $_POST['timeslot_id'];
 
             // Add or update booking
             $updated_booking = $database->addBooking($_SESSION['user_id'], $timeslot_id);
 
+            // If no booking id from POST, it's a new booking
+            if (empty($booking_id)) {
+                $booking = $database->getMeetingForUserId($_SESSION['user_id'], $meeting_hash);
+                $booking_id = $booking['id'];
+            }
+
             // Check for file to upload
             if (!empty($_FILES['file']['name'])) {
-                $booking_id = $_POST['booking_id'];
-
-                // If no booking id from POST, it's a new booking
-                if (empty($booking_id)) {
-                    $booking = $database->getMeetingForUserId($_SESSION['user_id'], $meeting_hash);
-                    $booking_id = $booking['id'];
-                }
-
-                // delete any old uploaded file first
+                // delete old file first
                 $file_name = UPLOADS_ABSPATH . $meeting['hash'] . '/' . $_SESSION['user_onid'] . '_upload.*';
                 $file_upload->delete($file_name);
-                // upload a file
+                // Upload file
                 $new_file_upload = $file_upload->upload($_SESSION['user_onid'], $meeting['hash'], $booking_id);
 
                 if ($new_file_upload['error']) {
@@ -79,9 +78,9 @@ if ($meeting) {
                 $database->deleteInvite($_SESSION['user_onid'], $meeting['id']);
                 // Send confirmation email only if time updated
                 if (isset($booking['timeslot_id'])) {
-                   if ($timeslot_id != $booking['timeslot_id']) {
-                       $send_email->inviteConfirmation($booking);
-                   } 
+                    if ($timeslot_id != $booking['timeslot_id']) {
+                        $send_email->inviteConfirmation($booking);
+                    }
                 }
                 $msg->success('Your settings have been saved for "' . $meeting['name'] . '".', SITE_DIR . '/meetings');
             } else {
