@@ -5,69 +5,18 @@
 <h1 class="h2 mb-4">
   {{title}}
 </h1>
-{{ include('meetings/_meeting_form.twig') }}
+<form enctype="multipart/form-data" method="post">
+  {{ include('meetings/_meeting_info_form_fields.twig') }}
+  {{ include('meetings/_meeting_dates_form_fields.twig') }}
+  <div class="pt-4">
+    <button class="btn btn-success">
+      Save Meeting
+    </button>
+    <a class="ml-3" href="{{site_url}}/manage">
+      Cancel
+    </a>
+  </div>
+</form>
 
 {% endblock %}
 
-{% block page_footer %}
-
-<script>
-  $(function() {
-    var calendarElement = document.getElementById("calendar");
-    var calendar = new FullCalendar.Calendar(calendarElement, {
-      initialView: "dayGridMonth",
-      validRange: function(nowDate) {
-        return {
-          start: nowDate
-        };
-      },
-      dateClick: function(info) {
-        if ($(info.dayEl).hasClass("active")) {
-          $(info.dayEl).removeClass("active");
-          removeDate(info.dateStr);
-        } else {
-          $(info.dayEl).addClass("active");
-          addDate(info.dateStr);
-        }
-      }
-    });
-    calendar.render();
-
-
-    $("body").on("click", "[data-datetimes]", function() {
-      if ($(this).prop("checked")) {
-        addTime($(this).val());
-      } else{
-        removeTime($(this).val());
-      }
-    });
-
-    function addDate(date) {
-      var timeCheckboxes = "";
-
-      var times = [9,10,11,12,13,14,15,16,17,18];
-
-      times.forEach(function(time) {
-        timeCheckboxes += `<label><input name="datetime[]" value="${date}_${time}" type="checkbox"> ${time}</label><br>`;
-      });
-
-      $("#times-selector").append(`<li class="mr-3" id="time-${date}"><h4 class="h6">${date}</h4>${timeCheckboxes}</li>`);
-
-      var sorted = $("#times-selector li").sort(function(a, b) {
-        return a.id > b.id ? 1 : -1;
-      })
-
-      sorted.each(function() {
-        var elem = $(this);
-        elem.remove();
-        $(elem).appendTo("#times-selector");
-      });
-    }
-
-    function removeDate(date) {
-      $(`#time-${date}`).remove();
-    }
-  });
-</script>
-
-{% endblock %}

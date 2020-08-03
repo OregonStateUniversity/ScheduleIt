@@ -1,12 +1,12 @@
 /* Calendar */
-.meeting-mine {
+.calendar-meeting-mine {
   background-color: rgba(195, 69, 0, 0.15);
   border: 1px solid var(--osu-orange-secondary);
   color: #000;
   padding: 0.25rem;
 }
 
-.meeting-other {
+.calendar-meeting-other {
   background-color: #fff;
   border: 1px solid rgba(0, 0, 0, 0.125);
   color: #000;
@@ -17,7 +17,6 @@
   display: none;
 }
 
-.fc td.active {
-  background-color: #000 !important;
-  color: #fff !important;
+.fc-day {
+  cursor: pointer;
 }

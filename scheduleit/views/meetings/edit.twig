@@ -6,20 +6,14 @@
   {{title}}
 </h1>
 <form enctype="multipart/form-data" method="post">
-  <div class="row">
-    <div class="col-md-6">
-      {{ include('meetings/_meeting_info_form_fields.twig') }}
-    </div>
-    <div class="col-md-12">
-      <div class="pt-4">
-        <button class="btn btn-success">
-          Save Meeting
-        </button>
-        <a class="ml-3" href="{{site_url}}/meetings/{{meeting.id}}">
-          Cancel
-        </a>
-      </div>
-    </div>
+  {{ include('meetings/_meeting_info_form_fields.twig') }}
+  <div class="pt-4">
+    <button class="btn btn-success">
+      Save Meeting
+    </button>
+    <a class="ml-3" href="{{site_url}}/meetings/{{meeting.id}}">
+      Cancel
+    </a>
   </div>
 </form>
 <p class="mt-5">

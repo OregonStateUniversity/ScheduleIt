@@ -28,9 +28,7 @@ if ($meeting) {
             $meeting['is_anon'] = $_POST['is_anon'] == '1';
             $meeting['enable_upload'] = $_POST['enable_upload'] == '1';
 
-            if (
-                empty($_POST['name']) || empty($_POST['location'])
-            ) {
+            if (empty($_POST['name']) || empty($_POST['location'])) {
                 $msg->error('Please fill out all required fields.');
             } else {
                 $updated_meeting = $database->updateMeeting($_SESSION['user_id'], $meeting);

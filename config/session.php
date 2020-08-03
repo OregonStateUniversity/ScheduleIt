@@ -5,10 +5,10 @@ session_start();
 $msg = new \Plasticbrain\FlashMessages\FlashMessages();
 
 $msg->setCssClassMap([
-    $msg::INFO    => 'flash-alert alert-info',
-    $msg::SUCCESS => 'flash-alert alert-success',
-    $msg::WARNING => 'flash-alert alert-warning',
-    $msg::ERROR   => 'flash-alert alert-danger',
+    $msg::INFO    => 'alert-flash alert-info',
+    $msg::SUCCESS => 'alert-flash alert-success',
+    $msg::WARNING => 'alert-flash alert-warning',
+    $msg::ERROR   => 'alert-flash alert-danger',
 ]);
 
 // Redirect user to login page in local environment

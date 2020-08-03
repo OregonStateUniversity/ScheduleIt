@@ -51,7 +51,6 @@ class FileUpload
         if ($booking_id) {
             $renamed_filename = $onid . '_upload';
         } else {
-
             $renamed_filename = $onid . '_meeting_file';
         }
 
@@ -133,27 +132,25 @@ class FileUpload
     */
     public function deleteEventFiles($event_hash)
     {
-       $dirname = UPLOADS_ABSPATH . $event_hash . '/';
+        $dirname = UPLOADS_ABSPATH . $event_hash . '/';
 
-       if (is_dir($dirname)) {
-           $dir_handle = opendir($dirname);
-           if (!$dir_handle) {
-               return false;
-           }
-           while ($file = readdir($dir_handle)) {
-              if ($file != "." && $file != "..") {
-                  if (!is_dir($dirname . "/" . $file)) {
+        if (is_dir($dirname)) {
+            $dir_handle = opendir($dirname);
+            if (!$dir_handle) {
+                return false;
+            }
+            while ($file = readdir($dir_handle)) {
+                if ($file != "." && $file != "..") {
+                    if (!is_dir($dirname . "/" . $file)) {
                           unlink($dirname . "/" . $file);
-                  } else {
+                    } else {
                          delete_directory($dirname . '/' . $file);
-                  }
-
-              }
-
-           }
-       }
-       closedir($dir_handle);
-       rmdir($dirname);
+                    }
+                }
+            }
+        }
+        closedir($dir_handle);
+        rmdir($dirname);
     }
 }
 

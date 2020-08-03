@@ -231,6 +231,38 @@ class DatabaseInterface
     }
 
     /**
+     * Get timeslots for meeting.
+     *
+     * @param int $id
+     * @return array
+     */
+    public function getTimeslotsByMeetingId($id)
+    {
+        $timeslots_query = "
+
+        SELECT
+        id,
+        duration,
+        slot_capacity,
+        start_time
+        FROM meb_timeslot
+        WHERE fk_event_id = ?
+
+        ;";
+
+        $timeslots = $this->database->prepare($timeslots_query);
+        $timeslots->bind_param("i", $id);
+        $timeslots->execute();
+
+        $result = $timeslots->get_result();
+        $list = $result->fetch_all(MYSQLI_ASSOC);
+        $result->free();
+        $timeslots->close();
+
+        return $list;
+    }
+
+    /**
      * Get meetings created by user or where they're an attendee for the calendar page.
      *
      * @param int $user_id
@@ -578,6 +610,65 @@ class DatabaseInterface
     }
 
     /**
+     * Add new timeslots.
+     *
+     * @param object $timeslots
+     * @param int $meeting_id
+     * @return int
+     */
+    private function addTimeslots($timeslots, $meeting_id, $duration, $capacity)
+    {
+        $query = "
+
+            INSERT INTO
+            meb_timeslot(
+                hash,
+                start_time,
+                end_time,
+                duration,
+                slot_capacity,
+                spaces_available,
+                is_full,
+                fk_event_id
+            )
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+
+        ";
+
+        $statement = $this->database->prepare($query);
+
+        $statement->bind_param(
+            "sssiiiii",
+            $hash,
+            $start_time,
+            $end_time,
+            $duration,
+            $capacity,
+            $spaces_available,
+            $full,
+            $meeting_id
+        );
+
+        $result = 0;
+        $full = 0;
+
+        foreach ($timeslots as $timeslot) {
+            $start_time = $timeslot;
+            $end_time = date('Y-m-d G:i:s', strtotime('+' . $duration . ' mins', strtotime($timeslot)));
+            $spaces_available = $capacity;
+
+            $hash = createTimeSlotHash($start_time, $end_time, $meeting_id);
+
+            $statement->execute();
+            $result += $statement->affected_rows;
+        }
+
+        $statement->close();
+
+        return $result;
+    }
+
+    /**
      * Add new meeting.
      *
      * @param int $user_id
@@ -589,12 +680,15 @@ class DatabaseInterface
         $name = $meeting['name'];
         $location = $meeting['location'];
         $description = $meeting['description'];
-        $event_file = $meeting['event_file'];
         $is_anon = $meeting['is_anon'];
         $enable_upload = $meeting['enable_upload'];
-        $capacity = $meeting['capacity'];
 
         $hash = createEventHash($name, $description, $user_id, $location);
+        $timeslots = $meeting['timeslots'];
+        $duration = $meeting['duration'];
+        $slot_capacity = $meeting['slot_capacity'];
+        $capacity = $slot_capacity * count($timeslots);
+        $open_slots = $capacity;
 
         $query = "
 
@@ -602,40 +696,38 @@ class DatabaseInterface
                 hash,
                 name,
                 description,
-                fk_event_creator,
                 location,
+                fk_event_creator,
                 capacity,
                 open_slots,
                 is_anon,
-                enable_upload,
-                event_file
+                enable_upload
             )
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
 
         ";
 
         $statement = $this->database->prepare($query);
 
         $statement->bind_param(
-            "sssisiiiis",
+            "ssssiiiii",
             $hash,
             $name,
             $description,
-            $user_id,
             $location,
+            $user_id,
             $capacity,
-            $capacity,
+            $open_slots,
             $is_anon,
-            $enable_upload,
-            $event_file
+            $enable_upload
         );
 
         $statement->execute();
 
-        // $newEventID = $this->database->insert_id;
-        // $this->addTimeSlots($slotData, $newEventID);
+        $new_event_id = $this->database->insert_id;
+        $this->addTimeslots($timeslots, $new_event_id, $duration, $slot_capacity);
 
-        $result = $this->database->insert_id;
+        $result = $new_event_id;
 
         $statement->close();
 
@@ -1140,66 +1232,6 @@ class DatabaseInterface
         $result = $statementUpdateFile->affected_rows;
 
         $statementUpdateFile->close();
-
-        return $result;
-    }
-
-    /**
-     * Adds time slots to database
-     *
-     * @param obj $slotData
-     * @param id $eventID
-     * @return int
-     */
-    private function addTimeSlots($slotData, $eventID)
-    {
-        $query = "
-            INSERT INTO
-            meb_timeslot(
-              hash,
-              start_time,
-              end_time,
-              duration,
-              slot_capacity,
-              spaces_available,
-              is_full,
-              fk_event_id
-            )
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-        ";
-
-        $statement = $this->database->prepare($query);
-
-        $statement->bind_param(
-            "sssiiiii",
-            $hash,
-            $startDate,
-            $endDate,
-            $duration,
-            $capacity,
-            $spaces,
-            $full,
-            $eventID
-        );
-
-        $result = 0;
-        $full = 0;
-
-        foreach ($slotData["dates"] as $item) {
-            $startDate = $item["startDate"];
-            $endDate = $item["endDate"];
-            $duration = $slotData["duration"];
-            $capacity = $slotData["capacity"];
-            $spaces = $slotData["capacity"];
-
-            $hash = createTimeSlotHash($startDate, $endDate, $eventID);
-
-            $statement->execute();
-
-            $result += $statement->affected_rows;
-        }
-
-        $statement->close();
 
         return $result;
     }

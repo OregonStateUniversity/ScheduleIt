@@ -69,12 +69,6 @@
             N/A
           {% endif %}
         </p>
-        <h4 class="h6 mb-1">
-          Attendees Allowed Per Timeslot
-        </h4>
-        <p class="card-text-large">
-          {{meeting.capacity}}
-        </p>
         <p class="card-text-large">
           <a id="inviteLink" href="{{site_url}}/invite?key={{meeting.hash}}">Invite Link</a>
         </p>
@@ -209,7 +203,7 @@
         <div class="modal-footer">
           <input type="hidden" name="link" value="{{site_url}}/invite?key={{meeting.hash}}">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-          <button class="btn btn-success">Send Invitations</button>
+          <button class="btn btn-success">Send Invites</button>
         </div>
       </form>
     </div>

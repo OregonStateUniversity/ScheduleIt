@@ -7,41 +7,21 @@
 </h1>
 <div class="mb-4">
   <div class="d-inline-block mr-3">
-    <span class="d-inline-block mr-2 px-2 py-1 meeting-mine"></span>
+    <span class="d-inline-block mr-2 px-2 py-1 calendar-meeting-mine"></span>
     Meetings Created By Me
   </div>
   <div class="d-inline-block ">
-    <span class="d-inline-block mr-2 px-2 py-1 meeting-other"></span>
+    <span class="d-inline-block mr-2 px-2 py-1 calendar-meeting-other"></span>
     Meetings Created By Others
   </div>
 </div>
-<div class="mb-5" id="calendar"></div>
-
-{% endblock %}
-
-{% block page_footer %}
-
-<script>
-  document.addEventListener("DOMContentLoaded", function() {
-    var calendarElement = document.getElementById("calendar");
-
-    var events = {{meetings | raw}};
-
-    var mappedEvents = events.map(function(event) {
-      return {
-        classNames: event.creator_id === parseInt("{{user_id}}", 10) ? ["meeting-mine"] : ["meeting-other"],
-        title: event.name,
-        url: event.creator_id === parseInt("{{user_id}}", 10) ? "{{site_url}}/meetings/" + event.id : "{{site_url}}/invite?key=" + event.event_hash,
-        start: event.start_time
-      }
-    });
-
-    var calendar = new FullCalendar.Calendar(calendarElement, {
-      events: mappedEvents,
-      initialView: "dayGridMonth"
-    });
-    calendar.render();
-  });
-</script>
+<div
+  class="mb-5"
+  data-calendar-events="{{meetings_json}}"
+  data-site-url="{{site_url}}"
+  data-user-id="{{user_id}}"
+  id="calendar"
+>
+</div>
 
 {% endblock %}

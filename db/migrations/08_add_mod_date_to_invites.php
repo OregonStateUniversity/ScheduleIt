@@ -11,4 +11,3 @@ class AddModDateToInvites extends AbstractMigration
               ->update();
     }
 }
-
