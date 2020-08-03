@@ -36,7 +36,12 @@ if ($meeting) {
     }
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        // TODO: Create timeslots
+        // TODO: Deleted slots
+        // Remove from database
+        // Email users about deleted slot
+
+        // TODO: New slots
+        // Add to database
     }
 
     echo $twig->render('meetings/edit_dates.twig', [

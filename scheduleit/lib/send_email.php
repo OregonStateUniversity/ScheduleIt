@@ -85,6 +85,27 @@ class SendEmail
 
         mail($to, $subject, $message, $headers);
     }
+
+    /**
+     * Send timeslots changed email.
+     *
+     * @param object $meeting
+     * @return void
+     */
+    public function changedTimeslots($meeting)
+    {
+        $to = $meeting['attendee_email'];
+        $subject = '[Changed]: ' . $meeting['name'];
+        $headers = 'From: ' . SITE_NAME . ' <no-reply@oregonstate.edu>' . "\r\n" .
+            'Reply-To: ' . $meeting['creator_name'] . '<' . $meeting['creator_email'] . '>' . "\r\n" .
+            'X-Mailer: PHP/' . phpversion();
+
+        $message = 'Hi ' . $meeting['attendee_name'] . ',' . "\r\n\r\n";
+        $message .= 'The available timeslots for ' . $meeting['name'] . ' have changed and your reservation is no longer available. Please sign up for a new timeslot.' . "\r\n\r\n";
+        $message .= 'Sign Up: ' . SITE_URL . '/invite?key=' . $meeting['event_hash'] . "\r\n";
+
+        mail($to, $subject, $message, $headers);
+    }
 }
 
 $send_email = new SendEmail();
