@@ -1,29 +1,29 @@
-$(function () {
+$(function() {
   initLocationInput(); // initialize location auto complete list
-  timesSelector();
+  timesSelector.init();
 });
 
 //source: https://blog.teamtreehouse.com/creating-autocomplete-dropdowns-datalist-element
 
 function initLocationInput() {
-  var dataList = document.getElementById("location-data-list");
-  var input = document.getElementById("location-input");
+  const dataList = document.getElementById("location-data-list");
+  const input = document.getElementById("location-input");
 
   if (input) {
     // create a new xmlhttprequest.
-    var request = new XMLHttpRequest();
+    const request = new XMLHttpRequest();
 
     // Handle state changes for the request.
     request.onreadystatechange = function (response) {
       if (request.readyState === 4) {
         if (request.status === 200) {
         // parse the JSON
-        var jsonOptions = JSON.parse(request.responseText);
+        const jsonOptions = JSON.parse(request.responseText);
 
         // Loop over the JSON array.
         jsonOptions.forEach(function (item) {
           // Create a new <option> element.
-          var option = document.createElement("option");
+          const option = document.createElement("option");
 
             // Set the value using the item in the JSON array.
             option.value = item.name;
@@ -50,104 +50,85 @@ function initLocationInput() {
   }
 }
 
-function timesSelector() {
-  const selectedDates = [];
-  const calendarElement = document.getElementById("calendar-times-selector");
-  const calendarSettings = {
-    initialView: "dayGridMonth",
-    dateClick: function(info) {
-      const { dateStr: date, dayEl: el } = info;
+const timesSelector = {
+  init: function() {
+    $("body").on("click", "[data-meetings-datetime]", this.highlightLabel);
+    $("#duration").on("change", this.updateAvailableTimes.bind(this));
+    this.initSavedDates();
+    this.initCalendar();
+  },
+  initSavedDates: function() {
+    const savedDates = $("#calendar-times-selector").data("dates") || [];
 
-      if ($(el).hasClass("fc-day-active")) {
-        const dateIndex = selectedDates.indexOf(date);
+    savedDates.forEach((date) => {
+      $(`[data-date="${date}"]`).addClass("fc-day-active");
+      this.selectedDates.push(date);
+    });
+  },
+  initCalendar: function() {
+    const calendarElement = document.getElementById("calendar-times-selector");
 
-        $(el).removeClass("fc-day-active");
-        removeDate(date);
+    if (calendarElement) {
+      const calendarSettings = {
+        initialView: "dayGridMonth",
+        dateClick: (info) => {
+          const { dateStr: date, dayEl: el } = info;
 
-        if (dateIndex > -1) {
-          selectedDates.splice(dateIndex, 1);
+          if ($(el).hasClass("fc-day-active")) {
+            const dateIndex = this.selectedDates.indexOf(date);
+
+            $(el).removeClass("fc-day-active");
+            this.removeDate(date);
+
+            if (dateIndex > -1) {
+              this.selectedDates.splice(dateIndex, 1);
+            }
+          } else {
+            $(el).addClass("fc-day-active");
+            this.addDate(date);
+            this.selectedDates.push(date);
+          }
+
+          if (!this.selectedDates.length) {
+            $(".times-selector-placeholder").removeClass("d-none");
+          }
+        },
+        datesSet: (info) => {
+          this.selectedDates.forEach(function(date) {
+            $(`[data-date="${date}"]`).addClass("fc-day-active");
+          });
         }
-      } else {
-        $(el).addClass("fc-day-active");
-        addDate(date);
-        selectedDates.push(date);
       }
 
-      if (!selectedDates.length) {
-        $(".times-selector-placeholder").removeClass("d-none");
+      if ($("#calendar-times-selector").data("create") === true) {
+        calendarSettings.validRange = function(nowDate) {
+          return {
+            start: nowDate
+          };
+        }
       }
-    },
-    datesSet: function(info) {
-      selectedDates.forEach(function(date) {
-        $(`[data-date="${date}"]`).addClass("fc-day-active");
-      });
+
+      const calendar = new FullCalendar.Calendar(calendarElement, calendarSettings);
+      calendar.render();
     }
-  }
-
-  if ($("#calendar-times-selector").data("create") === true) {
-    calendarSettings.validRange = function(nowDate) {
-      return {
-        start: nowDate
-      };
-    }
-  }
-
-  const calendar = new FullCalendar.Calendar(calendarElement, calendarSettings);
-  calendar.render();
-
-  $("#duration").on("change", function() {
-    updateAvailableTimes();
-  });
-
-  function updateAvailableTimes() {
-    let timeLabels = "";
-
-    // Create times
-    const times = [];
-
-    let startTime = $("#calendar-times-selector").data("start-time");
-    const endTime = $("#calendar-times-selector").data("end-time");
-    const duration = $("#duration").val();
-
-    while (startTime < endTime) {
-      times.push(moment(startTime, "HH:mm:ss").format("HH:mm:ss"));
-      startTime = moment(startTime, "HH:mm:ss").add(duration, "minutes").format("HH:mm:ss");
-    }
-
-    times.forEach((time) => {
-      const timeLabel = moment(time, "HH:mm:ss").format("h:mm a");
-      timeLabels += `<div class="times-label">${timeLabel}</div>`;
-    });
-
-    $("#times-selector-legend").html(timeLabels);
-    $("#times-selector").html('<li class="times-selector-placeholder">Select dates first.</li>');
-
-    selectedDates.forEach(function(date) {
-      addDate(date);
-    });
-  }
-
-  function addDate(date) {
+  },
+  addDate(date) {
+    const times = this.createTimes();
     let timeCheckboxes = "";
-
-    // Create times
-    const times = [];
-
-    let startTime = $("#calendar-times-selector").data("start-time");
-    const endTime = $("#calendar-times-selector").data("end-time");
-    const duration = $("#duration").val();
-
-    while (startTime < endTime) {
-      times.push(moment(startTime, "HH:mm:ss").format("HH:mm:ss"));
-      startTime = moment(startTime, "HH:mm:ss").add(duration, "minutes").format("HH:mm:ss");
-    }
 
     times.forEach((time) => {
       const timeLabel = moment(time, "HH:mm:ss").format("hh:mm A");
-      timeCheckboxes += `<label class="times-label"><input name="datetime[]" data-meetings-datetime value="${date} ${time}" type="checkbox"> ${timeLabel}</label>`;
+      timeCheckboxes += '<label class="times-label">' +
+        `<input name="timeslots[]" data-meetings-datetime value="${date} ${time}" type="checkbox"> ${timeLabel}` +
+        '</label>';
     });
 
-    $("#times-selector").append(`<li class="time-selector-list-item" id="time-${date}"><h4 class="date-label mb-0 text-center">${moment(date, "YYYY-MM-DD").format("ddd, MMM D")}</h4>${timeCheckboxes}</li>`);
+    $("#times-selector").append(
+      `<li class="time-selector-list-item" id="time-${date}">` +
+      `<h4 class="date-label mb-0 text-center">${moment(date, "YYYY-MM-DD").format("ddd, MMM D")}</h4>` +
+      `${timeCheckboxes}` +
+      '</li>'
+    );
 
     const sorted = $("#times-selector li").sort((a, b) => {
       return a.id > b.id ? 1 : -1;
@@ -160,24 +141,46 @@ function timesSelector() {
     });
 
     $(".times-selector-placeholder").addClass("d-none");
-  }
+  },
+  createTimes: function() {
+    const times = [];
 
-  function removeDate(date) {
-    $(`#time-${date}`).remove();
-  }
+    let startTime = $("#calendar-times-selector").data("start-time");
+    const endTime = $("#calendar-times-selector").data("end-time");
+    const duration = $("#duration").val();
 
-  const savedDates = $("#calendar-times-selector").data("dates");
+    while (startTime < endTime) {
+      times.push(moment(startTime, "HH:mm:ss").format("HH:mm:ss"));
+      startTime = moment(startTime, "HH:mm:ss").add(duration, "minutes").format("HH:mm:ss");
+    }
 
-  savedDates.forEach(function(date) {
-    $(`[data-date="${date}"]`).addClass("fc-day-active");
-    selectedDates.push(date);
-  });
-
-  $("body").on("click", "[data-meetings-datetime]", function() {
+    return times;
+  },
+  highlightLabel: function() {
     if ($(this).prop("checked")) {
       $(this).parent("label").addClass("times-label--checked");
     } else{
       $(this).parent("label").removeClass("times-label--checked")
     }
-  });
-}
+  },
+  removeDate: function(date) {
+    $(`#time-${date}`).remove();
+  },
+  selectedDates: [],
+  updateAvailableTimes: function() {
+    const times = this.createTimes();
+    let timeLabels = "";
+
+    times.forEach((time) => {
+      const timeLabel = moment(time, "HH:mm:ss").format("h:mm a");
+      timeLabels += `<div class="times-label">${timeLabel}</div>`;
+    });
+
+    $("#times-selector-legend").html(timeLabels);
+    $("#times-selector").html('<li class="times-selector-placeholder">Select dates first.</li>');
+
+    this.selectedDates.forEach((date) => {
+      this.addDate(date);
+    });
+  }
+};

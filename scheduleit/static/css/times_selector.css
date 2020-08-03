@@ -1,18 +1,29 @@
 /* Dates */
-.calendar-times-selector {
+.times-selector {
   width: 320px;
 }
 
-.calendar-times-selector .fc-toolbar-title {
+.times-selector .fc-toolbar-title {
   font-size: 1.15rem;
 }
 
-.calendar-times-selector .fc-daygrid-day-frame {
+.times-selector .fc-daygrid-day-frame {
   height: 24px;
   min-height: 0;
 }
 
-.calendar-times-selector .fc-scroller {
+.times-selector .fc-day:hover {
+  background-color: var(--osu-orange-secondary-hover) !important;
+  color: #fff !important;
+}
+
+.times-selector .fc-day-active,
+.times-selector .fc-day-active:hover {
+  background-color: var(--osu-orange-secondary) !important;
+  color: #fff !important;
+}
+
+.times-selector .fc-scroller {
   overflow: hidden !important;
 }
 

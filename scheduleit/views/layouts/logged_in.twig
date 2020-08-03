@@ -15,49 +15,54 @@
   </head>
   <body>
     {{msg.display()}}
-    <nav class="flex-md-nowrap justify-content-between navbar navbar-expand-md py-0 sticky-top">
-      <a class="navbar-brand" href="{{site_url}}/meetings">
-        <span class="d-block d-md-inline">{{site_name}}</span>
-      </a>
-      <button
-        aria-controls="sidebar-menu"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-        class="navbar-toggler position-absolute d-md-none collapsed"
-        data-toggle="collapse"
-        data-target="#sidebar-menu"
-        type="button"
-      >
-        <i class="fas fa-bars"></i>
-      </button>
-      <div class="align-items-center d-md-flex d-none">
-        {% if invites %}
-          <a class="navbar-invites-link mr-4" href="{{site_url}}/meetings#invites">
-            <i class="fas fa-bell"></i>
-            <span class="navbar-invites-count">
-              {{invites | count}}
-            </span>
+    <nav class="navbar navbar-expand-md py-0 sticky-top">
+      <div class="navbar-container">
+        <div class="d-flex flex-md-nowrap justify-content-between">
+          <a class="navbar-brand" href="{{site_url}}/meetings">
+            <span class="d-none d-md-inline">{{site_name}}</span>
           </a>
-        {% endif %}
-        <ul class="navbar-nav">
-          <li class="nav-item dropdown">
-            <button class="nav-link dropdown-toggle d-flex nav-avatar-link" id="avatar-menu" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Hi, {{user_firstname}}
-              <span class="mx-2 d-inline-block nav-avatar">
-                <i class="fas fa-user-circle"></i>
-              </span>
-            </button>
-            <div class="dropdown-menu" aria-labelledby="avatar-menu">
-              <a class="dropdown-item {{ profile_page == true ? 'active' }}" href="{{site_url}}/profile">
-                Profile
+          <button
+            aria-controls="sidebar-menu"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+            class="navbar-toggler position-absolute d-md-none collapsed"
+            data-toggle="collapse"
+            data-target="#sidebar-menu"
+            type="button"
+          >
+            <i class="fas fa-bars"></i>
+          </button>
+          <div class="align-items-center d-md-flex d-none">
+            {% if invites %}
+              <a class="navbar-invites-link mr-4" href="{{site_url}}/meetings#invites">
+                <i class="fas fa-bell"></i>
+                <span class="navbar-invites-count">
+                  {{invites | count}}
+                </span>
               </a>
-              <a class="dropdown-item" href="{{site_url}}/logout">
-                Log Out
-              </a>
-            </div>
-          </li>
-        </ul>
+            {% endif %}
+            <ul class="navbar-nav">
+              <li class="nav-item dropdown">
+                <button class="nav-link dropdown-toggle d-flex nav-avatar-link" id="avatar-menu" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Hi, {{user_firstname}}
+                  <span class="mx-2 d-inline-block nav-avatar">
+                    <i class="fas fa-user-circle"></i>
+                  </span>
+                </button>
+                <div class="dropdown-menu" aria-labelledby="avatar-menu">
+                  <a class="dropdown-item {{ profile_page == true ? 'active' }}" href="{{site_url}}/profile">
+                    Profile
+                  </a>
+                  <a class="dropdown-item" href="{{site_url}}/logout">
+                    Log Out
+                  </a>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
+      <div class="navbar-mobile-title d-block d-md-none">{{site_name}}</div>
     </nav>
     <div class="container-fluid">
       <div class="row">
@@ -119,10 +124,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/js/all.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.min.js"></script>
     <script src="{{site_url}}/static/lib/fullcalendar/main.min.js"></script>
-    <script type="text/javascript" src="{{site_url}}/static/js/meeting_form.js"></script>
-    <script type="text/javascript" src="{{site_url}}/static/js/meeting_show.js"></script>
-    <script type="text/javascript" src="{{site_url}}/static/js/meetings.js"></script>
-    <script type="text/javascript" src="{{site_url}}/static/js/manage.js"></script>
+    <script src="{{site_url}}/static/js/calendar.js"></script>
+    <script src="{{site_url}}/static/js/meeting_form.js"></script>
+    <script src="{{site_url}}/static/js/meeting_show.js"></script>
+    <script src="{{site_url}}/static/js/meetings.js"></script>
+    <script src="{{site_url}}/static/js/manage.js"></script>
     {% block page_footer %}
     {% endblock %}
   </body>

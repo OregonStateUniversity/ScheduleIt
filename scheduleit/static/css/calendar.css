@@ -1,12 +1,12 @@
 /* Calendar */
-.meeting-mine {
+.calendar-meeting-mine {
   background-color: rgba(195, 69, 0, 0.15);
   border: 1px solid var(--osu-orange-secondary);
   color: #000;
   padding: 0.25rem;
 }
 
-.meeting-other {
+.calendar-meeting-other {
   background-color: #fff;
   border: 1px solid rgba(0, 0, 0, 0.125);
   color: #000;
@@ -19,15 +19,4 @@
 
 .fc-day {
   cursor: pointer;
-}
-
-.fc-day:hover {
-  background-color: var(--osu-orange-secondary-hover) !important;
-  color: #fff !important;
-}
-
-.fc-day-active,
-.fc-day-active:hover {
-  background-color: var(--osu-orange-secondary) !important;
-  color: #fff !important;
 }

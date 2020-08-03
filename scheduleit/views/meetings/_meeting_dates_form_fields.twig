@@ -10,7 +10,14 @@
   {% endif %}
   <div class="row">
     <div class="col-6 col-md-2">
-      <input class="form-control" min="1" max="100" name="capacity" type="number" value="{{meeting.capacity}}">
+      <input
+        class="form-control"
+        min="1"
+        max="100"
+        name="slot_capacity"
+        required type="number"
+        value="{{meeting.slot_capacity}}"
+      >
     </div>
   </div>
 </div>
@@ -25,9 +32,15 @@
   <div class="row">
     <div class="col-6 col-md-2">
       <select class="form-control" id="duration" name="duration">
-        <option value="60" {% if meeting.duration == 60 %}selected{% endif %}>1 hour</option>
-        <option value="30" {% if meeting.duration == 30 %}selected{% endif %}>30 minutes</option>
-        <option value="15" {% if meeting.duration == 15 %}selected{% endif %}>15 minutes</option>
+        <option value="60" {% if meeting.duration == 60 %}selected{% endif %}>
+          1 hour
+        </option>
+        <option value="30" {% if meeting.duration == 30 %}selected{% endif %}>
+          30 minutes
+        </option>
+        <option value="15" {% if meeting.duration == 15 %}selected{% endif %}>
+          15 minutes
+        </option>
       </select>
     </div>
   </div>
@@ -37,7 +50,7 @@
     Select Meeting Dates
   </label>
   <div
-    class="calendar-times-selector"
+    class="times-selector"
     data-create="{% if edit_dates %}false{% else %}true{% endif %}"
     data-end-time="{{meetings_end_time}}"
     data-start-time="{{meetings_start_time}}"
@@ -78,7 +91,7 @@
                 <input
                   {% if date_time in timeslot_times %}checked{% endif %}
                   data-meetings-datetime value="{{date_time}}"
-                  name="datetime[]"
+                  name="timeslots[]"
                   type="checkbox"
                 >
                 {{time}}

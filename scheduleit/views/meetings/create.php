@@ -5,7 +5,7 @@ require_once ABSPATH . 'scheduleit/lib/file_upload.php';
 
 $dates = [];
 $meeting = [
-    'capacity' => 1,
+    'slot_capacity' => 1,
     'duration' => 60
 ];
 $timeslot_times = [];
@@ -26,15 +26,17 @@ while ($start_time < $end_time) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $capacity = !empty($_POST['capacity']) ? $_POST['capacity'] : 1;
-    $timeslot_times = $_POST['datetime'];
+    $slot_capacity = !empty($_POST['slot_capacity']) ? $_POST['slot_capacity'] : 1;
+    $timeslot_times = !empty($_POST['timeslots']) ? $_POST['timeslots'] : [];
 
     $meeting['name'] = $_POST['name'];
     $meeting['location'] = $_POST['location'];
     $meeting['description'] = $_POST['description'];
-    $meeting['is_anon'] = $_POST['is_anon'] == '1';
-    $meeting['enable_upload'] = $_POST['enable_upload'] == '1';
-    $meeting['capacity'] = $capacity * count($timeslot_times);
+    $meeting['is_anon'] = !empty($_POST['is_anon']) ? 1 : 0;
+    $meeting['enable_upload'] = !empty($_POST['enable_upload']) ? 1 : 0;
+    $meeting['slot_capacity'] = $_POST['slot_capacity'];
+    $meeting['duration'] = $_POST['duration'];
+    $meeting['timeslots'] = $timeslot_times;
 
     foreach ($timeslot_times as $key => $timeslot) {
         $date = explode(' ', $timeslot);
@@ -48,8 +50,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $msg->error('Please fill out all required fields.');
     } else {
         $new_meeting_id = $database->addMeeting($_SESSION['user_id'], $meeting);
-
-        // TODO: Create timeslots
 
         // Check for file to upload
         if ($new_meeting_id > 0 && !empty($_FILES['file']['name'])) {

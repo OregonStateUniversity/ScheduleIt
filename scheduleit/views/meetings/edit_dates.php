@@ -9,6 +9,7 @@ if ($meeting) {
     $date_objects =  $database->getDatesByMeetingId($meeting_id);
     $timeslots = $database->getTimeslotsByMeetingId($meeting_id);
     $meeting['duration'] = $timeslots[0]['duration'];
+    $meeting['slot_capacity'] = $timeslots[0]['slot_capacity'];
     $timeslot_times = [];
 
     foreach ($timeslots as $key => $timeslot) {
