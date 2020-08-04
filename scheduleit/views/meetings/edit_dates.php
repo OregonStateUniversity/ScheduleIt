@@ -38,7 +38,7 @@ if ($meeting) {
     $diff = $add_time - $current;
 
     while ($start_time < $end_time) {
-        array_push($time_labels, date('G:i:s', $start_time));
+        array_push($time_labels, date('H:i:s', $start_time));
         $start_time += $diff;
     }
 
