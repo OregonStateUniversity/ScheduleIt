@@ -78,11 +78,9 @@
         {% endif %}
         {% if invites %}
           <div class="tab-pane fade" id="invites" role="tabpanel" aria-labelledby="invites-tab">
-            <p>
-             {% for meeting in invites %}
-               {{ include('meetings/_invite_card.twig') }}
-             {% endfor %}
-            </p>
+           {% for meeting in invites %}
+             {{ include('meetings/_invite_card.twig') }}
+           {% endfor %}
           </div>
         {% endif %}
       </div>
