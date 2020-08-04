@@ -7,6 +7,16 @@
   --osu-orange-secondary-hover: #615042;
 }
 
+html {
+  scroll-padding-top: calc(var(--navbar-height-mobile) + 50px);
+}
+
+@media (min-width: 768px) {
+  html {
+    scroll-padding-top: calc(var(--navbar-height-desktop) + 50px);
+  }
+}
+
 body {
   background: #fff;
   color: #000;
