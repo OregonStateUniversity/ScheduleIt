@@ -75,7 +75,6 @@ foreach ($created_meetings as $key => $meeting) {
             'attendee_file' => $meeting['attendee_file']
         ]);
         usort($current_attendees, function ($a, $b) {
-            var_dump($a);
             return strcmp($a['attendee_email'], $b['attendee_email']);
         });
         $created_meetings_with_attendees[$meeting['id']]['attendees'] = $current_attendees;
@@ -128,7 +127,6 @@ foreach ($past_meetings as $key => $meeting) {
             'attendee_file' => $meeting['attendee_file']
         ]);
         usort($current_attendees, function ($a, $b) {
-            var_dump($a);
             return strcmp($a['attendee_email'], $b['attendee_email']);
         });
         $past_meetings_with_attendees[$meeting['id']]['attendees'] = $current_attendees;
