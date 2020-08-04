@@ -61,6 +61,7 @@ foreach ($upcoming_meetings as $key => $meeting) {
             $upcoming_meetings_with_attendees[$meeting['id']]['current_attendee_file'] = $meeting['attendee_file'];
         }
         array_push($current_files, $meeting['attendee_file']);
+        sort($current_files);
         $upcoming_meetings_with_attendees[$meeting['id']]['attendees_files'] = $current_files;
         $upcoming_meetings_with_attendees[$meeting['id']]['attendees_files_count'] = count($current_files);
     }
@@ -113,6 +114,7 @@ foreach ($created_meetings as $key => $meeting) {
             $upcoming_meetings_with_attendees[$meeting['id']]['current_attendee_file'] = $meeting['attendee_file'];
         }
         array_push($current_files, $meeting['attendee_file']);
+        sort($current_files);
         $created_meetings_with_attendees[$meeting['id']]['attendees_files'] = $current_files;
         $created_meetings_with_attendees[$meeting['id']]['attendees_files_count'] = count($current_files);
     }
@@ -164,6 +166,7 @@ foreach ($past_meetings as $key => $meeting) {
             $past_meetings_with_attendees[$meeting['id']]['current_attendee_file'] = $meeting['attendee_file'];
         }
         array_push($current_files, $meeting['attendee_file']);
+        sort($current_files);
         $past_meetings_with_attendees[$meeting['id']]['attendees_files'] = $current_files;
         $past_meetings_with_attendees[$meeting['id']]['attendees_files_count'] = count($current_files);
     }
@@ -213,6 +216,7 @@ foreach ($search_meetings as $key => $meeting) {
             $search_meetings_with_attendees[$meeting['id']]['current_attendee_file'] = $meeting['attendee_file'];
         }
         array_push($current_files, $meeting['attendee_file']);
+        sort($current_files);
         $search_meetings_with_attendees[$meeting['id']]['attendees_files'] = $current_files;
         $search_meetings_with_attendees[$meeting['id']]['attendees_files_count'] = count($current_files);
     }
