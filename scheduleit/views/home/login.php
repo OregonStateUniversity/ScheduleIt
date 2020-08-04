@@ -14,9 +14,9 @@ session_start();
 $error = null;
 
 if (
-    !empty($_POST['user'])
+    !empty($_POST['onid'])
 ) {
-    $user = $database->getUserByONID($_POST['user']);
+    $user = $database->getUserByONID($_POST['onid']);
 
     if ($user) {
         // TODO: Remove when we remove old pages
@@ -34,6 +34,8 @@ if (
     } else {
         $error = 'No user with this ONID exists.';
     }
+} elseif ($_SESSION['user_onid']) {
+    header('Location: ' . $redirect_url);
 }
 
 echo $twig->render('home/login.twig', [

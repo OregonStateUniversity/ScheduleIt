@@ -5,7 +5,7 @@
   {% if edit_dates %}
     <p class="text-danger">
       <i class="fas fa-exclamation-circle text-danger"></i>
-      Changing this value may cause registered attendees to be removed from this meeting.
+      Changing this value will affect new timeslots, but not previously saved timeslots.
     </p>
   {% endif %}
   <div class="row">
@@ -31,7 +31,7 @@
   </p>
   <div class="row">
     <div class="col-6 col-md-2">
-      <select class="form-control" id="duration" name="duration">
+      <select class="form-control" id="duration" name="duration" data-create="{% if edit_dates %}false{% else %}true{% endif %}">
         <option value="60" {% if meeting.duration == 60 %}selected{% endif %}>
           1 hour
         </option>
@@ -52,9 +52,10 @@
   <div
     class="times-selector"
     data-create="{% if edit_dates %}false{% else %}true{% endif %}"
+    data-dates="{{dates_json}}"
+    data-dates-saved="{{dates_saved_json}}"
     data-end-time="{{meetings_end_time}}"
     data-start-time="{{meetings_start_time}}"
-    data-dates="{{dates_json}}"
     id="calendar-times-selector"
   >
   </div>
@@ -87,12 +88,16 @@
             </h4>
             {% for time in time_labels %}
               {% set date_time = "#{date} #{time}" %}
-              <label class="times-label {% if date_time in timeslot_times %}times-label--checked{% endif %}">
+              <label
+                class="times-label {% if date_time in timeslot_times %}times-label--checked{% endif %} {% if date_time in timeslot_times_saved %}times-label--checked-confirm{% endif %}"
+                data-timeslot-label="{{date_time}}"
+              >
                 <input
                   {% if date_time in timeslot_times %}checked{% endif %}
-                  data-meetings-datetime value="{{date_time}}"
+                  {% if date_time in timeslot_times_saved %}data-meetings-datetime-confirm{% else %}data-meetings-datetime{% endif %}
                   name="timeslots[]"
                   type="checkbox"
+                  value="{{date_time}}"
                 >
                 {{time}}
               </label>
@@ -103,3 +108,4 @@
     </div>
   </div>
 </div>
+

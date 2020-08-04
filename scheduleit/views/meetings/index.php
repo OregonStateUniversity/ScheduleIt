@@ -22,17 +22,21 @@ foreach ($upcoming_meetings as $key => $meeting) {
             'attendee_name' => $meeting['attendee_name'],
             'attendee_file' => $meeting['attendee_file']
         ]);
+        usort($current_attendees, function ($a, $b) {
+            return strcmp($a['attendee_email'], $b['attendee_email']);
+        });
         $upcoming_meetings_with_attendees[$meeting['id']]['attendees'] = $current_attendees;
         $upcoming_meetings_with_attendees[$meeting['id']]['attendees_count'] = count($current_attendees);
     } else {
         $upcoming_meetings_with_attendees[$meeting['id']] = [
             'id' => $meeting['id'],
-            'event_hash' => $meeting['event_hash'],
+            'meeting_hash' => $meeting['meeting_hash'],
             'name' => $meeting['name'],
             'location' => $meeting['location'],
             'description' => $meeting['description'],
             'start_time' => $meeting['start_time'],
             'end_time' => $meeting['end_time'],
+            'is_anon' => $meeting['is_anon'],
             'creator_id' => $meeting['creator_id'],
             'creator_file' => $meeting['creator_file'],
             'creator_email' => $meeting['creator_email'],
@@ -53,6 +57,9 @@ foreach ($upcoming_meetings as $key => $meeting) {
 
     if ($meeting['attendee_file']) {
         $current_files = $upcoming_meetings_with_attendees[$meeting['id']]['attendees_files'];
+        if ($meeting['attendee_onid'] == $_SESSION['user_onid']) {
+            $upcoming_meetings_with_attendees[$meeting['id']]['current_attendee_file'] = $meeting['attendee_file'];
+        }
         array_push($current_files, $meeting['attendee_file']);
         $upcoming_meetings_with_attendees[$meeting['id']]['attendees_files'] = $current_files;
         $upcoming_meetings_with_attendees[$meeting['id']]['attendees_files_count'] = count($current_files);
@@ -67,17 +74,22 @@ foreach ($created_meetings as $key => $meeting) {
             'attendee_name' => $meeting['attendee_name'],
             'attendee_file' => $meeting['attendee_file']
         ]);
+        usort($current_attendees, function ($a, $b) {
+            var_dump($a);
+            return strcmp($a['attendee_email'], $b['attendee_email']);
+        });
         $created_meetings_with_attendees[$meeting['id']]['attendees'] = $current_attendees;
         $created_meetings_with_attendees[$meeting['id']]['attendees_count'] = count($current_attendees);
     } else {
         $created_meetings_with_attendees[$meeting['id']] = [
             'id' => $meeting['id'],
-            'event_hash' => $meeting['event_hash'],
+            'meeting_hash' => $meeting['meeting_hash'],
             'name' => $meeting['name'],
             'location' => $meeting['location'],
             'description' => $meeting['description'],
             'start_time' => $meeting['start_time'],
             'end_time' => $meeting['end_time'],
+            'is_anon' => $meeting['is_anon'],
             'creator_id' => $meeting['creator_id'],
             'creator_file' => $meeting['creator_file'],
             'creator_email' => $meeting['creator_email'],
@@ -98,6 +110,9 @@ foreach ($created_meetings as $key => $meeting) {
 
     if ($meeting['attendee_file']) {
         $current_files = $created_meetings_with_attendees[$meeting['id']]['attendees_files'];
+        if ($meeting['attendee_onid'] == $_SESSION['user_onid']) {
+            $upcoming_meetings_with_attendees[$meeting['id']]['current_attendee_file'] = $meeting['attendee_file'];
+        }
         array_push($current_files, $meeting['attendee_file']);
         $created_meetings_with_attendees[$meeting['id']]['attendees_files'] = $current_files;
         $created_meetings_with_attendees[$meeting['id']]['attendees_files_count'] = count($current_files);
@@ -112,12 +127,16 @@ foreach ($past_meetings as $key => $meeting) {
             'attendee_name' => $meeting['attendee_name'],
             'attendee_file' => $meeting['attendee_file']
         ]);
+        usort($current_attendees, function ($a, $b) {
+            var_dump($a);
+            return strcmp($a['attendee_email'], $b['attendee_email']);
+        });
         $past_meetings_with_attendees[$meeting['id']]['attendees'] = $current_attendees;
         $past_meetings_with_attendees[$meeting['id']]['attendees_count'] = count($current_attendees);
     } else {
         $past_meetings_with_attendees[$meeting['id']] = [
             'id' => $meeting['id'],
-            'event_hash' => $meeting['event_hash'],
+            'meeting_hash' => $meeting['meeting_hash'],
             'name' => $meeting['name'],
             'location' => $meeting['location'],
             'description' => $meeting['description'],
@@ -143,6 +162,9 @@ foreach ($past_meetings as $key => $meeting) {
 
     if ($meeting['attendee_file']) {
         $current_files = $past_meetings_with_attendees[$meeting['id']]['attendees_files'];
+        if ($meeting['attendee_onid'] == $_SESSION['user_onid']) {
+            $past_meetings_with_attendees[$meeting['id']]['current_attendee_file'] = $meeting['attendee_file'];
+        }
         array_push($current_files, $meeting['attendee_file']);
         $past_meetings_with_attendees[$meeting['id']]['attendees_files'] = $current_files;
         $past_meetings_with_attendees[$meeting['id']]['attendees_files_count'] = count($current_files);
@@ -162,12 +184,13 @@ foreach ($search_meetings as $key => $meeting) {
     } else {
         $search_meetings_with_attendees[$meeting['id']] = [
             'id' => $meeting['id'],
-            'event_hash' => $meeting['event_hash'],
+            'meeting_hash' => $meeting['meeting_hash'],
             'name' => $meeting['name'],
             'location' => $meeting['location'],
             'description' => $meeting['description'],
             'start_time' => $meeting['start_time'],
             'end_time' => $meeting['end_time'],
+            'is_anon' => $meeting['is_anon'],
             'creator_id' => $meeting['creator_id'],
             'creator_file' => $meeting['creator_file'],
             'creator_email' => $meeting['creator_email'],
@@ -188,6 +211,9 @@ foreach ($search_meetings as $key => $meeting) {
 
     if ($meeting['attendee_file']) {
         $current_files = $search_meetings_with_attendees[$meeting['id']]['attendees_files'];
+        if ($meeting['attendee_onid'] == $_SESSION['user_onid']) {
+            $search_meetings_with_attendees[$meeting['id']]['current_attendee_file'] = $meeting['attendee_file'];
+        }
         array_push($current_files, $meeting['attendee_file']);
         $search_meetings_with_attendees[$meeting['id']]['attendees_files'] = $current_files;
         $search_meetings_with_attendees[$meeting['id']]['attendees_files_count'] = count($current_files);

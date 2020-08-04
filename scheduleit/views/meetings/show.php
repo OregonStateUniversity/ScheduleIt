@@ -17,12 +17,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $link = $_SERVER['HTTP_ORIGIN'] . $link;
         $host = $_SESSION['user_onid'];
         $hash = $meeting['hash'];
-      // turn onid string into array
+        // turn onid string into array
         $onidArray = explode(" ", $attendeeOnids);
 
-      // create email list
-      // send email in forloop so that other recipients emails are not
-      // exposed
+        // create email list
+        // send email in forloop so that other recipients emails are not
+        // exposed
         $sentInvites = 0;
         foreach ($onidArray as $onid) {
             if (strlen($onid) > 2) {

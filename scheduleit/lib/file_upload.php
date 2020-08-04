@@ -126,13 +126,13 @@ class FileUpload
     /**
     * deleteEventFiles
     *
-    * @params string $event_hash
+    * @params string $meeting_hash
     * @returns none
     * https://paulund.co.uk/php-delete-directory-and-files-in-directory
     */
-    public function deleteEventFiles($event_hash)
+    public function deleteEventFiles($meeting_hash)
     {
-        $dirname = UPLOADS_ABSPATH . $event_hash . '/';
+        $dirname = UPLOADS_ABSPATH . $meeting_hash . '/';
 
         if (is_dir($dirname)) {
             $dir_handle = opendir($dirname);
