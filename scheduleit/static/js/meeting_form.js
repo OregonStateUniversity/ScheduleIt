@@ -243,6 +243,7 @@ const timesSelector = {
 
       $("#btn-change-duration").on("click", function() {
         _this.updateAvailableTimes();
+        $("#change-duration-modal").modal("hide");
       });
     } else {
       _this.updateAvailableTimes();
