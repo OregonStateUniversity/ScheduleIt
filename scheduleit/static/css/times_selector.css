@@ -23,6 +23,12 @@
   color: #fff !important;
 }
 
+.times-selector .fc-day-confirm,
+.times-selector .fc-day-confirm:hover {
+  background-color: #000 !important;
+  color: #fff !important;
+}
+
 .times-selector .fc-scroller {
   overflow: hidden !important;
 }
@@ -69,6 +75,12 @@
 .times-selector-container .times-label--checked,
 .times-selector-container .times-label--checked:hover {
   background-color: var(--osu-orange-secondary);
+  color: #fff;
+}
+
+.times-selector-container .times-label--checked-confirm,
+.times-selector-container .times-label--checked-confirm:hover {
+  background-color: #000;
   color: #fff;
 }
 

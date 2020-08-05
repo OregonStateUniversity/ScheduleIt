@@ -30,7 +30,7 @@ class SendEmail
         $message .= 'Date: ' . date('D, F j, Y g:ia', strtotime($meeting['start_time'])) . '-' . date('g:ia', strtotime($meeting['end_time'])) . "\r\n";
         $message .= 'Location: ' . $meeting['location'] . "\r\n";
         $message .= 'Creator: ' . $meeting['creator_name'] . "\r\n\r\n";
-        $message .= 'Meeting Info: ' . SITE_URL . '/invite?key=' . $meeting['event_hash'] . "\r\n";
+        $message .= 'Meeting Info: ' . SITE_URL . '/invite?key=' . $meeting['meeting_hash'] . "\r\n";
 
         mail($to, $subject, $message, $headers);
     }
@@ -92,17 +92,17 @@ class SendEmail
      * @param object $meeting
      * @return void
      */
-    public function changedTimeslots($meeting)
+    public function changedTimeslots($meeting, $user)
     {
-        $to = $meeting['attendee_email'];
+        $to = $user['email'];
         $subject = '[Changed]: ' . $meeting['name'];
         $headers = 'From: ' . SITE_NAME . ' <no-reply@oregonstate.edu>' . "\r\n" .
             'Reply-To: ' . $meeting['creator_name'] . '<' . $meeting['creator_email'] . '>' . "\r\n" .
             'X-Mailer: PHP/' . phpversion();
 
-        $message = 'Hi ' . $meeting['attendee_name'] . ',' . "\r\n\r\n";
+        $message = 'Hi ' . $user['name'] . ',' . "\r\n\r\n";
         $message .= 'The available timeslots for ' . $meeting['name'] . ' have changed and your reservation is no longer available. Please sign up for a new timeslot.' . "\r\n\r\n";
-        $message .= 'Sign Up: ' . SITE_URL . '/invite?key=' . $meeting['event_hash'] . "\r\n";
+        $message .= 'Sign Up: ' . SITE_URL . '/invite?key=' . $meeting['meeting_hash'] . "\r\n";
 
         mail($to, $subject, $message, $headers);
     }

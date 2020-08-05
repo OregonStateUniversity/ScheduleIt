@@ -14,7 +14,7 @@ function calendarInit() {
       return {
         classNames: event.creator_id === parseInt(userId, 10) ? ["calendar-meeting-mine"] : ["calendar-meeting-other"],
         title: event.name,
-        url: event.creator_id === parseInt(userId, 10) ? `${siteUrl}/meetings/${event.id}` : `${siteUrl}/invite?key=${event.event_hash}`,
+        url: event.creator_id === parseInt(userId, 10) ? `${siteUrl}/meetings/${event.id}` : `${siteUrl}/invite?key=${event.meeting_hash}`,
         start: event.start_time
       }
     });

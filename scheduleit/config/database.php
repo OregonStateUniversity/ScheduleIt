@@ -242,6 +242,7 @@ class DatabaseInterface
 
         SELECT
         id,
+        hash,
         duration,
         slot_capacity,
         start_time
@@ -275,7 +276,7 @@ class DatabaseInterface
         SELECT
         DISTINCT(meb_timeslot.hash),
         meb_event.id,
-        meb_event.hash AS event_hash,
+        meb_event.hash AS meeting_hash,
         meb_event.name,
         meb_event.location,
         meb_event.fk_event_creator AS creator_id,
@@ -318,16 +319,18 @@ class DatabaseInterface
         SELECT
         DISTINCT(meb_timeslot.hash),
         meb_event.id,
-        meb_event.hash AS event_hash,
+        meb_event.hash AS meeting_hash,
         meb_event.name,
         meb_event.location,
         meb_event.description,
+        meb_event.is_anon,
         meb_event.fk_event_creator AS creator_id,
         meb_timeslot.start_time,
         meb_timeslot.end_time,
         meb_user.email AS attendee_email,
         meb_files.path AS attendee_file,
         CONCAT(meb_user.first_name, ' ', meb_user.last_name) AS attendee_name,
+        meb_user.onid AS attendee_onid,
         meb_event.event_file AS creator_file,
         meb_creator.email AS creator_email,
         CONCAT(meb_creator.first_name, ' ', meb_creator.last_name) AS creator_name,
@@ -338,7 +341,13 @@ class DatabaseInterface
         INNER JOIN meb_booking ON meb_timeslot.id = meb_booking.fk_timeslot_id
         LEFT OUTER JOIN meb_user ON  meb_user.id = meb_booking.fk_user_id
         LEFT OUTER JOIN meb_files ON meb_files.fk_booking_id = meb_booking.id
-        WHERE (meb_creator.id = ? OR meb_booking.fk_user_id = ?)
+        WHERE (meb_creator.id = ? OR ? IN (
+            SELECT meb_booking2.fk_user_id
+            FROM meb_timeslot AS meb_timeslot2
+            INNER JOIN meb_booking AS meb_booking2 ON meb_booking2.fk_timeslot_id = meb_timeslot2.id
+            INNER JOIN meb_event AS meb_event2 ON meb_event2.id = meb_timeslot2.fk_event_id
+            WHERE meb_timeslot2.hash = meb_timeslot.hash
+        ))
         AND meb_timeslot.start_time > now()
         ORDER BY meb_timeslot.start_time ASC
 
@@ -369,16 +378,18 @@ class DatabaseInterface
         SELECT
         DISTINCT(meb_timeslot.hash),
         meb_event.id,
-        meb_event.hash AS event_hash,
+        meb_event.hash AS meeting_hash,
         meb_event.name,
         meb_event.location,
         meb_event.description,
+        meb_event.is_anon,
         meb_event.fk_event_creator AS creator_id,
         meb_timeslot.start_time,
         meb_timeslot.end_time,
         meb_files.path AS attendee_file,
         meb_user.email AS attendee_email,
         CONCAT(meb_user.first_name, ' ', meb_user.last_name) AS attendee_name,
+        meb_user.onid AS attendee_onid,
         meb_event.event_file AS creator_file,
         meb_creator.email AS creator_email,
         CONCAT(meb_creator.first_name, ' ', meb_creator.last_name) AS creator_name,
@@ -420,16 +431,18 @@ class DatabaseInterface
         SELECT
         DISTINCT(meb_timeslot.hash),
         meb_event.id,
-        meb_event.hash AS event_hash,
+        meb_event.hash AS meeting_hash,
         meb_event.name,
         meb_event.location,
         meb_event.description,
+        meb_event.is_anon,
         meb_event.fk_event_creator AS creator_id,
         meb_timeslot.start_time,
         meb_timeslot.end_time,
         meb_files.path AS attendee_file,
         meb_user.email AS attendee_email,
         CONCAT(meb_user.first_name, ' ', meb_user.last_name) AS attendee_name,
+        meb_user.onid AS attendee_onid,
         meb_event.event_file AS creator_file,
         meb_creator.email AS creator_email,
         CONCAT(meb_creator.first_name, ' ', meb_creator.last_name) AS creator_name,
@@ -440,7 +453,13 @@ class DatabaseInterface
         INNER JOIN meb_booking ON meb_timeslot.id = meb_booking.fk_timeslot_id
         LEFT OUTER JOIN meb_user ON  meb_user.id = meb_booking.fk_user_id
         LEFT OUTER JOIN meb_files ON meb_files.fk_booking_id = meb_booking.id
-        WHERE (meb_creator.id = ? OR meb_booking.fk_user_id = ?)
+        WHERE (meb_creator.id = ? OR ? IN (
+            SELECT meb_booking2.fk_user_id
+            FROM meb_timeslot AS meb_timeslot2
+            INNER JOIN meb_booking AS meb_booking2 ON meb_booking2.fk_timeslot_id = meb_timeslot2.id
+            INNER JOIN meb_event AS meb_event2 ON meb_event2.id = meb_timeslot2.fk_event_id
+            WHERE meb_timeslot2.hash = meb_timeslot.hash
+        ))
         AND meb_timeslot.start_time < now()
         ORDER BY meb_timeslot.start_time DESC
 
@@ -472,7 +491,7 @@ class DatabaseInterface
         SELECT
         DISTINCT(meb_timeslot.hash),
         meb_event.id,
-        meb_event.hash AS event_hash,
+        meb_event.hash AS meeting_hash,
         meb_event.name,
         meb_event.location,
         meb_event.description,
@@ -610,7 +629,7 @@ class DatabaseInterface
     }
 
     /**
-     * Add new timeslots.
+     * Add new timeslots when creating meeting.
      *
      * @param object $timeslots
      * @param int $meeting_id
@@ -654,7 +673,7 @@ class DatabaseInterface
 
         foreach ($timeslots as $timeslot) {
             $start_time = $timeslot;
-            $end_time = date('Y-m-d G:i:s', strtotime('+' . $duration . ' mins', strtotime($timeslot)));
+            $end_time = date('Y-m-d H:i:s', strtotime('+' . $duration . ' mins', strtotime($timeslot)));
             $spaces_available = $capacity;
 
             $hash = createTimeSlotHash($start_time, $end_time, $meeting_id);
@@ -666,6 +685,129 @@ class DatabaseInterface
         $statement->close();
 
         return $result;
+    }
+
+    /**
+     * Get timeslot attendees.
+     *
+     * @param string $timeslot_hash
+     * @return array
+     */
+    public function getAttendeesByTimeslot($timeslot_hash)
+    {
+        $query = "
+
+            SELECT
+                meb_user.email AS attendee_email,
+                CONCAT(meb_user.first_name, ' ', meb_user.last_name) AS attendee_name
+            FROM meb_timeslot
+            INNER JOIN meb_booking ON meb_booking.fk_timeslot_id = meb_timeslot.id
+            INNER JOIN meb_event ON meb_event.id = meb_timeslot.fk_event_id
+            INNER JOIN meb_user ON meb_booking.fk_user_id = meb_user.id
+            WHERE meb_timeslot.hash = ?
+
+        ";
+
+        $statement = $this->database->prepare($query);
+
+        $statement->bind_param("s", $timeslot_hash);
+        $statement->execute();
+
+        $result = $statement->get_result();
+
+        $result_array = $result->fetch_all(MYSQLI_ASSOC);
+
+        $statement->close();
+        $result->free();
+
+        return $result_array;
+    }
+
+    /**
+     * Delete timeslot with stored procedure when editing meeting.
+     *
+     * @param string $meeting_hash
+     * @param string $timeslot_hash
+     * @return int
+     */
+    public function deleteTimeslot($meeting_hash, $timeslot_hash)
+    {
+        $meeting = $this->getMeetingByHash($meeting_hash);
+        $meeting_mod_date = $meeting["mod_date"];
+
+        $query = 'CALL meb_delete_slot(?, ?, ?, @res3)';
+
+        $statement = $this->database->prepare($query);
+
+        $statement->bind_param("sss", $meeting_mod_date, $meeting_hash, $timeslot_hash);
+        $statement->execute();
+
+        $query = "SELECT @res3";
+        $result = $this->database->query($query);
+
+        if ($result) {
+            $result_array = $result->fetch_all(MYSQLI_NUM);
+            $error_code = $result_array[0][0];
+        } else {
+            $error_code = -1;
+        }
+
+        $statement->close();
+        $result->free();
+
+        return $error_code;
+    }
+
+    /**
+     * Add new timeslot with stored procedure when editing meeting.
+     *
+     * @param string $meeting_hash
+     * @param object $timeslot
+     * @return int
+     */
+    public function addTimeslot($meeting_hash, $timeslot)
+    {
+        $meeting = $this->getMeetingByHash($meeting_hash);
+        $meeting_mod_date = $meeting["mod_date"];
+
+        $query = 'CALL meb_add_slot(?, ?, ?, ?, ?, ?, ?, @res2)';
+
+        $statement = $this->database->prepare($query);
+
+        $start_time = $timeslot["start_time"];
+        $end_time = $timeslot["end_time"];
+        $duration = $timeslot["duration"];
+        $capacity = $timeslot["capacity"];
+
+        $timeslot_hash = createTimeSlotHash($start_time, $end_time, $meeting['id']);
+
+        $statement->bind_param(
+            'sssssii',
+            $meeting_mod_date,
+            $meeting_hash,
+            $timeslot_hash,
+            $start_time,
+            $end_time,
+            $duration,
+            $capacity
+        );
+
+        $statement->execute();
+
+        $query = "SELECT @res2";
+        $result = $this->database->query($query);
+
+        if ($result) {
+            $result_array = $result->fetch_all(MYSQLI_NUM);
+            $error_code = $result_array[0][0];
+        } else {
+            $error_code = -1;
+        }
+
+        $statement->close();
+        $result->free();
+
+        return $error_code;
     }
 
     /**
@@ -808,6 +950,7 @@ class DatabaseInterface
         meb_event.open_slots,
         meb_event.is_anon,
         meb_event.enable_upload,
+        meb_event.mod_date,
         meb_event.event_file AS creator_file,
         meb_event.fk_event_creator AS creator_id,
         meb_user.email AS creator_email,
@@ -853,10 +996,9 @@ class DatabaseInterface
         SELECT
         meb_booking.id,
         meb_booking.fk_timeslot_id AS timeslot_id,
-        meb_event.hash AS event_hash,
+        meb_event.hash AS meeting_hash,
         meb_event.name,
         meb_event.location,
-        meb_files.path AS attendee_file,
         meb_timeslot.hash AS timeslot_hash,
         meb_timeslot.start_time,
         meb_timeslot.end_time,
@@ -1199,10 +1341,10 @@ class DatabaseInterface
      * Add creator uploaded file.
      *
      * @param string $file_path
-     * @param string $event_hash
+     * @param string $meeting_hash
      * @return array
      */
-    public function addEventFile($file_path, $event_hash)
+    public function addEventFile($file_path, $meeting_hash)
     {
         $queryClearFile = "
 
@@ -1212,7 +1354,7 @@ class DatabaseInterface
        ";
 
         $statementClearFile = $this->database->prepare($queryClearFile);
-        $statementClearFile->bind_param("s", $event_hash);
+        $statementClearFile->bind_param("s", $meeting_hash);
         $statementClearFile->execute();
 
         $statementClearFile->close();
@@ -1226,7 +1368,7 @@ class DatabaseInterface
 
         $statementUpdateFile = $this->database->prepare($queryUpdateFile);
 
-        $statementUpdateFile->bind_param("ss", $file_path, $event_hash);
+        $statementUpdateFile->bind_param("ss", $file_path, $meeting_hash);
         $statementUpdateFile->execute();
 
         $result = $statementUpdateFile->affected_rows;

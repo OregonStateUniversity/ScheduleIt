@@ -52,16 +52,24 @@ function initLocationInput() {
 
 const timesSelector = {
   init: function() {
+    $("body").on("click", "[data-meetings-datetime-confirm]", this.confirmRemoval);
     $("body").on("click", "[data-meetings-datetime]", this.highlightLabel);
-    $("#duration").on("change", this.updateAvailableTimes.bind(this));
+    $("#duration").on("change", this.updateAvailableTimesCheck.bind(this));
     this.initSavedDates();
+    this.initSelectedDates();
     this.initCalendar();
   },
   initSavedDates: function() {
-    const savedDates = $("#calendar-times-selector").data("dates") || [];
+    const savedDates = $("#calendar-times-selector").data("dates-saved") || [];
 
     savedDates.forEach((date) => {
-      $(`[data-date="${date}"]`).addClass("fc-day-active");
+      this.savedDates.push(date);
+    });
+  },
+  initSelectedDates: function() {
+    const selectedDates = $("#calendar-times-selector").data("dates") || [];
+
+    selectedDates.forEach((date) => {
       this.selectedDates.push(date);
     });
   },
@@ -74,19 +82,39 @@ const timesSelector = {
         dateClick: (info) => {
           const { dateStr: date, dayEl: el } = info;
 
-          if ($(el).hasClass("fc-day-active")) {
-            const dateIndex = this.selectedDates.indexOf(date);
+          if ($(el).hasClass("fc-day-confirm")) {
 
-            $(el).removeClass("fc-day-active");
-            this.removeDate(date);
+            $("#remove-date-modal").modal("show");
 
-            if (dateIndex > -1) {
-              this.selectedDates.splice(dateIndex, 1);
-            }
+            const _this = this;
+
+            $("#btn-remove-date").on("click", function() {
+              const dateIndex = _this.selectedDates.indexOf(date);
+
+              $(el).removeClass("fc-day-active").removeClass("fc-day-confirm");
+              _this.removeDate(date);
+
+              if (dateIndex > -1) {
+                _this.selectedDates.splice(dateIndex, 1);
+              }
+
+              $("#remove-date-modal").modal("hide");
+            });
           } else {
-            $(el).addClass("fc-day-active");
-            this.addDate(date);
-            this.selectedDates.push(date);
+            if ($(el).hasClass("fc-day-active")) {
+              const dateIndex = this.selectedDates.indexOf(date);
+
+              $(el).removeClass("fc-day-active");
+              this.removeDate(date);
+
+              if (dateIndex > -1) {
+                this.selectedDates.splice(dateIndex, 1);
+              }
+            } else {
+              $(el).addClass("fc-day-active");
+              this.addDate(date);
+              this.selectedDates.push(date);
+            }
           }
 
           if (!this.selectedDates.length) {
@@ -94,6 +122,10 @@ const timesSelector = {
           }
         },
         datesSet: (info) => {
+          this.savedDates.forEach(function(date) {
+            $(`[data-date="${date}"]`).addClass("fc-day-confirm");
+          });
+
           this.selectedDates.forEach(function(date) {
             $(`[data-date="${date}"]`).addClass("fc-day-active");
           });
@@ -142,6 +174,25 @@ const timesSelector = {
 
     $(".times-selector-placeholder").addClass("d-none");
   },
+  confirmRemoval: function(e) {
+    e.preventDefault();
+    let timeslot = $(e.currentTarget).val();
+    $("#remove-time-modal").modal("show");
+
+    $("#btn-remove-time").on("click", function() {
+      $(`input[value="${timeslot}"]`)
+        .prop("checked", false)
+        .removeAttr("data-meetings-datetime-confirm")
+        .attr("data-meetings-datetime", "");
+
+      $(`label[data-timeslot-label="${timeslot}"]`)
+        .removeClass("times-label--checked")
+        .removeClass("times-label--checked-confirm");
+
+      $("#remove-time-modal").modal("hide");
+      timeslot = "";
+    });
+  },
   createTimes: function() {
     const times = [];
 
@@ -166,9 +217,10 @@ const timesSelector = {
   removeDate: function(date) {
     $(`#time-${date}`).remove();
   },
+  savedDates: [],
   selectedDates: [],
   updateAvailableTimes: function() {
-    const times = this.createTimes();
+     const times = this.createTimes();
     let timeLabels = "";
 
     times.forEach((time) => {
@@ -182,5 +234,18 @@ const timesSelector = {
     this.selectedDates.forEach((date) => {
       this.addDate(date);
     });
+  },
+  updateAvailableTimesCheck: function() {
+    const _this = this;
+
+    if ($("#change-duration-modal").length) {
+      $("#change-duration-modal").modal("show");
+
+      $("#btn-change-duration").on("click", function() {
+        _this.updateAvailableTimes();
+      });
+    } else {
+      _this.updateAvailableTimes();
+    }
   }
 };
