@@ -60,6 +60,7 @@ class FileUpload
         $url = $meeting_hash . '/' . $renamed_filename . '.' . $ext;
 
         // To enable more file types, just add extensions to schedule.config.php
+        /* client wanted the white list to be disabled for now
         $allowed_extensions = unserialize(UPLOAD_ALLOWED_FILETYPES);
         $is_allowed = in_array($ext, $allowed_extensions);
 
@@ -69,7 +70,7 @@ class FileUpload
                 'message' => 'This file type is not allowed. Accepted file types: ' . implode(', ', $allowed_extensions)
             ];
         }
-
+        */
         // If there is error with file upload, don't add path to database
         if ($_FILES[$field_name]['error'] > 0) {
             return [

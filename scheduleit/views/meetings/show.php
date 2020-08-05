@@ -14,7 +14,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_POST['attendeeOnid'])) {
         $attendeeOnids = $_POST['attendeeOnid'];
         $link = $_POST['link'];
-        $link = $_SERVER['HTTP_ORIGIN'] . $link;
         $host = $_SESSION['user_onid'];
         $hash = $meeting['hash'];
         // turn onid string into array
