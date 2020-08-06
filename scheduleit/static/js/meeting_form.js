@@ -52,12 +52,13 @@ function initLocationInput() {
 
 const timesSelector = {
   init: function() {
-    $("body").on("click", "[data-meetings-datetime-confirm]", this.confirmRemoval);
+    $("body").on("click", "[data-meetings-datetime-confirm]", this.addToRemovedTimes.bind(this));
     $("body").on("click", "[data-meetings-datetime]", function(event) {
       event.preventDefault();
     });
     $("body").on("mousedown mouseover", "[data-meetings-datetime-label]:not('.times-label--checked-confirm')", this.selectMultipleTimes.bind(this));
     $("#duration").on("change", this.updateAvailableTimesCheck.bind(this));
+    $("#btn-save-meeting-dates").on("click", this.confirmTimesRemoval.bind(this));
     this.initSavedDates();
     this.initSelectedDates();
     this.initCalendar();
@@ -183,24 +184,44 @@ const timesSelector = {
 
     $(".times-selector-placeholder").addClass("d-none");
   },
-  confirmRemoval: function(e) {
+  addToRemovedTimes: function(e) {
     e.preventDefault();
     let datetime = $(e.currentTarget).val();
-    $("#remove-time-modal").modal("show");
+    $(`input[data-meetings-datetime-confirm="${datetime}"]`)
+      .prop("checked", false)
+      .removeAttr("data-meetings-datetime-confirm")
+      .attr("data-meetings-datetime", "");
 
-    $("#btn-remove-time").on("click", function() {
-      $(`input[data-meetings-datetime-confirm="${datetime}"]`)
-        .prop("checked", false)
-        .removeAttr("data-meetings-datetime-confirm")
-        .attr("data-meetings-datetime", "");
+    $(`label[data-meetings-datetime-label="${datetime}"]`)
+      .removeClass("times-label--checked")
+      .removeClass("times-label--checked-confirm");
 
-      $(`label[data-meetings-datetime-label="${datetime}"]`)
-        .removeClass("times-label--checked")
-        .removeClass("times-label--checked-confirm");
+    $("#removed-times").append(`
+      <li data-meetings-datetime-removal="${datetime}">${moment(datetime).format("ddd, MMM D h:mm a")}</li>
+    `);
 
-      $("#remove-time-modal").modal("hide");
-      datetime = "";
+    const sorted = $("#removed-times li").sort((a, b) => {
+      return a.id > b.id ? 1 : -1;
+    })
+
+    sorted.each(function() {
+      const elem = $(this);
+      elem.remove();
+      $(elem).appendTo("#removed-times");
     });
+  },
+  confirmTimesRemoval: function(e) {
+    e.preventDefault();
+
+    if ($("#removed-times li").length > 0) {
+      $("#remove-time-modal").modal("show");
+
+      $("#btn-remove-time").on("click", function() {
+        $("#form-meeting-dates").submit();
+      });
+    } else {
+      $("#form-meeting-dates").submit();
+    }
   },
   createTimes: function() {
     const times = [];
@@ -248,6 +269,7 @@ const timesSelector = {
     if ($("#times-selector").data("drag-start-cell") === "true") {
       $(target).addClass("times-label--checked");
       $(`[data-meetings-datetime="${datetime}"]`).prop("checked", true);
+      $(`[data-meetings-datetime-removal="${datetime}"]`).remove();
     } else {
       $(target).removeClass("times-label--checked");
       $(`[data-meetings-datetime="${datetime}"]`).prop("checked", false);
