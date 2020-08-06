@@ -12,19 +12,12 @@
   min-height: 0;
 }
 
-.times-selector .fc-day:hover {
-  background-color: var(--osu-orange-secondary-hover) !important;
-  color: #fff !important;
-}
-
-.times-selector .fc-day-active,
-.times-selector .fc-day-active:hover {
+.times-selector .fc-day-active {
   background-color: var(--osu-orange-secondary) !important;
   color: #fff !important;
 }
 
-.times-selector .fc-day-confirm,
-.times-selector .fc-day-confirm:hover {
+.times-selector .fc-day-confirm {
   background-color: #000 !important;
   color: #fff !important;
 }
@@ -67,19 +60,12 @@
   width: 90px;
 }
 
-.times-selector-container .times-label:hover {
-  background-color: var(--osu-orange-secondary-hover);
-  color: #fff;
-}
-
-.times-selector-container .times-label--checked,
-.times-selector-container .times-label--checked:hover {
+.times-selector-container .times-label--checked {
   background-color: var(--osu-orange-secondary);
   color: #fff;
 }
 
-.times-selector-container .times-label--checked-confirm,
-.times-selector-container .times-label--checked-confirm:hover {
+.times-selector-container .times-label--checked-confirm {
   background-color: #000;
   color: #fff;
 }

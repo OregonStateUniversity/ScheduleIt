@@ -68,10 +68,10 @@
 </div>
 <div class="mb-2">
   <label class="h6 mb-3">
-    Select Available Timess
+    Select Available Times
   </label>
   <p>
-    Hold your mouse down to select multiple times at once.<br>
+    Hold your mouse down to select or deselect multiple times at once.<br>
     {% if edit_dates %}<span class="text-danger"><i class="fas fa-exclamation-circle"></i> Previously saved timeslots require confirmation for removal.</span>{% endif %}
   </p>
   <div class="d-flex">
@@ -87,7 +87,7 @@
       </ul>
     </div>
     <div class="times-selector-container">
-      <ul class="d-flex list-unstyled" id="times-selector" data-drag-active="false">
+      <ul class="d-flex list-unstyled" id="times-selector" data-drag-active="false" data-drag-start-cell="true">
         <li class="times-selector-placeholder {% if dates %}d-none{% endif %}">
           Select dates first.
         </li>

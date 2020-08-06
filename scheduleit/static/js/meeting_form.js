@@ -224,7 +224,7 @@ const timesSelector = {
     event.preventDefault();
 
     if (event.type === "mousedown") {
-       this.toggleTimeSelection(event.currentTarget);
+      this.toggleTimeSelection(event.currentTarget, true);
       $("#times-selector").data("drag-active", true);
     }
 
@@ -237,15 +237,20 @@ const timesSelector = {
     });
   },
   selectedDates: [],
-  toggleTimeSelection: function(target) {
+  toggleTimeSelection: function(target, startingCell) {
     const datetime = $(target).data("meetings-datetime-label");
 
-    if ($(target).hasClass("times-label--checked")) {
-      $(target).removeClass("times-label--checked");
-      $(`[data-meetings-datetime="${datetime}"]`).prop("checked", false);
-    } else {
+    if (startingCell) {
+      const startingValue = $(target).hasClass("times-label--checked") ? "false" : "true";
+      $("#times-selector").data("drag-start-cell", startingValue);
+    }
+
+    if ($("#times-selector").data("drag-start-cell") === "true") {
       $(target).addClass("times-label--checked");
       $(`[data-meetings-datetime="${datetime}"]`).prop("checked", true);
+    } else {
+      $(target).removeClass("times-label--checked");
+      $(`[data-meetings-datetime="${datetime}"]`).prop("checked", false);
     }
   },
   updateAvailableTimes: function() {
