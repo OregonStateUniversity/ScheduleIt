@@ -31,7 +31,7 @@
   </p>
   <div class="row">
     <div class="col-6 col-md-2">
-      <select class="form-control" id="duration" name="duration" data-create="{% if edit_dates %}false{% else %}true{% endif %}">
+      <select class="form-control" id="duration" name="duration" data-create="{% if edit_dates %}false{% else %}true{% endif %}" data-saved-duration="{{meeting.duration}}">
         <option value="60" {% if meeting.duration == 60 %}selected{% endif %}>
           1 hour
         </option>
@@ -49,6 +49,12 @@
   <label class="h6">
     Select Meeting Dates
   </label>
+  {% if edit_dates %}
+    <p class="text-danger">
+      <i class="fas fa-exclamation-circle text-danger"></i>
+      Previously saved dates require confirmation for removal.
+    </p>
+  {% endif %}
   <div
     class="times-selector"
     data-create="{% if edit_dates %}false{% else %}true{% endif %}"
@@ -62,8 +68,12 @@
 </div>
 <div class="mb-2">
   <label class="h6 mb-3">
-    Select Available Times
+    Select Available Timess
   </label>
+  <p>
+    Hold your mouse down to select multiple times at once.<br>
+    {% if edit_dates %}<span class="text-danger"><i class="fas fa-exclamation-circle"></i> Previously saved timeslots require confirmation for removal.</span>{% endif %}
+  </p>
   <div class="d-flex">
     <div class="times-selector-legend-container">
       <ul class="d-flex list-unstyled">
@@ -77,7 +87,7 @@
       </ul>
     </div>
     <div class="times-selector-container">
-      <ul class="d-flex list-unstyled" id="times-selector">
+      <ul class="d-flex list-unstyled" id="times-selector" data-drag-active="false">
         <li class="times-selector-placeholder {% if dates %}d-none{% endif %}">
           Select dates first.
         </li>
@@ -90,11 +100,11 @@
               {% set date_time = "#{date} #{time}" %}
               <label
                 class="times-label {% if date_time in timeslot_times %}times-label--checked{% endif %} {% if date_time in timeslot_times_saved %}times-label--checked-confirm{% endif %}"
-                data-timeslot-label="{{date_time}}"
+                data-meetings-datetime-label="{{date_time}}"
               >
                 <input
                   {% if date_time in timeslot_times %}checked{% endif %}
-                  {% if date_time in timeslot_times_saved %}data-meetings-datetime-confirm{% else %}data-meetings-datetime{% endif %}
+                  {% if date_time in timeslot_times_saved %}data-meetings-datetime-confirm{% else %}data-meetings-datetime{% endif %}="{{date_time}}"
                   name="timeslots[]"
                   type="checkbox"
                   value="{{date_time}}"
