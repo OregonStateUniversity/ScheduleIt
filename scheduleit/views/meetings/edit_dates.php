@@ -2,6 +2,7 @@
 
 require_once ABSPATH . 'config/session.php';
 require_once ABSPATH . 'scheduleit/lib/send_email.php';
+require_once ABSPATH . 'scheduleit/lib/file_upload.php';
 
 $meeting = $database->getMeetingById($meeting_id, $_SESSION['user_onid']);
 
@@ -87,6 +88,9 @@ if ($meeting) {
                 // Notify users of removed timeslots
                 foreach ($removed_users as $key => $user) {
                     $send_email->changedTimeslots($meeting, $user);
+                    // delete any files the had uploaded
+                    $file_name = UPLOADS_ABSPATH . $meeting['hash'] . '/' . $user['attendee_onid'] . '_upload.*';
+                    $file_upload->delete($file_name);
                 }
             }
         }
