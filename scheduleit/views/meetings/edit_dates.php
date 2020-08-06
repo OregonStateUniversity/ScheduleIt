@@ -78,13 +78,12 @@ if ($meeting) {
         // Remove timeslots
         foreach ($deleted_timeslots as $key => $timeslot) {
             $timeslot_hash = $timeslot_hashes[$timeslot];
+            $removed_users = $database->getAttendeesByTimeslot($timeslot_hash);
             $error_code = $database->deleteTimeslot($meeting['hash'], $timeslot_hash);
 
             if ($error_code != 0) {
                 $delete_success = false;
             } else {
-                $removed_users = $database->getAttendeesByTimeslot($timeslot_hash);
-
                 // Notify users of removed timeslots
                 foreach ($removed_users as $key => $user) {
                     $send_email->changedTimeslots($meeting, $user);

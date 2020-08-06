@@ -557,8 +557,11 @@ class DatabaseInterface
         meb_event.is_anon,
         meb_event.enable_upload,
         meb_event.event_file AS creator_file,
-        meb_event.fk_event_creator AS creator_id
+        meb_event.fk_event_creator AS creator_id,
+        meb_user.email AS creator_email,
+        CONCAT(meb_user.first_name, ' ', meb_user.last_name) AS creator_name
         FROM meb_event
+        INNER JOIN meb_user ON meb_user.id = meb_event.fk_event_creator
         WHERE meb_event.id = ?
         LIMIT 1
 
