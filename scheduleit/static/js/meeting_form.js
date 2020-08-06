@@ -53,11 +53,15 @@ function initLocationInput() {
 const timesSelector = {
   init: function() {
     $("body").on("click", "[data-meetings-datetime-confirm]", this.confirmRemoval);
-    $("body").on("click", "[data-meetings-datetime]", this.highlightLabel);
+    $("body").on("click", "[data-meetings-datetime]", function(event) {
+      event.preventDefault();
+    });
+    $("body").on("mousedown mouseover", "[data-meetings-datetime-label]:not('.times-label--checked-confirm')", this.selectMultipleTimes.bind(this));
     $("#duration").on("change", this.updateAvailableTimesCheck.bind(this));
     this.initSavedDates();
     this.initSelectedDates();
     this.initCalendar();
+    this.initDuration();
   },
   initSavedDates: function() {
     const savedDates = $("#calendar-times-selector").data("dates-saved") || [];
@@ -144,14 +148,19 @@ const timesSelector = {
       calendar.render();
     }
   },
+  initDuration: function() {
+    // Use the saved duration to set value in case of back button issues
+    const duration = $("#duration").data("saved-duration");
+    $("#duration").val(duration);
+  },
   addDate(date) {
     const times = this.createTimes();
     let timeCheckboxes = "";
 
     times.forEach((time) => {
       const timeLabel = moment(time, "HH:mm:ss").format("hh:mm A");
-      timeCheckboxes += '<label class="times-label">' +
-        `<input name="timeslots[]" data-meetings-datetime value="${date} ${time}" type="checkbox"> ${timeLabel}` +
+      timeCheckboxes += `<label class="times-label" data-meetings-datetime-label="${date} ${time}">` +
+        `<input name="timeslots[]" data-meetings-datetime="${date} ${time}" value="${date} ${time}" type="checkbox"> ${timeLabel}` +
         '</label>';
     });
 
@@ -176,21 +185,21 @@ const timesSelector = {
   },
   confirmRemoval: function(e) {
     e.preventDefault();
-    let timeslot = $(e.currentTarget).val();
+    let datetime = $(e.currentTarget).val();
     $("#remove-time-modal").modal("show");
 
     $("#btn-remove-time").on("click", function() {
-      $(`input[value="${timeslot}"]`)
+      $(`input[data-meetings-datetime-confirm="${datetime}"]`)
         .prop("checked", false)
         .removeAttr("data-meetings-datetime-confirm")
         .attr("data-meetings-datetime", "");
 
-      $(`label[data-timeslot-label="${timeslot}"]`)
+      $(`label[data-meetings-datetime-label="${datetime}"]`)
         .removeClass("times-label--checked")
         .removeClass("times-label--checked-confirm");
 
       $("#remove-time-modal").modal("hide");
-      timeslot = "";
+      datetime = "";
     });
   },
   createTimes: function() {
@@ -207,18 +216,43 @@ const timesSelector = {
 
     return times;
   },
-  highlightLabel: function() {
-    if ($(this).prop("checked")) {
-      $(this).parent("label").addClass("times-label--checked");
-    } else{
-      $(this).parent("label").removeClass("times-label--checked")
-    }
-  },
   removeDate: function(date) {
     $(`#time-${date}`).remove();
   },
   savedDates: [],
+  selectMultipleTimes: function(event) {
+    event.preventDefault();
+
+    if (event.type === "mousedown") {
+      this.toggleTimeSelection(event.currentTarget, true);
+      $("#times-selector").data("drag-active", true);
+    }
+
+    if (event.type === "mouseover" && $("#times-selector").data("drag-active") === true) {
+      this.toggleTimeSelection(event.currentTarget);
+    }
+
+    $(document).mouseup(function() {
+      $("#times-selector").data("drag-active", false);
+    });
+  },
   selectedDates: [],
+  toggleTimeSelection: function(target, startingCell) {
+    const datetime = $(target).data("meetings-datetime-label");
+
+    if (startingCell) {
+      const startingValue = $(target).hasClass("times-label--checked") ? "false" : "true";
+      $("#times-selector").data("drag-start-cell", startingValue);
+    }
+
+    if ($("#times-selector").data("drag-start-cell") === "true") {
+      $(target).addClass("times-label--checked");
+      $(`[data-meetings-datetime="${datetime}"]`).prop("checked", true);
+    } else {
+      $(target).removeClass("times-label--checked");
+      $(`[data-meetings-datetime="${datetime}"]`).prop("checked", false);
+    }
+  },
   updateAvailableTimes: function() {
      const times = this.createTimes();
     let timeLabels = "";
@@ -235,15 +269,22 @@ const timesSelector = {
       this.addDate(date);
     });
   },
-  updateAvailableTimesCheck: function() {
+  updateAvailableTimesCheck: function(event) {
     const _this = this;
+    event.preventDefault();
 
     if ($("#change-duration-modal").length) {
       $("#change-duration-modal").modal("show");
 
       $("#btn-change-duration").on("click", function() {
-        _this.updateAvailableTimes();
+        // Update the saved duration so closing modal won't reset the value
+        $("#duration").data("saved-duration", $(event.currentTarget).val());
         $("#change-duration-modal").modal("hide");
+        _this.updateAvailableTimes();
+      });
+
+      $("#change-duration-modal").on("hide.bs.modal", function() {
+        _this.initDuration();
       });
     } else {
       _this.updateAvailableTimes();

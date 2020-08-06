@@ -50,18 +50,25 @@ if ($meeting) {
         $current_timeslots = [];
         $new_timeslots = [];
 
-        foreach ($timeslot_times_saved as $key => $timeslot) {
-            if (in_array($timeslot, $updated_timeslots)) {
-                array_push($current_timeslots, $timeslot);
-            } else {
-                array_push($deleted_timeslots, $timeslot);
+        // Same duration
+        if ($duration == $meeting['duration']) {
+            foreach ($timeslot_times_saved as $key => $timeslot) {
+                if (in_array($timeslot, $updated_timeslots)) {
+                    array_push($current_timeslots, $timeslot);
+                } else {
+                    array_push($deleted_timeslots, $timeslot);
+                }
             }
-        }
 
-        foreach ($updated_timeslots as $key => $timeslot) {
-            if (!in_array($timeslot, $current_timeslots)) {
-                array_push($new_timeslots, $timeslot);
+            foreach ($updated_timeslots as $key => $timeslot) {
+                if (!in_array($timeslot, $current_timeslots)) {
+                    array_push($new_timeslots, $timeslot);
+                }
             }
+        } else {
+            // Duration changed, delete all current timeslots and create all new ones
+            $deleted_timeslots = $timeslot_times_saved;
+            $new_timeslots = $updated_timeslots;
         }
 
         // Initialize error codes
@@ -80,7 +87,7 @@ if ($meeting) {
 
                 // Notify users of removed timeslots
                 foreach ($removed_users as $key => $user) {
-                    $send_mail->changedTimeslots($meeting, $user);
+                    $send_email->changedTimeslots($meeting, $user);
                 }
             }
         }
