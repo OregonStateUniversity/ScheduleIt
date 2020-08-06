@@ -702,7 +702,8 @@ class DatabaseInterface
 
             SELECT
                 meb_user.email AS attendee_email,
-                CONCAT(meb_user.first_name, ' ', meb_user.last_name) AS attendee_name
+                CONCAT(meb_user.first_name, ' ', meb_user.last_name) AS attendee_name,
+                meb_user.onid AS attendee_onid
             FROM meb_timeslot
             INNER JOIN meb_booking ON meb_booking.fk_timeslot_id = meb_timeslot.id
             INNER JOIN meb_event ON meb_event.id = meb_timeslot.fk_event_id
