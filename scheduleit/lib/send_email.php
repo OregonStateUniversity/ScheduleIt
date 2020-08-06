@@ -12,21 +12,45 @@ class SendEmail
     private $send_email;
 
     /**
-     * Send invite confirmation email.
+     * Send invite confirmed email.
      *
      * @param object $meeting
      * @return void
      */
-    public function inviteConfirmation($meeting)
+    public function inviteConfirmed($meeting)
     {
         $to = $meeting['attendee_email'];
-        $subject = '[Confirmation]: ' . $meeting['name'];
+        $subject = '[Confirmed]: ' . $meeting['name'];
         $headers = 'From: ' . SITE_NAME . ' <no-reply@oregonstate.edu>' . "\r\n" .
             'Reply-To: ' . $meeting['creator_name'] . '<' . $meeting['creator_email'] . '>' . "\r\n" .
             'X-Mailer: PHP/' . phpversion();
 
         $message = 'Hi ' . $meeting['attendee_name'] . ',' . "\r\n\r\n";
-        $message .= 'You have reserved a timeslot for ' . $meeting['name'] . '.' . "\r\n\r\n";
+        $message .= 'You have reserved a timeslot for "' . $meeting['name'] . '".' . "\r\n\r\n";
+        $message .= 'Date: ' . date('D, F j, Y g:ia', strtotime($meeting['start_time'])) . '-' . date('g:ia', strtotime($meeting['end_time'])) . "\r\n";
+        $message .= 'Location: ' . $meeting['location'] . "\r\n";
+        $message .= 'Creator: ' . $meeting['creator_name'] . "\r\n\r\n";
+        $message .= 'Meeting Info: ' . SITE_URL . '/invite?key=' . $meeting['meeting_hash'] . "\r\n";
+
+        mail($to, $subject, $message, $headers);
+    }
+
+    /**
+     * Send invite updated email.
+     *
+     * @param object $meeting
+     * @return void
+     */
+    public function inviteUpdated($meeting)
+    {
+        $to = $meeting['attendee_email'];
+        $subject = '[Updated]: ' . $meeting['name'];
+        $headers = 'From: ' . SITE_NAME . ' <no-reply@oregonstate.edu>' . "\r\n" .
+            'Reply-To: ' . $meeting['creator_name'] . '<' . $meeting['creator_email'] . '>' . "\r\n" .
+            'X-Mailer: PHP/' . phpversion();
+
+        $message = 'Hi ' . $meeting['attendee_name'] . ',' . "\r\n\r\n";
+        $message .= 'You have updated your timeslot for "' . $meeting['name'] . '".' . "\r\n\r\n";
         $message .= 'Date: ' . date('D, F j, Y g:ia', strtotime($meeting['start_time'])) . '-' . date('g:ia', strtotime($meeting['end_time'])) . "\r\n";
         $message .= 'Location: ' . $meeting['location'] . "\r\n";
         $message .= 'Creator: ' . $meeting['creator_name'] . "\r\n\r\n";
@@ -48,7 +72,7 @@ class SendEmail
     public function invitation($creatorOnid, $inviteOnid, $eventName, $creatorName, $link)
     {
         $to = $inviteOnid . '@oregonstate.edu';
-        $subject = '[Invitation]: ' . $eventName;
+        $subject = '[Invited]: ' . $eventName;
         $headers = 'From: ' . SITE_NAME . ' <no-reply@oregonstate.edu>' . "\r\n" .
           'Reply-To: ' . $creatorName . '<' . $creatorOnid . '@oregonstate.edu' . '>' . "\r\n" .
           'X-MAiler: PHP/' . phpversion();
@@ -56,7 +80,7 @@ class SendEmail
         $message = 'Hi ' . $inviteOnid . ', ' . "\r\n\r\n";
         $message .= $creatorName . ' has invited you to the "' . $eventName . '" meeting.' . "\r\n";
         $message .= 'Please follow the link below to reserve a spot.' . "\r\n\r\n";
-        $message .= $link . "\r\n";
+        $message .= 'Sign Up: ' . $link . "\r\n";
 
         mail($to, $subject, $message, $headers);
     }
@@ -78,8 +102,8 @@ class SendEmail
           'Reply-To: ' . $creatorName . '<' . $creatorOnid . '@oregonstate.edu' . '>' . "\r\n" .
           'X-MAiler: PHP/' . phpversion();
 
-        $message = 'Hi ' . $removeOnid . ', ' . "\r\n";
-        $message .= $creatorName . ' has removed you from the "' . trim($eventName) . '" meeting.' . "\r\n";
+        $message = 'Hi ' . $removeOnid . ', ' . "\r\n\r\n";
+        $message .= $creatorName . ' has removed you from the "' . trim($eventName) . '" meeting.' . "\r\n\r\n";
         $message .= 'If you have any question please contact them at ' . "\r\n";
         $message .= $creatorOnid . '@oregonstate.edu' . "\r\n";
 
@@ -94,14 +118,14 @@ class SendEmail
      */
     public function changedTimeslots($meeting, $user)
     {
-        $to = $user['email'];
+        $to = $user['attendee_email'];
         $subject = '[Changed]: ' . $meeting['name'];
         $headers = 'From: ' . SITE_NAME . ' <no-reply@oregonstate.edu>' . "\r\n" .
             'Reply-To: ' . $meeting['creator_name'] . '<' . $meeting['creator_email'] . '>' . "\r\n" .
             'X-Mailer: PHP/' . phpversion();
 
-        $message = 'Hi ' . $user['name'] . ',' . "\r\n\r\n";
-        $message .= 'The available timeslots for ' . $meeting['name'] . ' have changed and your reservation is no longer available. Please sign up for a new timeslot.' . "\r\n\r\n";
+        $message = 'Hi ' . $user['attendee_name'] . ',' . "\r\n\r\n";
+        $message .= 'The available timeslots for "' . $meeting['name'] . '" have changed and your reservation is no longer available. Please sign up for a new timeslot.' . "\r\n\r\n";
         $message .= 'Sign Up: ' . SITE_URL . '/invite?key=' . $meeting['meeting_hash'] . "\r\n";
 
         mail($to, $subject, $message, $headers);

@@ -49,6 +49,7 @@ if ($meeting) {
             if (empty($booking_id)) {
                 $booking = $database->getMeetingForUserId($_SESSION['user_id'], $meeting_hash);
                 $booking_id = $booking['id'];
+                $send_email->inviteConfirmed($booking);
             }
 
             // Check for file to upload
@@ -62,10 +63,8 @@ if ($meeting) {
                     // Delete invite, if one exists
                     $database->deleteInvite($_SESSION['user_onid'], $meeting['id']);
                     // Send confirmation email only if time updated
-                    if (isset($booking['timeslot_id'])) {
-                        if ($timeslot_id != $booking['timeslot_id']) {
-                            $send_email->inviteConfirmation($booking);
-                        }
+                    if (!empty($timeslot_id) && $timeslot_id != $booking['timeslot_id']) {
+                        $send_email->inviteUpdated($booking);
                     }
                     $msg->success('Your settings have been saved for "' . $meeting['name'] . '".', SITE_DIR . '/meetings');
                 }
@@ -74,10 +73,8 @@ if ($meeting) {
                 // Delete invite, if one exists
                 $database->deleteInvite($_SESSION['user_onid'], $meeting['id']);
                 // Send confirmation email only if time updated
-                if (isset($booking['timeslot_id'])) {
-                    if ($timeslot_id != $booking['timeslot_id']) {
-                        $send_email->inviteConfirmation($booking);
-                    }
+                if (!empty($timeslot_id) && $timeslot_id != $booking['timeslot_id']) {
+                    $send_email->inviteUpdated($booking);
                 }
                 $msg->success('Your settings have been saved for "' . $meeting['name'] . '".', SITE_DIR . '/meetings');
             } else {
