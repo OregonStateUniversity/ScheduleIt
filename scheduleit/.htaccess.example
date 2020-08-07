@@ -1,9 +1,0 @@
-# Replace SITE_DIR with the value from your .env
-<IfModule mod_rewrite.c>
-RewriteEngine On
-RewriteBase SITE_DIR/
-RewriteRule ^index\.php$ - [L]
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule . SITE_DIR/index.php [L]
-</IfModule>

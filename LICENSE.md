@@ -1,6 +1,7 @@
 MIT License
 
-Copyright (c) 2020 Tommy Liao, Blaise Takushi, Simon Louie
+Copyright (c) Tommy Liao, Blaise Takushi, Simon Louie,
+              Michael Czapary, Roman Guerrero, Bangbay Siboliban
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

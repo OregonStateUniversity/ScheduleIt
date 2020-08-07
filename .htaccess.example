@@ -1,12 +1,19 @@
+# Replace SITE_DIR with the value from your .env
+<IfModule mod_rewrite.c>
 RewriteEngine On
-RewriteBase /
+RewriteBase SITE_DIR/
+RewriteRule ^index\.php$ - [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . SITE_DIR/index.php [L]
+</IfModule>
 
-<FilesMatch "\.(env|example|gitignore|htaccess|htpasswd|ini|log|md|sh)$">
+<FilesMatch "\.(editorconfig|env|example|gitignore|htaccess|htpasswd|ini|log|md|prettierrc|sh)$">
   Order allow,deny
   Deny from all
 </FilesMatch>
 
-<Files ~ "(secret|text_file)">
+<Files ~ "(commitlint|composer|secret|text_file)">
   Order allow,deny
   Deny from all
 </Files>

@@ -10,4 +10,4 @@ jobs:
     - name: Install PHP dependencies
       run: composer install
     - name: Run PHPUnit tests
-      run: vendor/bin/phpunit tests
+      run: bash run_tests_php.sh

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <title>{{site_name}}</title>
+    {{ include('layouts/_head.twig') }}
+    {% block page_head %}
+    {% endblock %}
+  </head>
+  <body class="body-logged-out">
+    <nav class="navbar navbar-expand-md py-0 sticky-top">
+      <div class="navbar-container">
+        <div class="d-flex flex-md-nowrap justify-content-between align-items-center">
+          <a class="navbar-brand" href="{{site_url}}">
+            <span class="d-block d-md-inline">{{site_name}}</span>
+          </a>
+        </div>
+      </div>
+    </nav>
+    <main role="main">
+      {% block page_content %}
+      {% endblock %}
+    </main>
+    {{ include('layouts/_footer.twig') }}
+    {% block page_footer %}
+    {% endblock %}
+  </body>
+</html>

@@ -16,7 +16,7 @@ class IndexTest extends TestCase
      */
     public function testFilePermissionIs644()
     {
-        $fileName = dirname(__DIR__) . '/index.php';
+        $fileName = ABSPATH . 'index.php';
         $permission = substr(sprintf('%o', fileperms($fileName)), -4);
         $this->assertEquals('0644', $permission);
     }

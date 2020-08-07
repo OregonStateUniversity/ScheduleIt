@@ -3,47 +3,35 @@
 require_once ABSPATH . 'config/env.php';
 
 // include functions for generating hashes
-require_once ABSPATH . 'config/hash.php';
+require_once ABSPATH . 'lib/hash.php';
 
-// definition of class for custom interface of MySQLi database
+/**
+ * DatabaseInterface
+ * php version 7.2.28
+ */
 class DatabaseInterface
 {
+    /**
+     * @var object
+     */
     private $database;
 
-    public function __construct($mode = null)
-    {
-        switch ($mode) {
-            case 'a':
-                $this->connectAsAdministrator();
-            case 'ro':
-                $this->connectAsReadOnlyUser();
-            default:
-                $this->connectToDatabase('TEST');
-        }
-    }
-
-    public function getError()
-    {
-        return $this->database->connect_error;
-    }
-
+    /**
+     * Create connection with credentials from .env file.
+     *
+     * @param string $env
+     * @return void
+     */
     private function connectToDatabase($env)
     {
-        $host_env = "DATABASE_HOST_{$env}";
-        $username_env = "DATABASE_USERNAME_{$env}";
-        $password_env = "DATABASE_PASSWORD_{$env}";
-        $name_env = "DATABASE_NAME_{$env}";
-        $port_env = "DATABASE_PORT_{$env}";
 
+        $host = $_ENV["DATABASE_HOST_{$env}"];
+        $userName = $_ENV["DATABASE_USERNAME_{$env}"];
+        $password = $_ENV["DATABASE_PASSWORD_{$env}"];
+        $databaseName = $_ENV["DATABASE_NAME_{$env}"];
+        $port = $_ENV["DATABASE_PORT_{$env}"];
 
-        $host = $_ENV[$host_env];
-        $userName = $_ENV[$username_env];
-        $password = $_ENV[$password_env];
-        $databaseName = $_ENV[$name_env];
-        $port = $_ENV[$port_env];
-
-        // create connection to database
-
+        // Create connection to database
         $this->database = new mysqli(
             $host,
             $userName,
@@ -52,75 +40,85 @@ class DatabaseInterface
             $port
         );
 
-        // check if that was successful
-        // application is completely dependent on database so dying is acceptable
-        // return if it was successful
-
-        if ($this->getError()) {
-            die('A connection to the database could not be established.');
+        // Redirect to error page if there is a connection error
+        if ($this->database->connect_error) {
+            header('Location: ' . SITE_DIR . '/error?s=500');
         }
     }
 
+    /**
+     * Connect to database with read only privileges.
+     *
+     * @return void
+     */
     public function connectAsReadOnlyUser()
     {
         $this->connectToDatabase('READONLY');
     }
 
+    /**
+     * Connect to database with admin privileges.
+     *
+     * @return void
+     */
     public function connectAsAdministrator()
     {
         $this->connectToDatabase('ADMIN');
     }
 
-    public function getUserByONID($userONID)
+    /**
+     * Get user record by ONID.
+     *
+     * @param string $onid
+     * @return mixed
+     */
+    public function getUserByONID($onid)
     {
         $query = "
 
             SELECT id, onid, email, last_name, first_name
             FROM meb_user
             WHERE onid = ?
+            LIMIT 1
 
         ";
 
         $statement = $this->database->prepare($query);
 
-        $statement->bind_param("s", $userONID);
+        $statement->bind_param("s", $onid);
         $statement->execute();
 
         $result = $statement->get_result();
 
         if ($result->num_rows > 0) {
-            $resultArray = $result->fetch_all(MYSQLI_ASSOC);
-            $userData = $resultArray[0];
+            $list = $result->fetch_all(MYSQLI_ASSOC);
+            $user = $list[0];
         } else {
-            $userData = null;
+            $user = null;
         }
 
-        $statement->close();
         $result->free();
+        $statement->close();
 
-        return $userData;
+        return $user;
     }
 
-    public function getUserKey($userONID)
+    /**
+     * Create new user.
+     *
+     * @param string $onid
+     * @param string $email
+     * @param string $first_name
+     * @param string $last_name
+     * @return int;
+     */
+    public function addUser($onid, $email, $first_name, $last_name)
     {
-        $userData = $this->getUserByONID($userONID);
+        // Check if user is in database
+        $user = $this->getUserByONID($onid);
 
-        if ($userData) {
-            return $userData["id"];
-        } else {
-            return -1;
-        }
-    }
-
-    public function addUser($userONID, $email, $first_name, $last_name)
-    {
-        // check if user is in database
-
-        $userData = $this->getUserByONID($userONID);
-
-        // if user is not in database, add user to database
-
-        if ($userData == null) {
+        // If user is not in database, add user to database
+        if ($user == null) {
             $query = "
 
                 INSERT INTO meb_user(onid, email, last_name, first_name)
@@ -130,55 +128,531 @@ class DatabaseInterface
 
             $statement = $this->database->prepare($query);
 
-            $statement->bind_param("ssss", $userONID, $email, $last_name, $first_name);
+            $statement->bind_param("ssss", $onid, $email, $last_name, $first_name);
             $statement->execute();
 
             $result = $statement->affected_rows;
-
             $statement->close();
 
             return $result;
         }
+
+        return 0;
     }
 
-    public function getTimeSlot($slotKey)
+    /**
+     * Get meetings created by user for the manage page.
+     *
+     * @param string $onid
+     * @param string $search_term
+     * @return array
+     */
+    public function getManageMeetings($user_id, $search_term)
     {
-        $query = "
+        if ($search_term) {
+            $events_query = "
 
             SELECT
-            id, hash, start_time, end_time, duration,
-            slot_capacity, spaces_available, is_full, fk_event_id
+            meb_event.id,
+            meb_event.hash,
+            meb_event.name,
+            meb_event.location,
+            meb_event.open_slots,
+            meb_event.capacity,
+            meb_event.mod_date
+            FROM meb_event
+            WHERE meb_event.fk_event_creator = ?
+            AND (
+                meb_event.name LIKE ?
+                OR meb_event.location LIKE ?
+            )
+            ORDER BY meb_event.mod_date DESC
 
-            FROM meb_timeslot
-            WHERE hash = ?
-
-        ";
-
-        $statement = $this->database->prepare($query);
-        $statement->bind_param("s", $slotKey);
-        $statement->execute();
-
-        $result = $statement->get_result();
-
-        if ($result->num_rows > 0) {
-            $resultArray = $result->fetch_all(MYSQLI_ASSOC);
-            $slotData = $resultArray[0];
+            ;";
+            $events = $this->database->prepare($events_query);
+            $partial_match = '%' . $search_term . '%';
+            $events->bind_param("iss", $user_id, $partial_match, $partial_match);
         } else {
-            $slotData = null;
+            $events_query = "
+
+            SELECT
+            meb_event.id,
+            meb_event.hash,
+            meb_event.name,
+            meb_event.location,
+            meb_event.open_slots,
+            meb_event.capacity,
+            meb_event.mod_date
+            FROM meb_event
+            WHERE meb_event.fk_event_creator = ?
+            ORDER BY meb_event.mod_date DESC
+
+            ;";
+            $events = $this->database->prepare($events_query);
+            $events->bind_param("i", $user_id);
         }
 
-        $statement->close();
-        $result->free();
+        $events->execute();
 
-        return $slotData;
+        $result = $events->get_result();
+        $list = $result->fetch_all(MYSQLI_ASSOC);
+        $result->free();
+        $events->close();
+
+        return $list;
     }
 
-    private function addTimeSlots($slotData, $eventID)
+    /**
+     * Get aggregated timeslot dates for meeting.
+     *
+     * @param int $id
+     * @return array
+     */
+    public function getDatesByMeetingId($id)
+    {
+        $timeslots_query = "
+
+        SELECT DISTINCT DATE_FORMAT(start_time, '%Y-%m-%d') AS date FROM meb_timeslot
+        WHERE fk_event_id = ?
+        ORDER BY date ASC
+
+        ;";
+
+        $timeslots = $this->database->prepare($timeslots_query);
+        $timeslots->bind_param("i", $id);
+        $timeslots->execute();
+
+        $result = $timeslots->get_result();
+        $list = $result->fetch_all(MYSQLI_ASSOC);
+        $result->free();
+        $timeslots->close();
+
+        return $list;
+    }
+
+    /**
+     * Get timeslots for meeting.
+     *
+     * @param int $id
+     * @return array
+     */
+    public function getTimeslotsByMeetingId($id)
+    {
+        $timeslots_query = "
+
+        SELECT
+        id,
+        hash,
+        duration,
+        slot_capacity,
+        start_time
+        FROM meb_timeslot
+        WHERE fk_event_id = ?
+
+        ;";
+
+        $timeslots = $this->database->prepare($timeslots_query);
+        $timeslots->bind_param("i", $id);
+        $timeslots->execute();
+
+        $result = $timeslots->get_result();
+        $list = $result->fetch_all(MYSQLI_ASSOC);
+        $result->free();
+        $timeslots->close();
+
+        return $list;
+    }
+
+    /**
+     * Get meetings created by user or where they're an attendee for the calendar page.
+     *
+     * @param int $user_id
+     * @return array
+     */
+    public function getCalendarMeetings($user_id)
+    {
+        $bookings_query = "
+
+        SELECT
+        DISTINCT(meb_timeslot.hash),
+        meb_event.id,
+        meb_event.hash AS meeting_hash,
+        meb_event.name,
+        meb_event.location,
+        meb_event.fk_event_creator AS creator_id,
+        meb_timeslot.start_time,
+        meb_timeslot.end_time,
+        meb_creator.email AS creator_email,
+        CONCAT(meb_creator.first_name, ' ', meb_creator.last_name) AS creator_name,
+        meb_creator.onid AS creator_onid
+        FROM meb_timeslot
+        INNER JOIN meb_event ON meb_event.id = meb_timeslot.fk_event_id
+        INNER JOIN meb_user AS meb_creator ON meb_creator.id = meb_event.fk_event_creator
+        INNER JOIN meb_booking ON meb_timeslot.id = meb_booking.fk_timeslot_id
+        WHERE (meb_creator.id = ? OR meb_booking.fk_user_id = ?)
+        ORDER BY meb_timeslot.start_time ASC
+
+        ;";
+
+        $bookings = $this->database->prepare($bookings_query);
+        $bookings->bind_param("ii", $user_id, $user_id);
+        $bookings->execute();
+
+        $result = $bookings->get_result();
+        $list = $result->fetch_all(MYSQLI_ASSOC);
+        $result->free();
+        $bookings->close();
+
+        return $list;
+    }
+
+    /**
+     * Get upcoming meetings created by user or where they're an attendee for the meetings page.
+     *
+     * @param int $user_id
+     * @return array
+     */
+    public function getAllUpcomingMeetings($user_id)
+    {
+        $bookings_query = "
+
+        SELECT
+        DISTINCT(meb_timeslot.hash),
+        meb_event.id,
+        meb_event.hash AS meeting_hash,
+        meb_event.name,
+        meb_event.location,
+        meb_event.description,
+        meb_event.is_anon,
+        meb_event.fk_event_creator AS creator_id,
+        meb_timeslot.start_time,
+        meb_timeslot.end_time,
+        meb_user.email AS attendee_email,
+        meb_files.path AS attendee_file,
+        CONCAT(meb_user.first_name, ' ', meb_user.last_name) AS attendee_name,
+        meb_user.onid AS attendee_onid,
+        meb_event.event_file AS creator_file,
+        meb_creator.email AS creator_email,
+        CONCAT(meb_creator.first_name, ' ', meb_creator.last_name) AS creator_name,
+        meb_creator.onid AS creator_onid
+        FROM meb_timeslot
+        INNER JOIN meb_event ON meb_event.id = meb_timeslot.fk_event_id
+        INNER JOIN meb_user AS meb_creator ON meb_creator.id = meb_event.fk_event_creator
+        INNER JOIN meb_booking ON meb_timeslot.id = meb_booking.fk_timeslot_id
+        LEFT OUTER JOIN meb_user ON  meb_user.id = meb_booking.fk_user_id
+        LEFT OUTER JOIN meb_files ON meb_files.fk_booking_id = meb_booking.id
+        WHERE (meb_creator.id = ? OR ? IN (
+            SELECT meb_booking2.fk_user_id
+            FROM meb_timeslot AS meb_timeslot2
+            INNER JOIN meb_booking AS meb_booking2 ON meb_booking2.fk_timeslot_id = meb_timeslot2.id
+            INNER JOIN meb_event AS meb_event2 ON meb_event2.id = meb_timeslot2.fk_event_id
+            WHERE meb_timeslot2.hash = meb_timeslot.hash
+        ))
+        AND meb_timeslot.start_time > now()
+        ORDER BY meb_timeslot.start_time ASC
+
+        ;";
+
+        $bookings = $this->database->prepare($bookings_query);
+        $bookings->bind_param("ii", $user_id, $user_id);
+        $bookings->execute();
+
+        $result = $bookings->get_result();
+        $list = $result->fetch_all(MYSQLI_ASSOC);
+        $result->free();
+        $bookings->close();
+
+        return $list;
+    }
+
+    /**
+     * Get upcoming meetings created by user for the meetings page.
+     *
+     * @param int $user_id
+     * @return array
+     */
+    public function getUpcomingMeetingsByCreator($user_id)
+    {
+        $bookings_query = "
+
+        SELECT
+        DISTINCT(meb_timeslot.hash),
+        meb_event.id,
+        meb_event.hash AS meeting_hash,
+        meb_event.name,
+        meb_event.location,
+        meb_event.description,
+        meb_event.is_anon,
+        meb_event.fk_event_creator AS creator_id,
+        meb_timeslot.start_time,
+        meb_timeslot.end_time,
+        meb_files.path AS attendee_file,
+        meb_user.email AS attendee_email,
+        CONCAT(meb_user.first_name, ' ', meb_user.last_name) AS attendee_name,
+        meb_user.onid AS attendee_onid,
+        meb_event.event_file AS creator_file,
+        meb_creator.email AS creator_email,
+        CONCAT(meb_creator.first_name, ' ', meb_creator.last_name) AS creator_name,
+        meb_creator.onid AS creator_onid
+        FROM meb_timeslot
+        INNER JOIN meb_event ON meb_event.id = meb_timeslot.fk_event_id
+        INNER JOIN meb_user AS meb_creator ON meb_creator.id = meb_event.fk_event_creator
+        INNER JOIN meb_booking ON meb_timeslot.id = meb_booking.fk_timeslot_id
+        LEFT OUTER JOIN meb_user ON  meb_user.id = meb_booking.fk_user_id
+        LEFT OUTER JOIN meb_files ON meb_files.fk_booking_id = meb_booking.id
+        WHERE meb_creator.id = ?
+        AND meb_timeslot.start_time > now()
+        ORDER BY meb_timeslot.start_time ASC
+
+        ;";
+
+        $bookings = $this->database->prepare($bookings_query);
+        $bookings->bind_param("i", $user_id);
+        $bookings->execute();
+
+        $result = $bookings->get_result();
+        $list = $result->fetch_all(MYSQLI_ASSOC);
+        $result->free();
+        $bookings->close();
+
+        return $list;
+    }
+
+    /**
+     * Get past meetings created by user or where they're an attendee for the meetings page.
+     *
+     * @param int $user_id
+     * @return array
+     */
+    public function getPastMeetings($user_id)
+    {
+        $bookings_query = "
+
+        SELECT
+        DISTINCT(meb_timeslot.hash),
+        meb_event.id,
+        meb_event.hash AS meeting_hash,
+        meb_event.name,
+        meb_event.location,
+        meb_event.description,
+        meb_event.is_anon,
+        meb_event.fk_event_creator AS creator_id,
+        meb_timeslot.start_time,
+        meb_timeslot.end_time,
+        meb_files.path AS attendee_file,
+        meb_user.email AS attendee_email,
+        CONCAT(meb_user.first_name, ' ', meb_user.last_name) AS attendee_name,
+        meb_user.onid AS attendee_onid,
+        meb_event.event_file AS creator_file,
+        meb_creator.email AS creator_email,
+        CONCAT(meb_creator.first_name, ' ', meb_creator.last_name) AS creator_name,
+        meb_creator.onid AS creator_onid
+        FROM meb_timeslot
+        INNER JOIN meb_event ON meb_event.id = meb_timeslot.fk_event_id
+        INNER JOIN meb_user AS meb_creator ON meb_creator.id = meb_event.fk_event_creator
+        INNER JOIN meb_booking ON meb_timeslot.id = meb_booking.fk_timeslot_id
+        LEFT OUTER JOIN meb_user ON  meb_user.id = meb_booking.fk_user_id
+        LEFT OUTER JOIN meb_files ON meb_files.fk_booking_id = meb_booking.id
+        WHERE (meb_creator.id = ? OR ? IN (
+            SELECT meb_booking2.fk_user_id
+            FROM meb_timeslot AS meb_timeslot2
+            INNER JOIN meb_booking AS meb_booking2 ON meb_booking2.fk_timeslot_id = meb_timeslot2.id
+            INNER JOIN meb_event AS meb_event2 ON meb_event2.id = meb_timeslot2.fk_event_id
+            WHERE meb_timeslot2.hash = meb_timeslot.hash
+        ))
+        AND meb_timeslot.start_time < now()
+        ORDER BY meb_timeslot.start_time DESC
+
+        ;";
+
+        $bookings = $this->database->prepare($bookings_query);
+        $bookings->bind_param("ii", $user_id, $user_id);
+        $bookings->execute();
+
+        $result = $bookings->get_result();
+        $list = $result->fetch_all(MYSQLI_ASSOC);
+        $result->free();
+        $bookings->close();
+
+        return $list;
+    }
+
+    /**
+     * Search meetings by name, location, creator, or attendee for the meetings page.
+     *
+     * @param int $user_id
+     * @param string $search_term
+     * @return array
+     */
+    public function getMeetingsBySearchTerm($user_id, $search_term)
+    {
+        $bookings_query = "
+
+        SELECT
+        DISTINCT(meb_timeslot.hash),
+        meb_event.id,
+        meb_event.hash AS meeting_hash,
+        meb_event.name,
+        meb_event.location,
+        meb_event.description,
+        meb_event.fk_event_creator AS creator_id,
+        meb_timeslot.start_time,
+        meb_timeslot.end_time,
+        meb_files.path AS attendee_file,
+        meb_user.email AS attendee_email,
+        CONCAT(meb_user.first_name, ' ', meb_user.last_name) AS attendee_name,
+        meb_event.event_file AS creator_file,
+        meb_creator.email AS creator_email,
+        CONCAT(meb_creator.first_name, ' ', meb_creator.last_name) AS creator_name,
+        meb_creator.onid AS creator_onid
+        FROM meb_timeslot
+        INNER JOIN meb_event ON meb_event.id = meb_timeslot.fk_event_id
+        INNER JOIN meb_user AS meb_creator ON meb_creator.id = meb_event.fk_event_creator
+        INNER JOIN meb_booking ON meb_timeslot.id = meb_booking.fk_timeslot_id
+        LEFT OUTER JOIN meb_user ON  meb_user.id = meb_booking.fk_user_id
+        LEFT OUTER JOIN meb_files ON meb_files.fk_booking_id = meb_booking.id
+        WHERE (meb_user.id = ? OR meb_creator.id = ?)
+        AND (
+            meb_event.name LIKE ?
+            OR meb_event.location LIKE ?
+            OR CONCAT(meb_user.first_name, ' ', meb_user.last_name) LIKE ?
+            OR CONCAT(meb_creator.first_name, ' ', meb_creator.last_name) LIKE ?
+        )
+        ORDER BY meb_timeslot.start_time DESC
+
+        ;";
+
+        $bookings = $this->database->prepare($bookings_query);
+
+        $partial_match = '%' . $search_term . '%';
+        $bookings->bind_param("iissss", $user_id, $user_id, $partial_match, $partial_match, $partial_match, $partial_match);
+        $bookings->execute();
+
+        $result = $bookings->get_result();
+        $list = $result->fetch_all(MYSQLI_ASSOC);
+        $result->free();
+        $bookings->close();
+
+        return $list;
+    }
+
+    /**
+     * Get meeting by id for show and edit views.
+     *
+     * @param id $id
+     * @return mixed
+     */
+    public function getMeetingById($id)
+    {
+        $bookings_query = "
+
+        SELECT
+        meb_event.id,
+        meb_event.name,
+        meb_event.location,
+        meb_event.description,
+        meb_event.hash,
+        meb_event.capacity,
+        meb_event.open_slots,
+        meb_event.is_anon,
+        meb_event.enable_upload,
+        meb_event.event_file AS creator_file,
+        meb_event.fk_event_creator AS creator_id,
+        meb_user.email AS creator_email,
+        CONCAT(meb_user.first_name, ' ', meb_user.last_name) AS creator_name
+        FROM meb_event
+        INNER JOIN meb_user ON meb_user.id = meb_event.fk_event_creator
+        WHERE meb_event.id = ?
+        LIMIT 1
+
+        ;";
+
+        $bookings = $this->database->prepare($bookings_query);
+
+        $bookings->bind_param("i", $id);
+        $bookings->execute();
+
+        $result = $bookings->get_result();
+
+        if ($result->num_rows > 0) {
+            $list = $result->fetch_all(MYSQLI_ASSOC);
+            $meeting = $list[0];
+        } else {
+            $meeting = null;
+        }
+
+        $result->free();
+        $bookings->close();
+
+        return $meeting;
+    }
+
+    /**
+     * Get meeting attendees for show view.
+     *
+     * @param id $id
+     * @return array
+     */
+    public function getMeetingAttendees($id)
+    {
+        $bookings_query = "
+
+        SELECT
+        meb_event.id,
+        meb_event.name,
+        meb_event.hash,
+        meb_event.location,
+        meb_timeslot.start_time,
+        meb_timeslot.end_time,
+        meb_timeslot.hash AS timeslot_hash,
+        meb_files.path AS attendee_file,
+        meb_user.email AS attendee_email,
+        CONCAT(meb_user.first_name, ' ', meb_user.last_name) AS attendee_name,
+        meb_user.onid AS attendee_onid
+        FROM meb_booking
+        INNER JOIN meb_timeslot ON meb_timeslot.id = meb_booking.fk_timeslot_id
+        INNER JOIN meb_event ON meb_event.id = meb_timeslot.fk_event_id
+        INNER JOIN meb_user ON meb_user.id = meb_booking.fk_user_id
+        LEFT OUTER JOIN meb_files ON meb_files.fk_booking_id = meb_booking.id
+        WHERE meb_event.id = ?
+        ORDER BY meb_timeslot.start_time ASC
+
+        ;";
+
+        $bookings = $this->database->prepare($bookings_query);
+        $bookings->bind_param("i", $id);
+        $bookings->execute();
+
+        $result = $bookings->get_result();
+        $list = $result->fetch_all(MYSQLI_ASSOC);
+        $result->free();
+        $bookings->close();
+
+        return $list;
+    }
+
+    /**
+     * Add new timeslots when creating meeting.
+     *
+     * @param object $timeslots
+     * @param int $meeting_id
+     * @return int
+     */
+    private function addTimeslots($timeslots, $meeting_id, $duration, $capacity)
     {
         $query = "
 
             INSERT INTO
-            meb_timeslot(hash, start_time, end_time, duration, slot_capacity, spaces_available, is_full, fk_event_id)
+            meb_timeslot(
+                hash,
+                start_time,
+                end_time,
+                duration,
+                slot_capacity,
+                spaces_available,
+                is_full,
+                fk_event_id
+            )
             VALUES (?, ?, ?, ?, ?, ?, ?, ?)
 
         ";
@@ -188,29 +662,26 @@ class DatabaseInterface
         $statement->bind_param(
             "sssiiiii",
             $hash,
-            $startDate,
-            $endDate,
+            $start_time,
+            $end_time,
             $duration,
             $capacity,
-            $spaces,
+            $spaces_available,
             $full,
-            $eventID
+            $meeting_id
         );
 
         $result = 0;
         $full = 0;
 
-        foreach ($slotData["dates"] as $item) {
-            $startDate = $item["startDate"];
-            $endDate = $item["endDate"];
-            $duration = $slotData["duration"];
-            $capacity = $slotData["capacity"];
-            $spaces = $slotData["capacity"];
+        foreach ($timeslots as $timeslot) {
+            $start_time = $timeslot;
+            $end_time = date('Y-m-d H:i:s', strtotime('+' . $duration . ' mins', strtotime($timeslot)));
+            $spaces_available = $capacity;
 
-            $hash = createTimeSlotHash($startDate, $endDate, $eventID);
+            $hash = createTimeSlotHash($start_time, $end_time, $meeting_id);
 
             $statement->execute();
-
             $result += $statement->affected_rows;
         }
 
@@ -219,256 +690,165 @@ class DatabaseInterface
         return $result;
     }
 
-    public function getUserEvents($userONID)
+    /**
+     * Get timeslot attendees.
+     *
+     * @param string $timeslot_hash
+     * @return array
+     */
+    public function getAttendeesByTimeslot($timeslot_hash)
     {
         $query = "
 
             SELECT
-            meb_event.hash AS 'Event Key',
-            meb_event.name AS 'Event Name',
-            CONCAT(CAST(meb_event.open_slots AS CHAR), ' / ', CAST(meb_event.capacity AS CHAR)) AS 'Slots'
-
-            FROM meb_event
-            INNER JOIN meb_user
-            ON meb_event.fk_event_creator = meb_user.id
-            WHERE meb_user.onid = ?
-            ORDER BY meb_event.name
-
-        ";
-
-        $statement = $this->database->prepare($query);
-        $statement->bind_param("s", $userONID);
-        $statement->execute();
-
-        $result = $statement->get_result();
-
-        if ($result->num_rows > 0) {
-            $resultArray = $result->fetch_all(MYSQLI_ASSOC);
-        } else {
-            $resultArray = null;
-        }
-
-        $statement->close();
-        $result->free();
-
-        return $resultArray;
-    }
-
-    public function getEventSlotDetails($eventKey)
-    {
-        $query = "
-
-            SELECT
-            meb_timeslot.duration,
-            meb_timeslot.slot_capacity AS 'capacity'
-
+                meb_user.email AS attendee_email,
+                CONCAT(meb_user.first_name, ' ', meb_user.last_name) AS attendee_name,
+                meb_user.onid AS attendee_onid
             FROM meb_timeslot
-            INNER JOIN meb_event
-            ON meb_event.id = meb_timeslot.fk_event_id
-
-            WHERE meb_event.hash = ?
-            LIMIT 1
-
-        ";
-
-        $statement = $this->database->prepare($query);
-
-        $statement->bind_param("s", $eventKey);
-        $statement->execute();
-
-        $result = $statement->get_result();
-
-        if ($result->num_rows > 0) {
-            $resultArray = $result->fetch_all(MYSQLI_ASSOC);
-            $slotDetails = $resultArray[0];
-        } else {
-            $slotDetails = null;
-        }
-
-        $statement->close();
-        $result->free();
-
-        return $slotDetails;
-    }
-
-    public function getEventBySlotKey($slotKey)
-    {
-        $query = "
-
-            SELECT
-            meb_event.id, meb_event.hash, name, description, location,
-            onid AS 'creator', capacity, open_slots, meb_event.mod_date,
-            is_anon AS 'anonymous', enable_upload AS 'upload'
-
-            FROM meb_event
-            INNER JOIN meb_user
-                ON meb_event.fk_event_creator = meb_user.id
-            INNER JOIN meb_timeslot
-                ON meb_event.id = meb_timeslot.fk_event_id
+            INNER JOIN meb_booking ON meb_booking.fk_timeslot_id = meb_timeslot.id
+            INNER JOIN meb_event ON meb_event.id = meb_timeslot.fk_event_id
+            INNER JOIN meb_user ON meb_booking.fk_user_id = meb_user.id
             WHERE meb_timeslot.hash = ?
 
         ";
 
         $statement = $this->database->prepare($query);
 
-        $statement->bind_param("s", $slotKey);
+        $statement->bind_param("s", $timeslot_hash);
         $statement->execute();
 
         $result = $statement->get_result();
 
-        if ($result->num_rows > 0) {
-            $resultArray = $result->fetch_all(MYSQLI_ASSOC);
-            $eventData = $resultArray[0];
+        $result_array = $result->fetch_all(MYSQLI_ASSOC);
+
+        $statement->close();
+        $result->free();
+
+        return $result_array;
+    }
+
+    /**
+     * Delete timeslot with stored procedure when editing meeting.
+     *
+     * @param string $meeting_hash
+     * @param string $timeslot_hash
+     * @return int
+     */
+    public function deleteTimeslot($meeting_hash, $timeslot_hash)
+    {
+        $meeting = $this->getMeetingByHash($meeting_hash);
+        $meeting_mod_date = $meeting["mod_date"];
+
+        $query = 'CALL meb_delete_slot(?, ?, ?, @res3)';
+
+        $statement = $this->database->prepare($query);
+
+        $statement->bind_param("sss", $meeting_mod_date, $meeting_hash, $timeslot_hash);
+        $statement->execute();
+
+        $query = "SELECT @res3";
+        $result = $this->database->query($query);
+
+        if ($result) {
+            $result_array = $result->fetch_all(MYSQLI_NUM);
+            $error_code = $result_array[0][0];
         } else {
-            $eventData = null;
+            $error_code = -1;
         }
 
         $statement->close();
         $result->free();
 
-        return $eventData;
+        return $error_code;
     }
 
-    public function getEvent($eventKey)
+    /**
+     * Add new timeslot with stored procedure when editing meeting.
+     *
+     * @param string $meeting_hash
+     * @param object $timeslot
+     * @return int
+     */
+    public function addTimeslot($meeting_hash, $timeslot)
     {
-        $query = "
+        $meeting = $this->getMeetingByHash($meeting_hash);
+        $meeting_mod_date = $meeting["mod_date"];
 
-            SELECT
-            meb_event.id, hash, name, description, location, onid AS 'creator',
-            capacity, open_slots, is_anon AS 'anonymous', enable_upload AS 'upload',
-            mod_date, event_file
-
-            FROM meb_event
-            INNER JOIN meb_user ON meb_event.fk_event_creator = meb_user.id
-            WHERE hash = ?
-
-        ";
+        $query = 'CALL meb_add_slot(?, ?, ?, ?, ?, ?, ?, @res2)';
 
         $statement = $this->database->prepare($query);
 
-        $statement->bind_param("s", $eventKey);
-        $statement->execute();
+        $start_time = $timeslot["start_time"];
+        $end_time = $timeslot["end_time"];
+        $duration = $timeslot["duration"];
+        $capacity = $timeslot["capacity"];
 
-        $result = $statement->get_result();
-
-        if ($result->num_rows > 0) {
-            $resultArray = $result->fetch_all(MYSQLI_ASSOC);
-            $eventData = $resultArray[0];
-        } else {
-            $eventData = null;
-        }
-
-        $statement->close();
-        $result->free();
-
-        return $eventData;
-    }
-
-    public function changeEventDetails($eventKey, $eventData)
-    {
-        $name = $eventData["name"];
-        $description = $eventData["description"];
-        $location = $eventData["location"];
-        $isAnonymous = $eventData["anonymous"];
-        $enableUpload = $eventData["upload"];
-
-        $query = "
-
-            UPDATE meb_event
-            SET name = ?, description = ?, location = ?, is_anon = ?, enable_upload = ?
-            WHERE hash = ?
-
-        ";
-
-        $statement = $this->database->prepare($query);
+        $timeslot_hash = createTimeSlotHash($start_time, $end_time, $meeting['id']);
 
         $statement->bind_param(
-            "sssiis",
-            $name,
-            $description,
-            $location,
-            $isAnonymous,
-            $enableUpload,
-            $eventKey
+            'sssssii',
+            $meeting_mod_date,
+            $meeting_hash,
+            $timeslot_hash,
+            $start_time,
+            $end_time,
+            $duration,
+            $capacity
         );
 
         $statement->execute();
 
-        $result = $statement->affected_rows;
+        $query = "SELECT @res2";
+        $result = $this->database->query($query);
+
+        if ($result) {
+            $result_array = $result->fetch_all(MYSQLI_NUM);
+            $error_code = $result_array[0][0];
+        } else {
+            $error_code = -1;
+        }
 
         $statement->close();
+        $result->free();
 
-        return $result;
+        return $error_code;
     }
 
-    public function deleteEvent($eventKey)
+    /**
+     * Add new meeting.
+     *
+     * @param int $user_id
+     * @param object $meeting
+     * @return int
+     */
+    public function addMeeting($user_id, $meeting)
     {
-        $query = "DELETE FROM meb_event WHERE hash = ?";
+        $name = $meeting['name'];
+        $location = $meeting['location'];
+        $description = $meeting['description'];
+        $is_anon = $meeting['is_anon'];
+        $enable_upload = $meeting['enable_upload'];
 
-        $statement = $this->database->prepare($query);
-
-        $statement->bind_param("s", $eventKey);
-        $statement->execute();
-
-        $result = $statement->affected_rows;
-
-        $statement->close();
-
-        return $result;
-    }
-
-    // https://paulund.co.uk/php-delete-directory-and-files-in-directory
-    // this will delete all dir/files inside the uploads/eventHash dir
-    // and will then delete the eventHash dir.
-    public function deleteEventFiles($eventKey)
-    {
-        $dirname = '../uploads/' . $eventKey . '/';
-
-        if (is_dir($dirname)) {
-            $dir_handle = opendir($dirname);
-            if (!$dir_handle) {
-                return false;
-            }
-            while ($file = readdir($dir_handle)) {
-                if ($file != "." && $file != "..") {
-                    if (!is_dir($dirname . "/" . $file)) {
-                        unlink($dirname . "/" . $file);
-                    } else {
-                         delete_directory($dirname . '/' . $file);
-                    }
-                }
-            }
-        }
-        closedir($dir_handle);
-        rmdir($dirname);
-    }
-
-    public function deleteFile($attendeeOnid, $eventKey, $type)
-    {
-        $fileName = $attendeeOnid . $type . '.*';
-        $filePath = '../uploads/' . $eventKey . '/' . $fileName;
-        $files = glob($filePath);
-        foreach ($files as $file) {
-            unlink($file);
-        }
-    }
-
-    public function addEvent($eventData, $slotData)
-    {
-        $name = $eventData["name"];
-        $description = $eventData["description"];
-        $creator = $eventData["creator"];
-        $location = $eventData["location"];
-        $capacity = $eventData["capacity"];
-        $openSlots = $eventData["capacity"];
-        $anonymous = $eventData["anonymous"];
-        $upload = $eventData["upload"];
-
-        $hash = createEventHash($name, $description, $creator, $location);
+        $hash = createEventHash($name, $description, $user_id, $location);
+        $timeslots = $meeting['timeslots'];
+        $duration = $meeting['duration'];
+        $slot_capacity = $meeting['slot_capacity'];
+        $capacity = $slot_capacity * count($timeslots);
+        $open_slots = $capacity;
 
         $query = "
 
-            INSERT INTO meb_event(hash, name, description, fk_event_creator, location, capacity, open_slots, is_anon, enable_upload)
+            INSERT INTO meb_event(
+                hash,
+                name,
+                description,
+                location,
+                fk_event_creator,
+                capacity,
+                open_slots,
+                is_anon,
+                enable_upload
+            )
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
 
         ";
@@ -476,22 +856,76 @@ class DatabaseInterface
         $statement = $this->database->prepare($query);
 
         $statement->bind_param(
-            "sssisiiii",
+            "ssssiiiii",
             $hash,
             $name,
             $description,
-            $creator,
             $location,
+            $user_id,
             $capacity,
-            $openSlots,
-            $anonymous,
-            $upload
+            $open_slots,
+            $is_anon,
+            $enable_upload
         );
 
         $statement->execute();
 
-        $newEventID = $this->database->insert_id;
-        $this->addTimeSlots($slotData, $newEventID);
+        $new_event_id = $this->database->insert_id;
+        $this->addTimeslots($timeslots, $new_event_id, $duration, $slot_capacity);
+
+        $result = $new_event_id;
+
+        $statement->close();
+
+        return $result;
+    }
+
+    /**
+     * Update meeting.
+     *
+     * @param int $user_id
+     * @param object $meeting
+     * @return int
+     */
+    public function updateMeeting($user_id, $meeting)
+    {
+        $id = $meeting['id'];
+        $name = $meeting['name'];
+        $location = $meeting['location'];
+        $description = $meeting['description'];
+        $is_anon = $meeting['is_anon'];
+        $enable_upload = $meeting['enable_upload'];
+        $capacity = $meeting['capacity'];
+
+        $query = "
+
+            UPDATE meb_event
+            SET name = ?,
+            location = ?,
+            description = ?,
+            is_anon = ?,
+            enable_upload = ?,
+            capacity = ?
+            WHERE id = ?
+            AND fk_event_creator = ?
+
+        ";
+
+        $statement = $this->database->prepare($query);
+
+        $statement->bind_param(
+            "sssiiiii",
+            $name,
+            $location,
+            $description,
+            $is_anon,
+            $enable_upload,
+            $capacity,
+            $id,
+            $user_id
+        );
+
+        $statement->execute();
 
         $result = $statement->affected_rows;
 
@@ -500,361 +934,195 @@ class DatabaseInterface
         return $result;
     }
 
-    public function getRegistrationData($eventKey, $userONID)
+    /**
+     * Get meeting by hash for invite page.
+     *
+     * @param string $hash
+     * @return mixed
+     */
+    public function getMeetingByHash($hash)
     {
-        $query = "
+        $bookings_query = "
 
-            SELECT
-            T.hash, T.start_time, T.duration,
-            T.slot_capacity, T.spaces_available, T.is_full,
-            E.description, E.location,
-            IF(U.onid = ?, TRUE, FALSE)
+        SELECT
+        meb_event.id,
+        meb_event.name,
+        meb_event.location,
+        meb_event.description,
+        meb_event.hash,
+        meb_event.capacity,
+        meb_event.open_slots,
+        meb_event.is_anon,
+        meb_event.enable_upload,
+        meb_event.mod_date,
+        meb_event.event_file AS creator_file,
+        meb_event.fk_event_creator AS creator_id,
+        meb_user.email AS creator_email,
+        CONCAT(meb_user.first_name, ' ', meb_user.last_name) AS creator_name
+        FROM meb_event
+        INNER JOIN meb_user ON meb_user.id = meb_event.fk_event_creator
+        WHERE meb_event.hash = ?
+        LIMIT 1
 
-            FROM meb_timeslot T
-            INNER JOIN meb_event E
-                ON T.fk_event_id = E.id
-            LEFT JOIN meb_booking B
-                ON T.id = B.fk_timeslot_id
-            LEFT JOIN meb_user U
-                ON B.fk_user_id = U.id
-            WHERE E.hash = ?
-			ORDER BY T.start_time
+        ;";
 
-        ";
+        $bookings = $this->database->prepare($bookings_query);
 
-        $statement = $this->database->prepare($query);
+        $bookings->bind_param("s", $hash);
+        $bookings->execute();
 
-        $statement->bind_param("ss", $userONID, $eventKey);
-        $statement->execute();
-
-        $result = $statement->get_result();
+        $result = $bookings->get_result();
 
         if ($result->num_rows > 0) {
-            $resultArray = $result->fetch_all(MYSQLI_ASSOC);
+            $list = $result->fetch_all(MYSQLI_ASSOC);
+            $meeting = $list[0];
         } else {
-            $resultArray = null;
+            $meeting = null;
         }
 
-        $statement->close();
         $result->free();
+        $bookings->close();
 
-        return $resultArray;
+        return $meeting;
     }
 
-    public function getEditingData($eventKey)
+    /**
+     * Get booking and timeslot info for attendee on invite page.
+     *
+     * @param int $user_id
+     * @param string $date
+     * @return mixed
+     */
+    public function getMeetingForUserId($user_id, $hash)
     {
-        $query = "
+        $bookings_query = "
 
-            SELECT
-            t0.hash AS 'eventHash', t0.name, t0.description,
-            t0.location, t1.onid AS 'creator', t2.hash AS 'slotHash',
-            t2.start_time AS 'startTime', t2.end_time AS 'endTime',
-            t2.duration, t2.slot_capacity AS 'capacity',
-            t0.is_anon AS 'anonymous', t0.enable_upload as 'upload'
+        SELECT
+        meb_booking.id,
+        meb_booking.fk_timeslot_id AS timeslot_id,
+        meb_event.hash AS meeting_hash,
+        meb_event.name,
+        meb_event.location,
+        meb_timeslot.hash AS timeslot_hash,
+        meb_timeslot.start_time,
+        meb_timeslot.end_time,
+        meb_files.path AS attendee_file,
+        meb_user.email AS attendee_email,
+        CONCAT(meb_user.first_name, ' ', meb_user.last_name) AS attendee_name,
+        meb_creator.email AS creator_email,
+        CONCAT(meb_creator.first_name, ' ', meb_creator.last_name) AS creator_name
+        FROM meb_booking
+        INNER JOIN meb_timeslot ON meb_timeslot.id = meb_booking.fk_timeslot_id
+        INNER JOIN meb_event ON meb_event.id = meb_timeslot.fk_event_id
+        INNER JOIN meb_user ON meb_user.id = meb_booking.fk_user_id
+        INNER JOIN meb_user AS meb_creator ON meb_creator.id = meb_event.fk_event_creator
+        LEFT OUTER JOIN meb_files ON meb_files.fk_booking_id = meb_booking.id
+        WHERE meb_booking.fk_user_id = ?
+        AND meb_event.hash = ?
+        LIMIT 1
 
-            FROM meb_event AS t0
-            INNER JOIN meb_user AS t1
-                ON t0.fk_event_creator = t1.id
-            INNER JOIN meb_timeslot AS t2
-                ON t0.id = t2.fk_event_id
+        ;";
 
-            WHERE t0.hash = ?
-            ORDER BY t2.start_time ASC
+        $bookings = $this->database->prepare($bookings_query);
+        $bookings->bind_param("is", $user_id, $hash);
+        $bookings->execute();
 
-        ";
-
-        $statement = $this->database->prepare($query);
-
-        $statement->bind_param("s", $eventKey);
-        $statement->execute();
-
-        $result = $statement->get_result();
-
-        $resultObjects = [];
-
-        while (1) {
-            $resultObject = $result->fetch_object();
-            if ($resultObject == null) {
-                break;
-            }
-            $resultObjects[] = $resultObject;
-        }
-
-        $statement->close();
-        $result->free();
-
-        return $resultObjects;
-    }
-
-    public function getDashboardData($userONID)
-    {
-        $query = "
-
-            SELECT
-            U.onid AS 'user',
-            E.name AS 'event_name',
-            E.location AS 'event_location',
-            E.description AS 'event_description',
-            T.start_time AS 'start_time',
-            T.end_time as 'end_time',
-            T.duration as 'slot_duration',
-            T.spaces_available as 'slots_remaining',
-            U1.first_name as 'ec_first_name',
-            U1.last_name as 'ec_last_name',
-            U1.email as 'ec_email'
-
-            FROM meb_booking
-            INNER JOIN meb_user U
-                ON meb_booking.fk_user_id = U.id
-            INNER JOIN meb_timeslot T
-                ON meb_booking.fk_timeslot_id = T.id
-            INNER JOIN meb_event E
-                ON T.fk_event_id = E.id
-            INNER JOIN meb_user U1
-                ON E.fk_event_creator = U1.id
-
-            WHERE U.onid = ?
-            ORDER BY T.start_time
-
-        ";
-
-        $statement = $this->database->prepare($query);
-
-        $statement->bind_param("s", $userONID);
-        $statement->execute();
-
-        $result = $statement->get_result();
+        $result = $bookings->get_result();
 
         if ($result->num_rows > 0) {
-            $resultArray = $result->fetch_all(MYSQLI_ASSOC);
+            $list = $result->fetch_all(MYSQLI_ASSOC);
+            $meeting = $list[0];
         } else {
-            $resultArray = null;
+            $meeting = null;
         }
 
-        $statement->close();
         $result->free();
+        $bookings->close();
 
-        return $resultArray;
+        return $meeting;
     }
 
-    public function getAttendeeData($eventKey)
+    /**
+     * Get aggregated available dates for invite page.
+     *
+     * @param string $hash
+     * @return array
+     */
+    public function getAvailableDates($hash)
     {
-        $query = "
+        $timeslots_query = "
 
-            SELECT
-            t1.start_time AS 'Time Slot Start Time',
-            CONCAT(t2.first_name, ' ', t2.last_name, ' — ', t2.onid) AS 'Attendee Name — ONID',
-            f.path AS 'File'
+        SELECT DISTINCT DATE_FORMAT(start_time, '%Y-%m-%d') AS date
+        FROM meb_timeslot
+        INNER JOIN meb_event ON meb_event.id = meb_timeslot.fk_event_id
+        WHERE meb_event.hash = ?
+        AND meb_timeslot.is_full = false
+        ORDER BY date ASC
 
-            FROM meb_booking AS t0
-            INNER JOIN meb_timeslot AS t1
-                ON t0.fk_timeslot_id = t1.id
-            LEFT JOIN meb_files as f
-                ON t0.id = f.fk_booking_id
-            INNER JOIN meb_user AS t2
-                ON t0.fk_user_id = t2.id
-            INNER JOIN meb_event AS t3
-                ON t1.fk_event_id = t3.id
+        ;";
 
-            WHERE t3.hash = ?
-            ORDER BY t1.start_time AND t2.first_name
+        $timeslots = $this->database->prepare($timeslots_query);
+        $timeslots->bind_param("s", $hash);
+        $timeslots->execute();
 
-        ";
-
-        $statement = $this->database->prepare($query);
-
-        $statement->bind_param("s", $eventKey);
-        $statement->execute();
-
-        $result = $statement->get_result();
-
-        if ($result->num_rows > 0) {
-            $resultArray = $result->fetch_all(MYSQLI_ASSOC);
-        } else {
-            $resultArray = null;
-        }
-
-        $statement->close();
+        $result = $timeslots->get_result();
+        $list = $result->fetch_all(MYSQLI_ASSOC);
         $result->free();
+        $timeslots->close();
 
-        return $resultArray;
+        return $list;
     }
 
-    public function getReservationData($userONID)
+    /**
+     * Get available timeslots for invite page.
+     *
+     * @param string $hash
+     * @param string $date
+     * @return array
+     */
+    public function getAvailableTimeslots($hash, $date)
     {
-        $query = "
+        $timeslots_query = "
 
-            SELECT
-            t2.name AS 'Event',
-            t1.start_time AS 'Start Time',
-            t2.location AS 'Location',
-            t2.hash AS 'Event Key',
-            t1.hash AS 'Time Slot Key'
+        SELECT
+        meb_timeslot.id,
+        meb_timeslot.start_time,
+        meb_timeslot.end_time
+        FROM meb_timeslot
+        INNER JOIN meb_event ON meb_event.id = meb_timeslot.fk_event_id
+        WHERE meb_event.hash = ?
+        AND DATE_FORMAT(meb_timeslot.start_time, '%Y-%m-%d') = ?
+        AND meb_timeslot.is_full = false
+        ORDER BY meb_timeslot.start_time ASC
 
-            FROM meb_booking AS t0
-            INNER JOIN meb_timeslot AS t1
-                ON t0.fk_timeslot_id = t1.id
-            INNER JOIN meb_event AS t2
-                ON t1.fk_event_id = t2.id
-            INNER JOIN meb_user AS t3
-                ON t0.fk_user_id = t3.id
-            INNER JOIN meb_user AS t4
-                ON t2.fk_event_creator = t4.id
+        ;";
 
-            WHERE t3.onid = ?
-            ORDER BY t1.start_time
+        $timeslots = $this->database->prepare($timeslots_query);
+        $timeslots->bind_param("ss", $hash, $date);
+        $timeslots->execute();
 
-        ";
-
-        $statement = $this->database->prepare($query);
-
-        $statement->bind_param("s", $userONID);
-        $statement->execute();
-
-        $result = $statement->get_result();
-
-        if ($result->num_rows > 0) {
-            $resultArray = $result->fetch_all(MYSQLI_ASSOC);
-        } else {
-            $resultArray = null;
-        }
-
-        $statement->close();
+        $result = $timeslots->get_result();
+        $list = $result->fetch_all(MYSQLI_ASSOC);
         $result->free();
+        $timeslots->close();
 
-        return $resultArray;
+        return $list;
     }
 
-    public function getReservationDetails($slotKey, $userONID)
-    {
-        $query = "
-
-            SELECT
-            t3.hash, t3.name, t3.location, t3.description, t3.enable_upload AS 'upload',
-            t3.event_file,
-            CONCAT(t4.first_name, ' ', t4.last_name) AS 'creator',
-            t1.start_time, t1.end_time, t5.path AS 'file'
-
-            FROM meb_booking AS t0
-            INNER JOIN meb_timeslot AS t1
-                ON t0.fk_timeslot_id = t1.id
-            INNER JOIN meb_user AS t2
-                ON t0.fk_user_id = t2.id
-            INNER JOIN meb_event AS t3
-                ON t1.fk_event_id = t3.id
-            INNER JOIN meb_user AS t4
-                ON t3.fk_event_creator = t4.id
-            LEFT JOIN meb_files AS t5
-                ON t0.id = t5.fk_booking_id
-
-            WHERE t1.hash = ? AND t2.onid = ?
-
-        ";
-
-        $statement = $this->database->prepare($query);
-
-        $statement->bind_param("ss", $slotKey, $userONID);
-        $statement->execute();
-
-        $result = $statement->get_result();
-
-        if ($result->num_rows > 0) {
-            $resultArray = $result->fetch_all(MYSQLI_ASSOC);
-            $reservationDetails = $resultArray[0];
-        } else {
-            $reservationDetails = null;
-        }
-
-        $statement->close();
-        $result->free();
-
-        return $reservationDetails;
-    }
-
-    public function getUsersOfSlot($slotKey)
-    {
-        $query = "
-
-            SELECT
-            u.email, u.first_name AS 'first_name', u.last_name AS 'last_name'
-
-            FROM meb_timeslot t
-            INNER JOIN meb_booking b
-                ON t.id = b.fk_timeslot_id
-            INNER JOIN meb_user u
-                ON b.fk_user_id = u.id
-            INNER JOIN meb_event e
-                ON t.fk_event_id = e.id
-
-            WHERE t.hash = ?
-
-        ";
-
-        $statement = $this->database->prepare($query);
-
-        $statement->bind_param("s", $slotKey);
-        $statement->execute();
-
-        $result = $statement->get_result();
-
-        if ($result->num_rows > 0) {
-            $resultArray = $result->fetch_all(MYSQLI_ASSOC);
-        } else {
-            $resultArray = null;
-        }
-
-        $statement->close();
-        $result->free();
-
-        return $resultArray;
-    }
-
-    public function getUserBooking($slotKey, $userONID)
-    {
-        $query = "
-
-            SELECT
-            b.id, fk_timeslot_id AS 'slotID', fk_user_id AS 'userID'
-
-            FROM meb_booking AS b
-            INNER JOIN meb_timeslot AS t
-            ON t.id = b.fk_timeslot_id
-            INNER JOIN meb_user AS u
-            ON u.id = b.fk_user_id
-
-            WHERE t.hash = ? AND u.onid = ?
-
-        ";
-
-        $statement = $this->database->prepare($query);
-
-        $statement->bind_param("ss", $slotKey, $userONID);
-        $statement->execute();
-
-        $result = $statement->get_result();
-
-        if ($result->num_rows > 0) {
-            $resultArray = $result->fetch_all(MYSQLI_ASSOC);
-            $bookingData = $resultArray[0];
-        } else {
-            $bookingData = null;
-        }
-
-        $statement->close();
-        $result->free();
-
-        return $bookingData;
-    }
-
-    public function reserveTimeSlot($slotID, $userID)
+    /**
+     * Add booking.
+     *
+     * @param id $user_id
+     * @param id $timeslot_id
+     * @return int
+     */
+    public function addBooking($user_id, $timeslot_id)
     {
         $query = "CALL meb_reserve_slot(?, ?, @res1)";
 
         $statement = $this->database->prepare($query);
-
-        $statement->bind_param("ii", $slotID, $userID);
+        $statement->bind_param("ii", $timeslot_id, $user_id);
         $statement->execute();
-        $statement->close();
 
         $query = "SELECT @res1";
         $result = $this->database->query($query);
@@ -866,19 +1134,25 @@ class DatabaseInterface
             $errorCode = -1;
         }
 
-        $statement->close();
         $result->free();
+        $statement->close();
 
         return $errorCode;
     }
 
-    public function deleteReservation($slotKey, $userONID)
+    /**
+     * Delete booking.
+     *
+     * @param string $onid
+     * @param string $timeslot_hash
+     * @return array
+     */
+    public function deleteBooking($onid, $timeslot_hash)
     {
         $query = "CALL meb_delete_reservation(?, ?, @res1)";
 
         $statement = $this->database->prepare($query);
-
-        $statement->bind_param("ss", $slotKey, $userONID);
+        $statement->bind_param("ss", $timeslot_hash, $onid);
         $statement->execute();
 
         $query = "SELECT @res1";
@@ -891,24 +1165,75 @@ class DatabaseInterface
             $errorCode = -1;
         }
 
-        $statement->close();
         $result->free();
+        $statement->close();
 
         return $errorCode;
     }
 
-    public function replaceFilePath($filePath, $fileID)
+    /**
+     * Get invitations that the user does not have a booking for.
+     *
+     * @param string $onid
+     * @return array of events
+     */
+    public function getInvites($onid)
+    {
+        $get_invite_query = "
+
+        SELECT
+        meb_event.id,
+        meb_event.name,
+        meb_event.description,
+        meb_event.hash,
+        meb_event.location,
+        meb_user.id AS creator_id,
+        meb_user.email AS creator_email,
+        CONCAT(meb_user.first_name, ' ', meb_user.last_name) AS creator_name
+
+        FROM meb_event
+        INNER JOIN meb_user ON meb_user.id = meb_event.fk_event_creator
+        INNER JOIN meb_invites ON meb_event.id = meb_invites.fk_event_id
+        WHERE meb_invites.user_onid = ?
+        AND fk_event_id NOT IN
+          (SELECT fk_event_id FROM meb_timeslot
+          INNER JOIN meb_booking ON meb_timeslot.id = meb_booking.fk_timeslot_id
+          INNER JOIN meb_user ON meb_booking.fk_user_id = meb_user.id
+          WHERE meb_user.onid = ?)
+      ";
+
+        $getList = $this->database->prepare($get_invite_query);
+        $getList->bind_param("ss", $onid, $onid);
+        $getList->execute();
+
+        $result = $getList->get_result();
+        $list = $result->fetch_all(MYSQLI_ASSOC);
+        $result->free();
+        $getList->close();
+
+        return $list;
+    }
+
+    /**
+     * Delete invite.
+     *
+     * @param string $onid
+     * @param int $event_id
+     * @return int
+     */
+    public function deleteInvite($onid, $event_id)
     {
         $query = "
 
-            UPDATE meb_files
-            SET path = ? WHERE id = ?
+        DELETE
+        FROM meb_invites
+        WHERE user_onid = ?
+        AND fk_event_id = ?
 
-        ";
+        ;";
 
         $statement = $this->database->prepare($query);
-
-        $statement->bind_param("si", $filePath, $fileID);
+        $statement->bind_param("si", $onid, $event_id);
         $statement->execute();
 
         $result = $statement->affected_rows;
@@ -918,7 +1243,14 @@ class DatabaseInterface
         return $result;
     }
 
-    public function getFile($bookingID)
+
+    /**
+     * Get attendee uploaded file.
+     *
+     * @param int $booking_id
+     * @return mixed
+     */
+    public function getFile($booking_id)
     {
         $query = "
 
@@ -930,38 +1262,68 @@ class DatabaseInterface
 
         $statement = $this->database->prepare($query);
 
-        $statement->bind_param("i", $bookingID);
+        $statement->bind_param("i", $booking_id);
         $statement->execute();
 
         $result = $statement->get_result();
 
         if ($result->num_rows > 0) {
             $resultArray = $result->fetch_all(MYSQLI_ASSOC);
-            $fileData = $resultArray[0];
+            $file = $resultArray[0];
         } else {
-            $fileData = null;
+            $file = null;
         }
 
         $statement->close();
         $result->free();
 
-        return $fileData;
+        return $file;
     }
 
-    public function addFile($filePath, $bookingID)
+    /**
+     * Update attendee uploaded file.
+     *
+     * @param string $file_path
+     * @param int $file_id
+     * @return int
+     */
+    public function replaceFilePath($file_path, $file_id)
     {
-        // if there exists file associated with booking
-        // replace path for that file
+        $query = "
 
-        $fileData = $this->getFile($bookingID);
+            UPDATE meb_files
+            SET path = ? WHERE id = ?
 
-        if ($fileData) {
-            $result = $this->replaceFilePath($filePath, $fileData["id"]);
+        ";
+
+        $statement = $this->database->prepare($query);
+        $statement->bind_param("si", $file_path, $file_id);
+        $statement->execute();
+
+        $result = $statement->affected_rows;
+        $statement->close();
+
+        return $result;
+    }
+
+    /**
+     * Add attendee uploaded file.
+     *
+     * @param string $file_path
+     * @param int $booking_id
+     * @return int
+     */
+    public function addFile($file_path, $booking_id)
+    {
+        // If there exists file associated with booking, replace path for that file
+        $file = $this->getFile($booking_id);
+
+        if ($file) {
+            $result = $this->replaceFilePath($file_path, $file['id']);
             return 1;
         }
 
-        // add file path associated with booking
-
+        // Add file path associated with booking
         $query = "
 
             INSERT INTO meb_files(path, fk_booking_id)
@@ -970,18 +1332,23 @@ class DatabaseInterface
         ";
 
         $statement = $this->database->prepare($query);
-
-        $statement->bind_param("si", $filePath, $bookingID);
+        $statement->bind_param("si", $file_path, $booking_id);
         $statement->execute();
 
         $result = $statement->affected_rows;
-
         $statement->close();
 
         return $result;
     }
 
-    public function addEventFile($filePath, $eventKey)
+    /**
+     * Add creator uploaded file.
+     *
+     * @param string $file_path
+     * @param string $meeting_hash
+     * @return array
+     */
+    public function addEventFile($file_path, $meeting_hash)
     {
         $queryClearFile = "
 
@@ -991,8 +1358,7 @@ class DatabaseInterface
        ";
 
         $statementClearFile = $this->database->prepare($queryClearFile);
-
-        $statementClearFile->bind_param("s", $eventKey);
+        $statementClearFile->bind_param("s", $meeting_hash);
         $statementClearFile->execute();
 
         $statementClearFile->close();
@@ -1006,7 +1372,7 @@ class DatabaseInterface
 
         $statementUpdateFile = $this->database->prepare($queryUpdateFile);
 
-        $statementUpdateFile->bind_param("ss", $filePath, $eventKey);
+        $statementUpdateFile->bind_param("ss", $file_path, $meeting_hash);
         $statementUpdateFile->execute();
 
         $result = $statementUpdateFile->affected_rows;
@@ -1016,217 +1382,56 @@ class DatabaseInterface
         return $result;
     }
 
-    public function editEvent_deleteSlot($eventKey, $slotKey)
+    /**
+     * Get list of onids that have not registered
+     * for an event.
+     *
+     * @param object $eventId
+     * @return string array
+     */
+    public function getNotRegistered($eventId)
     {
-        // get event mod date and and event key
 
-        $eventData = $this->getEvent($eventKey);
-        $oldModDate = $eventData["mod_date"];
+        $not_reg_query = "
 
-        // use stored procedure to delete slot
+       SELECT user_onid FROM meb_invites
+       WHERE fk_event_id = ? AND user_onid NOT IN
+         (SELECT DISTINCT user_onid FROM meb_invites
+         INNER JOIN meb_user ON meb_user.onid = meb_invites.user_onid
+         INNER JOIN meb_booking ON meb_booking.fk_user_id = meb_user.id
+         INNER JOIN meb_timeslot ON meb_booking.fk_timeslot_id = meb_timeslot.id
+         INNER JOIN meb_event ON meb_event.id = meb_timeslot.fk_event_id
+         where meb_timeslot.fk_event_id = ?)
+       ";
 
-        $query = 'CALL meb_delete_slot(?, ?, ?, @res3)';
+        $getList = $this->database->prepare($not_reg_query);
 
-        $statement = $this->database->prepare($query);
+        $getList->bind_param("ii", $eventId, $eventId);
+        $getList->execute();
 
-        $statement->bind_param("sss", $oldModDate, $eventKey, $slotKey);
-        $statement->execute();
+        $list = $getList->get_result();
 
-        $query = "SELECT @res3";
-        $result = $this->database->query($query);
+        $listArray = $list->fetch_all(MYSQLI_ASSOC);
 
-        if ($result) {
-            $resultArray = $result->fetch_all(MYSQLI_NUM);
-            $errorCode = $resultArray[0][0];
-        } else {
-            $errorCode = -1;
-        }
-
-        $statement->close();
-        $result->free();
-
-        return $errorCode;
+        $getList->close();
+        $list->free();
+        return $listArray;
     }
 
-    public function editEvent_addSlot($eventKey, $slotData)
-    {
-        // get event mod date and and event key
-
-        $eventData = $this->getEvent($eventKey);
-        $oldModDate = $eventData["mod_date"];
-
-        // use stored procedure to add slot
-
-        $query = 'CALL meb_add_slot(?, ?, ?, ?, ?, ?, ?, @res2)';
-
-        $statement = $this->database->prepare($query);
-
-        $startTime = $slotData["startTime"];
-        $endTime = $slotData["endTime"];
-        $duration = $slotData["duration"];
-        $capacity = $slotData["capacity"];
-
-        $slotKey = createTimeSlotHash($startTime, $endTime, $eventKey);
-
-        $statement->bind_param(
-            'sssssii',
-            $oldModDate,
-            $eventKey,
-            $slotKey,
-            $startTime,
-            $endTime,
-            $duration,
-            $capacity
-        );
-
-        $statement->execute();
-
-        $query = "SELECT @res2";
-        $result = $this->database->query($query);
-
-        if ($result) {
-            $resultArray = $result->fetch_all(MYSQLI_NUM);
-            $errorCode = $resultArray[0][0];
-        } else {
-            $errorCode = -1;
-        }
-
-        $statement->close();
-        $result->free();
-
-        return $errorCode;
-    }
-
-
-  //get a timeslot hash from a start time and event hash
-    public function getReservedSlotId($startTime, $eventHash)
-    {
-        $query = "
-
-	SELECT meb_timeslot.id as slotId FROM `meb_timeslot`
-	INNER JOIN `meb_event` ON meb_timeslot.fk_event_id = meb_event.id
-	AND meb_timeslot.start_time = ?
-	AND meb_event.hash = ?
-
-      	;";
-        $statement = $this->database->prepare($query);
-
-        $statement->bind_param("ss", $startTime, $eventHash);
-        $statement->execute();
-
-        $result = $statement->get_result();
-        if ($result->num_rows > 0) {
-            $resultArray = $result->fetch_all(MYSQLI_ASSOC);
-            $hash = $resultArray[0];
-        } else {
-            $hash = null;
-        }
-
-        $statement->close();
-        $result->free();
-        return $hash;
-    }
-
-    // creator deletes an attendee's reservation
-    public function creatorDeleteReservation($slotId, $attendeeOnid)
-    {
-        $query = "
-
-       SELECT meb_booking.id as  bookingID  FROM `meb_booking`
-       INNER JOIN `meb_user`
-       ON meb_booking.fk_user_id = meb_user.id
-       WHERE meb_user.onid = ?
-       AND meb_booking.fk_timeslot_id = ?
-
-       ;";
-
-        $statement = $this->database->prepare($query);
-
-        $statement->bind_param("si", $attendeeOnid, $slotId);
-        $statement->execute();
-
-        $result = $statement->get_result();
-        if ($result->num_rows > 0) {
-            $resultArray = $result->fetch_all(MYSQLI_ASSOC);
-            $id = $resultArray[0];
-        } else {
-            $id = null;
-        }
-
-        $statement->close();
-        $result->free();
-
-        return $id;
-    }
-
-    public function deleteBooking($bookingId)
-    {
-        $query = "
-
-        DELETE FROM `meb_booking` WHERE id = ?
-
-        ;";
-
-        $statement = $this->database->prepare($query);
-
-        $statement->bind_param("i", $bookingId);
-        $statement->execute();
-
-        $result = $statement->affected_rows;
-
-        $statement->close();
-
-        return $result;
-    }
-
-    public function updateAvailableSlots($eventHash, $slotId)
-    {
-        $update_meb_timeslot_query = "
-
-        UPDATE `meb_timeslot`
-        SET spaces_available = spaces_available + 1, is_full = 0
-        WHERE meb_timeslot.id = ?
-
-        ;";
-
-        $updateTimeSlotSpace = $this->database->prepare($update_meb_timeslot_query);
-
-        $updateTimeSlotSpace->bind_param("i", $slotId);
-        $updateTimeSlotSpace->execute();
-
-        $result = $updateTimeSlotSpace->affected_rows;
-
-        $updateTimeSlotSpace->close();
-
-        //echo $result;
-
-        $update_meb_event_query = "
-
-        UPDATE `meb_event`
-        SET open_slots = open_slots + 1
-        WHERE meb_event.hash = ?
-
-        ;";
-
-        $updateEventSlot = $this->database->prepare($update_meb_event_query);
-
-        $updateEventSlot->bind_param("s", $eventHash);
-        $updateEventSlot->execute();
-
-        $result2 = $updateEventSlot->affected_rows;
-
-        $updateEventSlot->close();
-
-        return $result2;
-    }
-
+     /**
+     * add onid to list of inivted onids for an event
+     *
+     *
+     * @param string $onid, int $eventId
+     * @return none
+     */
     public function insertInviteList($onid, $eventId)
     {
         $insert_meb_invites_query = "
-      INSERT `meb_invites` (fk_event_id, user_onid)
-      VALUES (?,?);
-      ";
-      
+         INSERT `meb_invites` (fk_event_id, user_onid)
+         VALUES (?,?);
+       ";
+
         $insert = $this->database->prepare($insert_meb_invites_query);
 
         $insert->bind_param("is", $eventId, $onid);
@@ -1235,99 +1440,90 @@ class DatabaseInterface
         $insert->close();
     }
 
-    public function getInviteList($eventId)
+    /**
+     * delete a booking
+     *
+     *
+     * @param string $startTime, int $eventId, string $onid
+     * @return int result
+     */
+    public function deleteBookingold($startTime, $eventId, $onid)
     {
-        $invite_list_query = "
-      
-      SELECT user_onid AS ONID FROM meb_invites
-      WHERE fk_event_id = ?;
+        $delete_booking_query = "
+        DELETE FROM meb_booking
+        WHERE meb_booking.fk_timeslot_id IN
+         (SELECT meb_timeslot.id as slotId FROM `meb_timeslot`
+          INNER JOIN `meb_event` ON meb_timeslot.fk_event_id = meb_event.id
+          WHERE meb_timeslot.start_time = ?
+          AND meb_event.id = ?)
+        AND meb_booking.fk_user_id IN
+         (SELECT id FROM meb_user
+          WHERE meb_user.onid = ?)
+      ;";
 
-      ";
+        $delete = $this->database->prepare($delete_booking_query);
 
-        $getList = $this->database->prepare($invite_list_query);
-      
-        $getList->bind_param("i", $eventId);
-        $getList->execute();
+        $delete->bind_param("sis", $startTime, $eventId, $onid);
+        $delete->execute();
 
-        $list = $getList->get_result();
+        $result = $delete->affected_rows;
+        $delete->close();
 
-        if ($list->num_rows > 0) {
-            $listArray = $list->fetch_all(MYSQLI_ASSOC);
-        } else {
-            $listArray = null;
-        }
-      
-        $getList->close();
-        $list->free();
-        return $listArray;
-    }
-
-    public function getNotRegistered($eventId)
-    {
-      
-        $not_reg_query = "
-      
-      SELECT user_onid FROM meb_invites
-      WHERE fk_event_id = ? AND user_onid NOT IN
-       (SELECT DISTINCT user_onid FROM meb_invites
-       INNER JOIN meb_user ON meb_user.onid = meb_invites.user_onid
-       INNER JOIN meb_booking ON meb_booking.fk_user_id = meb_user.id
-       INNER JOIN meb_timeslot ON meb_booking.fk_timeslot_id = meb_timeslot.id
-       INNER JOIN meb_event ON meb_event.id = meb_timeslot.fk_event_id
-       where meb_timeslot.fk_event_id = ?)
-
-      ";
-
-        $getList = $this->database->prepare($not_reg_query);
-      
-        $getList->bind_param("ii", $eventId, $eventId);
-        $getList->execute();
-
-        $list = $getList->get_result();
-
-        $listArray = $list->fetch_all(MYSQLI_ASSOC);
-           
-        $getList->close();
-        $list->free();
-        return $listArray;
+        return $result;
     }
 
     /**
-     * Get invitations that the user does not have a booking for.
+     * get a slot id
      *
-     * @param string $onid
-     * @return array of events
+     *
+     * @param string $startTime, int $eventId
+     * @return int $id
      */
-    public function getInvites($onid)
+    public function getSlotHash($startTime, $eventId)
     {
-        $get_invite_query = "
-        SELECT
-        meb_event.id,
-        meb_event.name,
-        meb_event.description,
-        meb_event.hash,
-        meb_event.location,
-        meb_user.id AS creator_id,
-        meb_user.email AS creator_email,
-        CONCAT(meb_user.first_name, ' ', meb_user.last_name) AS creator_name
-        FROM meb_event
-        INNER JOIN meb_user ON meb_user.id = meb_event.fk_event_creator
-        INNER JOIN meb_invites ON meb_event.id = meb_invites.fk_event_id
-        WHERE meb_invites.user_onid = ?
-        AND fk_event_id NOT IN
-          (SELECT fk_event_id FROM meb_timeslot
-          INNER JOIN meb_booking ON meb_timeslot.id = meb_booking.fk_timeslot_id
-          INNER JOIN meb_user ON meb_booking.fk_user_id = meb_user.id
-          WHERE meb_user.onid = ?)
-      ";
-        $getList = $this->database->prepare($get_invite_query);
-        $getList->bind_param("ss", $onid, $onid);
-        $getList->execute();
-        $result = $getList->get_result();
-        $list = $result->fetch_all(MYSQLI_ASSOC);
+        $hash_query = "
+        SELECT meb_timeslot.hash FROM `meb_timeslot`
+        INNER JOIN `meb_event` ON meb_timeslot.fk_event_id = meb_event.id
+        WHERE meb_timeslot.start_time = ?
+        AND meb_event.id = ?
+      ;";
+
+        $slotHash = $this->database->prepare($hash_query);
+
+        $slotHash->bind_param("si", $startTime, $eventId);
+        $slotHash->execute();
+
+        $result = $slotHash->get_result();
+        if ($result->num_rows > 0) {
+            $resultArray = $result->fetch_all(MYSQLI_ASSOC);
+            $hash = $resultArray[0];
+        }
+
+        $slotHash->close();
         $result->free();
-        $getList->close();
-        return $list;
+        return $hash;
+    }
+
+    /**
+     * Delete a meeting based on its hash value
+     *
+     * @param string $meetingHash
+     * @return int $result
+     */
+    public function deleteMeeting($meetingHash)
+    {
+        $query = "DELETE FROM meb_event WHERE hash = ?;";
+
+        $statement = $this->database->prepare($query);
+
+        $statement->bind_param("s", $meetingHash);
+        $statement->execute();
+
+        $result = $statement->affected_rows;
+
+        $statement->close();
+
+        return $result;
     }
 }
 
