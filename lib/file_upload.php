@@ -97,8 +97,8 @@ class FileUpload
 
             move_uploaded_file($_FILES[$field_name]['tmp_name'], $new_file_abspath);
             chmod($new_file_abspath, 0644);
-
-            shell_exec('chmod 755 ' . UPLOADS_ABSPATH);
+           
+            shell_exec('chmod 755 ' . UPLOADS_ABSPATH . $meeting_hash . '/');
 
             return [
                 'message' => 'Your file has been uploaded.'
