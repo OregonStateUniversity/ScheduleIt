@@ -20,7 +20,7 @@ class SendEmail
     public function inviteConfirmed($meeting)
     {
         $to = $meeting['attendee_email'];
-        $subject = '[Confirmed]: ' . $meeting['name'];
+        $subject = 'Confirmed: ' . $meeting['name'];
         $headers = 'From: ' . SITE_NAME . ' <no-reply@oregonstate.edu>' . "\r\n" .
             'Reply-To: ' . $meeting['creator_name'] . '<' . $meeting['creator_email'] . '>' . "\r\n" .
             'X-Mailer: PHP/' . phpversion();
@@ -44,7 +44,7 @@ class SendEmail
     public function inviteUpdated($meeting)
     {
         $to = $meeting['attendee_email'];
-        $subject = '[Updated]: ' . $meeting['name'];
+        $subject = 'Updated: ' . $meeting['name'];
         $headers = 'From: ' . SITE_NAME . ' <no-reply@oregonstate.edu>' . "\r\n" .
             'Reply-To: ' . $meeting['creator_name'] . '<' . $meeting['creator_email'] . '>' . "\r\n" .
             'X-Mailer: PHP/' . phpversion();
@@ -72,7 +72,7 @@ class SendEmail
     public function invitation($creatorOnid, $inviteOnid, $eventName, $creatorName, $link)
     {
         $to = $inviteOnid . '@oregonstate.edu';
-        $subject = '[Invited]: ' . $eventName;
+        $subject = 'Invited: ' . $eventName;
         $headers = 'From: ' . SITE_NAME . ' <no-reply@oregonstate.edu>' . "\r\n" .
           'Reply-To: ' . $creatorName . '<' . $creatorOnid . '@oregonstate.edu' . '>' . "\r\n" .
           'X-MAiler: PHP/' . phpversion();
@@ -97,7 +97,7 @@ class SendEmail
     public function notifyRemovedAttendee($removeOnid, $creatorName, $creatorOnid, $eventName)
     {
         $to = $removeOnid . '@oregonstate.edu';
-        $subject = '[Removed]: ' . trim($eventName);
+        $subject = 'Removed: ' . trim($eventName);
         $headers = 'From: ' . SITE_NAME . ' <no-reply@oregonstate.edu>' . "\r\n" .
           'Reply-To: ' . $creatorName . '<' . $creatorOnid . '@oregonstate.edu' . '>' . "\r\n" .
           'X-MAiler: PHP/' . phpversion();
@@ -119,7 +119,7 @@ class SendEmail
     public function changedTimeslots($meeting, $user)
     {
         $to = $user['attendee_email'];
-        $subject = '[Changed]: ' . $meeting['name'];
+        $subject = 'Changed: ' . $meeting['name'];
         $headers = 'From: ' . SITE_NAME . ' <no-reply@oregonstate.edu>' . "\r\n" .
             'Reply-To: ' . $meeting['creator_name'] . '<' . $meeting['creator_email'] . '>' . "\r\n" .
             'X-Mailer: PHP/' . phpversion();
