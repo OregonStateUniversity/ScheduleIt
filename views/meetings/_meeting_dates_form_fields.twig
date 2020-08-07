@@ -99,12 +99,14 @@
             {% for time in time_labels %}
               {% set date_time = "#{date} #{time}" %}
               <label
-                class="times-label {% if date_time in timeslot_times %}times-label--checked{% endif %} {% if date_time in timeslot_times_saved %}times-label--checked-confirm{% endif %}"
+                class="times-label {% if date_time in timeslot_times %}times-label--checked{% endif %} {% if date_time in timeslot_times_saved %}times-label--checked times-label--checked-confirm{% endif %}"
                 data-meetings-datetime-label="{{date_time}}"
+                {% if date_time in timeslot_times_saved %}data-meetings-datetime-label-confirm="{{date_time}}"{% endif %}
               >
                 <input
                   {% if date_time in timeslot_times %}checked{% endif %}
-                  {% if date_time in timeslot_times_saved %}data-meetings-datetime-confirm{% else %}data-meetings-datetime{% endif %}="{{date_time}}"
+                  {% if date_time in timeslot_times_saved %}data-meetings-datetime-confirm="{{date_time}}"{% endif %}
+                  data-meetings-datetime="{{date_time}}"
                   name="timeslots[]"
                   type="checkbox"
                   value="{{date_time}}"
@@ -118,4 +120,3 @@
     </div>
   </div>
 </div>
-

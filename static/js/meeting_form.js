@@ -52,17 +52,12 @@ function initLocationInput() {
 
 const timesSelector = {
   init: function () {
-    $("body").on(
-      "click",
-      "[data-meetings-datetime-confirm]",
-      this.addToRemovedTimes.bind(this),
-    );
     $("body").on("click", "[data-meetings-datetime]", function (event) {
-      event.preventDefault();
+      // event.preventDefault();
     });
     $("body").on(
-      "mousedown mouseover",
-      "[data-meetings-datetime-label]:not('.times-label--checked-confirm')",
+      "click mousedown mouseover",
+      "[data-meetings-datetime-label]",
       this.selectMultipleTimes.bind(this),
     );
     $("#duration").on("change", this.updateAvailableTimesCheck.bind(this));
@@ -202,32 +197,7 @@ const timesSelector = {
     $(".times-selector-placeholder").addClass("d-none");
   },
   addToRemovedTimes: function (e) {
-    e.preventDefault();
-    let datetime = $(e.currentTarget).val();
-    $(`input[data-meetings-datetime-confirm="${datetime}"]`)
-      .prop("checked", false)
-      .removeAttr("data-meetings-datetime-confirm")
-      .attr("data-meetings-datetime", "");
 
-    $(`label[data-meetings-datetime-label="${datetime}"]`)
-      .removeClass("times-label--checked")
-      .removeClass("times-label--checked-confirm");
-
-    $("#removed-times").append(`
-      <li data-meetings-datetime-removal="${datetime}">${moment(
-      datetime,
-    ).format("ddd, MMM D h:mm a")}</li>
-    `);
-
-    const sorted = $("#removed-times li").sort((a, b) => {
-      return a.id > b.id ? 1 : -1;
-    });
-
-    sorted.each(function () {
-      const elem = $(this);
-      elem.remove();
-      $(elem).appendTo("#removed-times");
-    });
   },
   confirmTimesRemoval: function (e) {
     e.preventDefault();
@@ -298,6 +268,30 @@ const timesSelector = {
       $(`[data-meetings-datetime-removal="${datetime}"]`).remove();
     } else {
       $(target).removeClass("times-label--checked");
+
+      if ($(target)[0].hasAttribute("data-meetings-datetime-label-confirm")) {
+        $(`input[data-meetings-datetime-confirm="${datetime}"]`)
+          .prop("checked", false);
+
+        $(`label[data-meetings-datetime-label="${datetime}"]`)
+          .removeClass("times-label--checked-confirm");
+
+        $("#removed-times").append(`
+          <li data-meetings-datetime-removal="${datetime}">${moment(
+          datetime,
+        ).format("ddd, MMM D h:mm a")}</li>
+        `);
+
+        const sorted = $("#removed-times li").sort((a, b) => {
+          return a.id > b.id ? 1 : -1;
+        });
+
+        sorted.each(function () {
+          const elem = $(this);
+          elem.remove();
+          $(elem).appendTo("#removed-times");
+        });
+      }
       $(`[data-meetings-datetime="${datetime}"]`).prop("checked", false);
     }
   },
