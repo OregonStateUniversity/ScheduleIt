@@ -1,6 +1,6 @@
 <?php
 
-require_once dirname(__DIR__) . '/scheduleit.config.php';
+require_once dirname(__DIR__) . '/config.inc.php';
 // Load the CAS library
 require_once ABSPATH . '/vendor/jasig/phpcas/source/CAS.php';
 

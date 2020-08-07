@@ -2,6 +2,7 @@
 
 session_start();
 
+// Flash alerts use sessions
 $msg = new \Plasticbrain\FlashMessages\FlashMessages();
 
 $msg->setCssClassMap([
@@ -25,19 +26,13 @@ if (ENVIRONMENT == 'development') {
 
         // We use the user's ONID, first name, last name and e-mail
         // However, many more attributes are available
-        $_SESSION['user'] = $_SESSION['phpCAS']['user'];
+        $_SESSION['user_onid'] = $_SESSION['phpCAS']['user'];
 
         $user_attributes = $_SESSION['phpCAS']['attributes'];
 
-        $_SESSION['first_name'] = $user_attributes['firstname'];
-        $_SESSION['last_name'] = $user_attributes['lastname'];
-        $_SESSION['email'] = $user_attributes['email'];
-
-        // TODO: Remove other sessions when we remove old pages
         $_SESSION['user_email'] = $user_attributes['email'];
         $_SESSION['user_firstname'] = $user_attributes['firstname'];
         $_SESSION['user_lastname'] = $user_attributes['lastname'];
-        $_SESSION['user_onid'] = $_SESSION['phpCAS']['user'];
 
         // Discard everything else
         unset($_SESSION['phpCAS']);
@@ -62,13 +57,8 @@ if (!$user) {
 
 $_SESSION['user_id'] = $user['id'];
 
-$current_url = array_filter(explode('/', $_SERVER['REQUEST_URI']));
-
-if (in_array('scheduleit', $current_url)) {
-    require_once ABSPATH . 'scheduleit/config/twig.php';
-} else {
-    require_once ABSPATH . 'config/twig.php';
-}
+// Set global Twig variables
+require_once ABSPATH . 'config/twig.php';
 
 $invites = $database->getInvites($_SESSION['user_onid']);
 

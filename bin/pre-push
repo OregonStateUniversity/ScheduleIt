@@ -4,7 +4,7 @@ echo "Running PHPUnit..."
 
 PHP_CS_STATUS=0
 
-vendor/bin/phpunit tests
+bash run_tests_php.sh
 PHP_CS_STATUS=$(( $PHP_CS_STATUS + $? ))
 
 if [ $PHP_CS_STATUS != 0 ]

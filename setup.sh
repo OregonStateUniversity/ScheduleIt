@@ -23,8 +23,10 @@ fi
 
 echo ""
 echo "* Installing packages..."
+chmod 700 bin/composer
 bin/composer install
 echo "* Running database migrations..."
+chmod 700 vendor/bin/phinx
 vendor/bin/phinx migrate
 echo ""
 echo "* Setting file and folder permissions..."

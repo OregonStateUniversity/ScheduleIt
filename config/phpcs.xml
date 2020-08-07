@@ -1,7 +1,7 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 
 <ruleset name="PHP_CodeSniffer">
-  <description>MyEventBoard PHPCS configuration file.</description>
+  <description>PHPCS configuration file</description>
   <arg name="extensions" value="php" />
 
   <!-- Check all directories -->

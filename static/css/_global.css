@@ -1,0 +1,35 @@
+/* Global */
+:root {
+  --navbar-height-desktop: 100px;
+  --navbar-height-mobile: 126px;
+  --osu-orange: #d73f09;
+  --osu-orange-secondary: #c34500;
+  --osu-orange-secondary-hover: #615042;
+}
+
+html {
+  scroll-padding-top: calc(var(--navbar-height-mobile) + 50px);
+}
+
+@media (min-width: 768px) {
+  html {
+    scroll-padding-top: calc(var(--navbar-height-desktop) + 50px);
+  }
+}
+
+body {
+  background: #fff;
+  color: #000;
+  font-size: 0.875rem;
+}
+
+a,
+a:hover {
+  color: var(--osu-orange);
+}
+
+.h4,
+.h5,
+.h6 {
+  color: #333;
+}
