@@ -1,0 +1,179 @@
+{% extends 'layouts/logged_in.twig' %}
+
+{% block page_content %}
+
+<h1 class="h2 mb-4">
+  {{title}}
+</h1>
+<div class="row mb-3">
+  <div class="col-md-6">
+    <div class="card card-mine">
+      <div class="card-body pb-0">
+        <h4 class="h6 mb-0">
+          Location
+        </h4>
+        <p class="card-text-large">
+          {{meeting.location}}
+        </p>
+        {% if meeting.description %}
+          <h4 class="h6 mb-0">
+            Description
+          </h4>
+          <p class="card-text-large">
+            {{meeting.description}}
+          </p>
+        {% endif %}
+        <h4 class="h6 mb-0">
+          Creator
+        </h4>
+        <p class="card-text-large">
+          <a href="mailto:{{meeting.creator_email}}">
+            {% if meeting.creator_id == user_id %}
+              Me
+            {% else %}
+              {{meeting.creator_name}}
+            {% endif %}
+          </a>
+        </p>
+        {% if meeting.creator_file %}
+          <h4 class="h6 mb-0">
+            Creator Meeting File
+          </h4>
+          <p class="card-text-large">
+            <a href="{{uploads_url}}{{meeting.creator_file}}" download="">
+              {{meeting.creator_file | basename}}
+            </a>
+          </p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+<form enctype="multipart/form-data" method="post">
+  <div class="mb-3">
+    <div class="card">
+      <div class="card-body pb-0">
+        {% if booking %}
+          <h6 class="h6">
+            Current Timeslot
+          </h6>
+          <p class="mb-4">
+            <label>
+              <input name="timeslot_id" value="{{booking.timeslot_id}}" checked type="radio">
+              {{booking.start_time | date('D, F j, Y g:ia')}}-{{booking.end_time| date('g:ia')}}
+            </label>
+          </p>
+        {% endif %}
+        <h6 class="h6 mb-4">
+          Select a {% if booking %}New {% endif %}Timeslot
+        </h6>
+        {% if dates %}
+          <div class="row">
+            {% for date in dates %}
+              <div class="col-md-3">
+                <h5 class="h6">
+                  {{date.date | date("D, F j, Y")}}
+                </h5>
+                <ul class="list-unstyled mb-4">
+                  {% for time in date.timeslots %}
+                    <li>
+                      <label>
+                        <input name="timeslot_id" value="{{time.id}}" type="radio">
+                        {{time.start_time| date('g:ia')}}-{{time.end_time| date('g:ia')}}
+                      </label>
+                    </li>
+                  {% endfor %}
+                </ul>
+              </div>
+            {% endfor %}
+          </div>
+        {% else %}
+          <p>
+            No timeslots available.
+          </p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  {% if meeting.enable_upload %}
+    <div class="row mb-4">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-body pb-0">
+            <div class="form-group">
+              {% if booking.attendee_file %}
+                <h6 class="h6">
+                  File Upload
+                </h6>
+                <p class="card-text-large">
+                  <a href="{{uploads_url}}{{booking.attendee_file}}">
+                    {{booking.attendee_file | basename}}
+                  </a>
+                </p>
+              {% endif %}
+              <label class="h6">
+                {% if booking.attendee_file %}
+                  Upload New File
+                {% else %}
+                  File Upload
+                {% endif %}
+              </label>
+              <p>
+                You may only upload a single file. Uploading a second file will overwrite the first.
+                If you need to upload multiple files combine them into a single zip file.
+                {# TODO: client wanted the white list to be disabled for now #}
+                {# Allowed file types: {{upload_allowed_filetypes | join}} #}
+              </p>
+              <input class="form-control-file" name="file" type="file">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+  <div class="pt-4">
+    <input name="booking_id" value="{{booking.id}}" type="hidden">
+    <button class="btn btn-success">
+      Submit
+    </button>
+    <a class="ml-3" href="{{site_url}}/meetings">
+      Cancel
+    </a>
+  </div>
+</form>
+<p class="mt-5">
+  <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#decline-meeting-modal" type="button">
+    Decline Meeting
+  </button>
+</p>
+<div class="modal fade" id="decline-meeting-modal" tabindex="-1" role="dialog" aria-labelledby="decline-meeting-modal-label" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="decline-meeting-modal-label">
+          Decline Meeting
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form method="post">
+        <div class="modal-body">
+          Are you sure you want to decline this meeting?
+        </div>
+        <div class="modal-footer">
+          <input name="decline_booking" value="1" type="hidden">
+          <input name="timeslot_hash" value="{{booking.timeslot_hash}}" type="hidden">
+          <button class="btn btn-secondary" data-dismiss="modal" type="button">
+            Cancel
+          </button>
+          <button class="btn btn-danger">
+            Decline
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

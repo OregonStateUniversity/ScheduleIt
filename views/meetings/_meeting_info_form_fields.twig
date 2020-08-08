@@ -1,0 +1,82 @@
+<p>
+  <span class="text-danger">* Required</span>
+</p>
+<div class="mb-3">
+  <label class="h6">Title <span class="text-danger">*</span></label>
+  <div class="row">
+    <div class="col-md-6">
+      <input class="form-control" name="name" required type="text" value="{{meeting.name}}">
+    </div>
+  </div>
+</div>
+<div class="mb-3">
+  <label class="h6">Location <span class="text-danger">*</span></label>
+  <div class="row">
+    <div class="col-md-6">
+      <input
+        class="form-control input-lg"
+        data-locations-json="{{site_url}}/resources/OSU_locations.json"
+        id="location-input"
+        list="location-data-list"
+        name="location"
+        required
+        value="{{meeting.location}}"
+      >
+      <datalist id="location-data-list"></datalist>
+    </div>
+  </div>
+</div>
+<div class="mb-4">
+  <label class="h6">Description</label>
+  <div class="row">
+    <div class="col-md-6">
+      <textarea class="form-control" name="description">{{meeting.description}}</textarea>
+    </div>
+  </div>
+</div>
+<div class="form-check mb-2">
+  <input class="form-check-input" {% if meeting.is_anon == true %}checked{% endif %} name="is_anon" type="checkbox" value="1" id="is_anon">
+  <label class="form-check-label" for="is_anon">
+    Anonymous Meeting
+  </label>
+</div>
+<div class="form-check mb-4">
+  <input class="form-check-input" {% if meeting.enable_upload == true %}checked{% endif %} name="enable_upload" type="checkbox" value="1" id="enable_upload">
+  <label class="form-check-label" for="enable_upload">
+    Enable Attendees to Upload Files
+  </label>
+</div>
+<div class="row">
+  <div class="col-md-6">
+    <div class="card mb-4">
+      <div class="card-body pb-0">
+        <div class="form-group">
+          {% if meeting.creator_file %}
+            <h6 class="h6">
+              File Download for Attendees
+            </h6>
+            <p class="card-text-large">
+              <a href="{{uploads_url}}{{meeting.creator_file}}" download="">
+                {{meeting.creator_file | basename}}
+              </a>
+            </p>
+          {% endif %}
+          <label class="h6">
+            {% if meeting.creator_file %}
+              Upload New File
+            {% else %}
+              File Download for Attendees
+            {% endif %}
+          </label>
+          <p>
+            You may only upload a single file. Uploading a second file will overwrite the first.
+            If you need to upload multiple files combine them into a single zip file.
+            {# TODO: client wanted the white list to be disabled for now #}
+            {# Allowed file types: {{upload_allowed_filetypes | join}} #}
+          </p>
+          <input class="form-control-file" name="file" type="file">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

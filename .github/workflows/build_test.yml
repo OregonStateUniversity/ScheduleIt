@@ -1,0 +1,13 @@
+name: build-test
+on: [pull_request]
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout project
+      uses: actions/checkout@v1
+    - name: Install PHP dependencies
+      run: composer install
+    - name: Run PHPUnit tests
+      run: bash run_tests_php.sh

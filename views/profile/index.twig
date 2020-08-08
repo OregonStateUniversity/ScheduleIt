@@ -1,0 +1,27 @@
+{% extends 'layouts/logged_in.twig' %}
+
+{% block page_content %}
+
+<h1 class="h2 mb-4">
+  {{title}}
+</h1>
+<h2 class="h6">
+  ONID
+</h2>
+<p>
+  {{user_onid}}
+</p>
+<h2 class="h6">
+  Name
+</h2>
+<p>
+  {{user_firstname}} {{user_lastname}}
+</p>
+<h2 class="h6">
+  Email
+</h2>
+<p>
+  {{user_email}}
+</p>
+
+{% endblock %}

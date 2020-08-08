@@ -1,0 +1,91 @@
+{% extends 'layouts/logged_in.twig' %}
+
+{% block page_content %}
+
+<div class="align-items-center d-md-flex justify-content-between">
+  <h1 class="h2 mb-4">
+    {{title}}
+  </h1>
+  {{ include('shared/_search_form.twig') }}
+</div>
+{% if search_term and search_result_count > 0 %}
+  <p>
+    Found {{search_result_count}} result{% if search_result_count != 1 %}s{% endif %} for "{{search_term}}"
+  </p>
+{% endif %}
+{% if search_term %}
+  {% if search_meetings %}
+    <div class="row">
+      <div class="col-lg-6 col-md-12">
+        {% for meeting in search_meetings %}
+          {{ include('meetings/_meeting_card.twig') }}
+        {% endfor %}
+      </div>
+    </div>
+  {% else %}
+    <p>No results found</p>
+  {% endif %}
+{% else %}
+  <nav>
+    <div class="nav nav-tabs" role="tablist">
+      <a class="nav-item nav-link active" id="all-meetings-tab" data-toggle="tab" href="#all-meetings" role="tab" aria-controls="all-meetings" aria-selected="false">
+        All Upcoming Meetings ({{ upcoming_meetings | count }})
+      </a>
+      {% if created_meetings %}
+        <a class="nav-item nav-link" id="created-meetings-tab" data-toggle="tab" href="#created-meetings" role="tab" aria-controls="created-meetings" aria-selected="true">
+          Meetings Created By Me ({{ created_meetings | count }})
+        </a>
+      {% endif %}
+      {% if past_meetings %}
+        <a class="nav-item nav-link" id="past-meetings-tab" data-toggle="tab" href="#past-meetings" role="tab" aria-controls="past-meetings" aria-selected="false">
+          Past Meetings ({{ past_meetings | count }})
+        </a>
+      {% endif %}
+      {% if invites %}
+        <a class="nav-item nav-link" id="invites-tab" data-toggle="tab" href="#invites" role="tab" aria-controls="invites" aria-selected="false">
+          <strong>Invites ({{ invites | count }})</Strong>
+        </a>
+      {% endif %}
+    </div>
+  </nav>
+  <div class="row">
+    <div class="col-lg-6">
+      <div class="tab-content pt-3">
+        <div class="tab-pane fade show active" id="all-meetings" role="tabpanel" aria-labelledby="all-meetings-tab">
+          {% if upcoming_meetings %}
+            {% for meeting in upcoming_meetings %}
+              {{ include('meetings/_meeting_card.twig') }}
+            {% endfor %}
+          {% else %}
+            <p>
+              Nothing scheduled yet!
+            </p>
+          {% endif %}
+        </div>
+        {% if created_meetings %}
+          <div class="tab-pane fade" id="created-meetings" role="tabpanel" aria-labelledby="created-meetings-tab">
+            {% for meeting in created_meetings %}
+              {{ include('meetings/_meeting_card.twig') }}
+            {% endfor %}
+          </div>
+        {% endif %}
+        {% if past_meetings %}
+          <div class="tab-pane fade" id="past-meetings" role="tabpanel" aria-labelledby="past-meetings-tab">
+            {% for meeting in past_meetings %}
+              {{ include('meetings/_meeting_card.twig') }}
+            {% endfor %}
+          </div>
+        {% endif %}
+        {% if invites %}
+          <div class="tab-pane fade" id="invites" role="tabpanel" aria-labelledby="invites-tab">
+           {% for meeting in invites %}
+             {{ include('meetings/_invite_card.twig') }}
+           {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+{% endif %}
+
+{% endblock %}

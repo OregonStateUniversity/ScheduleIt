@@ -1,0 +1,78 @@
+/* Nav */
+.navbar {
+  background-color: var(--osu-orange);
+  height: var(--navbar-height-mobile);
+  padding: 0;
+}
+
+@media (min-width: 768px) {
+  .navbar {
+    background-color: var(--osu-orange);
+    height: var(--navbar-height-desktop);
+  }
+}
+
+.navbar-brand {
+  background: url(images/osu-logo.svg) 0 0.5rem no-repeat;
+  background-size: contain;
+  color: #fff;
+  height: 80px;
+  width: 200px;
+}
+
+@media (min-width: 768px) {
+  .navbar-brand {
+    background-position: 0 center;
+    display: inline-block;
+    font-size: 1.75rem;
+    padding: 1.25rem 0 1.25rem 18rem;
+    width: auto;
+  }
+}
+
+.navbar-brand:hover {
+  color: #fff;
+}
+
+.navbar-invites-link {
+  color: #fff;
+  font-size: 2rem;
+  position: relative;
+}
+
+.navbar-invites-link:hover {
+  color: #fff;
+}
+
+.navbar-invites-count {
+  color: #000;
+  font-size: 1.15rem;
+  font-weight: 700;
+  left: 0.5rem;
+  position: absolute;
+  top: 0.5rem;
+}
+
+.navbar-invites-link:hover .navbar-invites-count {
+  color: var(--osu-orange);
+}
+
+.navbar-toggler {
+  border: 1px solid #000;
+  right: 0.5rem;
+  top: 0.5rem;
+}
+
+.navbar-container {
+  padding: 0 1.5rem;
+  width: 100%;
+}
+
+.navbar-mobile-title {
+  background-color: #000;
+  color: #fff;
+  font-size: 1.25rem;
+  height: 46px;
+  padding: 0.5rem 1.5rem;
+  width: 100%;
+}

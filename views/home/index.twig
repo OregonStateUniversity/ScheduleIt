@@ -1,0 +1,22 @@
+{% extends 'layouts/logged_out.twig' %}
+
+{% block page_content %}
+
+<div class="jumbotron jumbotron-fluid">
+  <div class="container">
+    <h1 class="display-md-4"
+      >Welcome to {{site_name}}
+    </h1>
+    <p class="lead">
+      {{site_name}} is a meeting scheduling service that is available to anyone in the Oregon State
+      University community. No registration is necessary. Sign in with your OSU email to get started.
+    </p>
+    <p class="lead">
+      <a class="btn btn-lg btn-primary" href="{{site_url}}/login">
+        Login
+      </a>
+    </p>
+  </div>
+</div>
+
+{% endblock %}

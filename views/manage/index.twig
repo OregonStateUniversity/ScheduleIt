@@ -1,0 +1,66 @@
+{% extends 'layouts/logged_in.twig' %}
+
+{% block page_content %}
+
+<div class="align-items-center d-md-flex justify-content-between">
+  <h1 class="h2 mb-4">
+    {{title}}
+  </h1>
+  {{ include('shared/_search_form.twig') }}
+</div>
+{% if search_term and search_result_count > 0 %}
+  <p>
+    Found {{search_result_count}} result{% if search_result_count != 1 %}s{% endif %} for "{{search_term}}"
+  </p>
+{% endif %}
+
+{% if meetings %}
+  <table class="table">
+    <thead>
+      <tr class="d-flex">
+        <th class="col-2">Title</th>
+        <th class="col-2">Location</th>
+        <th class="col-2">Dates</th>
+        <th class="col-2">Reservations Remaining</th>
+        <th class="col-2">Invite Link</th>
+        <th class="col-2">Last Modified</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for meeting in meetings %}
+        <tr class="d-flex">
+          <td class="col-2">
+            <a href="{{site_url}}/meetings/{{meeting.id}}">{{meeting.name}}</a>
+          </td>
+          <td class="col-2">
+            {{meeting.location}}
+          </td>
+          <td class="col-2">
+            {% for date in meeting.dates %}
+              {{date.date | date("n/j/y")}}{% if loop.index != meeting.dates_count %}, {% endif %}
+            {% endfor %}
+          </td>
+          <td class="col-2">
+            {{meeting.open_slots}} of {{meeting.capacity}}
+          </td>
+          <td class="col-2">
+            <button class="btn btn-secondary btn-sm copy-btn" data-link="{{site_url}}/invite?key={{meeting.hash}}">
+              <i class="fas fa-clipboard"></i> Copy
+            </button>
+          </td>
+          <td class="col-2">
+            {{meeting.mod_date | date("n/j/y g:ia")}}
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% else %}
+  {% if search_term %}
+    <p>No results found</p>
+  {% else %}
+    <p>Nothing here yet! Want to <a href="{{site_url}}/meetings/create">create a meeting</a>?</p>
+  {% endif %}
+{% endif %}
+
+{% endblock %}

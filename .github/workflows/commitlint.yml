@@ -1,0 +1,21 @@
+name: commitlint
+on: [pull_request]
+
+jobs:
+  commit-lint:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Checkout project
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: "10.x"
+      - name: Install commitlint
+        run: npm install -g @commitlint/{config-conventional,cli}
+      - name: Lint commit
+        uses: wagoid/commitlint-github-action@v1

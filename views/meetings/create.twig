@@ -1,0 +1,22 @@
+{% extends 'layouts/logged_in.twig' %}
+
+{% block page_content %}
+
+<h1 class="h2 mb-4">
+  {{title}}
+</h1>
+<form enctype="multipart/form-data" method="post">
+  {{ include('meetings/_meeting_info_form_fields.twig') }}
+  {{ include('meetings/_meeting_dates_form_fields.twig') }}
+  <div class="pt-4">
+    <button class="btn btn-success">
+      Save Meeting
+    </button>
+    <a class="ml-3" href="{{site_url}}/manage">
+      Cancel
+    </a>
+  </div>
+</form>
+
+{% endblock %}
+

@@ -1,0 +1,15 @@
+/* Home */
+.body-logged-out {
+  background: url(images/bg.jpg) 0 0 no-repeat;
+}
+
+@media (min-width: 768px) {
+  .body-logged-out {
+    background-position: 0 100px;
+    background-size: cover;
+  }
+}
+
+.jumbotron {
+  background-color: rgba(240, 240, 240, 0.95);
+}

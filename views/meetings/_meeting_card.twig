@@ -1,0 +1,74 @@
+<div class="card mb-3 {{ meeting.creator_id == user_id ? 'card-mine' : 'card-other' }}">
+  <div class="card-body">
+    <h3 class="h6 d-md-flex justify-content-between">
+      <span>
+        {{meeting.start_time | date("D, F j, Y")}}
+      </span>
+      <span class="d-block d-md-inline mt-2 mt-md-0">
+        {{meeting.start_time| date("g:ia")}}-{{meeting.end_time| date("g:ia")}}
+      </span>
+    </h3>
+    <h4 class="h5 mb-2">
+      {% if meeting.creator_id == user_id  %}
+        <a href="{{site_url}}/meetings/{{meeting.id}}">
+          {{meeting.name}}
+        </a>
+      {% else %}
+        <a href="{{site_url}}/invite?key={{meeting.meeting_hash}}">
+          {{meeting.name}}
+        </a>
+      {% endif %}
+    </h4>
+    <p class="mb-0">
+      Location: {{meeting.location}}
+    </p>
+    {% if meeting.creator_onid != user_onid %}
+      <p class="mb-0">
+        Creator:
+        <a href="mailto:{{meeting.creator_email}}">
+          {{meeting.creator_name}}
+        </a>
+      </p>
+    {% endif %}
+    {% if meeting.creator_file %}
+      <p class="mb-0">
+        {% if meeting.creator_onid == user_onid %}
+          My
+        {% else %}
+          Creator
+        {% endif %}
+        File: <a href="{{uploads_url}}{{meeting.creator_file}}" download="">{{meeting.creator_file | basename}}</a>
+      </p>
+    {% endif %}
+    {# Show all attendees to each other if meeting is not anonymous and there is more than one attendee #}
+    {# Creator always sees all attendees #}
+    {% if meeting.creator_onid == user_onid or (meeting.is_anon == 0 and meeting.attendees_count > 1) %}
+      <p class="mt-3 mb-0">
+        Attendee{% if meeting.attendees_count > 1 %}s{% endif %}:
+        {% for attendee in meeting.attendees %}
+          <a href="mailto:{{attendee.attendee_email}}">{% if attendee.attendee_email == user_email %}Me{% else %}{{attendee.attendee_name}}{% endif %}</a>{% if loop.index != meeting.attendees_count %}, {% endif %}
+        {% endfor %}
+      </p>
+    {% endif %}
+    {# Show all files to creator #}
+    {% if meeting.creator_onid == user_onid and meeting.attendees_files %}
+      <p class="mb-0">
+        Attendee File{% if meeting.attendees_files_count > 1 %}s{% endif %}:
+        {% for attendee_file in meeting.attendees_files %}
+          <a href="{{uploads_url}}{{attendee_file}}" download="">{{attendee_file | basename}}</a>{% if loop.index != meeting.attendees_files_count %}, {% endif %}
+        {% endfor %}
+      </p>
+    {% endif %}
+    {# Show attendee only their file #}
+    {% if meeting.current_attendee_file %}
+      <p class="mb-0 mt-3">
+        My File: <a href="{{uploads_url}}{{meeting.current_attendee_file}}" download="">{{meeting.current_attendee_file | basename}}</a>
+      </p>
+    {% endif %}
+    {% if meeting.description %}
+      <p class="mt-3 mb-0">
+        {{meeting.description}}
+      </p>
+    {% endif %}
+  </div>
+</div>

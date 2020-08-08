@@ -1,7 +1,30 @@
 .DS_Store
-/vendor/
-/uploads/
+.php_cs.cache
+.htaccess
+.htpasswd
+*.log
+
+# Editors
+.idea
+.viminfo
+.vscode
+
+# Environment variables
+.env
+
+# Composer
 composer.phar
+
+# Node
+node_modules
+
+bin/*
+!bin/pre-commit
+!bin/pre-push
+uploads/*
+!uploads/.gitkeep
+vendor/*
+!vendor/.gitkeep
+
+secret*
 text_file
-secret1
-secret2

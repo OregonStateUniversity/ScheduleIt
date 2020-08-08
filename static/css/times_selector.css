@@ -1,0 +1,76 @@
+/* Dates */
+.times-selector {
+  width: 320px;
+}
+
+.times-selector .fc-toolbar-title {
+  font-size: 1.15rem;
+}
+
+.times-selector .fc-daygrid-day-frame {
+  height: 24px;
+  min-height: 0;
+}
+
+.times-selector .fc-day-active {
+  background-color: var(--osu-orange-secondary) !important;
+  color: #fff !important;
+}
+
+.times-selector .fc-day-confirm {
+  background-color: #000 !important;
+  color: #fff !important;
+}
+
+.times-selector .fc-scroller {
+  overflow: hidden !important;
+}
+
+.times-selector-legend-container {
+  padding-top: 20px;
+}
+
+.times-selector-container {
+  width: calc(100% - 80px);
+  overflow-x: auto;
+}
+
+.times-selector-placeholder {
+  padding: 20px;
+}
+
+.times-label {
+  border: 1px solid #ddd;
+  font-size: 0.8rem;
+  height: 24px;
+  margin: 0;
+}
+
+.times-selector-legend-container .times-label {
+  align-items: center;
+  display: flex;
+  padding: 5px 10px;
+  width: 80px;
+}
+
+.times-selector-container .times-label {
+  cursor: pointer;
+  display: block;
+  text-indent: -9999px;
+  width: 90px;
+}
+
+.times-selector-container .times-label--checked {
+  background-color: var(--osu-orange-secondary);
+  color: #fff;
+}
+
+.times-selector-container .times-label--checked-confirm {
+  background-color: #000;
+  color: #fff;
+}
+
+.times-selector-container .date-label {
+  font-size: 0.75rem;
+  height: 20px;
+}

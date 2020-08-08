@@ -1,0 +1,34 @@
+{% extends 'layouts/logged_out.twig' %}
+
+{% block page_content %}
+
+<h1 class="h2 mb-4">
+  {{title}}
+</h1>
+<div class="container bg-white p-3">
+  <h3>Login</h3>
+  <p>
+    This page is only for local development. You can log in as any user that already exists in the database.
+  </p>
+  {% if error %}
+    <p class="alert alert-danger">
+      {{error}}
+    </p>
+  {% endif %}
+
+  <form action="{{site_url}}/login" class="row" method="post">
+    <div class="col-md-3">
+      <p>
+        <label>ONID</label><br>
+        <input class="form-control" name="onid" type="text">
+      </p>
+      <p>
+        <button class="btn btn-primary">
+          Login
+        </button>
+      </p>
+    </div>
+  </form>
+</div>
+
+{% endblock %}

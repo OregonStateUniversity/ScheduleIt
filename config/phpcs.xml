@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ruleset name="PHP_CodeSniffer">
+  <description>PHPCS configuration file</description>
+  <arg name="extensions" value="php" />
+
+  <!-- Check all directories -->
+  <file>../</file>
+
+  <!-- Exclude these directories -->
+  <exclude-pattern>*/bin/*</exclude-pattern>
+  <exclude-pattern>*/docs/*</exclude-pattern>
+  <exclude-pattern>*/uploads/*</exclude-pattern>
+  <exclude-pattern>*/vendor/*</exclude-pattern>
+
+  <!-- Base rules: https://www.php-fig.org/psr/psr-12/ -->
+  <rule ref="PSR12"/>
+</ruleset>

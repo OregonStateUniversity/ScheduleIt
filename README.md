@@ -1,86 +1,58 @@
-# MyEventBoard
+# Schedule-It
 
-MyEventBoard is a scheduling web application developed by Tommy Liao, Simon Louie and Blaise Takushi,  
-as part of the Schedule It! project.
+[![Actions Status](https://github.com/OregonStateUniversity/MyEventBoard/workflows/build-test/badge.svg)](https://github.com/OregonStateUniversity/MyEventBoard/actions)
 
-## Accessing the Application
+Schedule-It (MyEventBoard) is a meeting scheduling web application for the Oregon State University community.
 
-While MyEventBoard is currently in development, it can be accessed at:  
-https://eecs.oregonstate.edu/education/myeventboard/
+## Docs
 
-## Setting Up the Repository for Development
+### General
 
-For the project to be functional, it should be cloned into the 'public_html' folder in your engineering filespace.  
-MyEventBoard in its current state is supposed to run only on the engineering servers, as requested by the client.  
+- [Getting Started](docs/GETTING_STARTED.md)
+- [Installation Guide](docs/INSTALLATION_GUIDE.md)
+  - [Local Setup Mac](docs/LOCAL_SETUP_MAC.md)
+  - [Local Setup Windows](docs/LOCAL_SETUP_WINDOWS.md)
+  - [File Permissions](docs/FILE_PERMISSIONS.md)
+  - [File Uploads](docs/FILE_UPLOADS.md)
+- [Contributing](CONTRIBUTING.md)
 
-There are a few things to install. Run the Bash shell commands below to install Composer and some packages.  
-MyEventBoard uses Twig, Mimey, and phpCAS. Install Composer first, and then install the packages.
+### Project Structure
 
-`bash install_composer.sh`  
-`bash install_packages.sh`
+- [Code Style](docs/CODE_STYLE.md)
+- [Database](docs/DATABASE.md)
+- [Static Files](docs/STATIC.md)
+- [Views](docs/VIEWS.md)
 
-Remember to also set permissions for everything inside the repository.  
-Run the script named 'set_permissions.sh'.
+### Testing
 
-## Application Features Overview
-
-Video: https://oregonstate.app.box.com/file/683373432528
-
-PDF: https://github.com/takushib/MyEventBoard/blob/master/doc/MyEventBoard%20Application%20Overview.pdf
-
-
-## Resources for Development
-
-Composer is a dependency manager for PHP. Visit https://getcomposer.org/ for more information.
-
-Twig is a templating engine for PHP. Documentation is available at https://twig.symfony.com/doc/1.x/  
-
-phpCAS is an official client for CAS, the single sign-on system used by Oregon State University.  
-Go to https://github.com/apereo/phpCAS/tree/master/docs/examples for example code.  
-For documentation on the source code, it can be found at https://apereo.github.io/phpCAS/api/
-
-Mimey is a package that MyEventBoard uses for its file upload functionality.  
-Read more about it at https://github.com/ralouphie/mimey
-
-## To-Do List For Future Development
-
-### High Priority
-- Refactoring for front end code (special attention needed for HTML and JS)
-- Data binding for event editing or a better method for updating the UI after data changes
-- Improvement of styling for mobile
-- Support for "find best common time" use case  
-    (this requires the ability to reserve multiple time slots of an event)
-- Walk-through for website usage
-- User experience testing
-- Invitations for event registration via e-mail
-- Ability to view other users in registered slots (event must not be set to anonymous)
-- Textbox for submitting text information at registration
-- Ability to specify an alternate name (such a group name) for a reservation
-- File upload at registration (not only after registration)
-- Reset and undo feature for event editing
-- Editing the event capacity
-
-### Low Priority
-- Time conflict checks (for event registration. Maybe for event creation)
-- Log out button (ONID)
-- Feedback for while waiting on a running task in the UI 
-     (e.g. the loading spinner before confirmation to show that the action is being worked on)
-- Homepage calendar view for schedule (possibly?)
-- Ability to export schedule (reservations) to different calendar application (google calendar)
-- Removing a registered user from your event (event manage page)
-- Reminder feature for Reservations (e.g through email)
+- [Manual Tests](docs/MANUAL_TESTS.md)
+- [Regression Tests](docs/REGRESSION_TESTS.md)
+- [Unit Tests](docs/UNIT_TESTS.md)
 
 ## Contact Information
+
+### Faculty Sponsor
+
+Donald Heer: heer@eecs.oregonstate.edu
+
+### Summer 2020 Capstone Team
+
+Michael Czapary: czaparym@oregonstate.edu
+
+Roman Guerrero: guerrero@oregonstate.edu
+
+Bangbay Siboliban: sibolibb@oregonstate.edu
+
+### Spring 2020 Capstone Team
 
 Tommy Liao: liaoto@oregonstate.edu or tommycs404@gmail.com
 
 Simon Louie: louisi@oregonstate.edu or simon-louie@outlook.com
 
-Blaise Takushi: takushib@oregonstate.edu or Btsg808@gmail.com 
+Blaise Takushi: takushib@oregonstate.edu or btsg808@gmail.com
 
 ## License & Copyright
 
-Copyright (c) 2020 Tommy Liao, Blaise Takushi, Simon Louie
+Copyright (c) Tommy Liao, Blaise Takushi, Simon Louie, Michael Czapary, Roman Guerrero, Bangbay Siboliban
 
-Licensed under the [MIT License](LICENSE).
-
+Licensed under the [MIT License](LICENSE.md).
