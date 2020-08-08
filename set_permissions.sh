@@ -34,7 +34,6 @@ chmod 755 vendor/robmorgan/phinx/bin
 chmod 700 vendor/phpunit/phpunit/phpunit
 
 # Just top level folder
-chmod 755 uploads
 chmod 755 vendor
 
 # Private folders

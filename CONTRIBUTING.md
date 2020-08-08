@@ -19,6 +19,7 @@ You must agree to our [Code of Conduct](CODE_OF_CONDUCT.md) and review our docs:
   - [Local Setup Mac](docs/LOCAL_SETUP_MAC.md)
   - [Local Setup Windows](docs/LOCAL_SETUP_WINDOWS.md)
   - [File Permissions](docs/FILE_PERMISSIONS.md)
+  - [File Uploads](docs/FILE_UPLOADS.md)
 
 ### Project Structure
 

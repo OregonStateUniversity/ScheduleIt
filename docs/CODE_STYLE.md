@@ -21,7 +21,7 @@ chmod 700 .git/hooks/pre-commmit
 
 ## Environment Variables
 
-Passwords and environment-specific values shouldn't be checked in to the repository. If you're adding a new environment variable, add the key to `.env.example` without specifyinf a value.
+Passwords and environment-specific values shouldn't be checked into the repository. If you're adding a new environment variable, add the key to `.env.example` without specifying a value.
 
 ## Global Constants
 

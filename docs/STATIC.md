@@ -1,6 +1,6 @@
 # Static
 
-The `static` folder contains CSS, images, and JavaScript files for the application.
+The `static` folder contains CSS, images, and JavaScript files for this application.
 
 ## css
 
@@ -12,4 +12,4 @@ This folder is intended for custom JS files. New JS files need to be added to `v
 
 ## lib
 
-Third-party CSS and JS libraries should be included in the application from a CDN when possible. If a library isn't available from a CDN, save them in this folder. Add CSS files to `views/layouts/_head.twig` and JS files to `views/layouts/_footer.twig`.
+Third-party CSS and JS libraries should be included in this application from a CDN when possible, such as [cdnjs](https://cdnjs.com/). If a library isn't available from a CDN, save them in this folder. Add CSS files to `views/layouts/_head.twig` and JS files to `views/layouts/_footer.twig`.

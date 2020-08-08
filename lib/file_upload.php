@@ -34,7 +34,8 @@ class FileUpload
      */
     public function upload($onid, $meeting_hash, $booking_id = null, $field_name = 'file')
     {
-        // Check file size ** final size TBD **
+        // Check file size
+        // TODO: Final size TBD, edit value in constants.inc.php
         if ($_SERVER['CONTENT_LENGTH'] > UPLOAD_SIZE_LIMIT) {
             return [
                 'error' => true,
@@ -60,7 +61,7 @@ class FileUpload
         $url = $meeting_hash . '/' . $renamed_filename . '.' . $ext;
 
         // To enable more file types, just add extensions to schedule.config.php
-        /* client wanted the white list to be disabled for now
+        /* TODO: client wanted the white list to be disabled for now
         $allowed_extensions = unserialize(UPLOAD_ALLOWED_FILETYPES);
         $is_allowed = in_array($ext, $allowed_extensions);
 
@@ -71,6 +72,7 @@ class FileUpload
             ];
         }
         */
+
         // If there is error with file upload, don't add path to database
         if ($_FILES[$field_name]['error'] > 0) {
             return [
@@ -97,7 +99,7 @@ class FileUpload
 
             move_uploaded_file($_FILES[$field_name]['tmp_name'], $new_file_abspath);
             chmod($new_file_abspath, 0644);
-           
+
             shell_exec('chmod 755 ' . UPLOADS_ABSPATH . $meeting_hash . '/');
 
             return [
@@ -123,12 +125,12 @@ class FileUpload
     }
 
     /**
-    * deleteEventFiles
-    *
-    * @params string $meeting_hash
-    * @returns none
-    * https://paulund.co.uk/php-delete-directory-and-files-in-directory
-    */
+     * deleteEventFiles
+     *
+     * @params string $meeting_hash
+     * @returns none
+     * https://paulund.co.uk/php-delete-directory-and-files-in-directory
+     */
     public function deleteEventFiles($meeting_hash)
     {
         $dirname = UPLOADS_ABSPATH . $meeting_hash . '/';
@@ -141,9 +143,9 @@ class FileUpload
             while ($file = readdir($dir_handle)) {
                 if ($file != "." && $file != "..") {
                     if (!is_dir($dirname . "/" . $file)) {
-                          unlink($dirname . "/" . $file);
+                        unlink($dirname . "/" . $file);
                     } else {
-                         delete_directory($dirname . '/' . $file);
+                        delete_directory($dirname . '/' . $file);
                     }
                 }
             }

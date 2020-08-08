@@ -13,6 +13,7 @@ Schedule-It (MyEventBoard) is a meeting scheduling web application for the Orego
   - [Local Setup Mac](docs/LOCAL_SETUP_MAC.md)
   - [Local Setup Windows](docs/LOCAL_SETUP_WINDOWS.md)
   - [File Permissions](docs/FILE_PERMISSIONS.md)
+  - [File Uploads](docs/FILE_UPLOADS.md)
 - [Contributing](CONTRIBUTING.md)
 
 ### Project Structure
