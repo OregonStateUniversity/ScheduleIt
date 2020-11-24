@@ -37,7 +37,7 @@ Donald Heer: heer@eecs.oregonstate.edu
 
 ### Summer 2020 Capstone Team
 
-Michael Czapary: czaparym@oregonstate.edu
+Michael Czapary: czaparym@oregonstate.edu - lessergoose (at) hotmail (dot) com
 
 Roman Guerrero: guerrero@oregonstate.edu
 
